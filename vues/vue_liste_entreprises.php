@@ -25,6 +25,7 @@
               <th onclick="sortTable(3)">Téléphone</th>
               <th onclick="sortTable(4)">Code Postal <button onclick="sortTable(4)">&#8645;</button> </th>
               <th onclick="sortTable(5)">Indice de fiabilité <button onclick="sortTable(5)">&#8645;</button></th>
+              <th></td>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +37,7 @@
                     <td><?= $entreprise->tel ?></td>
                     <td><?= $entreprise->codePostal ?></td>
                     <td><?= $entreprise->indice_fiabilite ?></td>
+                    <td> <a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->id ?>">voir </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

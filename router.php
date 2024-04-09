@@ -54,6 +54,19 @@ function router($page, $conn) {
             $entreprises = $entrepriseModel->read(); // Lire les entreprises
             include 'vues/vue_liste_entreprises.php'; // Inclure la vue pour afficher la liste des entreprises
             break;
+        case 'fiche_entreprise':
+            include_once 'model/Entreprise.php';
+              // Instancier le modèle Entreprise
+             $entrepriseModel = new Entreprise($conn);
+             // Récupérer l'ID de l'entreprise depuis l'URL
+             $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
+            // Charger les détails de l'entreprise en fonction de l'ID
+            $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
+            // Inclure la vue pour afficher les détails de l'entreprise
+            include 'vues/vue_fiche_entreprises.php';
+            break;
+
+
         // Ajoutez d'autres cas pour chaque page de votre application
         default:
             include 'vues/vue_erreur.php'; // Page d'accueil par défaut

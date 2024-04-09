@@ -45,13 +45,26 @@ class Entreprise {
     }
 
 
-    // Lire les entreprises
+    // Liste des entreprises
     public function read(){
         $query = "SELECT * FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+
+    public function read_fiche($idEntreprise) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idEntreprise";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
+        $stmt->execute();
+        // Retournez directement le résultat au lieu de le stocker dans une variable intermédiaire
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+
+
 
     // Mettre à jour une entreprise
     public function update(){
