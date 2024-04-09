@@ -1,42 +1,19 @@
 <?php
 // Inclure le fichier de connexion à la base de données
 require_once 'config/db_connection.php';
-include 'vues/headers.php';
 
 // Démarrer la session
 session_start();
 
-// Limitez la durée de validité de la session
-$session_duration = 86400; // Durée de validité de la session en secondes (ici, 1 jour)
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $session_duration) {
-    // Déconnectez l'utilisateur si la session a expiré
-    session_unset();
-    session_destroy();
-    // Redirigez l'utilisateur vers la page de connexion
+// Vérifier si l'utilisateur est connecté
+if (!isset($_SESSION['username'])) {
+    // Rediriger vers la page de connexion
     header("Location: login.php");
-    exit();
+    exit;
 }
 
-// Mettez à jour le timestamp de dernière activité
-$_SESSION['last_activity'] = time();
-
-
-// Affichez le contenu de la page en fonction du statut de l'utilisateur connecté
-if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
-    // Affichez le menu pour les professeur
-    include 'vues/navbar_prof.php';
-
-} else {
-    // Affichez le menu par défaut
-    include 'vues/navbar.php';
-    echo "Bienvenue sur la page étudiant";
-
-
-}
-
-
-
-
+include 'vues/headers.php';
+include 'vues/navbar.php';
 
 
 // Fonction de routage basique

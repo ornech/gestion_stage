@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (sha1($password) === $user['password']) { // Vous devez utiliser le même algorithme de hachage que celui utilisé pour stocker les mots de passe dans la base de données
                 // Authentification réussie, créer une session utilisateur
                 $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
+                $_SESSION['statut'] = $user['statut']; // Stocker le nom d'utilisateur dans la session
 
                 // Rediriger l'utilisateur vers une page sécurisée ou la page d'accueil
                 header("Location: index.php");
