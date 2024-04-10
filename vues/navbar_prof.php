@@ -14,7 +14,7 @@
           <a class="nav-link" href="#">Etudiants</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Stages</a>
+          <a class="nav-link" href="router.php?page=activite_prof">Activités</a>
         </li>
       </ul>
     </div>

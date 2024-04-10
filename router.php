@@ -25,10 +25,12 @@ $_SESSION['last_activity'] = time();
 if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
     // Affichez le menu pour les professeur
     include 'vues/navbar_prof.php';
+    echo "Bienvenue sur la page enseignant";
+
 
 } else {
     // Affichez le menu par défaut
-    include 'vues/navbar.php';
+    include 'vues/navbar_etu.php';
     echo "Bienvenue sur la page étudiant";
 
 
@@ -54,6 +56,7 @@ function router($page, $conn) {
             $entreprises = $entrepriseModel->read(); // Lire les entreprises
             include 'vues/vue_liste_entreprises.php'; // Inclure la vue pour afficher la liste des entreprises
             break;
+
         case 'fiche_entreprise':
             include_once 'model/Entreprise.php';
               // Instancier le modèle Entreprise
@@ -66,7 +69,19 @@ function router($page, $conn) {
             include 'vues/vue_fiche_entreprises.php';
             break;
 
+        case 'activite_prof':
+           include_once 'model/activite.php';
+           // Instancier le modèle Entreprise
+           $ActiviteModel = new Activite($conn);
+           $ActiviteEtudiant = $ActiviteModel->activite_prof();
+            include 'vues/vue_activite_prof.php';
+            break;
 
+        case 'activite_create':
+          include_once 'model/activite.php';
+
+          include 'vues/vue_activite_create.php';
+          break;
         // Ajoutez d'autres cas pour chaque page de votre application
         default:
             include 'vues/vue_erreur.php'; // Page d'accueil par défaut

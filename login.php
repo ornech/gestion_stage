@@ -56,45 +56,92 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Appication gestion stage</title>
 </head>
 <body>
+<main class="form-signin w-100 m-auto">
 
 
-<!--
-    <form action="" method="post">
-        <label for="login">Nom d'utilisateur:</label><br>
-        <input type="text" id="login" name="login" required><br>
-        <label for="password">Mot de passe:</label><br>
-        <input type="password" id="password" name="password" required><br>
-        <input type="submit" value="Se connecter">
-    </form>
-  -->
-  <main class="form-signin w-100 m-auto">
+  <svg width="100%" height="125" xmlns="http://www.w3.org/2000/svg">
+    <!-- Dégradé pour simuler l'eau -->
+    <defs>
+    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+       <stop offset="0%" style="stop-color:#cccccc;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#cccccc;stop-opacity:1" />
+      </radialGradient>
+    </defs>
+
+    <!-- Flaque d'eau -->
+    <rect x="0" y="0" width="400" height="200" fill="url(#waterGradient)" />
+
+    <!-- Cercles concentriques animés -->
+    <circle cx="80" cy="120" r="5" fill="none" stroke="#FFFFFF" stroke-width="2">
+      <animate attributeName="r" from="5" to="100" dur="5s" repeatCount="indefinite" />
+      <animate attributeName="stroke-opacity" from="1" to="0" dur="5s" repeatCount="indefinite" />
+    </circle>
+
+    <circle cx="200" cy="80" r="10" fill="none" stroke="#FFFFFF" stroke-width="2">
+      <animate attributeName="r" from="10" to="100" dur="6s" repeatCount="indefinite" />
+      <animate attributeName="stroke-opacity" from="1" to="0" dur="6s" repeatCount="indefinite" />
+    </circle>
+
+    <circle cx="320" cy="150" r="15" fill="none" stroke="#FFFFFF" stroke-width="2">
+      <animate attributeName="r" from="15" to="100" dur="7s" repeatCount="indefinite" />
+      <animate attributeName="stroke-opacity" from="1" to="0" dur="7s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Ajout de deux autres cercles -->
+    <circle cx="140" cy="40" r="8" fill="none" stroke="#FFFFFF" stroke-width="2">
+      <animate attributeName="r" from="8" to="100" dur="8s" repeatCount="indefinite" />
+      <animate attributeName="stroke-opacity" from="1" to="0" dur="8s" repeatCount="indefinite" />
+    </circle>
+
+    <circle cx="260" cy="160" r="12" fill="none" stroke="#FFFFFF" stroke-width="2">
+      <animate attributeName="r" from="12" to="100" dur="9s" repeatCount="indefinite" />
+      <animate attributeName="stroke-opacity" from="1" to="0" dur="9s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Texte -->
+    <text x="50%" y="35%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="42" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">GESTION</text>
+<text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="36" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">DE STAGE</text>
+
+  </svg>
+
+
+
+
+
+
+
+
+
+
+
+
+
   <form  action="" method="post">
+    <fieldset>
+      <?php if (isset($error_message)) : ?>
+       <div class="form-group">
+          <div class="alert alert-danger d-flex align-items-center" role="alert">
+             &nbsp; <?php echo $error_message; ?>
+        </div>
+       </div>
+      <?php endif; ?>
 
-    <h1 class="h3 mb-3 fw-normal" align="center">Merci de vous authentifier</h1>
+        <!-- Form Name -->
+        <legend>Connexion</legend>
+        <div class="form-group ">
+            <label class="control-label" for="login">Utilisateur</label>
+            <input id="login" name="login" class="form-control input-md" type="text">
+        </div>
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="control-label" for="password"> Mot de passe</label>
+            <input id="password" name="password" class="form-control input-md" type="password">
+        </div>
 
-    <?php if (isset($error_message)) : ?>
-     <div class="form-floating">
-        <div class="alert alert-danger d-flex align-items-center" role="alert">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"></path>
-          </svg> &nbsp; <?php echo $error_message; ?>
-      </div>
-     </div>
-    <?php endif; ?>
-
-    <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput"  name="login" required>
-      <label for="floatingInput">Utilisateur</label>
-    </div>
-
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" name="password" required>
-      <label for="floatingPassword">Mot de passe</label>
-    </div>
-
-    <div class="form-floating">
-     <input class="btn btn-primary w-100 py-2 " type="submit" value="Connection">
-    </div>
+        <div class="form-group">
+            <input class="btn btn-primary w-100 py-2 " type="submit" value="Connection">
+        </div>
+    </fieldset>
 
     <p class="text-body-secondary" align="center">BTS SIO - Lycée Merleau Ponty</p>
   </form>

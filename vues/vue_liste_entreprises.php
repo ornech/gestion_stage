@@ -24,7 +24,7 @@
               <th onclick="sortTable(2)">Ville <button onclick="sortTable(2)">&#8645;</button></th>
               <th onclick="sortTable(3)">Téléphone</th>
               <th onclick="sortTable(4)">Code Postal <button onclick="sortTable(4)">&#8645;</button> </th>
-              <th onclick="sortTable(5)">Indice de fiabilité <button onclick="sortTable(5)">&#8645;</button></th>
+              <th onclick="sortTable(5)">Indice &#8645;</th>
               <th></td>
             </tr>
         </thead>
