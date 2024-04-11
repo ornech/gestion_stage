@@ -4,7 +4,7 @@ require_once 'config/db_connection.php';
 
 // Vérifie si l'utilisateur est connecté
 // TODO: ne focntionne pas
-// require_once 'config/auth.php';
+require_once 'config/auth.php';
 include 'vues/headers.php';
 
 // Démarrer la session
