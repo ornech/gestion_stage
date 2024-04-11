@@ -1,4 +1,6 @@
 <?php
+// fichier loggin.php
+
 session_start();
 
 // Inclure le fichier de configuration pour la connexion SQL

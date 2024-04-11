@@ -1,6 +1,10 @@
 <?php
 // Inclure le fichier de connexion à la base de données
 require_once 'config/db_connection.php';
+
+// Vérifie si l'utilisateur est connecté
+// TODO: ne focntionne pas
+// require_once 'config/auth.php';
 include 'vues/headers.php';
 
 // Démarrer la session
@@ -20,7 +24,6 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) >
 // Mettez à jour le timestamp de dernière activité
 $_SESSION['last_activity'] = time();
 
-
 // Affichez le contenu de la page en fonction du statut de l'utilisateur connecté
 if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
     // Affichez le menu pour les professeur
@@ -35,11 +38,6 @@ if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
 
 
 }
-
-
-
-
-
 
 // Fonction de routage basique
 function router($page, $conn) {
@@ -79,10 +77,9 @@ function router($page, $conn) {
 
         case 'activite_create':
           include_once 'model/activite.php';
-
           include 'vues/vue_activite_create.php';
           break;
-        // Ajoutez d'autres cas pour chaque page de votre application
+
         default:
             include 'vues/vue_erreur.php'; // Page d'accueil par défaut
             break;

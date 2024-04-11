@@ -62,12 +62,18 @@ class Activite {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function activite_create($ID_Entreprise,$type,$IdEtudiant){
-        $query = "SELECT * FROM " . $this->table_name;
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
-    }
+    public function createActivite($ID_Entreprise, $type, $Commentaire, $IdEtudiant) {
+            $query = "INSERT INTO Activite_Etu (ID_Entreprise, date, type, Commentaire, IdEtudiant)
+                      VALUES (:ID_Entreprise, NOW(), :type, :Commentaire, :IdEtudiant)";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':ID_Entreprise', $ID_Entreprise);
+            $stmt->bindParam(':type', $type);
+            $stmt->bindParam(':Commentaire', $Commentaire);
+            $stmt->bindParam(':IdEtudiant', $IdEtudiant);
+
+            return $stmt->execute();
+        }
 
     // Détails d'une activité pour un étudiant donné
     public function detail_activite_etu($IdEtudiant) {
