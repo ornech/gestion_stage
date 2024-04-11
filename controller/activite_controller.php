@@ -2,9 +2,6 @@
 // Fichier /controller/activite_controller.php
 
 require_once '../model/activite.php';
-// Inclure le fichier d'authentification
-require_once '../config/auth.php';
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")  {
     // Récupération des données du formulaire
