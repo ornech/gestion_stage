@@ -1,3 +1,6 @@
+<?php
+require_once '../config/auth.php';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

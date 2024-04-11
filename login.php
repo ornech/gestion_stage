@@ -1,13 +1,12 @@
 <?php
-// fichier loggin.php
-
+// Démarrer la session
 session_start();
 
-// Inclure le fichier de configuration pour la connexion SQL
+
+// Inclure le fichier de connexion à la base de données
 require_once 'config/db_connection.php';
 
 // Vérifier si le formulaire de connexion a été soumis
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les informations soumises par le formulaire
     $login = $_POST['login'];
@@ -26,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (sha1($password) === $user['password']) { // Vous devez utiliser le même algorithme de hachage que celui utilisé pour stocker les mots de passe dans la base de données
                 // Authentification réussie, créer une session utilisateur
                 $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
-                $_SESSION['statut'] = $user['statut']; // Stocker le nom d'utilisateur dans la session
+                $_SESSION['statut'] = $user['statut']; // Stocker le statut dans la session
 
                 // Rediriger l'utilisateur vers une page sécurisée ou la page d'accueil
                 header("Location: index.php");
@@ -44,7 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Erreur de connexion à la base de données: " . $e->getMessage();
     }
 }
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="fr">

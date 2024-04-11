@@ -1,3 +1,6 @@
+<?php
+require_once '../config/auth.php';
+?>
 <style>
         table {
             width: 100%;

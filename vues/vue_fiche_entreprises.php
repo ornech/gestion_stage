@@ -1,3 +1,6 @@
+<?php
+require_once '../config/auth.php';
+?>
 <H1> FICHE ENTREPRISE</H1>
 <?php
     // Vérifier si les détails de l'entreprise sont disponibles

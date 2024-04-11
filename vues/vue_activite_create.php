@@ -1,3 +1,6 @@
+<?php
+require_once '../config/auth.php';
+?>
 <h1>Créer une activité</h1>
 <form action="controller/activite_controller.php" method="post">
     <label for="ID_Entreprise">ID de l'entreprise:</label>
