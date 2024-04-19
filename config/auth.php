@@ -9,7 +9,7 @@ if (session_status() == PHP_SESSION_NONE) {
 // Vérifie si l'utilisateur n'est pas connecté
 if (!isset($_SESSION['username'])) {
     // Redirige vers la page de connexion
-    header("Location: /login.php");
-    exit(); // Assurez-vous de quitter le script après la redirection
+    header("Location: ../login.php");
+    exit();
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once '../config/auth.php';
+require_once 'config/auth.php';
 ?>
 <H1> FICHE ENTREPRISE</H1>
 <?php

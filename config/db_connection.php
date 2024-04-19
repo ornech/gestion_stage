@@ -1,4 +1,5 @@
 <?php
+// fichier config/db_connection.php
 
 $host = "localhost";
 $db_name = "gestion_stage";

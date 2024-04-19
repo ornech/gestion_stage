@@ -1,14 +1,10 @@
 <?php
-// Inclure le fichier de connexion à la base de données
-require_once 'config/db_connection.php';
+// Démarrer la session en premier
+session_start();
 
 // Vérifie si l'utilisateur est connecté
-// TODO: ne focntionne pas
 require_once 'config/auth.php';
-include 'vues/headers.php';
-
-// Démarrer la session
-session_start();
+require_once 'config/db_connection.php';
 
 // Limitez la durée de validité de la session
 $session_duration = 86400; // Durée de validité de la session en secondes (ici, 1 jour)
@@ -24,19 +20,18 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) >
 // Mettez à jour le timestamp de dernière activité
 $_SESSION['last_activity'] = time();
 
+// Inclure les en-têtes HTML
+include 'vues/headers.php';
+
 // Affichez le contenu de la page en fonction du statut de l'utilisateur connecté
 if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
-    // Affichez le menu pour les professeur
+    // Affichez le menu pour les professeurs
     include 'vues/navbar_prof.php';
     echo "Bienvenue sur la page enseignant";
-
-
 } else {
     // Affichez le menu par défaut
     include 'vues/navbar_etu.php';
     echo "Bienvenue sur la page étudiant";
-
-
 }
 
 // Fonction de routage basique

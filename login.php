@@ -61,8 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <main class="form-signin w-100 m-auto">
-
-
+  
   <svg width="100%" height="125" xmlns="http://www.w3.org/2000/svg">
     <!-- Dégradé pour simuler l'eau -->
     <defs>
@@ -104,20 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Texte -->
     <text x="50%" y="35%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="42" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">GESTION</text>
-<text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="36" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">DE STAGE</text>
-
+   <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="36" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">DE STAGE</text>
   </svg>
-
-
-
-
-
-
-
-
-
-
-
 
 
   <form  action="" method="post">

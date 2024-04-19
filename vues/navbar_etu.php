@@ -1,5 +1,5 @@
 <?php
-require_once '../config/auth.php';
+require_once 'config/auth.php';
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,7 +27,6 @@ require_once '../config/auth.php';
     <a href="logout.php" class="btn btn-outline-danger my-2 my-sm-0" type="button">
       <i class="fas fa-sign-out-alt"></i> Déconnexion
     </a>
-
 
   </div>
 </nav>
