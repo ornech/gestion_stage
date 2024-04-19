@@ -49,7 +49,7 @@ class Activite {
 
     // Liste des activités
     public function liste_activites(){
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT * FROM Activite "; // " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);

@@ -40,9 +40,11 @@ function router($page, $conn) {
         case 'accueil':
             include 'vues/accueil.php';
             break;
+
         case 'profil':
             include 'vues/profil.php';
             break;
+
         case 'listerEntreprises':
             include 'model/Entreprise.php'; // Inclure le modèle Entreprise
             $entrepriseModel = new Entreprise($conn); // Instancier le modèle
@@ -62,18 +64,30 @@ function router($page, $conn) {
             include 'vues/vue_fiche_entreprises.php';
             break;
 
+        case 'modifier_entreprise':
+            include_once 'model/Entreprise.php';
+            // Instancier le modèle Entreprise
+            $entrepriseModel = new Entreprise($conn);
+            // Récupérer l'ID de l'entreprise depuis l'URL
+            $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
+            // Charger les détails de l'entreprise en fonction de l'ID
+            $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
+            // Inclure la vue pour modifier les détails de l'entreprise
+            include 'vues/vue_modif_entreprise.php';
+            break;
+
         case 'activite_prof':
-           include_once 'model/activite.php';
-           // Instancier le modèle Entreprise
-           $ActiviteModel = new Activite($conn);
-           $ActiviteEtudiant = $ActiviteModel->activite_prof();
+            include_once 'model/activite.php';
+            // Instancier le modèle Entreprise
+            $ActiviteModel = new Activite($conn);
+            $ActiviteEtudiant = $ActiviteModel->activite_prof();
             include 'vues/vue_activite_prof.php';
             break;
 
         case 'activite_create':
-          include_once 'model/activite.php';
-          include 'vues/vue_activite_create.php';
-          break;
+            include_once 'model/activite.php';
+            include 'vues/vue_activite_create.php';
+            break;
 
         default:
             include 'vues/vue_erreur.php'; // Page d'accueil par défaut

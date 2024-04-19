@@ -40,7 +40,9 @@ require_once 'config/auth.php';
                     <td><?= $entreprise->tel ?></td>
                     <td><?= $entreprise->codePostal ?></td>
                     <td><?= $entreprise->indice_fiabilite ?></td>
-                    <td> <a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->id ?>">voir </td>
+                    <td>
+                      <a href="router.php?page=modifier_entreprise&idEntreprise=<?= $entreprise->id ?>">Modifier</a> &nbsp;
+                      <a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->id ?>">voir </a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
