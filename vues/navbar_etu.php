@@ -11,6 +11,9 @@ require_once 'config/auth.php';
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="router.php?page=activite_etu">Suivi de recherche</a>
+        </li>
         <li class="nav-item active">
           <a class="nav-link" href="router.php?page=listerEntreprises">Entreprises</a>
         </li>
@@ -24,6 +27,7 @@ require_once 'config/auth.php';
     </div>
 
     <!-- Bouton de déconnexion aligné à droite -->
+    Etudiant: &nbsp;<b><?php echo $_SESSION['utilisateur'] ?> </b>&nbsp;
     <a href="logout.php" class="btn btn-outline-danger my-2 my-sm-0" type="button">
       <i class="fas fa-sign-out-alt"></i> Déconnexion
     </a>

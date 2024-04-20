@@ -23,6 +23,8 @@ require_once 'config/auth.php';
     </div>
 
     <!-- Bouton de déconnexion aligné à droite -->
+    Professeur: &nbsp;<b><?php echo $_SESSION['utilisateur'] ?> </b>&nbsp;
+
     <a href="logout.php" class="btn btn-outline-danger my-2 my-sm-0" type="button">
       <i class="fas fa-sign-out-alt"></i> Déconnexion
     </a>

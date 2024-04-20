@@ -1,5 +1,6 @@
 <?php
 require_once 'config/auth.php';
+include 'vues/vue_activite_bouton.php';
 ?>
 
 <style>
@@ -18,26 +19,29 @@ require_once 'config/auth.php';
     </style>
 </head>
 <body>
-    <h1>Liste des entreprises</h1>
+    <h2>Historique de vos démarches</h2>
 
     <table id="maTable">
         <thead>
             <tr>
-              <th> Date </th>
-              <th onclick="sortTable(1)"> Etudiant</th>
-              <th onclick="sortTable(2)">type </th>
-              <th onclick="sortTable(3)">ID_Entreprise</th>
-              <th onclick="sortTable(4)">Commentaire </th>
+              <th onclick="sortTable(1)"> Date</th>
+              <th onclick="sortTable(2)"> Heure </th>
+              <!--<th onclick="sortTable(3)">Etudiant</th>-->
+              <th onclick="sortTable(4)">Type </th>
+              <th onclick="sortTable(5)">Entreprise </th>
+              <th onclick="sortTable(6)">Ville </th>
+
             </tr>
         </thead>
         <tbody>
             <?php foreach ($ActiviteEtudiant as $activites): ?>
                 <tr>
-                    <td><?= $activites->date ?></td>
-                    <td><?= $activites->IdEtudiant ?></td>
-                    <td><?= $activites->type ?></td>
-                    <td><?= $activites->ID_Entreprise ?></td>
-                    <td><?= $activites->Commentaire ?></td>
+                    <td><?= $activites->Date ?></td>
+                    <td><?= $activites->Heure ?></td>
+                    <!-- <td><?= $activites->Etudiant ?></td>-->
+                    <td><?= $activites->Type ?></td>
+                    <td><a href="router.php?page=fiche_entreprise&idEntreprise=<?= $activites->IdEntreprise ?>"><?= $activites->Entreprise ?></a></td>
+                    <td><?= $activites->Ville ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

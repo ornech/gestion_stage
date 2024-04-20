@@ -84,6 +84,14 @@ function router($page, $conn) {
             include 'vues/vue_activite_prof.php';
             break;
 
+        case 'activite_etu':
+            include_once 'model/activite.php';
+            // Instancier le modèle Entreprise
+            $ActiviteModel = new Activite($conn);
+            $ActiviteEtudiant = $ActiviteModel->activite_etu();
+            include 'vues/vue_activite_etu.php';
+            break;
+
         case 'activite_create':
             include_once 'model/activite.php';
             include 'vues/vue_activite_create.php';

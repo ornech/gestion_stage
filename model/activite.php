@@ -59,7 +59,14 @@ class Activite {
         $query = "SELECT * FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function activite_etu(){
+        $query = "SELECT * FROM Activite WHERE IdEtudiant = 1 ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function createActivite($ID_Entreprise, $type, $Commentaire, $IdEtudiant) {

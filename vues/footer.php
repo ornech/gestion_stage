@@ -3,8 +3,8 @@ require_once 'config/auth.php';
 ?>
 
 </main>
-
-  <footer class="pt-5 my-5 text-body-secondary border-top">
+<br>
+  <footer class="text-body-secondary border-top">
     Created by Nobody &#127279; 2023
   </footer>
 

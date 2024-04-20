@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Authentification réussie, créer une session utilisateur
                 $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
                 $_SESSION['statut'] = $user['statut']; // Stocker le statut dans la session
+                $_SESSION['utilisateur'] = $user['nom'] . " " . $user['prenom']; // Stocker le statut dans la session
 
                 // Rediriger l'utilisateur vers une page sécurisée ou la page d'accueil
                 header("Location: index.php");
@@ -61,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <main class="form-signin w-100 m-auto">
-  
+
   <svg width="100%" height="125" xmlns="http://www.w3.org/2000/svg">
     <!-- Dégradé pour simuler l'eau -->
     <defs>
