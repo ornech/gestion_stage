@@ -86,7 +86,6 @@ function router($page, $conn) {
 
         case 'activite_etu':
             include_once 'model/activite.php';
-            // Instancier le modèle Entreprise
             $ActiviteModel = new Activite($conn);
             $ActiviteEtudiant = $ActiviteModel->activite_etu();
             include 'vues/vue_activite_etu.php';
@@ -94,6 +93,11 @@ function router($page, $conn) {
 
         case 'activite_create':
             include_once 'model/activite.php';
+            $type = isset($_GET['type']) ? $_GET['type'] : null;
+            $ID_Entreprise = isset($_GET['ID_Entreprise']) ? $_GET['ID_Entreprise'] : null;
+            $type = isset($_GET['Commentaire']) ? $_GET['Commentaire'] : null;
+            $IdEtudiant = isset($_GET['IdEtudiant']) ? $_GET['IdEtudiant'] : null;
+
             include 'vues/vue_activite_create.php';
             break;
 

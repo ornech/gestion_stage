@@ -26,7 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Authentification réussie, créer une session utilisateur
                 $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
                 $_SESSION['statut'] = $user['statut']; // Stocker le statut dans la session
-                $_SESSION['utilisateur'] = $user['nom'] . " " . $user['prenom']; // Stocker le statut dans la session
+                $_SESSION['utilisateur'] = $user['nom'] . " " . $user['prenom'];
+                $_SESSION['userID'] = $user['id'];
 
                 // Rediriger l'utilisateur vers une page sécurisée ou la page d'accueil
                 header("Location: index.php");

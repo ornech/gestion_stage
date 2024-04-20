@@ -13,7 +13,7 @@ require_once 'config/auth.php';
         <p class="lead">Vous avez envoyé un email à une entreprise, enregistrez ici votre démarche.</p>
 
         <p class="lead">
-          <a class="btn btn-lg btn-block btn-outline-primary" href="#" role="button">Email envoyé</a>
+          <a class="btn btn-lg btn-block btn-outline-primary" href="router.php?page=activite_create&type=email" role="button">Email envoyé</a>
         </p>
       </div>
    </div>
@@ -24,7 +24,7 @@ require_once 'config/auth.php';
       <hr class="my-4">
        <p class="lead">Vous avez téléphoné à une entreprise, enregistrez ici votre démarche.</p>
        <p class="lead">
-         <a class="btn btn-lg btn-block btn-outline-primary" href="#" role="button">Appel passé</a>
+         <a class="btn btn-lg btn-block btn-outline-primary" href="router.php?page=activite_create&type=tel" role="button">Appel passé</a>
        </p>
      </div>
   </div>
