@@ -63,7 +63,7 @@ class Activite {
     }
 
     public function activite_etu(){
-        $query = "SELECT * FROM Activite WHERE IdEtudiant = " . intval($_SESSION['userID']);
+        $query = "SELECT * FROM Activite WHERE IdEtudiant = " . intval($_SESSION['userID']) . " ORDER BY Date DESC, Heure DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);

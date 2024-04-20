@@ -24,10 +24,10 @@ include 'vues/vue_activite_bouton.php';
     <table id="maTable">
         <thead>
             <tr>
+              <th onclick="sortTable(4)">Type </th>
               <th onclick="sortTable(1)"> Date</th>
               <th onclick="sortTable(2)"> Heure </th>
               <!--<th onclick="sortTable(3)">Etudiant</th>-->
-              <th onclick="sortTable(4)">Type </th>
               <th onclick="sortTable(5)">Entreprise </th>
               <th onclick="sortTable(6)">Ville </th>
               <th onclick="sortTable(6)">Commentaire </th>
@@ -36,10 +36,14 @@ include 'vues/vue_activite_bouton.php';
         <tbody>
             <?php foreach ($ActiviteEtudiant as $activites): ?>
                 <tr>
+                    <td><?php
+                    if ($activites->Type == "email"){echo "<i class='fa fa-at'></i>";}
+                    if ($activites->Type == "tel"){echo "<i class='fa fa-phone'></i>";}
+
+                    ?></td>
                     <td><?= $activites->Date ?></td>
                     <td><?= $activites->Heure ?></td>
                     <!-- <td><?= $activites->Etudiant ?></td>-->
-                    <td><?= $activites->Type ?></td>
                     <td><a href="router.php?page=fiche_entreprise&idEntreprise=<?= $activites->IdEntreprise ?>"><?= $activites->Entreprise ?></a></td>
                     <td><?= $activites->Ville ?></td>
                     <td><?= $activites->Commentaire ?></td>

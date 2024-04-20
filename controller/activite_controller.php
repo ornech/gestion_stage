@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")  {
     // Appeler la méthode createActivite pour enregistrer l'activité
     if ($activiteModel->createActivite($ID_Entreprise, $type, $Commentaire, $IdEtudiant)) {
         echo "<p>Activité créée avec succès !</p>";
-        header("Location: ../index.php");
+        header("Location: ../router.php?page=activite_etu");
     } else {
         echo "<p>Une erreur est survenue lors de la création de l'activité.</p>";
         // header("Location: index.php");
