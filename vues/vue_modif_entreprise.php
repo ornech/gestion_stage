@@ -6,41 +6,60 @@ require_once 'config/auth.php';
 
 <h1>Modifier les détails de l'entreprise</h1>
 
+
+
 <?php if ($ficheEntreprise): ?>
-    <form action="vues/modifier_entreprise.php" method="POST">
-        <input type="hidden" name="idEntreprise" value="<?php echo $ficheEntreprise->id; ?>">
-        <label for="nom">Nom de l'entreprise:</label>
-        <input type="text" id="nom" name="nom" value="<?php echo htmlspecialchars($ficheEntreprise->nomEntreprise); ?>"><br>
 
-        <label for="adresse">Adresse:</label>
-        <input type="text" id="adresse" name="adresse" value="<?php echo htmlspecialchars($ficheEntreprise->adresse); ?>"><br>
+<form action="vues/modifier_entreprise.php" method="POST">
 
-        <label for="ville">Ville:</label>
-        <input type="text" id="ville" name="ville" value="<?php echo htmlspecialchars($ficheEntreprise->ville); ?>"><br>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <input type="hidden" name="idEntreprise" value="<?php echo $ficheEntreprise->id; ?>">
+      <label for="nom" class="form-label">Nom de l'entreprise</label>
+      <input type="text" class="form-control" id="nom" name="nom" required value="<?php echo htmlspecialchars($ficheEntreprise->nomEntreprise); ?>">
+      <label for="tel" class="form-label">Téléphone</label>
+      <input type="text" class="form-control" id="tel" name="tel" value="<?php echo htmlspecialchars($ficheEntreprise->tel); ?>"><br>
+      <label for="code_ape" class="form-label">Code APE</label>
+      <input type="text" class="form-control" id="code_ape" name="code_ape" value="<?php echo htmlspecialchars($ficheEntreprise->code_ape); ?>"><br>
 
-        <label for="tel">Téléphone:</label>
-        <input type="text" id="tel" name="tel" value="<?php echo htmlspecialchars($ficheEntreprise->tel); ?>"><br>
+    </div>
+    <div class="col">
+      <label for="adresse" class="form-label">Adresse</label>
+      <input type="text" class="form-control" id="adresse" name="adresse" required value="<?php echo htmlspecialchars($ficheEntreprise->adresse); ?>">
+      <label for="adresse2" class="form-label">Adresse 2</label>
+      <input type="text" class="form-control" id="adresse2" name="adresse2" value="<?php echo htmlspecialchars($ficheEntreprise->adresse2); ?>"> <BR>
+      <div class="row">
+        <div class="col">
+          <label for="ville" class="form-label">Ville</label>
+          <input type="text" class="form-control" id="ville" name="ville" required value="<?php echo htmlspecialchars($ficheEntreprise->ville); ?>">
+        </div>
+        <div class="col">
+          <label for="codePostal" class="form-label">Code postal</label>
+          <input type="text" class="form-control" id="codePostal" maxlength="5" required name="codePostal" value="<?php echo htmlspecialchars($ficheEntreprise->codePostal); ?>">
+        </div>
+      </div>
 
-        <label for="codePostal">Code postal:</label>
-        <input type="text" id="codePostal" name="codePostal" value="<?php echo htmlspecialchars($ficheEntreprise->codePostal); ?>"><br>
 
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label for="notes" class="form-label" >Notes</label>
+      <textarea id="notes" class="form-control" name="notes"><?php echo htmlspecialchars($ficheEntreprise->Notes); ?></textarea><br>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <input type="submit" class="btn btn-primary" value="Enregistrer les modifications">
+  </div>
+</div>
       <!--  <label for="indice_fiabilite">Indice de fiabilité:</label>
         <input type="text" id="indice_fiabilite" name="indice_fiabilite" value="<?php echo htmlspecialchars($ficheEntreprise->indice_fiabilite); ?>"><br>
         -->
-        
-        <label for="notes">Notes:</label>
-        <textarea id="notes" name="notes"><?php echo htmlspecialchars($ficheEntreprise->Notes); ?></textarea><br>
 
-        <label for="dep_geo">Département géographique:</label>
-        <input type="text" id="dep_geo" name="dep_geo" value="<?php echo htmlspecialchars($ficheEntreprise->dep_geo); ?>"><br>
-
-        <label for="code_ape">Code APE:</label>
-        <input type="text" id="code_ape" name="code_ape" value="<?php echo htmlspecialchars($ficheEntreprise->code_ape); ?>"><br>
-
-        <label for="adresse2">Adresse 2:</label>
-        <input type="text" id="adresse2" name="adresse2" value="<?php echo htmlspecialchars($ficheEntreprise->adresse2); ?>"><br>
-
-        <input type="submit" value="Enregistrer les modifications">
     </form>
 <?php else: ?>
     <p>L'entreprise demandée n'existe pas.</p>
