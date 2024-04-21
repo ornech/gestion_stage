@@ -36,6 +36,7 @@ require_once 'config/auth.php';
         plus autorisé à se connecter et passera en <b>Désactivé</b>. Pour le réactivé cliquez à nouveau dessus.</p>
     </div>
 <BR>
+  <a class='btn btn-success' href='router.php?page=create_user' role='button'>Créer un compte</a>
     <table id="maTable">
         <thead>
             <tr>

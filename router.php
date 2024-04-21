@@ -104,9 +104,9 @@ function router($page, $conn) {
             break;
 
        case 'create_user':
-            include_once 'model/Profil.php';
-            $profilModel = new Profil($conn);
-            $create_user = $profilModel->create_user();
+            //include_once 'model/Profil.php';
+            //$profilModel = new Profil($conn);
+            //$create_user = $profilModel->create_user();
             include 'vues/vue_profil_create_user.php';
             break;
 
