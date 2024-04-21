@@ -35,5 +35,21 @@ class Profil {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function reset_password($idProfil){
+        $query = "UPDATE " . $this->table_name . " SET password_reset=1  WHERE id = :idProfil";
+        // Préparez la requête
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":idProfil", $idProfil);
+
+        // Exécutez la requête
+        if ($stmt->execute()) {
+            return true; // Mise à jour réussie
+        } else {
+            // Afficher les erreurs SQL en cas d'échec de l'exécution
+            echo "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+            return false; // Échec de la mise à jour
+        }
+    }
 }
 ?>

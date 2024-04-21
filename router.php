@@ -109,6 +109,13 @@ function router($page, $conn) {
             $profils = $profilModel->list_profil();
             include 'vues/vue_profil_gestion.php';
 
+        case 'reset_password':
+            include_once 'model/Profil.php';
+            $idProfil = isset($_GET['idProfil']) ? $_GET['idProfil'] : null;
+            $profilModel = new Profil($conn);
+            $resset = $profilModel->reset_password($idProfil);
+            //include 'vues/vue_profil_gestion.php';
+
         default:
             include 'vues/vue_erreur.php'; // Page d'accueil par défaut
             break;

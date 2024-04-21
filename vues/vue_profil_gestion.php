@@ -45,7 +45,12 @@ require_once 'config/auth.php';
                     <td><?= $profil->promo ?></td>
                     <td><?= $profil->email ?></td>
                     <td><?= $profil->statut ?></td>
-                    <td><?= $profil->password_reset ?> <a class="btn btn-warning" href="#" role="button">Reset password</a></td>
+                    <td>
+                      <?php
+                      if ($profil->password_reset == "1"){echo "<a class='btn btn-warning' href='router.php?page=reset_password&idProfil=" . $profil->id . "' role='button'>En cours</a></td>";}
+
+                      if ($profil->password_reset == "0"){echo "  <a class='btn btn-info' href='router.php?page=reset_password&idProfil=" . $profil->id . "' role='button'>Reset</a></td>";}
+                      ?>
 
             <?php endforeach; ?>
         </tbody>
