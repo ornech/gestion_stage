@@ -10,7 +10,7 @@ require_once 'config/auth.php';
 
 <?php if ($ficheEntreprise): ?>
 
-<form action="vues/modifier_entreprise.php" method="POST">
+<form action="controller/modifier_entreprise.php" method="POST">
 
 <div class="container">
   <div class="row">

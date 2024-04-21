@@ -14,7 +14,7 @@ require_once 'config/auth.php';
           <a class="nav-link" href="router.php?page=listerEntreprises">Entreprises</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Etudiants</a>
+          <a class="nav-link" href="http://gestage.localhost/router.php?page=gestion_etu">Gestion étudiants</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="router.php?page=activite_prof">Activités</a>

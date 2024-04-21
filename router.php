@@ -41,10 +41,6 @@ function router($page, $conn) {
             include 'vues/accueil.php';
             break;
 
-        case 'profil':
-            include 'vues/profil.php';
-            break;
-
         case 'listerEntreprises':
             include 'model/Entreprise.php'; // Inclure le modèle Entreprise
             $entrepriseModel = new Entreprise($conn); // Instancier le modèle
@@ -100,6 +96,18 @@ function router($page, $conn) {
 
             include 'vues/vue_activite_create.php';
             break;
+
+        case 'profil':
+            include_once 'model/Profil.php';
+            $profilModel = new Profil($conn);
+            $Profil = $profilModel->read_profil();
+            include 'vues/vue_profil_user.php';
+
+        case 'gestion_etu':
+            include_once 'model/Profil.php';
+            $profilModel = new Profil($conn);
+            $profils = $profilModel->list_profil();
+            include 'vues/vue_profil_gestion.php';
 
         default:
             include 'vues/vue_erreur.php'; // Page d'accueil par défaut
