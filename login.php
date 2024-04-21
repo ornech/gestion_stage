@@ -1,61 +1,3 @@
-<?php
-// Démarrer la session
-session_start();
-
-
-// Inclure le fichier de connexion à la base de données
-require_once 'config/db_connection.php';
-
-// Vérifier si le formulaire de connexion a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les informations soumises par le formulaire
-    $login = $_POST['login'];
-    $password = $_POST['password'];
-
-
-    try {
-        // Préparer la requête SQL pour récupérer l'utilisateur avec le nom d'utilisateur (login) fourni
-        $stmt = $conn->prepare("SELECT * FROM User WHERE login = :login");
-        $stmt->bindParam(':login', $login);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Vérifier si un utilisateur correspondant a été trouvé
-        if ($user) {
-            if ($user['password_reset']==1 && $login == $user['login'] && $user['inactif'] == 0) {
-              // TODO : A compléter
-
-              $error_message = "Mote de passe à changer";
-            }
-            // Vérifier si le mot de passe correspond
-            if (sha1($password) === $user['password'] && $login == $user['login'] && $user['inactif'] == 0) { // Vous devez utiliser le même algorithme de hachage que celui utilisé pour stocker les mots de passe dans la base de données
-                // Authentification réussie, créer une session utilisateur
-                $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
-                $_SESSION['statut'] = $user['statut']; // Stocker le statut dans la session
-                $_SESSION['utilisateur'] = $user['nom'] . " " . $user['prenom'];
-                $_SESSION['userID'] = $user['id'];
-
-                // Rediriger l'utilisateur vers une page sécurisée ou la page d'accueil
-                header("Location: index.php");
-                exit;
-            } else {
-                // Mot de passe incorrect, afficher un message d'erreur
-                $error_message = "Nom d'utilisateur ou mot de passe incorrect.";
-            }
-        } else {
-            // Aucun utilisateur trouvé avec ce nom d'utilisateur, afficher un message d'erreur
-            $error_message = "Nom d'utilisateur ou mot de passe incorrect.";
-        }
-    } catch(PDOException $e) {
-        // Afficher le message d'erreur PDO
-        echo "Erreur de connexion à la base de données: " . $e->getMessage();
-    }
-}
-
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -113,6 +55,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <text x="50%" y="35%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="42" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">GESTION</text>
    <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="36" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">DE STAGE</text>
   </svg>
+
+
+<?php
+// Démarrer la session
+session_start();
+
+
+// Inclure le fichier de connexion à la base de données
+require_once 'config/db_connection.php';
+
+// Vérifier si le formulaire de connexion a été soumis
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Récupérer les informations soumises par le formulaire
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+
+
+    try {
+        // Préparer la requête SQL pour récupérer l'utilisateur avec le nom d'utilisateur (login) fourni
+        $stmt = $conn->prepare("SELECT * FROM User WHERE login = :login");
+        $stmt->bindParam(':login', $login);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Vérifier si un utilisateur correspondant a été trouvé
+        if ($user) {
+
+            }
+            // Vérifier si le mot de passe correspond
+            //if (sha1($password) === $user['password'] && $login == $user['login'] && $user['inactif'] == 0) {
+            if (password_verify($password, $user['password']) && $login == $user['login'] && $user['inactif'] == 0) {
+                // Authentification réussie, créer une session utilisateur
+                $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
+                $_SESSION['statut'] = $user['statut']; // Stocker le statut dans la session
+                $_SESSION['utilisateur'] = $user['nom'] . " " . $user['prenom'];
+                $_SESSION['userID'] = $user['id'];
+
+                if ($user['password_reset']==1 ) {
+                  // TODO : A compléter
+                  header("Location: password_reset.php?login=" . $user['id'] . "");
+
+                }
+                else {
+                  // Rediriger l'utilisateur vers une page sécurisée ou la page d'accueil
+                  header("Location: index.php");
+                  exit;
+                }
+              }
+
+            if ($user['inactif'] == 1) {
+              $error_message = "Ce compte est désactivé, veuillez compter un administrateur pour dévérrouiller ce compte.";
+              exit;
+              }
+            else {
+                // Mot de passe incorrect, afficher un message d'erreur
+                $error_message = "Nom d'utilisateur ou mot de passe incorrect.";
+            }
+
+    } catch(PDOException $e) {
+        // Afficher le message d'erreur PDO
+        echo "Erreur de connexion à la base de données: " . $e->getMessage();
+    }
+}
+
+?>
+
+
 
 
   <form  action="" method="post">

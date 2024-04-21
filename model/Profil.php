@@ -37,19 +37,28 @@ class Profil {
     }
 
     public function reset_password($idProfil){
-        $query = "UPDATE " . $this->table_name . " SET password_reset=1  WHERE id = :idProfil";
-        // Préparez la requête
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":idProfil", $idProfil);
 
-        // Exécutez la requête
-        if ($stmt->execute()) {
-            return true; // Mise à jour réussie
-        } else {
-            // Afficher les erreurs SQL en cas d'échec de l'exécution
-            echo "Erreur SQL : " . implode(", ", $stmt->errorInfo());
-            return false; // Échec de la mise à jour
-        }
+      $new_password = sha1("achanger");
+
+      // Requête SQL pour mettre à jour la colonne password et password_reset
+      $query = "UPDATE " . $this->table_name . " SET password = :password, password_reset = 1 WHERE id = :idProfil";
+
+      // Préparez la requête
+      $stmt = $this->conn->prepare($query);
+      // Liaison des paramètres
+      $stmt->bindParam(":password", $new_password);
+      $stmt->bindParam(":idProfil", $idProfil);
+
+      // Exécutez la requête
+      if ($stmt->execute()) {
+          //return true; // Mise à jour réussie
+          return header("Location: router.php?page=gestion_etu");
+      } else {
+          // Afficher les erreurs SQL en cas d'échec de l'exécution
+          echo "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+          return false; // Échec de la mise à jour
+      }
+
     }
 
     public function profil_disable($idProfil){
