@@ -51,5 +51,40 @@ class Profil {
             return false; // Échec de la mise à jour
         }
     }
+
+    public function profil_disable($idProfil){
+        $query = "UPDATE " . $this->table_name . " SET inactif=1  WHERE id = :idProfil";
+        // Préparez la requête
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":idProfil", $idProfil);
+
+        // Exécutez la requête
+        if ($stmt->execute()) {
+          return header("Location: router.php?page=gestion_etu"); // Mise à jour réussie
+
+        } else {
+            // Afficher les erreurs SQL en cas d'échec de l'exécution
+            echo "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+            return false; // Échec de la mise à jour
+        }
+    }
+
+    public function profil_enable($idProfil){
+        $query = "UPDATE " . $this->table_name . " SET inactif=0  WHERE id = :idProfil";
+        // Préparez la requête
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":idProfil", $idProfil);
+
+        // Exécutez la requête
+        if ($stmt->execute()) {
+          return header("Location: router.php?page=gestion_etu"); // Mise à jour réussie
+
+        } else {
+            // Afficher les erreurs SQL en cas d'échec de l'exécution
+            echo "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+            return false; // Échec de la mise à jour
+        }
+    }
+
 }
 ?>

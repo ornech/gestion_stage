@@ -35,6 +35,7 @@ require_once 'config/auth.php';
               <th onclick="sortTable(3)">Email</th>
               <th onclick="sortTable(4)">Statut<button onclick="sortTable(4)">&#8645;</button> </th>
               <th>Reset password</th>
+              <th>Désactivé</th>
             </tr>
         </thead>
         <tbody>
@@ -45,14 +46,17 @@ require_once 'config/auth.php';
                     <td><?= $profil->promo ?></td>
                     <td><?= $profil->email ?></td>
                     <td><?= $profil->statut ?></td>
-                    <td>
-                      <?php
-                      if ($profil->password_reset == "1"){echo "<a class='btn btn-warning' href='router.php?page=reset_password&idProfil=" . $profil->id . "' role='button'>En cours</a></td>";}
+                    <?php
+                      if ($profil->password_reset == "1"){echo "<td><a class='btn btn-warning' href='router.php?page=reset_password&idProfil=" . $profil->id . "' role='button'>En cours</a></td>";}
 
-                      if ($profil->password_reset == "0"){echo "  <a class='btn btn-info' href='router.php?page=reset_password&idProfil=" . $profil->id . "' role='button'>Reset</a></td>";}
+                      if ($profil->password_reset == "0"){echo "<td><a class='btn btn-success' href='router.php?page=reset_password&idProfil=" . $profil->id . "' role='button'>Reset</a></td>";}
                       ?>
+                    <?php
+                      if ($profil->inactif == 1){echo "<td><a class='btn btn-secondary' href='router.php?page=profil_enable&idProfil=" . $profil->id . "' role='button'>Désactivé</a></td>";}
 
-            <?php endforeach; ?>
+                      if ($profil->inactif == 0){echo "<td><a class='btn btn-success' href='router.php?page=profil_disable&idProfil=" . $profil->id . "' role='button'>Actif</a></td>";}
+                      ?>
+                    <?php endforeach; ?>
         </tbody>
     </table>
     <?php

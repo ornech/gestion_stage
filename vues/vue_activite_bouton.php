@@ -8,7 +8,7 @@ require_once 'config/auth.php';
   <div class="row">
     <div class="col">
       <div class="jumbotron">
-        <h2>Envoie d'email</h2>
+        <h2>Envoi d'email</h2>
         <hr class="my-4">
         <p class="lead">Vous avez envoyé un email à une entreprise, enregistrez ici votre démarche.</p>
       </div>

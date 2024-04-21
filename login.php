@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $login = $_POST['login'];
     $password = $_POST['password'];
 
+
     try {
         // Préparer la requête SQL pour récupérer l'utilisateur avec le nom d'utilisateur (login) fourni
         $stmt = $conn->prepare("SELECT * FROM User WHERE login = :login");
@@ -21,8 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Vérifier si un utilisateur correspondant a été trouvé
         if ($user) {
+            if ($user['password_reset']==1 && $login == $user['login'] && $user['inactif'] == 0) {
+              // TODO : A compléter
+
+              $error_message = "Mote de passe à changer";
+            }
             // Vérifier si le mot de passe correspond
-            if (sha1($password) === $user['password']) { // Vous devez utiliser le même algorithme de hachage que celui utilisé pour stocker les mots de passe dans la base de données
+            if (sha1($password) === $user['password'] && $login == $user['login'] && $user['inactif'] == 0) { // Vous devez utiliser le même algorithme de hachage que celui utilisé pour stocker les mots de passe dans la base de données
                 // Authentification réussie, créer une session utilisateur
                 $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
                 $_SESSION['statut'] = $user['statut']; // Stocker le statut dans la session
@@ -59,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="css/sign-in.css" rel="stylesheet">
     <link href="css/floating-labels.css" rel="stylesheet">
 
-    <title>Appication gestion stage</title>
+    <title>Application gestion stage</title>
 </head>
 <body>
 <main class="form-signin w-100 m-auto">
@@ -138,6 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <p class="text-body-secondary" align="center">BTS SIO - Lycée Merleau Ponty</p>
   </form>
+
 </main>
 <script src="js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

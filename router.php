@@ -102,19 +102,35 @@ function router($page, $conn) {
             $profilModel = new Profil($conn);
             $Profil = $profilModel->read_profil();
             include 'vues/vue_profil_user.php';
+            break;
 
         case 'gestion_etu':
             include_once 'model/Profil.php';
             $profilModel = new Profil($conn);
             $profils = $profilModel->list_profil();
             include 'vues/vue_profil_gestion.php';
+            break;
 
         case 'reset_password':
             include_once 'model/Profil.php';
             $idProfil = isset($_GET['idProfil']) ? $_GET['idProfil'] : null;
             $profilModel = new Profil($conn);
-            $resset = $profilModel->reset_password($idProfil);
-            //include 'vues/vue_profil_gestion.php';
+            $reset = $profilModel->reset_password($idProfil);
+            break;
+
+       case 'profil_disable':
+            include_once 'model/Profil.php';
+            $idProfil = isset($_GET['idProfil']) ? $_GET['idProfil'] : null;
+            $profilModel = new Profil($conn);
+            $profil_disable = $profilModel->profil_disable($idProfil);
+            break;
+
+        case 'profil_enable':
+            include_once 'model/Profil.php';
+            $idProfil = isset($_GET['idProfil']) ? $_GET['idProfil'] : null;
+            $profilModel = new Profil($conn);
+            $profil_enable = $profilModel->profil_enable($idProfil);
+            break;
 
         default:
             include 'vues/vue_erreur.php'; // Page d'accueil par défaut
