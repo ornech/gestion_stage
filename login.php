@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             }
             // Vérifier si le mot de passe correspond
-            //if (sha1($password) === $user['password'] && $login == $user['login'] && $user['inactif'] == 0) {
+            //if ($login == $user['login'] && $user['inactif'] == 0) {
             if (password_verify($password, $user['password']) && $login == $user['login'] && $user['inactif'] == 0) {
                 // Authentification réussie, créer une session utilisateur
                 $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session

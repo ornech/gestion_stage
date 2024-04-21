@@ -11,13 +11,13 @@ require_once 'config/auth.php';
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="router.php?page=listerEntreprises">Entreprises</a>
+          <a class="nav-link" href="router.php?page=listerEntreprises"><i class="fa-regular fa-address-card"></i> &nbsp; Entreprises</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="http://gestage.localhost/router.php?page=gestion_etu">Gestion étudiants</a>
+          <a class="nav-link" href="http://gestage.localhost/router.php?page=gestion_etu"><i class="fas fa-users"></i>&nbsp; Gestion étudiants</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="router.php?page=activite_prof">Activités</a>
+          <a class="nav-link" href="router.php?page=activite_prof"><i class='far fa-calendar-alt'>&nbsp;</i>Activités</a>
         </li>
       </ul>
     </div>

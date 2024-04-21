@@ -38,7 +38,9 @@ class Profil {
 
     public function reset_password($idProfil){
 
-      $new_password = sha1("achanger");
+      //$new_password = sha1();
+      $new_password = password_hash("achanger", PASSWORD_DEFAULT);
+
 
       // Requête SQL pour mettre à jour la colonne password et password_reset
       $query = "UPDATE " . $this->table_name . " SET password = :password, password_reset = 1 WHERE id = :idProfil";

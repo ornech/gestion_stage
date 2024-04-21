@@ -93,7 +93,6 @@ function router($page, $conn) {
             $ID_Entreprise = isset($_GET['ID_Entreprise']) ? $_GET['ID_Entreprise'] : null;
             $type = isset($_GET['Commentaire']) ? $_GET['Commentaire'] : null;
             $IdEtudiant = isset($_GET['IdEtudiant']) ? $_GET['IdEtudiant'] : null;
-
             include 'vues/vue_activite_create.php';
             break;
 
@@ -102,6 +101,13 @@ function router($page, $conn) {
             $profilModel = new Profil($conn);
             $Profil = $profilModel->read_profil();
             include 'vues/vue_profil_user.php';
+            break;
+
+       case 'create_user':
+            include_once 'model/Profil.php';
+            $profilModel = new Profil($conn);
+            $create_user = $profilModel->create_user();
+            include 'vues/vue_profil_create_user.php';
             break;
 
         case 'gestion_etu':

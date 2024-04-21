@@ -24,8 +24,18 @@ require_once 'config/auth.php';
             background-color: #f2f2f2;
         }
     </style>
-
-
+<BR>
+    <div class="alert alert-warning" role="alert">
+      <h4 class="alert-heading">Reset password</h4>
+      <p class="mb-0">Le bouton <b>Reset</b> réinitialisele mot de passe de l'utilisateur en question avec la valeur "achanger".
+        L'utilisateur sera automatiquement invité à changer son mot de passe. Le bouton restera "En cours" tant
+      que l'utilisateur ne sera pas reconnecté.</p>
+      <hr>
+      <h4 class="alert-heading">Désactivé un compte</h4>
+      <p class="mb-0">Le bouton <b>Actif</b> indique l'état du compte. En cliquant dessus ce compte ne sera
+        plus autorisé à se connecter et passera en <b>Désactivé</b>. Pour le réactivé cliquez à nouveau dessus.</p>
+    </div>
+<BR>
     <table id="maTable">
         <thead>
             <tr>
