@@ -17,7 +17,8 @@ require_once 'config/auth.php';
     </style>
 </head>
 <body>
-    <h1>Liste des entreprises</h1>
+    <h2>Liste des entreprises</h2>
+    <p><a href="router.php?page=create_entreprise" class="btn btn-success" role="button">Ajouter une entreprise</a><p>
 
     <table id="maTable">
         <thead>

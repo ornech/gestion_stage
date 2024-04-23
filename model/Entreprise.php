@@ -17,26 +17,43 @@ class Entreprise {
     }
 
     // Créer une nouvelle entreprise
-    public function create(){
-        $query = "INSERT INTO " . $this->table_name . "
-                SET nomEntreprise=:nomEntreprise, adresse=:adresse, ville=:ville,
-                    tel=:tel, codePostal=:codePostal, indice_fiabilite=:indice_fiabilite";
+    public function create($entrepriseData){
+        $query = "INSERT INTO " . $this->table_name . " SET
+        nomEntreprise=:nomEntreprise,
+        adresse=:adresse, ville=:ville,
+        tel=:tel,
+        codePostal=:codePostal,
+        Created_Date=:Created_Date,
+        Created_UserID=:Created_UserID,
+        dep_geo=:dep_geo,
+        code_ape=:code_ape,
+        effectif=:effectif";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->nomEntreprise=htmlspecialchars(strip_tags($this->nomEntreprise));
-        $this->adresse=htmlspecialchars(strip_tags($this->adresse));
-        $this->ville=htmlspecialchars(strip_tags($this->ville));
-        $this->tel=htmlspecialchars(strip_tags($this->tel));
-        $this->codePostal=htmlspecialchars(strip_tags($this->codePostal));
-        $this->indice_fiabilite=htmlspecialchars(strip_tags($this->indice_fiabilite));
+        // Nettoyage et assignation des valeurs
+        $this->nomEntreprise=htmlspecialchars(strip_tags($entrepriseData['nomEntreprise']));
+        $this->adresse=htmlspecialchars(strip_tags($entrepriseData['adresse']));
+        $this->ville=htmlspecialchars(strip_tags($entrepriseData['ville']));
+        $this->tel=htmlspecialchars(strip_tags($entrepriseData['tel']));
+        $this->codePostal=htmlspecialchars(strip_tags($entrepriseData['codePostal']));
+        $this->Created_UserID=htmlspecialchars(strip_tags($entrepriseData['Created_UserID']));
+        $this->Created_Date=htmlspecialchars(strip_tags($entrepriseData['Created_Date']));
+        $this->dep_geo=htmlspecialchars(strip_tags($entrepriseData['dep_geo']));
+        $this->code_ape=htmlspecialchars(strip_tags($entrepriseData['code_ape']));
+        $this->effectif=htmlspecialchars(strip_tags($entrepriseData['effectif']));
+
 
         $stmt->bindParam(":nomEntreprise", $this->nomEntreprise);
         $stmt->bindParam(":adresse", $this->adresse);
         $stmt->bindParam(":ville", $this->ville);
         $stmt->bindParam(":tel", $this->tel);
         $stmt->bindParam(":codePostal", $this->codePostal);
-        $stmt->bindParam(":indice_fiabilite", $this->indice_fiabilite);
+        $stmt->bindParam(":Created_UserID", $this->Created_UserID);
+        $stmt->bindParam(":Created_Date", $this->Created_Date);
+        $stmt->bindParam(":dep_geo", $this->dep_geo);
+        $stmt->bindParam(":code_ape", $this->code_ape);
+        $stmt->bindParam(":effectif", $this->effectif);
 
         if($stmt->execute()){
             return true;
