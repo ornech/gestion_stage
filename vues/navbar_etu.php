@@ -18,6 +18,9 @@ require_once 'config/auth.php';
           <a class="nav-link" href="router.php?page=listerEntreprises">Entreprises</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="router.php?page=recherche">Recherche</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="router.php?page=profil">Profil</a>
         </li>
 

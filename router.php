@@ -27,11 +27,11 @@ include 'vues/headers.php';
 if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
   // Affichez le menu pour les professeurs
   include 'vues/navbar_prof.php';
-  echo "Bienvenue sur la page enseignant";
+  //echo "Bienvenue sur la page enseignant";
 } else {
   // Affichez le menu par défaut
   include 'vues/navbar_etu.php';
-  echo "Bienvenue sur la page étudiant";
+  //echo "Bienvenue sur la page étudiant";
 }
 
 // Fonction de routage basique
@@ -140,6 +140,15 @@ function router($page, $conn) {
       $idProfil = isset($_GET['idProfil']) ? $_GET['idProfil'] : null;
       $profilModel = new Profil($conn);
       $profil_enable = $profilModel->profil_enable($idProfil);
+      break;
+
+    case 'recherche':
+      include_once 'model/recherche.php';
+      $naf = isset($_POST['naf']) ? $_POST['naf'] : null;
+      $cp = isset($_POST['cp']) ? $_POST['cp'] : null;
+      $recherche = new Recherche();
+      $resultat = $recherche->recherche($naf, $cp);
+      include 'vues/vue_recherche.php';
       break;
 
     default:
