@@ -151,6 +151,14 @@ function router($page, $conn) {
       include 'vues/vue_recherche.php';
       break;
 
+    case 'recherche_details':
+      include_once 'model/recherche.php';
+      $siret = isset($_GET['siret']) ? $_GET['siret'] : null;
+      $recherche = new Recherche();
+      $resultats = $recherche->detail($siret);
+      include 'vues/vue_recherche_details.php';
+      break;
+
     default:
       include 'vues/vue_erreur.php'; // Page d'accueil par défaut
       break;
