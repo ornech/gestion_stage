@@ -6,6 +6,7 @@ session_start();
 require_once 'config/auth.php';
 require_once 'config/db_connection.php';
 
+
 // Limitez la durée de validité de la session
 $session_duration = 86400; // Durée de validité de la session en secondes (ici, 1 jour)
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $session_duration) {
