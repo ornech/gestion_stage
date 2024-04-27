@@ -11,12 +11,12 @@ require_once 'config/auth.php';
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="router.php?page=activite_etu">Suivi de recherche</a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="router.php?page=listerEntreprises">Entreprises</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="router.php?page=recherche">Recherche</a>
         </li>
