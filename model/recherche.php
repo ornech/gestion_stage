@@ -167,29 +167,6 @@ class Recherche {
       $activitePrincipaleEtablissement = "activitePrincipaleEtablissement:" . $selected_naf;
       $codePostalEtablissement = "codePostalEtablissement:" . $selected_cp . "%20AND%20etatAdministratifUniteLegale:A%20AND%20";
 
-      // Mettre à jour l'URL avec le nouveau code postal et code NAF
-      // ajouter - devant periode pour exclure le paramètre
-      // $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret?q=";
-      // $period = "periode(";
-      // $AND = "%20AND%20";
-      // $fin = "%20AND%20etatAdministratifEtablissement:A)&nombre=500";
-      // $url = $url . $codePostalEtablissement . $period . $activitePrincipaleEtablissement . $fin;
-      // echo $url;
-
-      // TEST1
-      // $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret?q=";
-      // $codePostal = "codePostalEtablissement:" . $cp;
-      // $etatAdministratif = "etatAdministratifUniteLegale:A";
-      // $activitePrincipale = "activitePrincipaleUniteLegale:" . $naf;
-      // $nombreResultats = "&nombre=50";
-      //
-      // $requete = $codePostal . "%20AND%20" . $etatAdministratif . "%20AND%20" . $activitePrincipale . $nombreResultats;
-      //
-      // $url .= $requete;
-      //
-      // echo $url;
-
-      // TEST2
       $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret?q=";
       $codePostal = "codePostalEtablissement:" . $cp;
       $etatAdministratif = "etatAdministratifUniteLegale:A";
@@ -200,7 +177,7 @@ class Recherche {
 
       $url .= $requete;
 
-      echo $url;
+      //echo $url;
 
       // Clé d'API
       $api_key = '94bcc60b-d0b4-3b55-8f7c-a1e5156a760b';
@@ -247,7 +224,17 @@ class Recherche {
       </tr>';
       foreach ($data['etablissements'] as $etablissement) {
         $result .= '<tr>';
-        $result .=  "<td>" . $etablissement["uniteLegale"]["denominationUniteLegale"] . "</td>";
+        $result .=  "<td>";
+
+        if ($etablissement["uniteLegale"]["categorieJuridiqueUniteLegale"] === "1000"){
+          $result .=  $etablissement['uniteLegale']['nomUniteLegale'] . " " . $etablissement['uniteLegale']['prenom1UniteLegale'];
+        }
+          else {
+            $result .=  $etablissement["uniteLegale"]["denominationUniteLegale"];
+        }
+        $result .= "</td>";
+
+
         $result .=  '<td>';
         $result .=  $etablissement['adresseEtablissement']['numeroVoieEtablissement'];
         $result .=  " ";
