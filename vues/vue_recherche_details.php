@@ -8,16 +8,14 @@ include 'vues/var_data.php';
 <?PHP
 //var_dump($resultats);
 // Nomenclature code api insee
-
-
+$cp = $_GET['cp'];
+$naf = $_GET["naf"];
 
 if ($resultats["uniteLegale"]["etatAdministratifUniteLegale"] == "C") {
   $etatAdministratif = '<i class="fa fa-times" aria-hidden="true" style="color: red;"></i><span style="color: red;"> Cessation d\'acticité </span>';
 } else {
   $etatAdministratif = "En activité";
 }
-
-
 
 // Récupération de la tranche d'effectifs avec une expression régulière
 if (preg_match('/^(\d{2})/', $resultats["uniteLegale"]["trancheEffectifsUniteLegale"], $matches)) {
@@ -27,11 +25,13 @@ if (preg_match('/^(\d{2})/', $resultats["uniteLegale"]["trancheEffectifsUniteLeg
   $trancheEffectifs = "-";
 }
 
-
-
 ?>
-
-  <a type="button" href="router.php?page=create_entreprise&nomEntreprise=<?php echo $resultats["uniteLegale"]["denominationUniteLegale"]; ?>"> test </a>
+<form method="POST" action="router.php?page=recherche">
+  <input type="hidden" name="cp" value="<?PHP echo $cp ; ?>">
+  <input type="hidden" name="naf" value="<?PHP echo $naf ; ?>">
+  <input type="submit" value="Retour">
+</form>
+<!--  <a type="button" href="router.php?page=create_entreprise&nomEntreprise=<?php echo $resultats["uniteLegale"]["denominationUniteLegale"]; ?>"> test </a> -->
 
 
 

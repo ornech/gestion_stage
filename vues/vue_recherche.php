@@ -10,6 +10,8 @@ include 'vues/var_data.php';
 </p>
     </div>
 <BR>
+
+  
 <?php
 
 // Récupérer les valeurs sélectionnées (s'il y en a)
@@ -28,7 +30,7 @@ foreach ($tableau_naf as $code_naf => $libelle_naf) {
 echo '</select>';
 echo "\n";
 
-echo '<select class="form-select" name="cp">';
+echo '<select class="form-select" name="cp">'; //
 echo "\n";
 
 foreach ($codes_postaux as $code_postal => $ville) {
@@ -37,6 +39,7 @@ foreach ($codes_postaux as $code_postal => $ville) {
     echo "\n";
 }
 echo '</select>';
+echo "<input type='text' name='cp'>";
 echo "\n";
 
 echo '<input class="btn btn-outline-secondary" type="submit" value="Rechercher">';
