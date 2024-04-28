@@ -11,7 +11,7 @@ require_once 'config/auth.php';
       <div class="col">
 
         <label for="nomEntreprise" class="form-label">Nom de l'entreprise</label>
-        <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" required>
+        <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" value="<?php echo $_GET["nomEntreprise"];?>"" required>
         <label for="tel" class="form-label">Téléphone</label>
         <input type="text" class="form-control" id="tel" name="tel"><br>
 

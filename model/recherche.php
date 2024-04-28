@@ -167,12 +167,12 @@ class Recherche {
       $activitePrincipaleEtablissement = "activitePrincipaleEtablissement:" . $selected_naf;
       $codePostalEtablissement = "codePostalEtablissement:" . $selected_cp . "%20AND%20etatAdministratifUniteLegale:A%20AND%20";
 
-      $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret?q=";
-      $codePostal = "codePostalEtablissement:" . $cp;
-      $etatAdministratif = "etatAdministratifUniteLegale:A";
-      $activitePrincipale = "periode(activitePrincipaleEtablissement:" . $naf . "%20AND%20etatAdministratifEtablissement:A%20AND%20-etatAdministratifEtablissement:F)";
-      $nombreResultats = "&nombre=50";
-      $code_naf_param = "";
+      // $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret?q=";
+      // $codePostal = "codePostalEtablissement:" . $cp;
+      // $etatAdministratif = "etatAdministratifUniteLegale:A";
+      // $activitePrincipale = "periode(activitePrincipaleEtablissement:" . $naf . "%20AND%20etatAdministratifEtablissement:A%20AND%20-etatAdministratifEtablissement:F)";
+      // $nombreResultats = "&nombre=50";
+      // $code_naf_param = "";
 
       foreach ($tableau_naf as $code_naf => $description_naf) {
         // Construire l'URL de l'API avec le code NAF actuel
@@ -180,36 +180,42 @@ class Recherche {
       }
 
 
-      $requete = $codePostal . "%20AND%20" . $etatAdministratif . "%20AND%20" . $activitePrincipale . $nombreResultats;
+      // $requete = $codePostal . "%20AND%20" . $etatAdministratif . "%20AND%20" . $activitePrincipale . $nombreResultats;
+      //
+      // $url .= $requete;
+      //
+      // //echo $url;
+      //
+      // // Clé d'API
+      // $api_key = '94bcc60b-d0b4-3b55-8f7c-a1e5156a760b';
+      //
+      // // Configuration de la requête cURL
+      // $ch = curl_init($url);
+      // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+      //   'Accept: application/json',
+      //   'Authorization: Bearer ' . $api_key
+      // ));
+      // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      //
+      // // Exécution de la requête
+      // $response = curl_exec($ch);
+      //
+      // // Vérification des erreurs
+      // if ($response === false) {
+      //   die('Erreur lors de la récupération des données de l\'API: ' . curl_error($ch));
+      // }
 
-      $url .= $requete;
-
-      //echo $url;
-
-      // Clé d'API
-      $api_key = '94bcc60b-d0b4-3b55-8f7c-a1e5156a760b';
-
-      // Configuration de la requête cURL
-      $ch = curl_init($url);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Accept: application/json',
-        'Authorization: Bearer ' . $api_key
-      ));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-      // Exécution de la requête
-      $response = curl_exec($ch);
-
-      // Vérification des erreurs
-      if ($response === false) {
-        die('Erreur lors de la récupération des données de l\'API: ' . curl_error($ch));
-      }
-
-      // Fermeture de la session cURL
-      curl_close($ch);
+      // // Fermeture de la session cURL
+      // curl_close($ch);
 
       // Décode la réponse JSON en tableau PHP
-      $data = json_decode($response, true);
+      // $data = json_decode($response, true);
+
+      // Lire le fichier JSON
+      $json_data = file_get_contents("resultats.json");
+
+      // Convertir le JSON en tableau associatif
+      $data = json_decode($json_data, true);
 
 
       // Vérifie si le décodage a réussi

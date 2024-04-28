@@ -74,6 +74,7 @@ function router($page, $conn) {
       break;
 
     case 'create_entreprise':
+      $nomEntreprise = isset($_GET['nomEntreprise']) ? $_GET['nomEntreprise'] : null;
       include 'vues/vue_entreprise_create.php';
       break;
 

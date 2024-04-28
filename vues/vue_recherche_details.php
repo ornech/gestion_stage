@@ -31,6 +31,10 @@ if (preg_match('/^(\d{2})/', $resultats["uniteLegale"]["trancheEffectifsUniteLeg
 
 ?>
 
+  <a type="button" href="router.php?page=create_entreprise&nomEntreprise=<?php echo $resultats["uniteLegale"]["denominationUniteLegale"]; ?>"> test </a>
+
+
+
 <br>
 <div class="container">
   <h1>Détails: <?= $resultats["uniteLegale"]["denominationUniteLegale"] ?></h1>
