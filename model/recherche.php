@@ -172,6 +172,13 @@ class Recherche {
       $etatAdministratif = "etatAdministratifUniteLegale:A";
       $activitePrincipale = "periode(activitePrincipaleEtablissement:" . $naf . "%20AND%20etatAdministratifEtablissement:A%20AND%20-etatAdministratifEtablissement:F)";
       $nombreResultats = "&nombre=50";
+      $code_naf_param = "";
+
+      foreach ($tableau_naf as $code_naf => $description_naf) {
+        // Construire l'URL de l'API avec le code NAF actuel
+        $code_naf_param .= "periode(activitePrincipaleEtablissement:" . $code_naf . "%20AND%20" . $etat_administratif . ")";
+      }
+
 
       $requete = $codePostal . "%20AND%20" . $etatAdministratif . "%20AND%20" . $activitePrincipale . $nombreResultats;
 
