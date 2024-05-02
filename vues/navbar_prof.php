@@ -20,7 +20,7 @@ require_once 'config/auth.php';
           <a class="nav-link" href="router.php?page=activite_prof"><i class='far fa-calendar-alt'>&nbsp;</i>Activités</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="router.php?page=recherche"><i class='far fa-calendar-alt'>&nbsp;</i>Recherche</a>
+          <a class="nav-link" href="router.php?page=recherche"><i class='fa fa-search'>&nbsp;</i>Recherche</a>
         </li>
       </ul>
     </div>

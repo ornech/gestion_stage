@@ -8,10 +8,10 @@ $var_data_path = __DIR__ . '/../vues/var_data.php';
 
 // Inclure le fichier var_data.php s'il existe
 if (file_exists($var_data_path)) {
-    include_once $var_data_path;
+  include_once $var_data_path;
 } else {
-    // Gérer l'erreur si le fichier var_data.php n'existe pas
-    die('Erreur : Le fichier var_data.php est introuvable.');
+  // Gérer l'erreur si le fichier var_data.php n'existe pas
+  die('Erreur : Le fichier var_data.php est introuvable.');
 }
 
 ?>
@@ -27,6 +27,11 @@ include 'vues/var_data.php';
 
 class Recherche {
   public $api_key = '94bcc60b-d0b4-3b55-8f7c-a1e5156a760b';
+  // Constructeur
+  public function __construct() {
+    // Initialiser la clé API
+    
+  }
 
   public function detail($siret) {
     // Mettre à jour l'URL avec le nouveau code postal et code NAF
@@ -158,76 +163,79 @@ class Recherche {
     return $result;
   }
 
+
+
   public function recherche($naf, $cp) {
-      // Vérifier si le code NAF et le code postal sont définis
-      if (isset($naf, $cp)) {
-          // Lire le fichier JSON
-          $json_data = file_get_contents("json/" . $naf . ".json");
+    // Vérifier si le code NAF et le code postal sont définis
 
-          // Convertir le JSON en tableau associatif
-          $data = json_decode($json_data, true);
+    if (isset($naf, $cp)) {
+      // Lire le fichier JSON
+      $json_data = file_get_contents("json/" . $naf . ".json");
 
-          // Vérifier si le décodage a réussi
-          if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-              die('Erreur lors du décodage de la réponse JSON.');
-          }
-          // Initialiser le résultat de la recherche
-          $result .= '<table class="table table-striped" border="1">
-                      <tr>
-                          <th style="width: 20%;">Nom</th>
-                          <th style="width: 30%;">Adresse</th>
-                          <th>CP</th>
-                          <th>Ville</th>
-                          <th>Catégorie</th>
-                          <! -- <th>SIRET</th> -->
-                          <th>Activité</th>
-                          <th>Création</th>
-                          <th>Détails</th>
-                      </tr>';
+      // Convertir le JSON en tableau associatif
+      $data = json_decode($json_data, true);
 
-          // Parcourir les établissements
-          foreach ($data['etablissements'] as $etablissement) {
-              // Vérifier si le code NAF ou le code postal correspondent aux critères de recherche
-              if ($etablissement['uniteLegale']['activitePrincipaleUniteLegale'] == $naf && $etablissement['adresseEtablissement']['codePostalEtablissement'] == $cp) {
-                  // Ajouter les informations de l'établissement au résultat de la recherche
-                  $result .= '<tr>';
-                  $result .= '<td>';
-
-                  // $etablissement["uniteLegale"]["categorieJuridiqueUniteLegale"] === "1000"
-                  if ($etablissement["uniteLegale"]["denominationUsuelle1UniteLegale"]) {
-                      $result .= $etablissement['uniteLegale']["denominationUsuelle1UniteLegale"];
-                  }
-                  elseif (empty($etablissement["uniteLegale"]["denominationUniteLegale"]) && empty($etablissement["uniteLegale"]["denominationUsuelle1UniteLegale"])) {
-                      if ($etablissement['uniteLegale']["sexeUniteLegale"] === "F") {
-                        $genre = "Madame ";
-                      }
-                      else {
-                        $genre = "Monsieur ";
-                      }
-                     $result .= $genre . $etablissement['uniteLegale']["prenomUsuelUniteLegale"] . " ".$etablissement['uniteLegale']["nomUniteLegale"];
-                  }
-                  else {
-                      $result .= $etablissement["uniteLegale"]["denominationUniteLegale"]; //denominationUsuelle1UniteLegale
-                  }
-                  $result .= '</td>';
-                  $result .= '<td>' . $etablissement['adresseEtablissement']['numeroVoieEtablissement'] . " " . $etablissement['adresseEtablissement']['typeVoieEtablissement'] . " " . $etablissement['adresseEtablissement']['libelleVoieEtablissement'] . '</td>';
-                  $result .= '<td>' . $etablissement['adresseEtablissement']['codePostalEtablissement'] . '</td>';
-                  $result .= '<td>' . $etablissement['adresseEtablissement']['libelleCommuneEtablissement'] . '</td>';
-                  $result .= '<td>' . $etablissement['uniteLegale']['categorieEntreprise'] . '</td>';
-                  //$result .= '<td><a href="https://www.societe.com/cgi-bin/search?champs=' . $etablissement['siret'] . '" target="_blank" rel="noopener noreferrer">' . $etablissement['siret'] . '</a></td>';
-                  $result .= '<td>' . $etablissement['uniteLegale']['activitePrincipaleUniteLegale'] . '</td>';
-                  $result .= '<td>' . $etablissement['dateCreationEtablissement'] . '</td>';
-                  $result .= '<td><a href="router.php?page=recherche_details&siret=' . $etablissement['siret'] . '&naf=' . $naf . '&cp=' . $cp . '">Voir</a></td>';
-                  $result .= '</tr>';
-              }
-          }
-
-          // Fermer la balise de tableau
-          $result .= '</table>';
-
-          // Retourner le résultat de la recherche
-          return $result;
+      // Vérifier si le décodage a réussi
+      if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+        die('Erreur lors du décodage de la réponse JSON.');
       }
+      // Initialiser le résultat de la recherche
+      $result .= '<table class="table table-striped" border="1">
+      <tr>
+      <th style="width: 20%;">Nom</th>
+      <th style="width: 30%;">Adresse</th>
+      <th>CP</th>
+      <th>Ville</th>
+      <th>Catégorie</th>
+      <! -- <th>SIRET</th> -->
+      <th>Activité</th>
+      <th>Création</th>
+      <th>Détails</th>
+      </tr>';
+
+      // Parcourir les établissements
+      foreach ($data['etablissements'] as $etablissement) {
+        // Vérifier si le code NAF ou le code postal correspondent aux critères de recherche
+        if ($etablissement['uniteLegale']['activitePrincipaleUniteLegale'] == $naf && $etablissement['adresseEtablissement']['codePostalEtablissement'] == $cp) {
+          // Ajouter les informations de l'établissement au résultat de la recherche
+          $result .= '<tr>';
+          $result .= '<td>';
+
+          // $etablissement["uniteLegale"]["categorieJuridiqueUniteLegale"] === "1000"
+          if ($etablissement["uniteLegale"]["denominationUsuelle1UniteLegale"]) {
+            $result .= $etablissement['uniteLegale']["denominationUsuelle1UniteLegale"];
+          }
+          elseif (empty($etablissement["uniteLegale"]["denominationUniteLegale"]) && empty($etablissement["uniteLegale"]["denominationUsuelle1UniteLegale"])) {
+            if ($etablissement['uniteLegale']["sexeUniteLegale"] === "F") {
+              $genre = "Madame ";
+            }
+            else {
+              $genre = "Monsieur ";
+            }
+            $result .= $genre . $etablissement['uniteLegale']["prenomUsuelUniteLegale"] . " ".$etablissement['uniteLegale']["nomUniteLegale"];
+          }
+          else {
+            $result .= $etablissement["uniteLegale"]["denominationUniteLegale"]; //denominationUsuelle1UniteLegale
+          }
+          $result .= '</td>';
+          $result .= '<td>' . $etablissement['adresseEtablissement']['numeroVoieEtablissement'] . " " . $etablissement['adresseEtablissement']['typeVoieEtablissement'] . " " . $etablissement['adresseEtablissement']['libelleVoieEtablissement'] . '</td>';
+          $result .= '<td>' . $etablissement['adresseEtablissement']['codePostalEtablissement'] . '</td>';
+          $result .= '<td>' . $etablissement['adresseEtablissement']['libelleCommuneEtablissement'] . '</td>';
+          $result .= '<td>' . $etablissement['uniteLegale']['categorieEntreprise'] . '</td>';
+          //$result .= '<td><a href="https://www.societe.com/cgi-bin/search?champs=' . $etablissement['siret'] . '" target="_blank" rel="noopener noreferrer">' . $etablissement['siret'] . '</a></td>';
+          $result .= '<td>' . $etablissement['uniteLegale']['activitePrincipaleUniteLegale'] . '</td>';
+          $result .= '<td>' . $etablissement['dateCreationEtablissement'] . '</td>';
+          $result .= '<td><a href="router.php?page=recherche_details&siret=' . $etablissement['siret'] . '&naf=' . $naf . '&cp=' . $cp . '">Voir</a></td>';
+          $result .= '</tr>';
+        }
+      }
+
+      // Fermer la balise de tableau
+      $result .= '</table>';
+
+      // Retourner le résultat de la recherche
+      return $result;
+    }
   }
 
 
@@ -269,8 +277,8 @@ class Recherche {
         if ($etablissement["uniteLegale"]["categorieJuridiqueUniteLegale"] === "1000"){
           $result .=  $etablissement['uniteLegale']['nomUniteLegale'] . " " . $etablissement['uniteLegale']['prenom1UniteLegale'];
         }
-          else {
-            $result .=  $etablissement["uniteLegale"]["denominationUniteLegale"];
+        else {
+          $result .=  $etablissement["uniteLegale"]["denominationUniteLegale"];
         }
         $result .= "</td>";
 

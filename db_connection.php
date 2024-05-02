@@ -6,15 +6,6 @@ $db_name = "gestion_stage";
 $username = "admin";
 $password = "admin";
 
-//$host = "gestage.btssio17.com";
-//$db_name = "btssio17_gestion_stage";
-//$username = "btssio17_gestion_stage";
-//$password = "#?FR9zaIKd{K";
-
-
-
-
-
 try {
     // Création de la connexion PDO
     $conn = new PDO("mysql:host=$host;dbname=$db_name;charset=utf8", $username, $password);
