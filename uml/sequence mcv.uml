@@ -1,0 +1,25 @@
+@startuml
+
+title MCV Modèle avec GET et POST
+
+Utilisateur->Contrôleur: Requête (GET) ou (POST)
+activate Contrôleur
+Contrôleur->Modèle: Transmettre données
+activate Modèle
+Modèle->database: Requête SQL
+activate database
+database->Modèle: Résultat SQL
+deactivate database 
+Modèle->Contrôleur: Données chargées/traitées
+
+Contrôleur->Vue: Données à afficher
+deactivate Contrôleur
+
+deactivate Modèle
+
+
+activate Vue
+Vue->Utilisateur: Afficher données formatée
+deactivate Vue
+
+@enduml
