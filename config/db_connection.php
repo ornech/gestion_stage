@@ -19,9 +19,4 @@ try {
     // En cas d'erreur lors de la connexion, afficher le message d'erreur
     echo "La connexion à la base de données a échoué : " . $e->getMessage();
 }
-
-
-
-
-
 ?>
