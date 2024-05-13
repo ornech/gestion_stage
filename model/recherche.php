@@ -179,27 +179,25 @@ class Recherche {
         die('Erreur lors du décodage de la réponse JSON.');
       }
       // Initialiser le résultat de la recherche
-      $result .= '<table class="table table-striped" border="1">
+      $result .= '<table id="maTable" class="table table-striped" border="1">
       <tr>
-      <th style="width: 20%;">Nom</th>
+      <th style="width: 20%;" onclick="sortTable(1)"> <i class="fas fa-sort"></i>&nbsp; Nom</th>
       <th style="width: 30%;">Adresse</th>
-      <th>CP</th>
-      <th>Ville</th>
-      <th>Catégorie</th>
+      <th onclick="sortTable(2)"><i class="fas fa-sort"></i>&nbsp;CP</th>
+      <th onclick="sortTable(3)"><i class="fas fa-sort"></i>&nbsp;Ville</th>
+      <th onclick="sortTable(4)"><i class="fas fa-sort"></i>&nbsp;Cat</th>
       <! -- <th>SIRET</th> -->
-      <th>Activité</th>
-      <th>Création</th>
-      <th>Etat</th>
+      <!-- <th>Activité</th> -->
+      <!-- <th>Création</th> -->
+      <th onclick="sortTable(5)"><i class="fas fa-sort"></i>&nbsp;Etat</th>
       <th>Détails</th>
       </tr>';
 
       // Parcourir les établissements
       foreach ($data['etablissements'] as $etablissement) {
         // Vérifier si le code NAF ou le code postal correspondent aux critères de recherche
-        if ($etablissement['uniteLegale']['activitePrincipaleUniteLegale'] == $naf && $etablissement['adresseEtablissement']['codePostalEtablissement'] == $cp) {
+        if ($etablissement['uniteLegale']['activitePrincipaleUniteLegale'] == $naf || $etablissement['adresseEtablissement']['codePostalEtablissement'] == $cp) {
           // Ajouter les informations de l'établissement au résultat de la recherche
-
-
 
           $result .= '<tr>';
           $result .= '<td>';
@@ -226,8 +224,8 @@ class Recherche {
           $result .= '<td>' . $etablissement['adresseEtablissement']['libelleCommuneEtablissement'] . '</td>';
           $result .= '<td>' . $etablissement['uniteLegale']['categorieEntreprise'] . '</td>';
           //$result .= '<td><a href="https://www.societe.com/cgi-bin/search?champs=' . $etablissement['siret'] . '" target="_blank" rel="noopener noreferrer">' . $etablissement['siret'] . '</a></td>';
-          $result .= '<td>' . $etablissement['uniteLegale']['activitePrincipaleUniteLegale'] . '</td>';
-          $result .= '<td>' . $etablissement['dateCreationEtablissement'] . '</td>';
+          //$result .= '<td>' . $etablissement['uniteLegale']['activitePrincipaleUniteLegale'] . '</td>';
+          //$result .= '<td>' . $etablissement['dateCreationEtablissement'] . '</td>';
           $result .= '<td>';
 
           // DEBUT TEST
