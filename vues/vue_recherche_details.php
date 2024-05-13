@@ -11,7 +11,10 @@ include 'vues/var_data.php';
 $cp = $_GET['cp'];
 $naf = $_GET["naf"];
 
-if ($resultats["uniteLegale"]["etatAdministratifUniteLegale"] == "C") {
+
+
+
+if ($resultats['periodesEtablissement'][0]['etatAdministratifEtablissement'] == "F") {
   $etatAdministratif = '<i class="fa fa-times" aria-hidden="true" style="color: red;"></i><span style="color: red;"> Cessation d\'acticité </span>';
 } else {
   $etatAdministratif = "En activité";
@@ -45,7 +48,10 @@ if (preg_match('/^(\d{2})/', $resultats["uniteLegale"]["trancheEffectifsUniteLeg
         <div class="card-body">
             <strong>SIREN :</strong> <?= $resultats["siren"] ?><BR>
             <strong>SIRET :</strong> <?= $resultats["siret"] ?><BR>
-            <strong>Statut INSEE :</strong> <?php echo $etatAdministratif; ?><BR>
+            <strong>Statut INSEE :</strong>
+            <?php
+            echo $etatAdministratif;
+            ?><BR>
             <strong>Nombre d'employé:</strong>
               <?php echo $trancheEffectifs ?><BR>
 
