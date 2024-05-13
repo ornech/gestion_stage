@@ -30,7 +30,7 @@ class Recherche {
   // Constructeur
   public function __construct() {
     // Initialiser la clé API
-    
+
   }
 
   public function detail($siret) {
@@ -139,7 +139,6 @@ class Recherche {
       "periodesEtablissement" => array()
     );
     // Ajout des périodes de l'établissement
-    // Ajout des périodes de l'établissement
     foreach ($periodes as $periode) {
       $periodeData = array(
         "dateDebut" => $periode['dateDebut'],
@@ -190,6 +189,7 @@ class Recherche {
       <! -- <th>SIRET</th> -->
       <th>Activité</th>
       <th>Création</th>
+      <th>Etat</th>
       <th>Détails</th>
       </tr>';
 
@@ -198,6 +198,9 @@ class Recherche {
         // Vérifier si le code NAF ou le code postal correspondent aux critères de recherche
         if ($etablissement['uniteLegale']['activitePrincipaleUniteLegale'] == $naf && $etablissement['adresseEtablissement']['codePostalEtablissement'] == $cp) {
           // Ajouter les informations de l'établissement au résultat de la recherche
+
+
+
           $result .= '<tr>';
           $result .= '<td>';
 
@@ -225,6 +228,24 @@ class Recherche {
           //$result .= '<td><a href="https://www.societe.com/cgi-bin/search?champs=' . $etablissement['siret'] . '" target="_blank" rel="noopener noreferrer">' . $etablissement['siret'] . '</a></td>';
           $result .= '<td>' . $etablissement['uniteLegale']['activitePrincipaleUniteLegale'] . '</td>';
           $result .= '<td>' . $etablissement['dateCreationEtablissement'] . '</td>';
+          $result .= '<td>';
+
+          // DEBUT TEST
+          //
+          $etatAdmin = $etablissement['periodesEtablissement'][0]['etatAdministratifEtablissement'];
+          // Supprimer les espaces blancs éventuels
+          $etatAdmin = trim($etatAdmin);
+
+          if ( $etatAdmin === "A")
+          {
+            $result .= '<button type="button" class="btn btn-success btn-sm" active>Actif</button>';
+          }
+          else {
+            $result .= '<button type="button" class="btn btn-warning btn-sm" active>Fermée</button>';
+          }
+          $result .= '</td>';
+          // FIN TEST
+
           $result .= '<td><a href="router.php?page=recherche_details&siret=' . $etablissement['siret'] . '&naf=' . $naf . '&cp=' . $cp . '">Voir</a></td>';
           $result .= '</tr>';
         }
