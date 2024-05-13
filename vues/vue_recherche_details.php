@@ -85,6 +85,7 @@ if (preg_match('/^(\d{2})/', $resultats["uniteLegale"]["trancheEffectifsUniteLeg
                 <div class="card-body">
                   <a class="btn btn-warning" role="button" href="https://www.pagesjaunes.fr/siret/<?= $resultats["siret"] ?>" target='_blank' rel='noopener noreferrer'>Pagesjaunes.fr</a>
                   <a class="btn btn-warning" role="button" href="https://www.societe.com/cgi-bin/search?champs=<?= $resultats["siret"] ?>" target='_blank' rel='noopener noreferrer'>Societe.com</a>
+                  <a class="btn btn-warning" role="button" href="https://annuaire-entreprises.data.gouv.fr/etablissement/<?= $resultats["siret"] ?>" target='_blank' rel='noopener noreferrer'>data.gouv.fr</a>
 
                   <?php
                   function remplacerEspacesParPlus($chaine) {
