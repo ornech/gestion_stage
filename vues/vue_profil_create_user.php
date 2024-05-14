@@ -9,7 +9,7 @@ require_once 'config/auth.php';
   <div class="row g-3 d-flex justify-content-center" style="margin-top: 20px">
 
     <p class="h4">
-      Infomation de l'élève :
+      Infomation de l'étudiant :
     </p>
 
     <div class="col-md">
@@ -38,13 +38,22 @@ require_once 'config/auth.php';
       <label for="telephone">Téléphone</label>
     </div>  
 
-    <div class="form-floating mb-3" style="width: 350px">
-      <input type="text" class="form-control form-control-lg" id="promo" name="promo" id placeholder="2025">
-      <label for="promo">Promotion</label>
-    </div>  
+    <div class="col-md">
+      <div class="form-floating mb-3" style="width: 350px">
+        <input type="text" class="form-control form-control-lg" id="promo" name="promo" id placeholder="2025">
+        <label for="promo">Promotion</label>
+      </div>  
+    </div>
+
+    <div class="col-md">
+      <select class="form-select" id="spe" name="spe" style="width: 250px">
+        <option value="SLAM">SLAM</option>
+        <option value="SISR">SISR</option>
+      </select>
+    </div>
 
     <p class="h4">
-      Compte de l'élève :
+      Compte de l'étudiant :
     </p>
 
     <div class="row g-2 d-flex " style="margin-top: 10px">
@@ -56,14 +65,14 @@ require_once 'config/auth.php';
 
     <div class="col-md">
       <div class="form-floating mb-2">
-        <input type="text" class="form-control" id="password" name="password" placeholder="Azerty123!" required>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Azerty123!" required>
         <label for="password">Mot de passe</label>
       </div>  
     </div>
 
     <div class="col-md">
       <div class="form-floating mb-2">
-        <input type="text" class="form-control" id="confirm_password" name="confirm_password" placeholder="Azerty123!" required>
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Azerty123!" required>
         <label for="confirm_password">Confirmer le mot de passe</label>
       </div>  
     </div>
