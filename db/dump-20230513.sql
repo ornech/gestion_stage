@@ -94,7 +94,7 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER ajout_activite
 BEFORE INSERT ON Activite_Etu
@@ -392,7 +392,7 @@ CREATE TABLE `User` (
   `statut` varchar(100) DEFAULT NULL,
   `inactif` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -407,7 +407,7 @@ INSERT INTO `User` VALUES
 (3,'Ornech','Jean-François','jean-francois.ornech@ac-poitiers.fr','',NULL,'jfornech','$2y$10$GVLSmMO4r25S2Uu.lpa6COtmNRdMr6.q.KgoDdVec.IIPtEi.GN.q',0,'Professeur',0),
 (17,'','','','','2024','','$2y$10$..BYjqV4WTrvhUvhKZwNVOBWuKl6UXsxz7IlLS4EkYKgh5e1BAepq',0,'Etudiant',0),
 (18,'Patrice','DENIS ARONIS','mail@mail.local','','2024','patrice','$2y$10$hR2DosUGTpgg/z4yy3X.vupNh9Rg7ri9rw3JIa8uJLzInmxLhBnLW',1,'Professeur',0),
-(19,'test2','test2','test2@test2','','2024','test2','$2y$10$5hyrfSoGsZq8jHWCLhUTSuUmYrQH/diwSFcPIRnCmqeGUFlqlHmz.',0,'Etudiant',1),
+(19,'test2','test2','test2@test2','','2024','test2','$2y$10$PDPhAUEN4mijrvOB80T0RuTTbnHVv5OmtH3a/9l1gkzAMo/bCpobC',1,'Etudiant',1),
 (20,'Etudiant','etudiant de test','','','2024','sio','$2y$10$KeXbUulOY1uxBUdr.5zkDeTCDqLJHGYU8DF11Ji5PmUcBe79RI0Tq',0,'Etudiant',1),
 (21,'login','login',NULL,NULL,'2023','login','$2y$10$NNi/pR4j1Ne4N8MD.QFJOedZjQtNhcfPttfxHRXPLYyPGrGzBDnXu',0,'Etudiant',0),
 (22,'BARBIER','Loann',NULL,NULL,'2023','Loann','$2y$10$ZNrpDkjWY6hJIqehZUvCxuNV7cTAuwOwD7hJ.Zd7Vzvu9gP85o7H2',0,'Etudiant',0),
@@ -429,7 +429,8 @@ INSERT INTO `User` VALUES
 (38,'SOUAKRI','Lounès',NULL,NULL,'2023','Lounes','$2y$10$7FJwSuyh55nKMLQ3zcSkpuUxZKLjpYb.6JiwFevR/t1uYSLP2tC3K',0,'Etudiant',0),
 (39,'TEXIER','Enola',NULL,NULL,'2023','Enola','$2y$10$RbZXEK6ypj2WRDqSSxKr5eHcD4Z8fkcd64JoOrHgX.Kc4fMvOUP/K',0,'Etudiant',0),
 (40,'CASTILLO','Jean-Christophe','','','','castillojc','$2y$10$H5W2E9n/oN0m4C9ugRdbdeRUEYM.zM.DUGWMlPrIR1ID7XqI785vC',1,'Professeur',0),
-(41,'BOUCHEREAU','Bertrand','','','2024','bouchereaub','$2y$10$HO4yuuq58SJBqqxnGzksCuvm4FWDBR6nWc3n6ZJHyNHdDEk2tBAK6',1,'Professeur',0);
+(41,'BOUCHEREAU','Bertrand','','','2024','bouchereaub','$2y$10$HO4yuuq58SJBqqxnGzksCuvm4FWDBR6nWc3n6ZJHyNHdDEk2tBAK6',1,'Professeur',0),
+(42,'test','test','test@test.lan','','2024','test','$2y$10$Q1x4OFcKI7OCUTIXfAsbcuHHbnB2ez.hDVhUlpKgc8C3NpjRM6wre',0,'Etudiant',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -464,4 +465,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-13 19:22:54
+-- Dump completed on 2024-05-14 10:49:17
