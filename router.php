@@ -1,25 +1,10 @@
 <?php
-// Démarrer la session en premier
+// Démarrer la session
 session_start();
 
 // Vérifie si l'utilisateur est connecté
 require_once 'config/auth.php';
 require_once 'config/db_connection.php';
-
-
-// Limitez la durée de validité de la session
-$session_duration = 86400; // Durée de validité de la session en secondes (ici, 1 jour)
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $session_duration) {
-  // Déconnectez l'utilisateur si la session a expiré
-  session_unset();
-  session_destroy();
-  // Redirigez l'utilisateur vers la page de connexion
-  header("Location: login.php");
-  exit();
-}
-
-// Mettez à jour le timestamp de dernière activité
-$_SESSION['last_activity'] = time();
 
 // Inclure les en-têtes HTML
 include 'vues/headers.php';
@@ -35,7 +20,7 @@ if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
   //echo "Bienvenue sur la page étudiant";
 }
 
-// Fonction de routage basique
+// Fonction de routage
 function router($page, $conn) {
   switch ($page) {
     case 'accueil':
@@ -171,6 +156,7 @@ function router($page, $conn) {
   $page = isset($_GET['page']) ? $_GET['page'] : 'accueil';
 
   // Appeler la fonction de routage pour afficher la vue appropriée
+
   router($page, $conn); // Passer $conn en paramètre
   include 'vues/footer.php';
   ?>
