@@ -73,7 +73,9 @@ class Entreprise {
                     throw new Exception("Erreur lors de l'exécution de la requête.");
                 }
             } catch (Exception $e) {
-                echo "Erreur : " . $e->getMessage();
+                //echo "Erreur : " . $e->getMessage();
+                $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+                header("Location: ../router.php?page=erreur&message=$message");
                 return false;
             }
     }
