@@ -1,6 +1,7 @@
 <?php
-// Démarrer la session
-session_start();
+// Démarrer la session en premier
+// A du être supprimer sur windows ? 
+// session_start(); 
 
 // Vérifie si l'utilisateur est connecté
 require_once 'config/auth.php';
