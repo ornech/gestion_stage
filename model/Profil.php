@@ -69,7 +69,7 @@ class Profil {
     $stmt->bindParam(":email", $this->email);
     $stmt->bindParam(":telephone", $this->telephone);
     $stmt->bindParam(":promo", $this->promo);
-    $stmt->bindParam(":spe", $this->promo);
+    $stmt->bindParam(":spe", $this->spe);
     $stmt->bindParam(":login", $this->login);
     $stmt->bindParam(":password", $this->password);
     $stmt->bindParam(":statut", $this->statut);
