@@ -43,13 +43,14 @@ class Profil {
     prenom=:prenom ,
     email=:email ,
     telephone=:telephone ,
-    promo=:promo ,
-    spe=:spe ,
     login=:login ,
     password=:password ,
     password_reset=0 ,
     statut=:statut ,
     inactif=0";
+
+    //Rajoute dans le query spe et promo si le statut n'est pas Professeur
+    $query = $statut != "Professeur" ? $query . " , spe=:spe, promo=:promo" : $query;
 
     $stmt = $this->conn->prepare($query);
     $this->nom=htmlspecialchars(strip_tags($nom));
@@ -57,7 +58,7 @@ class Profil {
     $this->email=htmlspecialchars(strip_tags($email));
     $this->telephone=htmlspecialchars(strip_tags($telephone));
     $this->promo=htmlspecialchars(strip_tags($promo));
-    $this->promo=htmlspecialchars(strip_tags($spe));
+    $this->spe=htmlspecialchars(strip_tags($spe));
     $this->login=htmlspecialchars(strip_tags($login));
     $this->password=htmlspecialchars(strip_tags($password));
     $this->statut=htmlspecialchars(strip_tags($statut));
@@ -69,10 +70,14 @@ class Profil {
     $stmt->bindParam(":email", $this->email);
     $stmt->bindParam(":telephone", $this->telephone);
     $stmt->bindParam(":promo", $this->promo);
-    $stmt->bindParam(":spe", $this->spe);
     $stmt->bindParam(":login", $this->login);
     $stmt->bindParam(":password", $this->password);
     $stmt->bindParam(":statut", $this->statut);
+
+    if($statut != "Professeur"){ //Si le statut est professeur, on n'attribut pas de promotion et de spécialité
+      $stmt->bindParam(":spe", $this->spe);
+      $stmt->bindParam(":promo", $this->promo);
+    }
 
     if($stmt->execute()){
       //return true;

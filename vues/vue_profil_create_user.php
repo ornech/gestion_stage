@@ -129,7 +129,6 @@ require_once 'config/auth.php';
 
   const divEtudiant = document.getElementById('divEtudiant');
   const promo = document.getElementById('promo');
-  const specification = document.getElementById('spe');
   const choix = document.getElementById('statut');
 
   let currentPromo = new Date().getFullYear() + 1;
@@ -206,12 +205,10 @@ require_once 'config/auth.php';
   function choixStatut(){
     if (choix.value == "Professeur") {
       divEtudiant.classList.add('hidden');
-      specification.value = "";
       promo.value = currentPromo;
     }
     else {
       divEtudiant.classList.remove('hidden');
-      specification.value = "SLAM";
     }
   }
 
