@@ -6,21 +6,20 @@ require_once 'config/auth.php';
 
 <form action="../controller/create_user.php" method="post" class="g-3">
 
-  <div class="row g-3 d-flex justify-content-center" style="margin-top: 20px">
+  <p class="h4 espacement">
+    Infomation de l'étudiant :
+  </p>
 
-    <p class="h4">
-      Infomation de l'étudiant :
-    </p>
-
+  <div class="row g-3 d-flex espacement">
     <div class="col-md">
-      <div class="form-floating mb-3">
+      <div class="form-floating mb-3" style="width: 350px">
         <input type="text" class="form-control" id="nom" name="nom" placeholder="Dupont" required>
         <label for="nom">Nom</label>
       </div>  
     </div>
 
     <div class="col-md">
-      <div class="form-floating mb-3">
+      <div class="form-floating mb-3" style="width: 350px">
         <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Alice" required>
         <label for="prenom">Prénom</label>
       </div>  
@@ -28,19 +27,28 @@ require_once 'config/auth.php';
 
   </div>
 
-    <div class="form-floating mb-3">
-      <input type="email" class="form-control" id="email" name="email" placeholder="alicedupont@email.com">
-      <label for="email">Email</label>
-    </div>  
-
-    <div class="form-floating mb-3" style="width: 350px">
-      <input type="text" class="form-control form-control-lg" id="telephone" name="telephone" placeholder="06 07 08 09 10">
-      <label for="telephone">Téléphone</label>
-    </div>  
+  <div class="row g-3 d-flex">
 
     <div class="col-md">
       <div class="form-floating mb-3" style="width: 350px">
-        <input type="text" class="form-control form-control-lg" id="promo" name="promo" id placeholder="2025">
+        <input type="email" class="form-control" id="email" name="email" placeholder="alicedupont@email.com">
+        <label for="email">Email</label>
+      </div>  
+    </div>
+
+    <div class="col-md">
+      <div class="form-floating mb-3" style="width: 350px">
+        <input type="text" class="form-control form-control-lg" id="telephone" name="telephone" placeholder="06 07 08 09 10">
+        <label for="telephone">Téléphone</label>
+      </div>  
+    </div>
+  </div>
+
+  <div class="row g-3 d-flex">
+
+    <div class="col-md">
+      <div class="form-floating mb-3" style="width: 350px">
+        <input type="text" class="form-control form-control-lg" id="promo" name="promo" placeholder="2025" maxlength="4">
         <label for="promo">Promotion</label>
       </div>  
     </div>
@@ -51,28 +59,30 @@ require_once 'config/auth.php';
         <option value="SISR">SISR</option>
       </select>
     </div>
+  </div>
 
-    <p class="h4">
-      Compte de l'étudiant :
-    </p>
+  <p class="h4 espacement">
+    Compte de l'étudiant :
+  </p>
 
-    <div class="row g-2 d-flex " style="margin-top: 10px">
+  <div class="espacement">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="login" name="login" placeholder="adupont" style="width: 250px" required>
+      <label for="login">Login</label>
+    </div>
+  </div>
 
-    <div class="form-floating mb-2">
-      <input type="text" class="form-control" id="login" name="login" placeholder="adupont" required>
-      <label for="login" >Login</label>
-    </div>  
-
+  <div class="row g-3 d-flex">
     <div class="col-md">
-      <div class="form-floating mb-2">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Azerty123!" required>
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Azerty123!" style="width: 250px" required>
         <label for="password">Mot de passe</label>
       </div>  
     </div>
 
     <div class="col-md">
-      <div class="form-floating mb-2">
-        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Azerty123!" required>
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Azerty123!" style="width: 250px" required>
         <label for="confirm_password">Confirmer le mot de passe</label>
       </div>  
     </div>
@@ -89,11 +99,16 @@ require_once 'config/auth.php';
     <!-- Ajoutez d'autres options selon vos besoins -->
   </select><br><br>
 
-  <button class="btn btn-primary btn-lg" type="submit">Inscrire</button>
+  <button id="buttonCreate" class="btn btn-primary btn-lg" type="submit">Inscrire</button>
 </form>
 
 
+
+
 <script>
+
+  const button = document.getElementById("buttonCreate");
+
   // Sélectionne les champs nom et prénom
   const nomField = document.getElementById('nom');
   const prenomField = document.getElementById('prenom');
@@ -108,7 +123,7 @@ require_once 'config/auth.php';
     if (nomField.value && prenomField.value) {
       let prenom = getLettrePrenom()
 
-      let nom = nomField.value.substring(0,7).toLowerCase();
+      let nom = nomField.value.split(/[-\s]+/).join("").substring(0,7).toLowerCase();
       console.log(nom);
 
       loginField.value = prenom + nom;
@@ -126,9 +141,6 @@ require_once 'config/auth.php';
 
     return result.join('').toLowerCase();
   }
-
-
-
 
   // Sélectionnez les champs de mot de passe
   const passwordField = document.getElementById('password');
@@ -151,10 +163,24 @@ require_once 'config/auth.php';
     if (passwordValue !== confirmPasswordValue) {
       // Affichez un message d'erreur si les mots de passe ne correspondent pas
       confirmError.textContent = "Les mots de passe ne correspondent pas";
+      button.disabled = true;
     } else {
       // Effacez le message d'erreur si les mots de passe correspondent
       confirmError.textContent = "";
+      button.disabled = false;
     }
   }
-
 </script>
+
+<!-- Du CCS pour corriger le problème d'espacement -->
+<style>
+  .col-md{
+    flex: 0 0 0%;
+  }
+  .row{
+    flex-wrap: wrap;
+  }
+  .espacement{
+    padding-top: 20px;
+  }
+</style>
