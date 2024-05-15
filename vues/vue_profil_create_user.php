@@ -12,9 +12,9 @@ require_once 'config/auth.php';
       <select class="form-select" id="statut" name="statut" required style="width: 150px; margin-left: 10px;" onchange=choixStatut()>
         <option value="Etudiant">Etudiant</option>
         <option value="Professeur">Professeur</option>
-        <!-- Ajoutez d'autres options selon vos besoins -->
     </select>
   </div>
+
   <p class="h4 espacement">
     Infomation de l'utilisateur :
   </p>
@@ -37,7 +37,6 @@ require_once 'config/auth.php';
   </div>
 
   <div class="row g-3 d-flex">
-
     <div class="col-md">
       <div class="form-floating mb-3" style="width: 350px">
         <input type="email" class="form-control" id="email" name="email" placeholder="alicedupont@email.com">
@@ -54,7 +53,6 @@ require_once 'config/auth.php';
   </div>
 
   <div class="row g-3 d-flex" id="divEtudiant">
-
     <div class="col-md">
       <div class="form-floating mb-3" style="width: 350px">
         <input type="text" class="form-control form-control-lg" id="promo" name="promo" placeholder="2025" maxlength="4">
@@ -80,7 +78,7 @@ require_once 'config/auth.php';
       <label for="login">Login</label>
     </div>
   </div>
-  <!-- ajouté 2 lignes suivantes Ast -->
+
   <div class="form-check form-switch">
     <input class="form-check-input" type="checkbox" id="checkboxMDP" onclick="passwordParDefaut()">
     <label class="form-check-label" for="checkboxMDP" >
@@ -90,7 +88,6 @@ require_once 'config/auth.php';
     </label>
   </div>
 
-<!--modif de la partie de MDP +id -->
   <div class="row g-3 d-flex" id="divPassword">
     <div class="col-md">
       <div class="form-floating mb-3">
@@ -98,7 +95,6 @@ require_once 'config/auth.php';
         <label for="password">Mot de passe</label>
       </div>  
     </div>
-<!-- Modifs de la partie de confirm mdp +id -->
 
     <div class="col-md">
       <div class="form-floating mb-3">
@@ -106,16 +102,12 @@ require_once 'config/auth.php';
         <label for="confirm_password">Confirmer le mot de passe</label>
       </div>  
     </div>
-
   </div>
 
   <span id="textError" style="color: red;"></span><br>
 
   <button id="buttonCreate" class="btn btn-success btn-lg" type="submit">Inscrire</button>
 </form>
-
-
-
 
 <script>
 
@@ -231,7 +223,6 @@ require_once 'config/auth.php';
     }
   }
   
-
 </script>
 
 <!-- Du CCS pour corriger le problème d'espacement -->
