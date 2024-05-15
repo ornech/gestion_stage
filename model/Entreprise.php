@@ -17,6 +17,68 @@ class Entreprise {
     }
 
     // Créer une nouvelle entreprise
+    public function importer($entrepriseData){
+        $query = "INSERT INTO " . $this->table_name . " SET
+        nomEntreprise=:nomEntreprise,
+        adresse=:adresse,
+        adresse2=:adresse2,
+        ville=:ville,
+        codePostal=:codePostal,
+        tel=:tel,
+        dep_geo=:dep_geo,
+        siret=:siret,
+        naf=:naf,
+        type=:type,
+        effectif=:effectif,
+        Created_UserID=:Created_UserID,
+        Created_Date=:Created_Date
+        ";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Nettoyage et assignation des valeurs
+        $this->nomEntreprise=htmlspecialchars(strip_tags($entrepriseData['nomEntreprise']));
+        $this->adresse=htmlspecialchars(strip_tags($entrepriseData['adresse']));
+        $this->adresse2=htmlspecialchars(strip_tags($entrepriseData['adresse2']));
+        $this->ville=htmlspecialchars(strip_tags($entrepriseData['ville']));
+        $this->codePostal=htmlspecialchars(strip_tags($entrepriseData['codePostal']));
+        $this->tel=htmlspecialchars(strip_tags($entrepriseData['tel']));
+        $this->dep_geo=htmlspecialchars(strip_tags($entrepriseData['dep_geo']));
+        $this->siret=htmlspecialchars(strip_tags($entrepriseData['siret']));
+        $this->naf=htmlspecialchars(strip_tags($entrepriseData['naf']));
+        $this->type=htmlspecialchars(strip_tags($entrepriseData['type']));
+        $this->effectif=htmlspecialchars(strip_tags($entrepriseData['effectif']));
+        $this->Created_UserID=htmlspecialchars(strip_tags($entrepriseData['Created_UserID']));
+        $this->Created_Date=htmlspecialchars(strip_tags($entrepriseData['Created_Date']));
+
+
+        $stmt->bindParam(":nomEntreprise", $this->nomEntreprise);
+        $stmt->bindParam(":adresse", $this->adresse);
+        $stmt->bindParam(":adresse2", $this->adresse2);
+        $stmt->bindParam(":ville", $this->ville);
+        $stmt->bindParam(":codePostal", $this->codePostal);
+        $stmt->bindParam(":tel", $this->tel);
+        $stmt->bindParam(":dep_geo", $this->dep_geo);
+        $stmt->bindParam(":siret", $this->siret);
+        $stmt->bindParam(":naf", $this->naf);
+        $stmt->bindParam(":type", $this->type);
+        $stmt->bindParam(":effectif", $this->effectif);
+        $stmt->bindParam(":Created_UserID", $this->Created_UserID);
+        $stmt->bindParam(":Created_Date", $this->Created_Date);
+
+        try {
+                if($stmt->execute()){
+                    return true;
+                } else {
+                    throw new Exception("Erreur lors de l'exécution de la requête.");
+                }
+            } catch (Exception $e) {
+                echo "Erreur : " . $e->getMessage();
+                return false;
+            }
+    }
+
+    // Créer une nouvelle entreprise
     public function create($entrepriseData){
         $query = "INSERT INTO " . $this->table_name . " SET
         nomEntreprise=:nomEntreprise,
