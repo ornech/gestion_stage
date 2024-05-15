@@ -10,6 +10,7 @@ class Profil {
   public $email;
   public $telephone;
   public $promo;
+  public $spe;
   public $login;
   public $password;
   public $password_reset;
@@ -37,12 +38,13 @@ class Profil {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
-  public function create_user($nom,$prenom,$email,$telephone,$promo,$login,$password,$statut){
+  public function create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut){
     $query = "INSERT INTO " . $this->table_name . " SET nom=:nom,
     prenom=:prenom ,
     email=:email ,
     telephone=:telephone ,
     promo=:promo ,
+    spe=:spe ,
     login=:login ,
     password=:password ,
     password_reset=0 ,
@@ -55,6 +57,7 @@ class Profil {
     $this->email=htmlspecialchars(strip_tags($email));
     $this->telephone=htmlspecialchars(strip_tags($telephone));
     $this->promo=htmlspecialchars(strip_tags($promo));
+    $this->promo=htmlspecialchars(strip_tags($spe));
     $this->login=htmlspecialchars(strip_tags($login));
     $this->password=htmlspecialchars(strip_tags($password));
     $this->statut=htmlspecialchars(strip_tags($statut));
@@ -66,6 +69,7 @@ class Profil {
     $stmt->bindParam(":email", $this->email);
     $stmt->bindParam(":telephone", $this->telephone);
     $stmt->bindParam(":promo", $this->promo);
+    $stmt->bindParam(":spe", $this->promo);
     $stmt->bindParam(":login", $this->login);
     $stmt->bindParam(":password", $this->password);
     $stmt->bindParam(":statut", $this->statut);
