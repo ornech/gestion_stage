@@ -19,16 +19,16 @@ require_once 'config/auth.php';
     Infomation de l'utilisateur :
   </p>
 
-  <div class="row g-3 d-flex espacement">
-    <div class="col-md">
-      <div class="form-floating mb-3" style="width: 350px">
+  <div class="row">
+    <div class="col">
+      <div class="form-floating mb-3" style="width: 100%">
         <input type="text" class="form-control" id="nom" name="nom" placeholder="Dupont" required>
         <label for="nom">Nom</label>
       </div>  
     </div>
 
-    <div class="col-md">
-      <div class="form-floating mb-3" style="width: 350px">
+    <div class="col">
+      <div class="form-floating mb-3" style="width: 100%">
         <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Alice" required>
         <label for="prenom">Prénom</label>
       </div>  
@@ -36,32 +36,33 @@ require_once 'config/auth.php';
 
   </div>
 
-  <div class="row g-3 d-flex">
-    <div class="col-md">
-      <div class="form-floating mb-3" style="width: 350px">
+  <div class="row">
+    <div class="col">
+      <div class="form-floating mb-3" style="width: 100%">
         <input type="email" class="form-control" id="email" name="email" placeholder="alicedupont@email.com">
         <label for="email">Email</label>
       </div>  
     </div>
 
-    <div class="col-md">
-      <div class="form-floating mb-3" style="width: 350px">
+    <div class="col">
+      <div class="form-floating mb-3" style="width: 100%">
         <input type="text" class="form-control form-control-lg" id="telephone" name="telephone" placeholder="06 07 08 09 10">
         <label for="telephone">Téléphone</label>
       </div>  
     </div>
   </div>
 
-  <div class="row g-3 d-flex" id="divEtudiant">
-    <div class="col-md">
-      <div class="form-floating mb-3" style="width: 350px">
+  <div class="row" id="divEtudiant">
+    <div class="col">
+      <div class="form-floating mb-3" style="width: 100%">
         <input type="text" class="form-control form-control-lg" id="promo" name="promo" placeholder="2025" maxlength="4">
         <label for="promo">Promotion</label>
       </div>  
     </div>
 
-    <div class="col-md">
-      <select class="form-select" id="spe" name="spe" style="width: 250px">
+    <div class="col">
+    <label for="spe">Spécialité</label>
+      <select class="form-select form-select-lg" id="spe" name="spe" style="width: 250px">
         <option value="SLAM">SLAM</option>
         <option value="SISR">SISR</option>
       </select>
@@ -79,6 +80,7 @@ require_once 'config/auth.php';
     </div>
   </div>
 
+  <!--Mot de passe par défaut
   <div class="form-check form-switch">
     <input class="form-check-input" type="checkbox" id="checkboxMDP" onclick="passwordParDefaut()">
     <label class="form-check-label" for="checkboxMDP" >
@@ -86,19 +88,19 @@ require_once 'config/auth.php';
       <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Le mot de passe par défaut est <u>achanger</u>"></i>
 
     </label>
-  </div>
+  </div> -->
 
-  <div class="row g-3 d-flex" id="divPassword">
-    <div class="col-md">
-      <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Azerty123!" style="width: 250px" required>
+  <div class="row" id="divPassword">
+    <div class="col">
+      <div class="form-floating mb-3" style="width: 100%">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Azerty123!" required>
         <label for="password">Mot de passe</label>
       </div>  
     </div>
 
-    <div class="col-md">
-      <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Azerty123!" style="width: 250px" required>
+    <div class="col">
+      <div class="form-floating mb-3" style="width: 100%">
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Azerty123!" required>
         <label for="confirm_password">Confirmer le mot de passe</label>
       </div>  
     </div>
@@ -141,7 +143,7 @@ require_once 'config/auth.php';
 
   window.addEventListener("DOMContentLoaded", function() { //Lorsque la page est chargée
     checkboxMDP.checked = true; //La checkbox se coche
-    passwordParDefaut(); //Appel de la fonction pour le mot de passe par achanger par défaut
+    //passwordParDefaut(); //Appel de la fonction pour le mot de passe par achanger par défaut
     choixStatut();
 
     promo.value = currentPromo + 1; //Augmenter la valeur de 1 à currentPromo pour avoir la prochaine promo du lycée par défaut
@@ -175,18 +177,18 @@ require_once 'config/auth.php';
   const textError = document.getElementById('textError');
 
   // Fonction de validation des mots de passe
-  function passwordParDefaut() {
-    if (checkboxMDP.checked) {
-      divPassword.classList.add('hidden');
-      passwordField.value = "achanger";
-      confirmPasswordField.value = "achanger";
-      buttonCreate.disabled = false;
-    } else {
-      divPassword.classList.remove('hidden');
-      passwordField.value = "";
-      confirmPasswordField.value = "";
-    }
-  }
+  // function passwordParDefaut() {
+  //   if (checkboxMDP.checked) {
+  //     divPassword.classList.add('hidden');
+  //     passwordField.value = "achanger";
+  //     confirmPasswordField.value = "achanger";
+  //     buttonCreate.disabled = false;
+  //   } else {
+  //     divPassword.classList.remove('hidden');
+  //     passwordField.value = "";
+  //     confirmPasswordField.value = "";
+  //   }
+  // }
 
   function validatePassword() {
     // Vérifiez si les valeurs des champs de mot de passe sont identiques
