@@ -94,9 +94,9 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER ajout_activite
+/*!50003 CREATE*/ /*!50017 DEFINER=`admin`@`%`*/ /*!50003 TRIGGER ajout_activite
 BEFORE INSERT ON Activite_Etu
 FOR EACH ROW
 BEGIN
@@ -351,7 +351,7 @@ CREATE TABLE `Suivi_stage` (
   `idEtudiant` int(11) DEFAULT NULL,
   `titreStage` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `stamp` datetime DEFAULT NULL,
+  `dateDebut` date DEFAULT NULL,
   `dateFin` date DEFAULT NULL,
   PRIMARY KEY (`idStage`),
   KEY `idEntreprise` (`idEntreprise`),
@@ -385,6 +385,7 @@ CREATE TABLE `User` (
   `prenom` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `telephone` varchar(255) DEFAULT NULL,
+  `spe` varchar(4) DEFAULT NULL COMMENT 'Spécialité (SLAM ou SISR)',
   `promo` varchar(4) DEFAULT NULL,
   `login` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
@@ -392,7 +393,7 @@ CREATE TABLE `User` (
   `statut` varchar(100) DEFAULT NULL,
   `inactif` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,35 +403,33 @@ CREATE TABLE `User` (
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
 INSERT INTO `User` VALUES
-(1,'Dupond','André','',NULL,'2023','test','$2y$10$XzVV.OVw3QxgcuEW9ZXGEubrF0jYfVrJV73FDMLVd1zP2lOFeOtUW',0,'Etudiant',1),
-(2,'prof','prof',NULL,NULL,NULL,'prof','$2y$10$Ib3pC565U/q.lb4lxsa5W.oNfVjlHpdgvHUU0HA7TgwAkffgXFQrW',0,'Professeur',0),
-(3,'Ornech','Jean-François','jean-francois.ornech@ac-poitiers.fr','',NULL,'jfornech','$2y$10$GVLSmMO4r25S2Uu.lpa6COtmNRdMr6.q.KgoDdVec.IIPtEi.GN.q',0,'Professeur',0),
-(17,'','','','','2024','','$2y$10$..BYjqV4WTrvhUvhKZwNVOBWuKl6UXsxz7IlLS4EkYKgh5e1BAepq',0,'Etudiant',0),
-(18,'Patrice','DENIS ARONIS','mail@mail.local','','2024','patrice','$2y$10$hR2DosUGTpgg/z4yy3X.vupNh9Rg7ri9rw3JIa8uJLzInmxLhBnLW',1,'Professeur',0),
-(19,'test2','test2','test2@test2','','2024','test2','$2y$10$PDPhAUEN4mijrvOB80T0RuTTbnHVv5OmtH3a/9l1gkzAMo/bCpobC',1,'Etudiant',1),
-(20,'Etudiant','etudiant de test','','','2024','sio','$2y$10$KeXbUulOY1uxBUdr.5zkDeTCDqLJHGYU8DF11Ji5PmUcBe79RI0Tq',0,'Etudiant',1),
-(21,'login','login',NULL,NULL,'2023','login','$2y$10$NNi/pR4j1Ne4N8MD.QFJOedZjQtNhcfPttfxHRXPLYyPGrGzBDnXu',0,'Etudiant',0),
-(22,'BARBIER','Loann',NULL,NULL,'2023','Loann','$2y$10$ZNrpDkjWY6hJIqehZUvCxuNV7cTAuwOwD7hJ.Zd7Vzvu9gP85o7H2',0,'Etudiant',0),
-(23,'BEAUFILS','Killian',NULL,NULL,'2023','Killian','$2y$10$W4VJ.dnjG6Mb.ZpzQwJv/.rrjJnB0OHG0sY2ff.4p/lgnSROcE43O',1,'Etudiant',0),
-(24,'DEGRAUW-VERRY','Axel',NULL,NULL,'2023','Axel','$2y$10$qTtT5t/gjyfaLh8I7mmXceyLZ5HS14pSdoJK1xws23GqePVzDdq/a',1,'Etudiant',0),
-(25,'ERNOULT','Gabin',NULL,NULL,'2023','Gabin','$2y$10$cStxPKScBkpFnm4Na/z4iOOkmtEZ/l.6AlRnapOlNEatLbNcrjpA6',1,'Etudiant',0),
-(26,'GAILLARD','Logan',NULL,NULL,'2023','Logan','$2y$10$nvb08iUGB1p//zep5EeseusY42ygT/aiSlYnys9HGq573R7Z0VBPK',0,'Etudiant',0),
-(27,'KOSIOREK','Alexandre',NULL,NULL,'2023','Alexandre','$2y$10$/Vi7CC5ZP3xXDj/gstV4BelELy77ARcBMCFiqSrHPSr.4BtypVcEq',0,'Etudiant',0),
-(28,'LE ROCHELEUIL-CHAILLE','Alexis',NULL,NULL,'2023','Alexis','$2y$10$xtW/SzljJBiac5qkYq/X5uOKCh5FUXBLtN22L08P6WeJqY0nwDAiW',0,'Etudiant',0),
-(29,'LEFEVRE','Manon',NULL,NULL,'2023','Manon','$2y$10$TtirF7AzMSeweLV8eetfLe/Zc5jOge0/0Xyp4np/xaqHt2kHj8Gmu',1,'Etudiant',0),
-(30,'LESCOUZERE','Mathéo',NULL,NULL,'2023','Mathéo','$2y$10$QN2EB8CsZci4LrmWowt14uZUCjyRUUXAUUTbS3oRh6Qai0KbXjEI2',0,'Etudiant',0),
-(31,'MANUKYAN','Astghik',NULL,NULL,'2023','Astghik','$2y$10$Oid6oIh2szcHR0IfJJk8Sue/IK400xedYH4bdgL7V8jbdnQkZMkQa',0,'Etudiant',0),
-(32,'MINGOUOLO','Noah',NULL,NULL,'2023','Noah','$2y$10$//NcOYhHQYPjb7eWMP9DruW1qeiOO1gmmMWGxlu30ccKD.BQ3zP8C',0,'Etudiant',0),
-(33,'MORNAC','Erwan',NULL,NULL,'2023','Erwan','$2y$10$j9FcCNc3G.L4pTAP.GpvE.krXC.idehMjvyAEbLfHUy.VBMDtv4rW',1,'Etudiant',0),
-(34,'RAMOS','Clement',NULL,NULL,'2023','Clement','$2y$10$mHSXyzFnF7ZW8A9FqDHdLeAUBfiosbV7W99muIzYAJEBMamjyvn6q',0,'Etudiant',0),
-(35,'ROBIN','Kyllian',NULL,NULL,'2023','Kyllian','$2y$10$QdwFusxX7KnMmsOFn5kxhuKYVQU3kyKn6kp93ywv/MsvjF2uR9eyG',0,'Etudiant',0),
-(36,'ROUX','Kevin',NULL,NULL,'2023','Kevin','$2y$10$WgGW3r6Dp8liNbdq5Zur8u2nEp9jhMrJS9q8JAO5mZD46fwRYTJye',1,'Etudiant',0),
-(37,'SAWANÉ','Sallé',NULL,NULL,'2023','Salle','$2y$10$LyQQUWZGCFsRxs61bEKSceM68XC4rPaMuUejfhfu3McoxnPzlwRXK',0,'Etudiant',0),
-(38,'SOUAKRI','Lounès',NULL,NULL,'2023','Lounes','$2y$10$7FJwSuyh55nKMLQ3zcSkpuUxZKLjpYb.6JiwFevR/t1uYSLP2tC3K',0,'Etudiant',0),
-(39,'TEXIER','Enola',NULL,NULL,'2023','Enola','$2y$10$RbZXEK6ypj2WRDqSSxKr5eHcD4Z8fkcd64JoOrHgX.Kc4fMvOUP/K',0,'Etudiant',0),
-(40,'CASTILLO','Jean-Christophe','','','','castillojc','$2y$10$H5W2E9n/oN0m4C9ugRdbdeRUEYM.zM.DUGWMlPrIR1ID7XqI785vC',1,'Professeur',0),
-(41,'BOUCHEREAU','Bertrand','','','2024','bouchereaub','$2y$10$HO4yuuq58SJBqqxnGzksCuvm4FWDBR6nWc3n6ZJHyNHdDEk2tBAK6',1,'Professeur',0),
-(42,'test','test','test@test.lan','','2024','test','$2y$10$Q1x4OFcKI7OCUTIXfAsbcuHHbnB2ez.hDVhUlpKgc8C3NpjRM6wre',0,'Etudiant',0);
+(1,'Dupond','André','',NULL,NULL,'2023','test','$2y$10$XzVV.OVw3QxgcuEW9ZXGEubrF0jYfVrJV73FDMLVd1zP2lOFeOtUW',0,'Etudiant',1),
+(2,'prof','prof',NULL,NULL,NULL,NULL,'prof','$2y$10$Ib3pC565U/q.lb4lxsa5W.oNfVjlHpdgvHUU0HA7TgwAkffgXFQrW',0,'Professeur',0),
+(3,'Ornech','Jean-François','jean-francois.ornech@ac-poitiers.fr','',NULL,NULL,'jfornech','$2y$10$GVLSmMO4r25S2Uu.lpa6COtmNRdMr6.q.KgoDdVec.IIPtEi.GN.q',0,'Professeur',0),
+(18,'Patrice','DENIS ARONIS','mail@mail.local','',NULL,'2024','patrice','$2y$10$hR2DosUGTpgg/z4yy3X.vupNh9Rg7ri9rw3JIa8uJLzInmxLhBnLW',1,'Professeur',0),
+(20,'Etudiant','etudiant de test','','',NULL,'2024','sio','$2y$10$KeXbUulOY1uxBUdr.5zkDeTCDqLJHGYU8DF11Ji5PmUcBe79RI0Tq',0,'Etudiant',1),
+(21,'login','login',NULL,NULL,NULL,'2023','login','$2y$10$NNi/pR4j1Ne4N8MD.QFJOedZjQtNhcfPttfxHRXPLYyPGrGzBDnXu',0,'Etudiant',0),
+(22,'BARBIER','Loann',NULL,NULL,NULL,'2023','Loann','$2y$10$ZNrpDkjWY6hJIqehZUvCxuNV7cTAuwOwD7hJ.Zd7Vzvu9gP85o7H2',0,'Etudiant',0),
+(23,'BEAUFILS','Killian',NULL,NULL,NULL,'2023','Killian','$2y$10$W4VJ.dnjG6Mb.ZpzQwJv/.rrjJnB0OHG0sY2ff.4p/lgnSROcE43O',1,'Etudiant',0),
+(24,'DEGRAUW-VERRY','Axel',NULL,NULL,NULL,'2023','Axel','$2y$10$qTtT5t/gjyfaLh8I7mmXceyLZ5HS14pSdoJK1xws23GqePVzDdq/a',1,'Etudiant',0),
+(25,'ERNOULT','Gabin',NULL,NULL,NULL,'2023','Gabin','$2y$10$cStxPKScBkpFnm4Na/z4iOOkmtEZ/l.6AlRnapOlNEatLbNcrjpA6',1,'Etudiant',0),
+(26,'GAILLARD','Logan',NULL,NULL,NULL,'2023','Logan','$2y$10$nvb08iUGB1p//zep5EeseusY42ygT/aiSlYnys9HGq573R7Z0VBPK',0,'Etudiant',0),
+(27,'KOSIOREK','Alexandre',NULL,NULL,NULL,'2023','Alexandre','$2y$10$/Vi7CC5ZP3xXDj/gstV4BelELy77ARcBMCFiqSrHPSr.4BtypVcEq',0,'Etudiant',0),
+(28,'LE ROCHELEUIL-CHAILLE','Alexis',NULL,NULL,NULL,'2023','Alexis','$2y$10$xtW/SzljJBiac5qkYq/X5uOKCh5FUXBLtN22L08P6WeJqY0nwDAiW',0,'Etudiant',0),
+(29,'LEFEVRE','Manon',NULL,NULL,NULL,'2023','Manon','$2y$10$TtirF7AzMSeweLV8eetfLe/Zc5jOge0/0Xyp4np/xaqHt2kHj8Gmu',1,'Etudiant',0),
+(30,'LESCOUZERE','Mathéo',NULL,NULL,NULL,'2023','Mathéo','$2y$10$QN2EB8CsZci4LrmWowt14uZUCjyRUUXAUUTbS3oRh6Qai0KbXjEI2',0,'Etudiant',0),
+(31,'MANUKYAN','Astghik',NULL,NULL,NULL,'2023','Astghik','$2y$10$Oid6oIh2szcHR0IfJJk8Sue/IK400xedYH4bdgL7V8jbdnQkZMkQa',0,'Etudiant',0),
+(32,'MINGOUOLO','Noah',NULL,NULL,NULL,'2023','Noah','$2y$10$//NcOYhHQYPjb7eWMP9DruW1qeiOO1gmmMWGxlu30ccKD.BQ3zP8C',0,'Etudiant',0),
+(33,'MORNAC','Erwan',NULL,NULL,NULL,'2023','Erwan','$2y$10$j9FcCNc3G.L4pTAP.GpvE.krXC.idehMjvyAEbLfHUy.VBMDtv4rW',1,'Etudiant',0),
+(34,'RAMOS','Clement',NULL,NULL,NULL,'2023','Clement','$2y$10$mHSXyzFnF7ZW8A9FqDHdLeAUBfiosbV7W99muIzYAJEBMamjyvn6q',0,'Etudiant',0),
+(35,'ROBIN','Kyllian',NULL,NULL,NULL,'2023','Kyllian','$2y$10$QdwFusxX7KnMmsOFn5kxhuKYVQU3kyKn6kp93ywv/MsvjF2uR9eyG',0,'Etudiant',0),
+(36,'ROUX','Kevin',NULL,NULL,NULL,'2023','Kevin','$2y$10$WgGW3r6Dp8liNbdq5Zur8u2nEp9jhMrJS9q8JAO5mZD46fwRYTJye',1,'Etudiant',0),
+(37,'SAWANÉ','Sallé',NULL,NULL,NULL,'2023','Salle','$2y$10$LyQQUWZGCFsRxs61bEKSceM68XC4rPaMuUejfhfu3McoxnPzlwRXK',0,'Etudiant',0),
+(38,'SOUAKRI','Lounès',NULL,NULL,NULL,'2023','Lounes','$2y$10$7FJwSuyh55nKMLQ3zcSkpuUxZKLjpYb.6JiwFevR/t1uYSLP2tC3K',0,'Etudiant',0),
+(39,'TEXIER','Enola',NULL,NULL,NULL,'2023','Enola','$2y$10$RbZXEK6ypj2WRDqSSxKr5eHcD4Z8fkcd64JoOrHgX.Kc4fMvOUP/K',0,'Etudiant',0),
+(40,'CASTILLO','Jean-Christophe','','',NULL,'','castillojc','$2y$10$H5W2E9n/oN0m4C9ugRdbdeRUEYM.zM.DUGWMlPrIR1ID7XqI785vC',1,'Professeur',0),
+(41,'BOUCHEREAU','Bertrand','','',NULL,'2024','bouchereaub','$2y$10$HO4yuuq58SJBqqxnGzksCuvm4FWDBR6nWc3n6ZJHyNHdDEk2tBAK6',1,'Professeur',0),
+(43,'test3','test3','test3@test3.test3','',NULL,'2024','test3','$2y$10$vBFEKCAj89EuGo3oLKCZwOabwVoqMpIFIRuaRielTFisKJ07pts1G',0,'Etudiant',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -450,7 +449,7 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013  SQL SECURITY DEFINER */
+/*!50013 DEFINER=`admin`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `Activite` AS select `Activite_Etu`.`id` AS `IdActivite`,`User`.`id` AS `IdEtudiant`,`Entreprise`.`id` AS `IdEntreprise`,cast(`Activite_Etu`.`date` as date) AS `Date`,cast(`Activite_Etu`.`date` as time) AS `Heure`,`Activite_Etu`.`type` AS `Type`,concat(`User`.`nom`,' ',`User`.`prenom`) AS `Etudiant`,`Entreprise`.`nomEntreprise` AS `Entreprise`,`Entreprise`.`ville` AS `Ville`,`Activite_Etu`.`Commentaire` AS `Commentaire` from ((`Activite_Etu` join `User` on(`Activite_Etu`.`IdEtudiant` = `User`.`id`)) join `Entreprise` on(`Activite_Etu`.`ID_Entreprise` = `Entreprise`.`id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -465,4 +464,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-14 10:49:17
+-- Dump completed on 2024-05-14 15:00:48

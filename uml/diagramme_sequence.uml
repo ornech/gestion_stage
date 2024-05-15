@@ -1,0 +1,41 @@
+@startuml
+
+actor Étudiant as "Étudiant"
+participant "Gestage" as BD
+participant Entreprise as "Entreprise"
+
+group Processus de validation candidature
+    Étudiant -> BD: Recherche dans la base de données
+    activate BD
+    BD -> Étudiant: Résultat de la recherche
+    deactivate BD
+    Étudiant -> Entreprise: Contacte l'entreprise
+    activate Entreprise
+    
+
+
+    Étudiant -> BD: Saisie notes et informations
+    activate BD
+    BD -> BD: Enregistremnt
+    BD -> BD: Log de la démarche
+    return Validation 
+    deactivate BD
+
+    Entreprise -> Étudiant : Candidature possible ou non
+    deactivate Entreprise
+    
+    alt Candidature possible
+        Étudiant -> BD: Candidature envoyée
+        activate BD
+        BD -> BD: Enregistre candidature
+
+        Return Validation
+        deactivate BD
+
+    else Candidature impossible
+        Étudiant -> Étudiant: Fin du processus
+    end
+    
+end
+
+@enduml

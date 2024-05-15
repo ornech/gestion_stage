@@ -12,4 +12,19 @@ if (!isset($_SESSION['username'])) {
     header("Location: ../login.php");
     exit();
 }
+
+// Limitez la durée de validité de la session
+$session_duration = 86400; // Durée de validité de la session en secondes (ici, 1 jour)
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $session_duration) {
+  // Déconnectez l'utilisateur si la session a expiré
+  session_unset();
+  session_destroy();
+  // Redirigez l'utilisateur vers la page de connexion
+  header("Location: login.php");
+  exit();
+}
+
+// Mettez à jour le timestamp de dernière activité
+$_SESSION['last_activity'] = time();
+
 ?>
