@@ -167,7 +167,7 @@ require_once 'config/auth.php';
 
       prenom = prenom.join("").toLowerCase();
 
-      let nom = nomField.value.split(/[-\s]+/).join("").substring(0,7).toLowerCase();
+      let nom = nomField.value.split(/[-\s]+/).join("").toLowerCase();
 
       loginField.value = prenom + nom;
     }
