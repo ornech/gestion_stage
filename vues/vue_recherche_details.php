@@ -108,7 +108,22 @@ if (preg_match('/^(\d{2})/', $resultats["uniteLegale"]["trancheEffectifsUniteLeg
             <div class="card">
               <h5 class="card-header">Mes actions</h5>
               <div class="card-body">
-                Mon texte
+                <form action="../controller/entreprise_import.php" method="post">
+
+                  <?php $nom_entreprise = empty($resultats["uniteLegale"]["denominationUsuelle1UniteLegale"]) ? $resultats["uniteLegale"]["denominationUniteLegale"] : $resultats["uniteLegale"]["denominationUsuelle1UniteLegale"]; ?>
+
+                  <input type="hidden" name="nomEntreprise" value="<?= $nom_entreprise ?>">
+                  <input type="hidden" name="adresse" value="<?= $resultats['adresseEtablissement']['numeroVoieEtablissement']; ?> <?= $resultats['adresseEtablissement']['typeVoieEtablissement']; ?> <?= $resultats['adresseEtablissement']['libelleVoieEtablissement']; ?>">
+                  <input type="hidden" name="adresse2" value="<?= $resultats['adresseEtablissement']['complementAdresseEtablissement']; ?>">
+                  <input type="hidden" name="ville" value="<?= $resultats['adresseEtablissement']['libelleCommuneEtablissement']; ?>">
+                  <input type="hidden" name="codePostal" value="<?= $resultats['adresseEtablissement']['codePostalEtablissement']; ?>">
+                  <input type="hidden" name="naf" value="<?= $resultats["uniteLegale"]["activitePrincipaleUniteLegale"] ?>">
+                  <input type="hidden" name="effectif" value="<?= $trancheEffectifs ?>">
+                  <input type="hidden" name="siret" value="<?= $resultats["siret"] ?>">
+                  <input type="hidden" name="type" value="<?= $resultats["uniteLegale"]["categorieEntreprise"] ?>">
+
+                  <input type="submit" name="submit" value="Importer">
+                </form>
               </div>
             </div>
           </div>

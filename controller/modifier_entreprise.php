@@ -10,14 +10,6 @@ session_start();
 require_once '../config/auth.php';
 require_once '../config/db_connection.php';
 
-// Assurez-vous que l'utilisateur est connecté en tant que professeur
-//if (!isset($_SESSION['statut']) || $_SESSION['statut'] !== 'Professeur') {
-    // Rediriger vers une page d'erreur ou une page d'accueil
-    //header("Location: erreur.php");
-//    echo "L'utilisateur n'a pas les autorisations nécessaires pour les modification";
-//    exit();
-//}
-
 // Vérifie si le formulaire a été soumis
 if(isset($_POST['idEntreprise'])) {
     // Récupération des données du formulaire

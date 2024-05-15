@@ -1,7 +1,7 @@
 <?php
 // Démarrer la session en premier
-// A du être supprimer sur windows ? 
-// session_start(); 
+// A du être supprimer sur windows ?
+// session_start();
 
 // Vérifie si l'utilisateur est connecté
 require_once 'config/auth.php';
@@ -62,6 +62,14 @@ function router($page, $conn) {
     case 'create_entreprise':
       $nomEntreprise = isset($_GET['nomEntreprise']) ? $_GET['nomEntreprise'] : null;
       include 'vues/vue_entreprise_create.php';
+      break;
+
+   case 'entreprise_importer':
+      include_once 'model/Entreprise.php';
+      //$entrepriseModel = new Entreprise($conn);
+      //$importer = $entrepriseModel->importer();
+      include 'vues/xxxxxxxx.php';
+
       break;
 
     case 'activite_prof':
