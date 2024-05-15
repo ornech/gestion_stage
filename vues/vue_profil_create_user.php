@@ -142,7 +142,7 @@ require_once 'config/auth.php';
   promo.addEventListener('change', verifPromo);
 
   window.addEventListener("DOMContentLoaded", function() { //Lorsque la page est chargée
-    checkboxMDP.checked = true; //La checkbox se coche
+    //checkboxMDP.checked = true; //La checkbox se coche
     //passwordParDefaut(); //Appel de la fonction pour le mot de passe par achanger par défaut
     choixStatut();
 
