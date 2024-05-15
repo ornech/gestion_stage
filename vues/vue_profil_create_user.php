@@ -146,7 +146,7 @@ require_once 'config/auth.php';
     //passwordParDefaut(); //Appel de la fonction pour le mot de passe par achanger par défaut
     choixStatut();
 
-    promo.value = currentPromo + 1; //Augmenter la valeur de 1 à currentPromo pour avoir la prochaine promo du lycée par défaut
+    promo.value = currentPromo; //Augmenter la valeur de 1 à currentPromo pour avoir la prochaine promo du lycée par défaut
 
     //Ceci sert pour obtenir les icons sur bootstrap
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -216,12 +216,11 @@ require_once 'config/auth.php';
   }
 
   function verifPromo(){
-    //If promo.value contains on number and not letter
     if (isNaN(parseInt(promo.value))) {
-      promo.value = currentPromo + 1;
+      promo.value = currentPromo;
     }
     if (promo.value > currentPromo + 1) {
-      promo.value = currentPromo + 1;
+      promo.value = currentPromo;
     }
   }
   
