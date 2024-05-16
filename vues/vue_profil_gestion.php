@@ -15,13 +15,28 @@ require_once 'config/auth.php';
             width: 100%;
             border-collapse: collapse;
         }
+        td{
+          text-align: left;
+        }
         th, td {
             border: 1px solid #dddddd;
-            text-align: left;
             padding: 8px;
+             vertical-align: middle;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #f2f2f9;
+            font-weight: bold;
+            text-align: center;
+            
+        }
+        button {
+        width: 100%;
+        height: 100%; 
+        border: none;
+        background: none;
+        cursor: pointer;
+        padding: 0;
+        font-weight: bold;
         }
     </style>
 <BR>
@@ -37,14 +52,14 @@ require_once 'config/auth.php';
     </div>
 <BR>
   <a class='btn btn-success' href='router.php?page=create_user' role='button'>Créer un compte</a>
-    <table id="maTable">
+    <table class="table table-striped table-hover" id="maTable">
         <thead>
-            <tr>
-              <th>Nom <button onclick="sortTable(0)">&#8645;</button> </th>
-              <th onclick="sortTable(1)">Prénop</th>
-              <th onclick="sortTable(2)">Promo <button onclick="sortTable(2)">&#8645;</button></th>
-              <th onclick="sortTable(3)">Email</th>
-              <th onclick="sortTable(4)">Statut<button onclick="sortTable(4)">&#8645;</button> </th>
+            <tr class="table-secondary">
+              <th><button onclick="sortTable(0)">Nom  &#8645;</th></button>
+              <th><button onclick="sortTable(1)">Prénom &#8645;</button></th>
+              <th><button onclick="sortTable(2)">Promo &#8645;</th></button>
+              <th><button onclick="sortTable(3)">Spécialité &#8645;</button></th>
+              <th><button onclick="sortTable(4)">Statut &#8645;</button> </th>
               <th>Reset password</th>
               <th>Désactivé</th>
             </tr>
@@ -55,17 +70,24 @@ require_once 'config/auth.php';
                     <td><?= $profil->nom ?></td>
                     <td><?= $profil->prenom ?></td>
                     <td><?= $profil->promo ?></td>
-                    <td><?= $profil->email ?></td>
+                    <td><?= $profil->spe ?></td>
                     <td><?= $profil->statut ?></td>
                     <?php
-                      if ($profil->password_reset == "1"){echo "<td><a class='btn btn-warning' href='router.php?page=reset_password&idProfil=" . $profil->id . "' role='button'>En cours</a></td>";}
+                      if ($profil->password_reset == "1"){echo "<td><a class='btn btn-warning' 
+                        href='router.php?page=reset_password&idProfil=" . 
+                        $profil->id . "' role='button'>En cours</a></td>";}
 
-                      if ($profil->password_reset == "0"){echo "<td><a class='btn btn-success' href='router.php?page=reset_password&idProfil=" . $profil->id . "' role='button'>Reset</a></td>";}
-                      ?>
-                    <?php
-                      if ($profil->inactif == 1){echo "<td><a class='btn btn-secondary' href='router.php?page=profil_enable&idProfil=" . $profil->id . "' role='button'>Désactivé</a></td>";}
+                      if ($profil->password_reset == "0"){echo "<td><a class='btn btn-success' 
+                        href='router.php?page=reset_password&idProfil=" . 
+                        $profil->id . "' role='button'>Reset</a></td>";}
+                  
+                      if ($profil->inactif == 1){echo "<td><a class='btn btn-secondary' 
+                        href='router.php?page=profil_enable&idProfil=" . 
+                        $profil->id . "' role='button'>Désactivé</a></td>";}
 
-                      if ($profil->inactif == 0){echo "<td><a class='btn btn-success' href='router.php?page=profil_disable&idProfil=" . $profil->id . "' role='button'>Actif</a></td>";}
+                      if ($profil->inactif == 0){echo "<td><a class='btn btn-success' 
+                        href='router.php?page=profil_disable&idProfil=" . 
+                        $profil->id . "' role='button'>Actif</a></td>";}
                       ?>
                     <?php endforeach; ?>
         </tbody>
