@@ -108,7 +108,7 @@ function router($page, $conn) {
         $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
         $profilModel = new Profil($conn);
         $Profil = $profilModel->read_profil($idProfil);
-        include 'vues/vue_test_profil_user.php';
+        include 'vues/vue_profil_user.php';
         break;
 
     case 'create_user':
