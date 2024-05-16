@@ -45,7 +45,7 @@ class Profil {
     telephone=:telephone ,
     login=:login ,
     password=:password ,
-    password_reset=0 ,
+    password_reset=1 ,
     statut=:statut ,
     inactif=0";
 
