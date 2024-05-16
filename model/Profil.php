@@ -21,8 +21,17 @@ class Profil {
   }
 
   // Méthodes CRUD à implémenter
-  public function read_profil() {
+  public function read_my_profil() {
     $idProfil = $_SESSION['userID'];
+    $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idProfil";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':idProfil', $idProfil, PDO::PARAM_INT);
+    $stmt->execute();
+    // Retournez directement le résultat au lieu de le stocker dans une variable intermédiaire
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+
+  public function read_profil($idProfil) {
     $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idProfil";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idProfil', $idProfil, PDO::PARAM_INT);

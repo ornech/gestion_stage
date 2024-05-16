@@ -55,7 +55,7 @@ require_once 'config/auth.php';
     <table class="table table-striped table-hover" id="maTable">
         <thead>
             <tr class="table-secondary">
-              <th><button onclick="sortTable(0)">Nom  &#8645;</th></button>
+              <th><button onclick="sortTable(0)">Nom &#8645;</button></th>
               <th><button onclick="sortTable(1)">Prénom &#8645;</button></th>
               <th><button onclick="sortTable(2)">Promo &#8645;</th></button>
               <th><button onclick="sortTable(3)">Spécialité &#8645;</button></th>
@@ -64,9 +64,9 @@ require_once 'config/auth.php';
               <th>Désactivé</th>
             </tr>
         </thead>
-        <tbody>
+        <tr>
             <?php foreach ($profils as $profil): ?>
-                <tr>
+                  <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
                     <td><?= $profil->nom ?></td>
                     <td><?= $profil->prenom ?></td>
                     <td><?= $profil->promo ?></td>
@@ -90,6 +90,7 @@ require_once 'config/auth.php';
                         $profil->id . "' role='button'>Actif</a></td>";}
                       ?>
                     <?php endforeach; ?>
+                  </tr>
         </tbody>
     </table>
     <?php
