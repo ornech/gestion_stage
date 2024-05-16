@@ -69,7 +69,6 @@ class Profil {
     $stmt->bindParam(":prenom", $this->prenom);
     $stmt->bindParam(":email", $this->email);
     $stmt->bindParam(":telephone", $this->telephone);
-    $stmt->bindParam(":promo", $this->promo);
     $stmt->bindParam(":login", $this->login);
     $stmt->bindParam(":password", $this->password);
     $stmt->bindParam(":statut", $this->statut);
@@ -79,12 +78,20 @@ class Profil {
       $stmt->bindParam(":promo", $this->promo);
     }
 
-    if($stmt->execute()){
-      //return true;
-      return true;
+    try {
+      if($stmt->execute()){
+          return true;
+      } else {
+          throw new Exception("Erreur lors de l'exécution de la requête.");
+      }
+    } catch (Exception $e) {
+      //echo "Erreur : " . $e->getMessage();
+      $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+      header("Location: ../router.php?page=erreur&message=$message");
+      return false;
     }
-    return false;
   }
+
 
   public function reset_password($idProfil){
 
