@@ -64,10 +64,10 @@ require_once 'config/auth.php';
               <th>Désactivé</th>
             </tr>
         </thead>
-        <tbody>
+        <tr>
             <?php foreach ($profils as $profil): ?>
-                <tr>
-                    <td><a href="router.php?page=view_profil&id=<?= $profil->id ?>"><?= $profil->nom ?></a></td>
+                  <tr onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
+                    <td><?= $profil->nom ?></td>
                     <td><?= $profil->prenom ?></td>
                     <td><?= $profil->promo ?></td>
                     <td><?= $profil->spe ?></td>
@@ -90,6 +90,7 @@ require_once 'config/auth.php';
                         $profil->id . "' role='button'>Actif</a></td>";}
                       ?>
                     <?php endforeach; ?>
+                  </tr>
         </tbody>
     </table>
     <?php
