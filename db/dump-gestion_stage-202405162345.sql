@@ -143,6 +143,28 @@ INSERT INTO `Activite_type` VALUES
 UNLOCK TABLES;
 
 --
+-- Temporary table structure for view `Contact_employe`
+--
+
+DROP TABLE IF EXISTS `Contact_employe`;
+/*!50001 DROP VIEW IF EXISTS `Contact_employe`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `Contact_employe` AS SELECT
+ 1 AS `EmployeID`,
+  1 AS `nom`,
+  1 AS `prenom`,
+  1 AS `email`,
+  1 AS `telephone`,
+  1 AS `fonction`,
+  1 AS `EntrepriseID`,
+  1 AS `entreprise`,
+  1 AS `UserID`,
+  1 AS `Created_User`,
+  1 AS `Created_date` */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `Employe`
 --
 
@@ -150,17 +172,19 @@ DROP TABLE IF EXISTS `Employe`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Employe` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idEntreprise` int(11) DEFAULT NULL,
   `nom` varchar(255) DEFAULT NULL,
   `prenom` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `telephone` varchar(255) DEFAULT NULL,
   `fonction` varchar(255) DEFAULT NULL,
+  `Created_UserID` int(11) DEFAULT NULL,
+  `Created_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idEntreprise` (`idEntreprise`),
   CONSTRAINT `Employe_ibfk_1` FOREIGN KEY (`idEntreprise`) REFERENCES `Entreprise` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,6 +193,8 @@ CREATE TABLE `Employe` (
 
 LOCK TABLES `Employe` WRITE;
 /*!40000 ALTER TABLE `Employe` DISABLE KEYS */;
+INSERT INTO `Employe` VALUES
+(1,141,'Dupond','Fernand','test@test.de','00 00 00 00 00','Président',3,'2024-05-15 15:00:00');
 /*!40000 ALTER TABLE `Employe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -369,13 +395,13 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `Suivi_stage`
+-- Table structure for table `Stage`
 --
 
-DROP TABLE IF EXISTS `Suivi_stage`;
+DROP TABLE IF EXISTS `Stage`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Suivi_stage` (
+CREATE TABLE `Stage` (
   `idStage` int(11) NOT NULL,
   `idEntreprise` int(11) DEFAULT NULL,
   `idMaitreDeStage` int(11) DEFAULT NULL,
@@ -388,19 +414,19 @@ CREATE TABLE `Suivi_stage` (
   KEY `idEntreprise` (`idEntreprise`),
   KEY `idMaitreDeStage` (`idMaitreDeStage`),
   KEY `idEtudiant` (`idEtudiant`),
-  CONSTRAINT `Suivi_stage_ibfk_1` FOREIGN KEY (`idEntreprise`) REFERENCES `Entreprise` (`id`),
-  CONSTRAINT `Suivi_stage_ibfk_2` FOREIGN KEY (`idMaitreDeStage`) REFERENCES `Employe` (`id`),
-  CONSTRAINT `Suivi_stage_ibfk_3` FOREIGN KEY (`idEtudiant`) REFERENCES `User` (`id`)
+  CONSTRAINT `Stage_ibfk_1` FOREIGN KEY (`idEntreprise`) REFERENCES `Entreprise` (`id`),
+  CONSTRAINT `Stage_ibfk_2` FOREIGN KEY (`idMaitreDeStage`) REFERENCES `Employe` (`id`),
+  CONSTRAINT `Stage_ibfk_3` FOREIGN KEY (`idEtudiant`) REFERENCES `User` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Suivi_stage`
+-- Dumping data for table `Stage`
 --
 
-LOCK TABLES `Suivi_stage` WRITE;
-/*!40000 ALTER TABLE `Suivi_stage` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Suivi_stage` ENABLE KEYS */;
+LOCK TABLES `Stage` WRITE;
+/*!40000 ALTER TABLE `Stage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Stage` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -473,7 +499,7 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER Test_redondance_login
 AFTER INSERT
@@ -517,6 +543,24 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `Contact_employe`
+--
+
+/*!50001 DROP VIEW IF EXISTS `Contact_employe`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013  SQL SECURITY DEFINER */
+/*!50001 VIEW `Contact_employe` AS select `Employe`.`id` AS `EmployeID`,`Employe`.`nom` AS `nom`,`Employe`.`prenom` AS `prenom`,`Employe`.`email` AS `email`,`Employe`.`telephone` AS `telephone`,`Employe`.`fonction` AS `fonction`,`Entreprise`.`id` AS `EntrepriseID`,`Entreprise`.`nomEntreprise` AS `entreprise`,`User`.`id` AS `UserID`,concat(`User`.`nom`,' ',`User`.`prenom`) AS `Created_User`,`Employe`.`Created_date` AS `Created_date` from ((`Employe` join `Entreprise` on(`Employe`.`idEntreprise` = `Entreprise`.`id`)) join `User` on(`Employe`.`Created_UserID` = `User`.`id`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -527,4 +571,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-16 10:36:59
+-- Dump completed on 2024-05-16 23:45:19
