@@ -20,6 +20,7 @@ if(isset($_POST['nom'])) {
   $email = $_POST['email'];
   $telephone = $_POST['telephone'];
   $promo = $_POST['promo'];
+  $spe = $_POST['spe'];
   $login = $_POST['login'];
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
   $statut = $_POST['statut'];
@@ -28,7 +29,7 @@ if(isset($_POST['nom'])) {
   $profil = new Profil($conn);
 
   // Appel de la méthode  de l'objet Profil
-  if ($profil->create_user($nom,$prenom,$email,$telephone,$promo,$login,$password,$statut)) {
+  if ($profil->create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut)) {
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     header("Location: ../router.php?page=gestion_etu");
     exit();
