@@ -80,33 +80,7 @@ require_once 'config/auth.php';
     </div>
   </div>
 
-  <!--Mot de passe par défaut
-  <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" id="checkboxMDP" onclick="passwordParDefaut()">
-    <label class="form-check-label" for="checkboxMDP" >
-      Utiliser le mot de passe par défaut 
-      <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Le mot de passe par défaut est <u>achanger</u>"></i>
-
-    </label>
-  </div> -->
-
-  <div class="row" id="divPassword">
-    <div class="col">
-      <div class="form-floating mb-3" style="width: 100%">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Azerty123!" required>
-        <label for="password">Mot de passe</label>
-      </div>  
-    </div>
-
-    <div class="col">
-      <div class="form-floating mb-3" style="width: 100%">
-        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Azerty123!" required>
-        <label for="confirm_password">Confirmer le mot de passe</label>
-      </div>  
-    </div>
-  </div>
-
-  <span id="textError" style="color: red;"></span><br>
+  <p class="h6">Le mot de passe qui sera attribué automatiquement sera : <u>achanger</u></p>
 
   <button id="buttonCreate" class="btn btn-success btn-lg" type="submit">Inscrire</button>
 </form>
@@ -123,9 +97,6 @@ require_once 'config/auth.php';
   const prenomField = document.getElementById('prenom'); //Le champ de prénom
 
   const loginField = document.getElementById('login'); //Le champ de login
-  const divPassword =document.getElementById('divPassword'); //Les enfants de cette div contient password et confirm_password
-  const passwordField = document.getElementById('password'); // Le champ de password
-  const confirmPasswordField = document.getElementById('confirm_password'); //Le champ de confirm_password
 
   const divEtudiant = document.getElementById('divEtudiant');
   const promo = document.getElementById('promo');
@@ -136,21 +107,12 @@ require_once 'config/auth.php';
   //Les évenements
   nom.addEventListener('change', createLogin);
   prenom.addEventListener('change', createLogin);
-  passwordField.addEventListener('change', validatePassword);
-  confirmPasswordField.addEventListener('change', validatePassword);
   promo.addEventListener('change', verifPromo);
 
   window.addEventListener("DOMContentLoaded", function() { //Lorsque la page est chargée
-    //checkboxMDP.checked = true; //La checkbox se coche
-    //passwordParDefaut(); //Appel de la fonction pour le mot de passe par achanger par défaut
     choixStatut();
 
-    promo.value = currentPromo; //Augmenter la valeur de 1 à currentPromo pour avoir la prochaine promo du lycée par défaut
-
-    //Ceci sert pour obtenir les icons sur bootstrap
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    
+    promo.value = currentPromo; //Augmenter la valeur de 1 à currentPromo pour avoir la prochaine promo du lycée par défaut    
   }, false); 
 
 
@@ -172,35 +134,6 @@ require_once 'config/auth.php';
     }
   }
 
-  // Sélectionnez les éléments pour afficher les messages d'erreur
-  const textError = document.getElementById('textError');
-
-  // Fonction de validation des mots de passe
-  // function passwordParDefaut() {
-  //   if (checkboxMDP.checked) {
-  //     divPassword.classList.add('hidden');
-  //     passwordField.value = "achanger";
-  //     confirmPasswordField.value = "achanger";
-  //     buttonCreate.disabled = false;
-  //   } else {
-  //     divPassword.classList.remove('hidden');
-  //     passwordField.value = "";
-  //     confirmPasswordField.value = "";
-  //   }
-  // }
-
-  function validatePassword() {
-    // Vérifiez si les valeurs des champs de mot de passe sont identiques
-    if (passwordField.value != confirmPasswordField.value) {
-      // Affichez un message d'erreur si les mots de passe ne correspondent pas
-      textError.textContent = "Les mots de passe ne correspondent pas";
-      buttonCreate.disabled = true;
-    } else {
-      // Effacez le message d'erreur si les mots de passe correspondent
-      textError.textContent = "";
-      buttonCreate.disabled = false;
-    }
-  }
 
   function choixStatut(){
     if (choix.value == "Professeur") {

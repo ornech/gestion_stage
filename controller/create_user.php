@@ -22,7 +22,7 @@ if(isset($_POST['nom'])) {
   $promo = $_POST['promo'];
   $spe = $_POST['spe'];
   $login = $_POST['login'];
-  $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+  $password = password_hash("achanger", PASSWORD_DEFAULT);
   $statut = $_POST['statut'];
 
   // Création d'une instance de l'objet Entreprise

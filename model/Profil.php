@@ -45,7 +45,7 @@ class Profil {
     telephone=:telephone ,
     login=:login ,
     password=:password ,
-    password_reset=0 ,
+    password_reset=1 ,
     statut=:statut ,
     inactif=0";
 
@@ -69,7 +69,6 @@ class Profil {
     $stmt->bindParam(":prenom", $this->prenom);
     $stmt->bindParam(":email", $this->email);
     $stmt->bindParam(":telephone", $this->telephone);
-    $stmt->bindParam(":promo", $this->promo);
     $stmt->bindParam(":login", $this->login);
     $stmt->bindParam(":password", $this->password);
     $stmt->bindParam(":statut", $this->statut);
@@ -92,6 +91,7 @@ class Profil {
       return false;
     }
   }
+
 
   public function reset_password($idProfil){
 
