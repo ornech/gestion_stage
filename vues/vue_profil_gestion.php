@@ -55,7 +55,7 @@ require_once 'config/auth.php';
     <table class="table table-striped table-hover" id="maTable">
         <thead>
             <tr class="table-secondary">
-              <th><button onclick="sortTable(0)">Nom  &#8645;</th></button>
+              <th><button onclick="sortTable(0)">Nom &#8645;</button></th>
               <th><button onclick="sortTable(1)">Prénom &#8645;</button></th>
               <th><button onclick="sortTable(2)">Promo &#8645;</th></button>
               <th><button onclick="sortTable(3)">Spécialité &#8645;</button></th>
@@ -67,7 +67,7 @@ require_once 'config/auth.php';
         <tbody>
             <?php foreach ($profils as $profil): ?>
                 <tr>
-                    <td><?= $profil->nom ?></td>
+                    <td><a href="router.php?page=view_profil&id=<?= $profil->id ?>"><?= $profil->nom ?></a></td>
                     <td><?= $profil->prenom ?></td>
                     <td><?= $profil->promo ?></td>
                     <td><?= $profil->spe ?></td>

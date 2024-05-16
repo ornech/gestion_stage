@@ -99,9 +99,17 @@ function router($page, $conn) {
     case 'profil':
       include_once 'model/Profil.php';
       $profilModel = new Profil($conn);
-      $Profil = $profilModel->read_profil();
+      $Profil = $profilModel->read_my_profil();
       include 'vues/vue_profil_user.php';
       break;
+
+    case 'view_profil':
+        include_once 'model/Profil.php';
+        $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
+        $profilModel = new Profil($conn);
+        $Profil = $profilModel->read_profil($idProfil);
+        include 'vues/vue_test_profil_user.php';
+        break;
 
     case 'create_user':
       //include_once 'model/Profil.php';
