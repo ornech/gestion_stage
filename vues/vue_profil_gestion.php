@@ -66,7 +66,7 @@ require_once 'config/auth.php';
         </thead>
         <tr>
             <?php foreach ($profils as $profil): ?>
-                  <tr onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
+                  <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
                     <td><?= $profil->nom ?></td>
                     <td><?= $profil->prenom ?></td>
                     <td><?= $profil->promo ?></td>
