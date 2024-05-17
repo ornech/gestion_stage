@@ -13,7 +13,6 @@ require_once 'config/auth.php';
         <p><strong>Ville:</strong> <?= $ficheEntreprise->ville ?></p>
         <p><strong>Téléphone:</strong> <?= $ficheEntreprise->tel ?></p>
         <p><strong>Code Postal:</strong> <?= $ficheEntreprise->codePostal ?></p>
-        <p><strong>Indice de fiabilité:</strong> <?= $ficheEntreprise->indice_fiabilite ?></p>
 <?php
     } else {
         // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
