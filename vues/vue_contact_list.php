@@ -4,7 +4,7 @@ require_once 'config/auth.php';
 <BR>
   <?php
   // Vérifier si les données sont disponibles
-  if($contacts) {
+  if($contacts && isset($_GET["idEntreprise"])) {
     // EmployeID
     // nom
     // prenom
@@ -35,11 +35,11 @@ require_once 'config/auth.php';
         <tbody>
           <?php foreach ($contacts as $contact): ?>
             <tr>
-              <td><?= $contact->nom ?></td>
-              <td><?= $contact->prenom ?></td>
-              <td><?= $contact->telephone ?></td>
-              <td><?= $contact->email ?></td>
-              <td><?= $contact->fonction ?></td>
+              <td><?= $contact->nom ? $contact->nom : "Non défini" ?></td>
+              <td><?= $contact->prenom ? $contact->prenom : "Non défini" ?></td>
+              <td><?= $contact->telephone ? $contact->telephone : "Non défini" ?></td>
+              <td><?= $contact->email ? $contact->email : "Non défini" ?></td>
+              <td><?= $contact->fonction ? $contact->fonction : "Non défini" ?></td>
               <td>
                 <a href="../router.php?page=Contact_fiche&idContact=<?= $contact->EmployeID ?>">voir</a></td>
               </tr>
@@ -60,10 +60,21 @@ require_once 'config/auth.php';
           <p><strong>Created_date:</strong> <?= $ContactFiche->Created_date ?></p>
         -->
 
+         <a href='router.php?page=contact_create&idEntreprise=<?= $_GET["idEntreprise"] ?>'>
+            <button type='button' class='btn btn-primary'>Ajouter un contact</button>
+         </a>
+
         <?php
-      } else {
+      } else if(isset($_GET["idEntreprise"]) && $ficheEntreprise) {
         // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
         echo "<p>Aucun contact pour cette entreprise</p>";
-        echo 'Ajouter un contact';
+
+        ?>
+         <a href='router.php?page=contact_create&idEntreprise=<?= $_GET["idEntreprise"] ?>'>
+            <button type='button' class='btn btn-primary'>Ajouter un contact</button>
+         </a>
+         <?php
+
       }
-      ?>
+      
+?>
