@@ -11,6 +11,38 @@ require_once 'config/auth.php';
 <H2> Gestion étudiants </H2>
 
 <style>
+      .hover-text {
+        position: relative;
+        display: inline-block;
+    }
+        .hover-text::after {
+          content:"";
+          position: absolute;
+          top: -200%;
+          transform: translateX(-90%);
+          display: none;
+          background-color: #FFE5CC;
+          width: 400px;
+          font-weight: normal;
+          }
+        @media (max-width: 768px) {
+        .hover-text::after {
+            margin-top: 30px;
+            padding: 10px; 
+        }
+}
+          .hover-text:hover::after {
+          display: block;
+          }
+          
+        #mdp.hover-text::after {
+          content: "En appuyant sur RESET, le mot de passe sera \"achanger\".";
+        }
+        #acc.hover-text::after{
+            content: "Cliquez sur le bouton ACTIF pour désactiver le compte. Cliquez à nouveau pour le réactiver."
+        }
+
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -39,34 +71,22 @@ require_once 'config/auth.php';
         font-weight: bold;
         }
     </style>
-<BR>
-    <div class="alert alert-warning" role="alert">
-      <h4 class="alert-heading">Reset password</h4>
-      <p class="mb-0">Le bouton <b>Reset</b> réinitialisele mot de passe de l'utilisateur en question avec la valeur "achanger".
-        L'utilisateur sera automatiquement invité à changer son mot de passe. Le bouton restera "En cours" tant
-      que l'utilisateur ne sera pas reconnecté.</p>
-      <hr>
-      <h4 class="alert-heading">Désactivé un compte</h4>
-      <p class="mb-0">Le bouton <b>Actif</b> indique l'état du compte. En cliquant dessus ce compte ne sera
-        plus autorisé à se connecter et passera en <b>Désactivé</b>. Pour le réactivé cliquez à nouveau dessus.</p>
-    </div>
-<BR>
   <a class='btn btn-success' href='router.php?page=create_user' role='button'>Créer un compte</a>
     <table class="table table-striped table-hover" id="maTable">
         <thead>
             <tr class="table-secondary">
-              <th><button onclick="sortTable(0)">Nom  &#8645;</th></button>
+              <th><button onclick="sortTable(0)">Nom &#8645;</button></th>
               <th><button onclick="sortTable(1)">Prénom &#8645;</button></th>
               <th><button onclick="sortTable(2)">Promo &#8645;</th></button>
               <th><button onclick="sortTable(3)">Spécialité &#8645;</button></th>
               <th><button onclick="sortTable(4)">Statut &#8645;</button> </th>
-              <th>Reset password</th>
-              <th>Désactivé</th>
+              <th><span id ="mdp" class="hover-text">Reset password &#9432;</span></th>
+              <th><span id="acc" class="hover-text">Désactivé  &#9432;</span> </th>
             </tr>
         </thead>
-        <tbody>
+        <tr>
             <?php foreach ($profils as $profil): ?>
-                <tr>
+                  <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
                     <td><?= $profil->nom ?></td>
                     <td><?= $profil->prenom ?></td>
                     <td><?= $profil->promo ?></td>
@@ -90,6 +110,7 @@ require_once 'config/auth.php';
                         $profil->id . "' role='button'>Actif</a></td>";}
                       ?>
                     <?php endforeach; ?>
+                  </tr>
         </tbody>
     </table>
     <?php
