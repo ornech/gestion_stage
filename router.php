@@ -189,6 +189,20 @@ function router($page, $conn) {
       include 'vues/vue_contact_fiche.php';
       break;
 
+   case 'contact_create':
+      include_once 'model/Contact.php';
+
+      // Instancie le modèle
+      $contactModel = new Contact($conn);
+      $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
+
+      if($idEntreprise == null){
+         header("Location: router.php?page=erreur&title=Erreur de création&message=Erreur lors de l'accès au formulaire de création du contact, veuillez réessayer.");
+      }
+
+      include 'vues/vue_contact_create.php';
+      break;
+
    case 'erreur':
      $message = isset($_GET['messge']) ? $_GET['message'] : null;
      include 'vues/vue_erreur.php'; // Page d'accueil par défaut

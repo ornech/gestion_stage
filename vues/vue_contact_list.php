@@ -64,6 +64,8 @@ require_once 'config/auth.php';
       } else {
         // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
         echo "<p>Aucun contact pour cette entreprise</p>";
-        echo 'Ajouter un contact';
+        echo   "<a href='router.php?page=contact_create&idEntreprise=" .  . ">
+                  <button type='button' class='btn btn-primary'>Ajouter un contact</button>
+               </a>";
       }
       ?>
