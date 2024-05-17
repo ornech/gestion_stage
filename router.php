@@ -30,21 +30,35 @@ function router($page, $conn) {
 
     case 'listerEntreprises':
       include 'model/Entreprise.php'; // Inclure le modèle Entreprise
+      include 'model/Contact.php'; // Inclure le modèle Contact
+
       $entrepriseModel = new Entreprise($conn); // Instancier le modèle
+
       $entreprises = $entrepriseModel->read(); // Lire les entreprises
+
       include 'vues/vue_liste_entreprises.php'; // Inclure la vue pour afficher la liste des entreprises
+
       break;
 
     case 'fiche_entreprise':
       include_once 'model/Entreprise.php';
+      include_once 'model/Contact.php';
+
       // Instancier le modèle Entreprise
       $entrepriseModel = new Entreprise($conn);
+      $contacteModel = new Contact($conn); // Instancier le modèle
+
       // Récupérer l'ID de l'entreprise depuis l'URL
       $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
       // Charger les détails de l'entreprise en fonction de l'ID
       $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
+      $contacts = $contacteModel->read_list($idEntreprise); // Lire les entreprises
+
       // Inclure la vue pour afficher les détails de l'entreprise
       include 'vues/vue_fiche_entreprises.php';
+      include 'vues/vue_contact_list.php';
+
+
       break;
 
     case 'modifier_entreprise':
