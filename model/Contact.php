@@ -22,8 +22,8 @@ class Contact {
         //     }
 
     // Liste des entreprises
-    public function read_list(){
-        $query = "SELECT * FROM " . $this->table_name;
+    public function read_list($idEntrepriset){
+      $query = "SELECT * FROM Contact_employe WHERE EntrepriseID = :idEntrepriset";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
