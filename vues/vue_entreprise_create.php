@@ -3,34 +3,51 @@
 require_once 'config/auth.php';
 // require_once __DIR__ . '/../config/auth.php';
 ?>
+<SCRIPT>
+function getValue() {
+    // Sélectionner l'élément input et récupérer sa valeur
+    var input = document.getElementById("siret").value;
+    var url = ("https://annuaire-entreprises.data.gouv.fr/etablissement/" + input);
+    // Afficher la valeur . input;
+    window.location.href=url;
+    //alert(input);
+}
+</SCRIPT>
+<H2> Proposition </H2>
+<form action="../controller/entreprise_create_siret.php" method="GET" class="form-group mb-3">
+  <input type="hidden" name="Created_UserID" value="<?= $_SESSION["userID"];?>">
+  <div class="input-group mb-3">  <span class="input-group-text">Renseignez le N° de SIRET</span>
+        <input type="text" class="form-control" name="siret" required minlength="14" maxlength="14" size="14" >
+    <button class="btn btn-outline-secondary" onclick="getValue();" type="button">Vérifier le N° de SIRET</button>
+    <button class="btn btn-outline-primary" type="submit">Valider</button>
+
+  </div>
+
+</form>
 
 <h2>Ajouter une entreprise</h2>
 <form action="../controller/creer_entreprise.php" method="POST">
+  <input type="hidden" name="Created_UserID" value="<?= $_SESSION["userID"];?>">
   <div class="container">
     <div class="row">
       <div class="col">
 
         <label for="nomEntreprise" class="form-label">Nom de l'entreprise</label>
-        <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" value="<?php echo $_GET["nomEntreprise"];?>"" required>
-        <label for="tel" class="form-label">Téléphone</label>
-        <input type="text" class="form-control" id="tel" name="tel"><br>
-
+        <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" value="" required>
         <div class="row">
           <div class="col">
-            <label for="code_ape" class="form-label">Code APE</label>
-            <input type="text" class="form-control" id="code_ape" name="code_ape">
+            <label for="naf" class="form-label">Code NAF</label>
+            <input type="text" class="form-control" id="naf" name="naf">
           </div>
           <div class="col">
-            <label for="effectif" class="form-label">Nombre d'employés</label>
-            <input type="text" class="form-control" id="effectif" name="effectif" >
+            <label for="siret" class="form-label">SIRET</label>
+            <input type="text" class="form-control" id="siret" name="siret" >
           </div>
         </div>
       </div>
       <div class="col">
         <label for="adresse" class="form-label">Adresse</label>
         <input type="text" class="form-control" id="adresse" name="adresse" required>
-        <label for="adresse2" class="form-label">Adresse 2</label>
-        <input type="text" class="form-control" id="adresse2" name="adresse2" > <BR>
           <div class="row">
             <div class="col">
               <label for="ville" class="form-label">Ville</label>

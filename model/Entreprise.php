@@ -125,6 +125,119 @@ class Entreprise {
         return false;
     }
 
+    // entreprise_create_siret
+    // Créer une nouvelle entreprise
+    public function entreprise_create_siret($siret){
+
+      // Récupérer le code NAF sélectionné
+      if (isset($_GET['siret'])) {
+          $siret = $_GET['siret'];
+
+          // Mettre à jour l'URL avec le nouveau code NAF
+          $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret/";
+          $url = $url . $siret;
+
+      }
+      // Clé d'API
+      $api_key = '94bcc60b-d0b4-3b55-8f7c-a1e5156a760b';
+
+      // Configuration de la requête cURL
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+          'Accept: application/json',
+          'Authorization: Bearer ' . $api_key
+      ));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+      // Exécution de la requête
+      $response = curl_exec($ch);
+
+      // Vérification des erreurs
+      if ($response === false) {
+          die('Erreur lors de la récupération des données de l\'API: ' . curl_error($ch));
+      }
+
+      // Fermeture de la session cURL
+      curl_close($ch);
+
+      // Décode la réponse JSON en tableau PHP
+      $entrepriseData = json_decode($response, true);
+      //echo $response;
+      // Vérifie si le décodage a réussi
+      if ($entrepriseData === null && json_last_error() !== JSON_ERROR_NONE) {
+          die('Erreur lors du décodage de la réponse JSON.');
+      }
+
+        // nomEntreprise
+        // adresse
+        // adresse2
+        // ville
+        // tel
+        // codePostal
+        // dep_geo
+        // siret
+        // naf
+        // type
+        // effectif
+        // Created_UserID
+        // Created_Date
+
+        $query = "INSERT INTO " . $this->table_name . " SET
+        nomEntreprise=:nomEntreprise,
+        adresse=:adresse,
+        ville=:ville,
+        codePostal=:codePostal,
+        siret=:siret,
+        naf=:naf,
+        effectif=:effectif,
+        type=:type,
+        Created_Date=NOW(),
+        Created_UserID=:Created_UserID
+        ";
+
+
+        $stmt = $this->conn->prepare($query);
+
+        // Nettoyage et assignation des valeurs
+        // var_dump($entrepriseData['etablissement']);
+        $addr = $entrepriseData['etablissement']['adresseEtablissement']['numeroVoieEtablissement'] . " "
+        . $entrepriseData['etablissement']['adresseEtablissement']['typeVoieEtablissement'] . " "
+        . $entrepriseData['etablissement']['adresseEtablissement']['libelleVoieEtablissement'];
+
+        $this->nomEntreprise=htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['denominationUniteLegale']));
+        $this->adresse=$addr;
+        $this->ville=htmlspecialchars(strip_tags($entrepriseData['etablissement']['adresseEtablissement']['libelleCommuneEtablissement']));
+        $this->codePostal=htmlspecialchars(strip_tags($entrepriseData['etablissement']['adresseEtablissement']['codePostalEtablissement']));
+        $this->siret=$siret;
+        $this->naf=htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['activitePrincipaleUniteLegale']));
+        $this->type=htmlspecialchars(strip_tags($entrepriseData['etablissement']['trancheEffectifsEtablissement']));
+        $this->effectif=htmlspecialchars(strip_tags($entrepriseData['etablissement']['trancheEffectifsEtablissement']));
+        $this->Created_UserID=htmlspecialchars(strip_tags($_SESSION['userID']));
+
+        $stmt->bindParam(":nomEntreprise", $this->nomEntreprise);
+        $stmt->bindParam(":adresse", $this->adresse);
+        $stmt->bindParam(":ville", $this->ville);
+        $stmt->bindParam(":codePostal", $this->codePostal);
+        $stmt->bindParam(":siret", $this->siret);
+        $stmt->bindParam(":naf", $this->naf);
+        $stmt->bindParam(":type", $this->type);
+        $stmt->bindParam(":effectif", $this->effectif);
+        $stmt->bindParam(":Created_UserID", $this->Created_UserID);
+
+        try {
+                if($stmt->execute()){
+                    return true;
+                } else {
+                    throw new Exception("Erreur lors de l'exécution de la requête.");
+                }
+            } catch (Exception $e) {
+                //echo "Erreur : " . $e->getMessage();
+                $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+                header("Location: ../router.php?page=erreur&message=$message");
+                return false;
+            }
+
+    }
 
     // Liste des entreprises
     public function read(){
