@@ -226,6 +226,8 @@ class Entreprise {
 
         try {
                 if($stmt->execute()){
+                  header("Location: ../router.php?page=erreur&message=$message");
+
                     return true;
                 } else {
                     throw new Exception("Erreur lors de l'exécution de la requête.");
@@ -253,7 +255,14 @@ class Entreprise {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
         $stmt->execute();
-        // Retournez directement le résultat au lieu de le stocker dans une variable intermédiaire
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function read_fiche_siret($siret) {
+        $query = "SELECT * FROM vue_entreprise WHERE siret = :siret";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':siret', $siret, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 

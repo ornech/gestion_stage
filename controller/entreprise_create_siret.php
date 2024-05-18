@@ -20,7 +20,7 @@ if(isset($_GET['siret'])) {
   // Appeler la méthode recherche
   if ($entreprise->entreprise_create_siret($siret)) {
       //echo var_dump($entrepriseData);
-      header("Location: ../router.php?page=listerEntreprises");
+      header("Location: ../router.php?page=fiche_entreprise&siret=" . $siret);
       exit();
 
   } else {
