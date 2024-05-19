@@ -251,7 +251,7 @@ class Entreprise {
 
 
     public function read_fiche($idEntreprise) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idEntreprise";
+        $query = "SELECT * FROM vue_entreprise WHERE EntrepriseID = :idEntreprise";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
         $stmt->execute();

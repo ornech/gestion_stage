@@ -33,7 +33,7 @@ require_once 'config/auth.php';
         <p><strong>Siret: </strong><?= $ficheEntreprise->siret ?></p>
         <p><strong>Activité</strong> <?= $ficheEntreprise->naf ?></p>
         <p><strong>Effectif: </strong> <?= $ficheEntreprise->effectif ?></p>
-        <p><strong>Ajouté par: </strong> <?= $ficheEntreprise->Created_User  ?></p>
+        <p><strong>Ajouté par: </strong> <?= $ficheEntreprise->Created_User ?></p>
     </div>
 
 
