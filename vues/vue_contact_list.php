@@ -4,7 +4,7 @@ require_once 'config/auth.php';
 <BR>
   <?php
   // Vérifier si les données sont disponibles
-  if($contacts && isset($_GET["idEntreprise"])) {
+  if($contacts) {
     // EmployeID
     // nom
     // prenom
@@ -76,5 +76,5 @@ require_once 'config/auth.php';
          <?php
 
       }
-      
+
 ?>

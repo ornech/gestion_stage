@@ -29,10 +29,18 @@ class Contact {
         //     }
 
     // Liste des entreprises
-    public function read_list($idEntrepriset){
-        $query = "SELECT * FROM Contact_employe WHERE EntrepriseID = :idEntrepriset";
+    public function read_list($idEntreprise){
+        $query = "SELECT * FROM Contact_employe WHERE EntrepriseID = :idEntreprise";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':idEntrepriset', $idEntrepriset, PDO::PARAM_INT);
+        $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function read_list_siret($siret){
+        $query = "SELECT * FROM Contact_employe WHERE EntrepriseID = (SELECT id from Entreprise WHERE siret =:siret)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':siret', $siret, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
@@ -54,10 +62,10 @@ class Contact {
             prenom=:prenom ,
             email=:email ,
             telephone=:telephone ,
-            fonction=:fonction , 
+            fonction=:fonction ,
             Created_UserID=:Created_UserID,
             Created_date=NOW()";
-    
+
         $stmt = $this->conn->prepare($query);
         $this->nom=htmlspecialchars(strip_tags($nom));
         $this->prenom=htmlspecialchars(strip_tags($prenom));
@@ -66,7 +74,7 @@ class Contact {
         $this->fonction=htmlspecialchars(strip_tags($fonction));
         $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
         $this->Created_UserID=htmlspecialchars(strip_tags($Created_UserID));
-    
+
         $stmt->bindParam(":nom", $this->nom);
         $stmt->bindParam(":prenom", $this->prenom);
         $stmt->bindParam(":email", $this->email);
@@ -74,7 +82,7 @@ class Contact {
         $stmt->bindParam(":fonction", $this->fonction);
         $stmt->bindParam(":idEntreprise", $this->idEntreprise);
         $stmt->bindParam(":Created_UserID", $this->Created_UserID);
-    
+
         try {
             if($stmt->execute()){
                 return true;

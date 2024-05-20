@@ -49,14 +49,25 @@ function router($page, $conn) {
       $contacteModel = new Contact($conn); // Instancier le modèle
 
       // Récupérer l'ID de l'entreprise depuis l'URL
-      $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
-      // Charger les détails de l'entreprise en fonction de l'ID
-      $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
-      $contacts = $contacteModel->read_list($idEntreprise); // Lire les entreprises
+
+      if (isset($_GET['idEntreprise'])) {
+        $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
+        // Charger les détails de l'entreprise en fonction de l'ID
+        $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
+        $contacts = $contacteModel->read_list($idEntreprise); // Lire les entreprises
+      }
+      if (isset($_GET['siret'])) {
+        $siret = isset($_GET['siret']) ? $_GET['siret'] : null;
+        // Charger les détails de l'entreprise en fonction du siret
+        $ficheEntreprise = $entrepriseModel->read_fiche_siret($siret);
+        $contacts = $contacteModel->read_list_siret($siret); // Lire les entreprises
+        }
+
 
       // Inclure la vue pour afficher les détails de l'entreprise
       include 'vues/vue_fiche_entreprises.php';
       include 'vues/vue_contact_list.php';
+
 
 
       break;
