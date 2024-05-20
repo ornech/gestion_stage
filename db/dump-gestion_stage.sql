@@ -1,8 +1,9 @@
--- MariaDB dump 10.19  Distrib 10.11.7-MariaDB, for debian-linux-gnu (x86_64)
+/*!999999\- enable the sandbox mode */ 
+-- MariaDB dump 10.19  Distrib 10.11.8-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: 127.0.0.1    Database: gestion_stage
 -- ------------------------------------------------------
--- Server version	10.11.7-MariaDB-1:10.11.7+maria~ubu2204
+-- Server version	10.11.8-MariaDB-ubu2204
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -221,7 +222,7 @@ CREATE TABLE `Entreprise` (
   `Created_UserID` int(11) DEFAULT NULL,
   `Created_Date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -361,7 +362,8 @@ INSERT INTO `Entreprise` VALUES
 (140,'BHI2C','  ','','SAINT-HILAIRE-DE-VILLEFRANCHE','','17770','17','48153967400012','46.52Z','PME','3 à 5 salariés',3,'2024-05-16 00:04:51'),
 (141,'CATALYSE INFORMATIQUE','21 RUE GUTENBERG','','AYTRE','','17440','17','47842596000026','47.41Z','PME','3 à 5 salariés',3,'2024-05-16 00:06:05'),
 (142,'START INFORMATIQUE','163 ROUTE DE LA TURPAUDIERE','','LA CHAPELLE-DES-POTS','','17100','17','45071596600021','47.41Z','PME','-',3,'2024-05-16 00:24:30'),
-(143,'RE-SET INFORMATIQUE','8 ROUTE DU GOISIL','','LA COUARDE-SUR-MER','','17670','17','89121926300011','62.02B','PME','-',3,'2024-05-16 09:07:08');
+(143,'RE-SET INFORMATIQUE','8 ROUTE DU GOISIL','','LA COUARDE-SUR-MER','','17670','17','89121926300011','62.02B','PME','-',3,'2024-05-16 09:07:08'),
+(145,'BANQUE DE FRANCE','22 RUE REAUMUR',NULL,'LA ROCHELLE',NULL,'17000',NULL,'57210489102555','64.11Z','12','12',3,'2024-05-18 23:06:55');
 /*!40000 ALTER TABLE `Entreprise` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -499,10 +501,10 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER Test_redondance_login
-AFTER INSERT
+BEFORE INSERT
 ON `User` FOR EACH ROW
 BEGIN
     DECLARE count_exist INT;
@@ -521,6 +523,28 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Temporary table structure for view `vue_entreprise`
+--
+
+DROP TABLE IF EXISTS `vue_entreprise`;
+/*!50001 DROP VIEW IF EXISTS `vue_entreprise`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `vue_entreprise` AS SELECT
+ 1 AS `EntrepriseID`,
+  1 AS `siret`,
+  1 AS `nomEntreprise`,
+  1 AS `adresse`,
+  1 AS `ville`,
+  1 AS `codePostal`,
+  1 AS `naf`,
+  1 AS `type`,
+  1 AS `effectif`,
+  1 AS `Created_Date`,
+  1 AS `Created_User` */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping routines for database 'gestion_stage'
@@ -561,6 +585,24 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vue_entreprise`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vue_entreprise`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013  SQL SECURITY DEFINER */
+/*!50001 VIEW `vue_entreprise` AS select `e`.`id` AS `EntrepriseID`,`e`.`siret` AS `siret`,`e`.`nomEntreprise` AS `nomEntreprise`,`e`.`adresse` AS `adresse`,`e`.`ville` AS `ville`,`e`.`codePostal` AS `codePostal`,`e`.`naf` AS `naf`,`e`.`type` AS `type`,`e`.`effectif` AS `effectif`,`e`.`Created_Date` AS `Created_Date`,concat(`u`.`nom`,' ',`u`.`prenom`) AS `Created_User` from (`Entreprise` `e` join `User` `u` on(`e`.`Created_UserID` = `u`.`id`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -571,4 +613,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-16 23:45:19
+-- Dump completed on 2024-05-19 22:47:58
