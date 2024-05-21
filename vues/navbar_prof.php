@@ -14,10 +14,10 @@ require_once 'config/auth.php';
           <a class="nav-link" href="router.php?page=listerEntreprises"><i class="fa-regular fa-address-card"></i> &nbsp; Entreprises</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="router.php?page=gestion_etu"><i class="fas fa-users"></i>&nbsp; Gestion étudiants</a>
+          <a class="nav-link" href="router.php?page=gestion_etu"><i class="fas fa-users"></i>&nbsp; Etudiants</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="router.php?page=activite_prof"><i class='far fa-calendar-alt'>&nbsp;</i>Activités</a>
+          <a class="nav-link" href="router.php?page=stage_list"><i class='far fa-calendar-alt'>&nbsp;</i>Stages</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="router.php?page=recherche"><i class='fa fa-search'>&nbsp;</i>Recherche</a>
