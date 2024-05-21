@@ -25,7 +25,7 @@ require_once 'config/auth.php';
     <h2>Liste des entreprises</h2>
     <p><a href="router.php?page=create_entreprise" class="btn btn-success" role="button">Ajouter une entreprise</a></p>
 
-    <table id="maTable">
+    <table  class="table" id="maTable">
         <thead>
             <tr>
                 <?php
@@ -58,11 +58,12 @@ require_once 'config/auth.php';
                 // Affichage des filtres et des options de tri
                 $n = 0;
                 foreach ($entreprise_tableau as $column => $value) {
-                    echo '<th>';
-                    echo '<label class="small" for="' . $column . '_filtre">Filtrer</label>';
-                    echo '<input id="' . $column . '_filtre" value="" onkeyup="searchInColumn(this, ' . $n . ')" class="form-control form-control-sm">';
+                    echo '<td>';
+                    echo '<div class="field">';
+                    echo '<label class="label is-small" for="' . $column . '_filtre">Filtrer</label>';
+                    echo '<input id="' . $column . '_filtre" value="" onkeyup="searchInColumn(this, ' . $n . ')" style="width:100%;" class="input is-small">';
 
-                    echo '<select id="' . $column . '_filtre" onchange="applyFilter(this.value, \'' . $column . '\')" class="form-select form-select-sm">';
+                    echo '<select id="' . $column . '_filtre" onchange="applyFilter(this.value, \'' . $column . '\')" style="width:100%;" class="select is-small">';
                     echo '<option value="">Tout afficher</option>';
                     foreach ($filters[$column] as $filter) {
                         echo '<option value="' . htmlspecialchars($filter) . '">' . htmlspecialchars($filter) . '</option>';
@@ -70,30 +71,28 @@ require_once 'config/auth.php';
 
                     echo '</select>';
                     echo '<label class="small" for="' . $column . '_trie">Trier</label>';
-                    echo '<select id="' . $column . '_trie" onchange="sortTable(' . $n . ', this.value)" class="form-select form-select-sm">';
+                    echo '<select id="' . $column . '_trie" onchange="sortTable(' . $n . ', this.value)" class="select is-small" style="width:100%;">';
                     echo '<option value="">---</option>';
                     echo '<option value="asc">Croissant</option>';
                     echo '<option value="desc">Décroissant</option>';
                     echo '</select>';
-                    echo '</th>';
+                    echo '<div>';
+                    echo '</td>';
                     $n++;
                 }
                 ?>
-                <th></th>
+
             </tr>
         </thead>
         <tbody>
             <?php foreach ($entreprises as $entreprise): ?>
                 <tr>
-                    <td><?= htmlspecialchars($entreprise->nomEntreprise) ?></td>
+                    <td><a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->id ?>"><?= htmlspecialchars($entreprise->nomEntreprise) ?></a></td>
                     <td><?= htmlspecialchars($entreprise->adresse) ?></td>
                     <td><?= htmlspecialchars($entreprise->ville) ?></td>
                     <td><?= htmlspecialchars($entreprise->type) ?></td>
                     <td><?= htmlspecialchars($entreprise->codePostal) ?></td>
-                    <td>
-                        <a href="router.php?page=modifier_entreprise&idEntreprise=<?= $entreprise->id ?>">Modifier</a> &nbsp;
-                        <a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->id ?>">voir</a>
-                    </td>
+
                 </tr>
             <?php endforeach; ?>
         </tbody>

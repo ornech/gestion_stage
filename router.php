@@ -214,10 +214,25 @@ function router($page, $conn) {
       include 'vues/vue_contact_create.php';
       break;
 
+  case 'stage_read':
+      include_once 'model/Stage.php';
+      $idUser = isset($_GET['id']) ? $_GET['id'] : null;
+      $stageModel = new Stage($conn);
+      $Stage = $stageModel->read($idUser);
+      include 'vues/vue_stage_user.php';
+      break;
+
+  case 'stage_list':
+      include_once 'model/Stage.php';
+      $stageModel = new Stage($conn);
+      $Stages = $stageModel->list();
+      include 'vues/vue_stage_list.php';
+      break;
+
    case 'erreur':
-     $message = isset($_GET['messge']) ? $_GET['message'] : null;
-     include 'vues/vue_erreur.php'; // Page d'accueil par défaut
-     break;
+      $message = isset($_GET['messge']) ? $_GET['message'] : null;
+      include 'vues/vue_erreur.php'; // Page d'accueil par défaut
+      break;
 
     default:
       include 'vues/vue_erreur.php'; // Page d'accueil par défaut
