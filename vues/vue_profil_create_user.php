@@ -5,7 +5,6 @@ require_once 'config/auth.php';
 <p style="margin-top: 30px" class="h1"> Création profil</p>
 
 <form action="../controller/create_user.php" method="post" class="g-3">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <div style="margin-top: 15px; display: inline-flex; align-items: center;">
     <label  for="statut">Status de l'utilisateur :</label>
