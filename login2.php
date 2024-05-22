@@ -12,48 +12,6 @@
 </head>
 <body>
 <main>
-  <svg width="100%" height="125" xmlns="http://www.w3.org/2000/svg">
-    <!-- Dégradé pour simuler l'eau -->
-    <defs>
-    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-       <stop offset="0%" style="stop-color:#cccccc;stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#cccccc;stop-opacity:1" />
-      </radialGradient>
-    </defs>
-     <!-- Flaque d'eau -->
-    <rect x="0" y="0" width="400" height="200" fill="url(#waterGradient)" />
-
-    <!-- Cercles concentriques animés -->
-    <circle cx="80" cy="120" r="5" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="5" to="100" dur="5s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="5s" repeatCount="indefinite" />
-    </circle>
-
-    <circle cx="200" cy="80" r="10" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="10" to="100" dur="6s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="6s" repeatCount="indefinite" />
-    </circle>
-
-    <circle cx="320" cy="150" r="15" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="15" to="100" dur="7s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="7s" repeatCount="indefinite" />
-    </circle>
-
-    <!-- Ajout de deux autres cercles -->
-    <circle cx="140" cy="40" r="8" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="8" to="100" dur="8s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="8s" repeatCount="indefinite" />
-    </circle>
-
-    <circle cx="260" cy="160" r="12" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="12" to="100" dur="9s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="9s" repeatCount="indefinite" />
-    </circle>
-
-    <!-- Texte -->
-    <text x="50%" y="35%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="42" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">GESTION</text>
-   <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="36" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">DE STAGE</text>
-  </svg>
 
 <?php
 // Démarrer la session
