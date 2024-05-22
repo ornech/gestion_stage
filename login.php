@@ -3,59 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="css/sign-in.css" rel="stylesheet">
     <link href="css/floating-labels.css" rel="stylesheet">
 
     <title>Application gestion stage</title>
 </head>
 <body>
-<main class="form-signin w-100 m-auto">
-
-  <svg width="100%" height="125" xmlns="http://www.w3.org/2000/svg">
-    <!-- Dégradé pour simuler l'eau -->
-    <defs>
-    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-       <stop offset="0%" style="stop-color:#cccccc;stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#cccccc;stop-opacity:1" />
-      </radialGradient>
-    </defs>
-
-    <!-- Flaque d'eau -->
-    <rect x="0" y="0" width="400" height="200" fill="url(#waterGradient)" />
-
-    <!-- Cercles concentriques animés -->
-    <circle cx="80" cy="120" r="5" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="5" to="100" dur="5s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="5s" repeatCount="indefinite" />
-    </circle>
-
-    <circle cx="200" cy="80" r="10" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="10" to="100" dur="6s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="6s" repeatCount="indefinite" />
-    </circle>
-
-    <circle cx="320" cy="150" r="15" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="15" to="100" dur="7s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="7s" repeatCount="indefinite" />
-    </circle>
-
-    <!-- Ajout de deux autres cercles -->
-    <circle cx="140" cy="40" r="8" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="8" to="100" dur="8s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="8s" repeatCount="indefinite" />
-    </circle>
-
-    <circle cx="260" cy="160" r="12" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="12" to="100" dur="9s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="9s" repeatCount="indefinite" />
-    </circle>
-
-    <!-- Texte -->
-    <text x="50%" y="35%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="42" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">GESTION</text>
-   <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="36" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">DE STAGE</text>
-  </svg>
-
+<main>
 
 <?php
 // Démarrer la session
@@ -121,41 +77,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-
-
-
-  <form  action="" method="post">
+<form class="box" action="" method="post">
     <fieldset>
-      <?php if (isset($error_message)) : ?>
-       <div class="form-group">
-          <div class="alert alert-danger d-flex align-items-center" role="alert">
-             &nbsp; <?php echo $error_message; ?>
-        </div>
+      <?php if
+       (isset($error_message)) : ?>
+       <div class="field">
+          <div class="notification is-danger">
+             <?php echo $error_message; ?>
+          </div>
        </div>
       <?php endif; ?>
 
-        <!-- Form Name -->
-        <legend>Connexion</legend>
-        <div class="form-group ">
-            <label class="control-label" for="login">Utilisateur</label>
-            <input id="login" name="login" class="form-control input-md" type="text">
-        </div>
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="control-label" for="password"> Mot de passe</label>
-            <input id="password" name="password" class="form-control input-md" type="password">
-        </div>
+      <!-- Form Name -->
+      <legend>Connexion</legend>
 
-        <div class="form-group">
-            <input class="btn btn-primary w-100 py-2 " type="submit" value="Connection">
+      <div class="field">
+        <div class="control has-icons-left">
+          <input id="login" name="login" class="input" type="text" placeholder="Utilisateur">
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
         </div>
+      </div>
+
+      <div class="field">
+        <div class="control has-icons-left">
+          <input id="password" name="password" class="input" type="password" placeholder="Mot de passe">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <button class="button is-success is-fullwidth" type="submit" value="Connection">Connection</button>
+        </div>
+      </div>
+
     </fieldset>
 
-    <p class="text-body-secondary" align="center">BTS SIO - Lycée Merleau Ponty</p>
+    <br>
+    <p class="has-text-centered"><strong>BTS SIO</strong> - Lycée Merleau Ponty</p>
   </form>
 
 </main>
-<script src="js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 </body>
 </html>
