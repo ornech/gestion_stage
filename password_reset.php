@@ -88,79 +88,107 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="css/sign-in.css" rel="stylesheet">
-    <link href="css/floating-labels.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma-rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
 
     <title>Application gestion stage</title>
 </head>
 <body>
-<main class="form-signin w-100 m-auto">
+<main>
 
-  <svg width="100%" height="125" xmlns="http://www.w3.org/2000/svg">
-    <!-- Dégradé pour simuler l'eau -->
-    <defs>
-    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-       <stop offset="0%" style="stop-color:#cccccc;stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#cccccc;stop-opacity:1" />
-      </radialGradient>
-    </defs>
+<div class="columns is-centered" style="height: 100vh; align-items: center;">
+  <div class="column is-one-third">
 
-    <!-- Flaque d'eau -->
-    <rect x="0" y="0" width="400" height="200" fill="url(#waterGradient)" />
+    <form class="box container" action="" method="post">
+        <fieldset>
+        <?php if
+        (isset($error_message)) : ?>
+        <div class="field">
+            <div class="notification is-danger">
+                <?php echo $error_message; ?>
+            </div>
+        </div>
+        <?php endif; ?>
 
-    <!-- Cercles concentriques animés -->
-    <circle cx="80" cy="120" r="5" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="5" to="100" dur="5s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="5s" repeatCount="indefinite" />
-    </circle>
+        <!-- Form Name -->
+        <legend class="is-size-3 mb-4">Connexion</legend>
 
-    <circle cx="200" cy="80" r="10" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="10" to="100" dur="6s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="6s" repeatCount="indefinite" />
-    </circle>
+        <div class="field">
+        <div class="control has-icons-left">
+          <input id="password" name="new_password" class="input" type="password" placeholder="Mot de passe">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
+      </div>
 
-    <circle cx="320" cy="150" r="15" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="15" to="100" dur="7s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="7s" repeatCount="indefinite" />
-    </circle>
+      <div class="field">
+        <div class="control has-icons-left">
+          <input id="confirm_password" name="confirm_password" class="input" type="password" placeholder="Confirmer le mot de passe">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
+      </div>
 
-    <!-- Ajout de deux autres cercles -->
-    <circle cx="140" cy="40" r="8" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="8" to="100" dur="8s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="8s" repeatCount="indefinite" />
-    </circle>
+      <div class="field">
+        <div class="control">
+          <button class="button is-success is-fullwidth" type="submit" value="Confirmer">Confirmer</button>
+        </div>
+      </div>
 
-    <circle cx="260" cy="160" r="12" fill="none" stroke="#FFFFFF" stroke-width="2">
-      <animate attributeName="r" from="12" to="100" dur="9s" repeatCount="indefinite" />
-      <animate attributeName="stroke-opacity" from="1" to="0" dur="9s" repeatCount="indefinite" />
-    </circle>
+        </fieldset>
 
-    <!-- Texte -->
-    <text x="50%" y="35%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="42" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">GESTION</text>
-   <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="36" fill="black" text-transform="uppercase" style="text-align: center; white-space: nowrap; font-weight: bold;">DE STAGE</text>
-  </svg>
+        <br>
+        <p class="has-text-centered"><strong>BTS SIO</strong> - Lycée Merleau Ponty</p>
+    </form>
+    </div> 
+</div>
 
+<form class="box" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+    <fieldset>
+      <?php if
+       (isset($error_message)) : ?>
+       <div class="field">
+          <div class="notification is-danger">
+             <?php echo $error_message; ?>
+          </div>
+       </div>
+      <?php endif; ?>
 
-  <div class="wrapper">
-         <h2>Nouveau mot de passe</h2>
-         <p>Remplissez ce formulaire pour changer votre mot de passe.</p>
-         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-             <div class="form-group ">
-                 <label class="control-label">Nouveau Mot de passe</label>
-                 <input type="password" class="form-control input-md" name="new_password" value="<?php echo $new_password; ?>">
-                 <span><?php echo $new_password_err; ?></span>
-             </div>
-             <div class="form-group ">
-                 <label class="control-label">Confirmer le mot de passe</label>
-                 <input type="password" class="form-control input-md" name="confirm_password">
-                 <span><?php echo $confirm_password_err; ?></span>
-             </div>
-             <div class="form-group ">
-                 <input class="btn btn-primary w-100 py-2" type="submit" value="Valider">
-             </div>
-         </form>
-     </div>
+      <!-- Form Name -->
+      <legend>Nouveau mot de passe</legend>
+      <p>Remplissez ce formulaire pour changer votre mot de passe.</p>
+
+      <div class="field">
+        <div class="control has-icons-left">
+          <input id="password" name="new_password" class="input" type="password" placeholder="Mot de passe">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control has-icons-left">
+          <input id="confirm_password" name="confirm_password" class="input" type="password" placeholder="Confirmer le mot de passe">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <button class="button is-success is-fullwidth" type="submit" value="Confirmer">Confirmer</button>
+        </div>
+      </div>
+
+    </fieldset>
+
+    <br>
+    <p class="has-text-centered"><strong>BTS SIO</strong> - Lycée Merleau Ponty</p>
+  </form>
 
 </main>
 
