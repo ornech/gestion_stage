@@ -8,10 +8,10 @@ require_once 'config/auth.php';
 
 
 
-  <footer class="text-center text-white  border-top">
-      <div class="text-center text-dark p-1">
-       Created by Noboby &#127279; 2023
-       <a href="https://github.com/ornech/gestion_stage"><i class="fab fa-github"></i>GitHub</a>
+  <footer class="footer">
+  <div class="content has-text-centered">
+           Created by Noboby &#127279; 2023
+       <a href="https://github.com/ornech/gestion_stage"><i class="fab fa-github"></i>&nbsp;GitHub</a>
     </div>
     <!-- Copyright -->
   </footer>
