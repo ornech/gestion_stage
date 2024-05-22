@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<form action="" method="post">
+<form class="box" action="" method="post">
     <fieldset>
       <?php if
        (isset($error_message)) : ?>
@@ -153,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <div class="field">
         <div class="control">
-          <button class="button is-success" type="submit" value="Connection">Connection</button>
+          <button class="button is-success is-fullwidth" type="submit" value="Connection">Connection</button>
         </div>
       </div>
 
