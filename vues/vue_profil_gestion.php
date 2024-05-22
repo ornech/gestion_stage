@@ -28,13 +28,13 @@ require_once 'config/auth.php';
         @media (max-width: 768px) {
         .hover-text::after {
             margin-top: 30px;
-            padding: 10px; 
+            padding: 10px;
         }
 }
           .hover-text:hover::after {
           display: block;
           }
-          
+
         #mdp.hover-text::after {
           content: "En appuyant sur RESET, le mot de passe sera \"achanger\".";
         }
@@ -59,11 +59,11 @@ require_once 'config/auth.php';
             background-color: #f2f2f9;
             font-weight: bold;
             text-align: center;
-            
+
         }
         button {
         width: 100%;
-        height: 100%; 
+        height: 100%;
         border: none;
         background: none;
         cursor: pointer;
@@ -75,11 +75,10 @@ require_once 'config/auth.php';
     <table class="table table-striped table-hover" id="maTable">
         <thead>
             <tr class="table-secondary">
-              <th><button onclick="sortTable(0)">Nom &#8645;</button></th>
-              <th><button onclick="sortTable(1)">Prénom &#8645;</button></th>
-              <th><button onclick="sortTable(2)">Promo &#8645;</th></button>
-              <th><button onclick="sortTable(3)">Spécialité &#8645;</button></th>
-              <th><button onclick="sortTable(4)">Statut &#8645;</button> </th>
+              <th><button>Utilisateur</button></th>
+              <th><button>Promo &#8645;</th></button>
+              <th><button>Spécialité &#8645;</button></th>
+              <th><button>Statut &#8645;</button> </th>
               <th><span id ="mdp" class="hover-text">Reset password &#9432;</span></th>
               <th><span id="acc" class="hover-text">Désactivé  &#9432;</span> </th>
             </tr>
@@ -87,26 +86,25 @@ require_once 'config/auth.php';
         <tr>
             <?php foreach ($profils as $profil): ?>
                   <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
-                    <td><?= $profil->nom ?></td>
-                    <td><?= $profil->prenom ?></td>
+                    <td><?= $profil->nom ?> <?= $profil->prenom ?></td>
                     <td><?= $profil->promo ?></td>
                     <td><?= $profil->spe ?></td>
                     <td><?= $profil->statut ?></td>
                     <?php
-                      if ($profil->password_reset == "1"){echo "<td><a class='btn btn-warning' 
-                        href='router.php?page=reset_password&idProfil=" . 
+                      if ($profil->password_reset == "1"){echo "<td><a class='btn btn-warning'
+                        href='router.php?page=reset_password&idProfil=" .
                         $profil->id . "' role='button'>En cours</a></td>";}
 
-                      if ($profil->password_reset == "0"){echo "<td><a class='btn btn-success' 
-                        href='router.php?page=reset_password&idProfil=" . 
+                      if ($profil->password_reset == "0"){echo "<td><a class='btn btn-success'
+                        href='router.php?page=reset_password&idProfil=" .
                         $profil->id . "' role='button'>Reset</a></td>";}
-                  
-                      if ($profil->inactif == 1){echo "<td><a class='btn btn-secondary' 
-                        href='router.php?page=profil_enable&idProfil=" . 
+
+                      if ($profil->inactif == 1){echo "<td><a class='btn btn-secondary'
+                        href='router.php?page=profil_enable&idProfil=" .
                         $profil->id . "' role='button'>Désactivé</a></td>";}
 
-                      if ($profil->inactif == 0){echo "<td><a class='btn btn-success' 
-                        href='router.php?page=profil_disable&idProfil=" . 
+                      if ($profil->inactif == 0){echo "<td><a class='btn btn-success'
+                        href='router.php?page=profil_disable&idProfil=" .
                         $profil->id . "' role='button'>Actif</a></td>";}
                       ?>
                     <?php endforeach; ?>

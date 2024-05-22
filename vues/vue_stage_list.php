@@ -24,7 +24,7 @@ require_once 'config/auth.php';
 
     ?>
 
-    <table class="table">
+    <table class="table is-fullwidth">
       <thead>
         <tr>
           <th>Etudiant </th>

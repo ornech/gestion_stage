@@ -19,15 +19,9 @@ require_once 'config/auth.php';
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link" href="router.php?page=stage_list"><i class='far fa-calendar-alt'>&nbsp;</i>Stages</a>
         <div class="navbar-dropdown">
-          <a class="navbar-item">
-            Mes suivis
-          </a>
-          <a class="navbar-item">
-            SIO1
-          </a>
-          <a class="navbar-item">
-            SIO2
-          </a>
+          <a class="navbar-item" style="opacity: .20;">Mes suivis</a>
+          <a class="navbar-item" style="opacity: .20;">SIO1</a>
+          <a class="navbar-item" style="opacity: .20;">SIO2</a>
         </div>
       </div>
 
@@ -36,36 +30,22 @@ require_once 'config/auth.php';
       <a class="navbar-item" href="router.php?page=recherche"><i class='fa fa-search'>&nbsp;</i>Recherche</a>
 
       <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link"> <i class="fas fa-users"></i>&nbsp; Etudiants </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item">
-            Liste
-          </a>
-          <a class="navbar-item" href="router.php?page=gestion_etu">Gestion</a>
-          <a class="navbar-item">
-            Importation
-          </a>
+        <a class="navbar-link"> <i class="fas fa-users"></i>&nbsp; Administration </a>
+      <div class="navbar-dropdown">
+          <a class="navbar-item" href="router.php?page=create_user">Ajouter utilisateur</a>
+          <a class="navbar-item" href="router.php?page=gestion_etu">Gestion utilisateurs</a>
+          <a class="navbar-item" href="router.php?page=import_pronote"> Importation pronote</a>
         </div>
       </div>
-
-
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
           Profil
         </a>
         <div class="navbar-dropdown">
-          <p class="navbar-item">Compte professeur</p>
-          <a class="navbar-item" href="router.php?page=profil">
-            <?php echo $_SESSION['utilisateur'] ?>
-          </a>
-
+          <p class="navbar-item"  style="opacity: .50;">Compte professeur</p>
+          <a class="navbar-item" href="router.php?page=profil"> <?php echo $_SESSION['utilisateur'] ?></a>
           <hr class="navbar-divider">
-
-            <a href="logout.php" class="navbar-item" ><i class="fas fa-sign-out-alt"></i>Se déconnecter</a>
-
-
-
-
+          <a href="logout.php" class="navbar-item" ><i class="fas fa-sign-out-alt"></i>Se déconnecter</a>
         </div>
       </div>
     </div>

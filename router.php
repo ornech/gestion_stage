@@ -229,6 +229,12 @@ function router($page, $conn) {
       include 'vues/vue_stage_list.php';
       break;
 
+  case 'import_pronote':
+      include_once 'model/Profil.php';
+      $import_pronoteModel = new Profil($conn);
+      include 'vues/vue_import_pronote.php';
+      break;
+
    case 'erreur':
       $message = isset($_GET['messge']) ? $_GET['message'] : null;
       include 'vues/vue_erreur.php'; // Page d'accueil par défaut
