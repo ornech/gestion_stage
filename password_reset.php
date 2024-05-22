@@ -88,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma-rtl.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <title>Application gestion stage</title>
 </head>
@@ -97,99 +97,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <main>
 
 <div class="columns is-centered" style="height: 100vh; align-items: center;">
-  <div class="column is-one-third">
+    <div class="column is-one-third">
 
-    <form class="box container" action="" method="post">
-        <fieldset>
-        <?php if
-        (isset($error_message)) : ?>
-        <div class="field">
-            <div class="notification is-danger">
-                <?php echo $error_message; ?>
+        <form class="box container" action="" method="post">
+            <fieldset>
+
+            <!-- Form Name -->
+            <legend class="is-size-3 mb-1">Nouveau mot de passe</legend>
+            <p class="is-size-6 mb-4">Remplissez ce formulaire pour changer votre mot de passe.</p>
+
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input id="password" name="new_password" class="input" type="password" placeholder="Mot de passe">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </div>
             </div>
-        </div>
-        <?php endif; ?>
 
-        <!-- Form Name -->
-        <legend class="is-size-3 mb-4">Connexion</legend>
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input id="confirm_password" name="confirm_password" class="input" type="password" placeholder="Confirmer le mot de passe">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </div>
+            </div>
 
-        <div class="field">
-        <div class="control has-icons-left">
-          <input id="password" name="new_password" class="input" type="password" placeholder="Mot de passe">
-          <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </div>
-      </div>
+            <?php if(isset($new_password_err) || isset($confirm_password_err)) : ?>
+            <div class="field">
+                <div class="notification is-danger">
+                    <?=
+                        $new_password_err != "" && $confirm_password_err != "" ? $new_password_err . "<br>" . $confirm_password_err : 
+                        ($new_password_err != "" ? $new_password_err :
+                        ($confirm_password_err != "" ? $confirm_password_err : 'Erreur'));
+                    ?>
+                    
+                </div>
+            </div>
+            <?php endif; ?>
 
-      <div class="field">
-        <div class="control has-icons-left">
-          <input id="confirm_password" name="confirm_password" class="input" type="password" placeholder="Confirmer le mot de passe">
-          <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </div>
-      </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-success is-fullwidth" type="submit" value="Confirmer">Confirmer</button>
+                </div>
+            </div>
 
-      <div class="field">
-        <div class="control">
-          <button class="button is-success is-fullwidth" type="submit" value="Confirmer">Confirmer</button>
-        </div>
-      </div>
+            </fieldset>
 
-        </fieldset>
-
-        <br>
-        <p class="has-text-centered"><strong>BTS SIO</strong> - Lycée Merleau Ponty</p>
-    </form>
+            <br>
+            <p class="has-text-centered"><strong>BTS SIO</strong> - Lycée Merleau Ponty</p>
+        </form>
     </div> 
 </div>
-
-<form class="box" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-    <fieldset>
-      <?php if
-       (isset($error_message)) : ?>
-       <div class="field">
-          <div class="notification is-danger">
-             <?php echo $error_message; ?>
-          </div>
-       </div>
-      <?php endif; ?>
-
-      <!-- Form Name -->
-      <legend>Nouveau mot de passe</legend>
-      <p>Remplissez ce formulaire pour changer votre mot de passe.</p>
-
-      <div class="field">
-        <div class="control has-icons-left">
-          <input id="password" name="new_password" class="input" type="password" placeholder="Mot de passe">
-          <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="control has-icons-left">
-          <input id="confirm_password" name="confirm_password" class="input" type="password" placeholder="Confirmer le mot de passe">
-          <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="control">
-          <button class="button is-success is-fullwidth" type="submit" value="Confirmer">Confirmer</button>
-        </div>
-      </div>
-
-    </fieldset>
-
-    <br>
-    <p class="has-text-centered"><strong>BTS SIO</strong> - Lycée Merleau Ponty</p>
-  </form>
-
 </main>
 
 </body>
