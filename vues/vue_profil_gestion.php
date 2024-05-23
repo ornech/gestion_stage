@@ -76,6 +76,7 @@ require_once 'config/auth.php';
         <thead>
             <tr class="table-secondary">
               <th><button>Utilisateur</button></th>
+              <th><button>Date d'entrée</button></th>
               <th><button>Promo &#8645;</th></button>
               <th><button>Spécialité &#8645;</button></th>
               <th><button>Statut &#8645;</button> </th>
@@ -87,6 +88,7 @@ require_once 'config/auth.php';
             <?php foreach ($profils as $profil): ?>
                   <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
                     <td><?= $profil->nom ?> <?= $profil->prenom ?></td>
+                    <td><?= $profil->date_entree ?></td>
                     <td><?= $profil->promo ?></td>
                     <td><?= $profil->spe ?></td>
                     <td><?= $profil->statut ?></td>

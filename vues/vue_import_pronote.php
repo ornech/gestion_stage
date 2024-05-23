@@ -22,12 +22,11 @@ require_once 'config/auth.php';
           <span class="file-icon">
             <i class="fas fa-upload"></i>
           </span>
-          <span class="file-label"> Sélectionnez un fichier </span>
+          <span class="file-label"> CSV </span>
         </span>
         <span class="file-name"> Aucun fichier sélectionné </span>
       </label>
     </div>
-
 
     <input type="submit" name="submit" value="Importer">
 </form>
