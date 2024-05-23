@@ -15,7 +15,7 @@ function placeFilter(baliseHeader, nameColonne, valueColonnes, numColonne){
         </button>
       </div>
 
-      <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+      <div class="dropdown-menu" id="dropdown-menu4" role="menu" style="border: solid 2px #ccc;  border-radius: 6px">
         <div class="dropdown-content">
           <div class="dropdown-item">
             <span class="label is-small">Filtrer</span>
