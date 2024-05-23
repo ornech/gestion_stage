@@ -1,5 +1,4 @@
 <?php
-
 class Profil {
   private $conn;
   private $table_name = "User";
@@ -155,12 +154,13 @@ class Profil {
     }
   }
 
-  public function import($nom, $prenom ,$spe, $promo, $login ,$password, $statut, $inactif, $password_reset){
+  public function import_________OLD($nom, $prenom ,$spe, $date_entree, $promo, $login ,$password, $statut, $inactif, $password_reset){
 
     $query = "INSERT INTO " . $this->table_name . "
     SET nom = :nom,
     prenom = :prenom,
     spe = :spe,
+    date_entree = :date_entree,
     promo = :promo,
     login = :login,
     password = :password,
@@ -174,6 +174,7 @@ class Profil {
     $this->prenom=htmlspecialchars(strip_tags($prenom));
     $this->promo=htmlspecialchars(strip_tags($promo));
     $this->spe=htmlspecialchars(strip_tags($spe));
+    $this->date_entree=htmlspecialchars(strip_tags($date_entree));
     $this->login=htmlspecialchars(strip_tags($login));
     $this->password=htmlspecialchars(strip_tags($password));
     $this->statut=htmlspecialchars(strip_tags($statut));
@@ -183,6 +184,7 @@ class Profil {
     $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
     $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
     $stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
+    $stmt->bindParam(':date_entree', $date_entree, PDO::PARAM_STR); // A vérifier
     $stmt->bindParam(':promo', $promo, PDO::PARAM_STR);
     $stmt->bindParam(':login', $login, PDO::PARAM_STR);
     $stmt->bindParam(':password', $password, PDO::PARAM_STR);
@@ -204,7 +206,67 @@ class Profil {
     }
   }
 
+  public function import($nom, $prenom, $spe, $date_entree, $promo, $login, $password, $statut, $inactif, $password_reset) {
+    $query = "INSERT INTO " . $this->table_name . "
+    SET nom = :nom,
+        prenom = :prenom,
+        spe = :spe,
+        date_entree = :date_entree,
+        promo = :promo,
+        login = :login,
+        password = :password,
+        statut = :statut,
+        inactif = :inactif,
+        password_reset = :password_reset";
 
+    $stmt = $this->conn->prepare($query);
+
+    // Nettoyage des entrées
+    $this->nom = htmlspecialchars(strip_tags($nom));
+    $this->prenom = htmlspecialchars(strip_tags($prenom));
+    $this->promo = htmlspecialchars(strip_tags($promo));
+    $this->spe = htmlspecialchars(strip_tags($spe));
+    $this->date_entree = htmlspecialchars(strip_tags($date_entree));
+    $this->login = htmlspecialchars(strip_tags($login));
+    $this->password = htmlspecialchars(strip_tags($password));
+    $this->statut = htmlspecialchars(strip_tags($statut));
+    $this->inactif = htmlspecialchars(strip_tags($inactif));
+    $this->password_reset = htmlspecialchars(strip_tags($password_reset));
+
+    // Paramètres
+    $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+    $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+    $stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
+    $stmt->bindParam(':date_entree', $date_entree, PDO::PARAM_STR);
+    $stmt->bindParam(':promo', $promo, PDO::PARAM_STR);
+    $stmt->bindParam(':login', $login, PDO::PARAM_STR);
+    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+    $stmt->bindParam(':statut', $statut, PDO::PARAM_STR);
+    $stmt->bindParam(':inactif', $inactif, PDO::PARAM_INT);
+    $stmt->bindParam(':password_reset', $password_reset, PDO::PARAM_INT);
+
+
+    try {
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            throw new Exception("Erreur lors de l'exécution de la requête.");
+        }
+    } catch (Exception $e) {
+    // Affichage des erreurs SQL
+      $errorInfo = $stmt->errorInfo();
+      $message = "Erreur SQL : " . $errorInfo[2] . " (SQLSTATE: " . $errorInfo[0] . ", Code: " . $errorInfo[1] . ") lors de l'importation du profil $this->login.";
+      header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+      return false;
+}
+}
+
+private function debugQuery($query, $params) {
+    foreach ($params as $key => $value) {
+        $query = str_replace($key, "'" . addslashes($value) . "'", $query);
+    }
+    return $query;
+}
 
 }
 ?>

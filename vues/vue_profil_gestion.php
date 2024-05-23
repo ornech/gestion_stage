@@ -3,82 +3,30 @@ require_once 'config/auth.php';
 ?>
 
 <?php
-
+function convertDateFormat($date) {
+    // Utiliser DateTime pour convertir le format
+    $dateTime = DateTime::createFromFormat('Y-m-d', $date);
+    if ($dateTime) {
+        return $dateTime->format('d/m/Y');
+    } else {
+        // Gérer l'erreur si le format de la date est incorrect
+        return false;
+    }
+}
     // Vérifier si les détails du profil sont disponibles
     if($_SESSION['statut'] == "Professeur") {
         // Afficher les détails du profil
 ?>
 <H2> Gestion étudiants </H2>
-
-<style>
-      .hover-text {
-        position: relative;
-        display: inline-block;
-    }
-        .hover-text::after {
-          content:"";
-          position: absolute;
-          top: -200%;
-          transform: translateX(-90%);
-          display: none;
-          background-color: #FFE5CC;
-          width: 400px;
-          font-weight: normal;
-          }
-        @media (max-width: 768px) {
-        .hover-text::after {
-            margin-top: 30px;
-            padding: 10px;
-        }
-}
-          .hover-text:hover::after {
-          display: block;
-          }
-
-        #mdp.hover-text::after {
-          content: "En appuyant sur RESET, le mot de passe sera \"achanger\".";
-        }
-        #acc.hover-text::after{
-            content: "Cliquez sur le bouton ACTIF pour désactiver le compte. Cliquez à nouveau pour le réactiver."
-        }
-
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        td{
-          text-align: left;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            padding: 8px;
-             vertical-align: middle;
-        }
-        th {
-            background-color: #f2f2f9;
-            font-weight: bold;
-            text-align: center;
-
-        }
-        button {
-        width: 100%;
-        height: 100%;
-        border: none;
-        background: none;
-        cursor: pointer;
-        padding: 0;
-        font-weight: bold;
-        }
-    </style>
   <a class='btn btn-success' href='router.php?page=create_user' role='button'>Créer un compte</a>
     <table class="table table-striped table-hover" id="maTable">
         <thead>
             <tr class="table-secondary">
-              <th><button>Utilisateur</button></th>
-              <th><button>Promo &#8645;</th></button>
-              <th><button>Spécialité &#8645;</button></th>
-              <th><button>Statut &#8645;</button> </th>
+              <th>Utilisateur</th>
+              <th>Date d'entrée</th>
+              <th>Login</th>
+              <th>Spécialité</button></th>
+              <th>Statut</th>
               <th><span id ="mdp" class="hover-text">Reset password &#9432;</span></th>
               <th><span id="acc" class="hover-text">Désactivé  &#9432;</span> </th>
             </tr>
@@ -87,7 +35,11 @@ require_once 'config/auth.php';
             <?php foreach ($profils as $profil): ?>
                   <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
                     <td><?= $profil->nom ?> <?= $profil->prenom ?></td>
-                    <td><?= $profil->promo ?></td>
+                    <td><?PHP
+                    $date_entree = convertDateFormat($profil->date_entree);
+                    echo $date_entree;
+                     ?></td>
+                    <td><?= $profil->login ?></td>
                     <td><?= $profil->spe ?></td>
                     <td><?= $profil->statut ?></td>
                     <?php
