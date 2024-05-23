@@ -16,34 +16,8 @@ require_once 'config/auth.php';
   <!-- Bulma.io -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma-rtl.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
-  
-  <script>
-  function sortTable(colIndex) {
-    var table = document.getElementById("maTable");
-    var rows = table.rows;
-    var switching = true;
 
-    while (switching) {
-      switching = false;
-      for (var i = 1; i < (rows.length - 1); i++) {
-        var shouldSwitch = false;
-        var x = rows[i].getElementsByTagName("TD")[colIndex].textContent.toLowerCase();
-        var y = rows[i + 1].getElementsByTagName("TD")[colIndex].textContent.toLowerCase();
-
-        if (x > y) {
-          shouldSwitch = true;
-          break;
-        }
-      }
-      if (shouldSwitch) {
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-      }
-    }
-  }
-
-</script>
-
+  <script src="/js/trie_tableau.js"></script>
 
 </head>
 <body>
