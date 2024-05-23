@@ -100,7 +100,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </span>
             </div>
         </div>
-
         <div class="field">
             <div class="control has-icons-left">
             <input id="password" name="password" class="input" type="password" placeholder="Mot de passe">
@@ -108,8 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <i class="fas fa-lock"></i>
             </span>
             </div>
-        </div>
-      
+        </div>      
         <div class="field">
             <div class="control">
             <button class="button is-success is-fullwidth" type="submit" value="Connection">Connection</button>
