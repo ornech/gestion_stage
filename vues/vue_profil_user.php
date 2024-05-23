@@ -23,7 +23,6 @@ if($Profil) {
             border-bottom: 2px solid #00d1b2;
         }
 
-
     </style>
 
 <body>
@@ -45,6 +44,7 @@ if($Profil) {
   </div>
 </div>
 </body>
+
 <?php
 } else {
    // Si aucun profil n'a été trouvée, afficher un message d'erreur

@@ -381,10 +381,10 @@ ON Entreprise FOR EACH ROW
 BEGIN
     DECLARE count_exist INT;
     
-    -- Vérifier si le SIRET existe déjà dans la table
+    
     SELECT COUNT(*) INTO count_exist FROM Entreprise WHERE siret = NEW.siret;
     
-    -- Si le SIRET existe déjà, lever une erreur
+    
     IF count_exist > 0 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Cette entreprise existe déjà dans la base de données.';
@@ -443,6 +443,7 @@ CREATE TABLE `User` (
   `nom` varchar(255) NOT NULL,
   `prenom` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `date_entree` date DEFAULT NULL,
   `telephone` varchar(255) DEFAULT NULL,
   `spe` varchar(4) DEFAULT NULL COMMENT 'Spécialité (SLAM ou SISR)',
   `promo` varchar(4) DEFAULT NULL,
@@ -452,7 +453,7 @@ CREATE TABLE `User` (
   `statut` varchar(100) DEFAULT NULL,
   `inactif` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=314 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -462,67 +463,96 @@ CREATE TABLE `User` (
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
 INSERT INTO `User` VALUES
+(1,'Dupond','André','',NULL,NULL,NULL,'','test','$2y$10$XzVV.OVw3QxgcuEW9ZXGEubrF0jYfVrJV73FDMLVd1zP2lOFeOtUW',0,'Etudiant',1),
+(2,'prof','prof',NULL,NULL,NULL,NULL,'','prof','$2y$10$Ib3pC565U/q.lb4lxsa5W.oNfVjlHpdgvHUU0HA7TgwAkffgXFQrW',0,'Professeur',0),
+(3,'Ornech','Jean-François','jean-francois.ornech@ac-poitiers.fr',NULL,'',NULL,'','jfornech','$2y$10$GVLSmMO4r25S2Uu.lpa6COtmNRdMr6.q.KgoDdVec.IIPtEi.GN.q',0,'Professeur',0),
+(18,'Patrice','DENIS ARONIS','mail@mail.local',NULL,'',NULL,'','patrice','$2y$10$hR2DosUGTpgg/z4yy3X.vupNh9Rg7ri9rw3JIa8uJLzInmxLhBnLW',1,'Professeur',0),
+(20,'Etudiant','etudiant de test','',NULL,'',NULL,'','sio','$2y$10$KeXbUulOY1uxBUdr.5zkDeTCDqLJHGYU8DF11Ji5PmUcBe79RI0Tq',0,'Etudiant',1),
+(21,'login','login',NULL,NULL,NULL,NULL,'','login','$2y$10$NNi/pR4j1Ne4N8MD.QFJOedZjQtNhcfPttfxHRXPLYyPGrGzBDnXu',0,'Etudiant',0),
+(40,'CASTILLO','Jean-Christophe','',NULL,'',NULL,'','castillojc','$2y$10$H5W2E9n/oN0m4C9ugRdbdeRUEYM.zM.DUGWMlPrIR1ID7XqI785vC',1,'Professeur',0),
+(41,'BOUCHEREAU','Bertrand','',NULL,'',NULL,'','bouchereaub','$2y$10$HO4yuuq58SJBqqxnGzksCuvm4FWDBR6nWc3n6ZJHyNHdDEk2tBAK6',1,'Professeur',0),
+(43,'test3','test3','test3@test3.test3',NULL,'',NULL,'','test3','$2y$10$vBFEKCAj89EuGo3oLKCZwOabwVoqMpIFIRuaRielTFisKJ07pts1G',0,'Etudiant',0),
+(44,'test4','test4','',NULL,'',NULL,'','test4','$2y$10$NtrExBcCGJpDOA/hahsUWOAby9r7QQLo1lEMNvyjKsvgLhO.sszjC',0,'Professeur',0),
+(283,'BARBIER','loann',NULL,'2023-09-04',NULL,'','','barbier.loann','$2y$10$LgIb4/JPIgLjEKcEQGM31.bhNcPx7ifu40zjg3AXb7uOE1EWOit0u',1,'Etudiant',0),
+(284,'DEGRAUW VERRY','axel',NULL,'2023-09-04',NULL,'','','degrauwverry.axel','$2y$10$v0pV6vOxh2UtLG7U5X5d0u5EJGszxWZE.x84Lgf1PPMUUMDtMCy4i',1,'Etudiant',0),
+(285,'ERNOULT','gabin',NULL,'2023-09-04',NULL,'','','ernoult.gabin','$2y$10$fcd96wY6oCbEWKjQ9ezSL.IWLaLP7aFTUj8yJbO.0FXh.U.whOctG',1,'Etudiant',0),
+(286,'GAILLARD','logan',NULL,'2023-09-04',NULL,'','','gaillard.logan','$2y$10$b0qsMB0TmRAPE1wRDsYfue4fYhOdTaJ5cHAZ6Zae2LPknXC/hCUXi',1,'Etudiant',0),
+(287,'KOSIOREK','alexandre',NULL,'2023-09-04',NULL,'','','kosiorek.alexandre','$2y$10$ZAmJ.kVgyJqEC/rVX.8vGeq6fXYIxjUPf/V2S9s5YZhJS5ntlcvmy',1,'Etudiant',0),
+(288,'LE ROCHELEUIL  CHAILLE','alexis',NULL,'2023-09-04',NULL,'','','lerocheleuilchaille.alexis','$2y$10$qoWwikAq8GHhAdBGUVyqF.aqCMuGwntJZXyBwUy5dkpdF1tcEyaVq',1,'Etudiant',0),
+(289,'LESCOUZERE','matheo',NULL,'2023-09-04',NULL,'','','lescouzere.matheo','$2y$10$HqU1mgQicDfWOabvOJ7PyuCeBQ5oQ6yISR7XOtbrhdbG5QXzqXb0C',1,'Etudiant',0),
+(290,'MANUKYAN','astghik',NULL,'2023-09-04',NULL,'','','manukyan.astghik','$2y$10$PNd9ccVd.omSeZvPR9dabOCZdqJFXCI0JwE.MLzrxnN/Q6Nu3QemC',1,'Etudiant',0),
+(291,'MINGOUOLO','noah',NULL,'2023-09-04',NULL,'','','mingouolo.noah','$2y$10$p5tkLzkj1RiVHyzn5WWdVOcr1E7t3HY30cWbq4uHQdc5.ayjOWK.C',1,'Etudiant',0),
+(292,'MORNAC','erwan',NULL,'2023-09-04',NULL,'','','mornac.erwan','$2y$10$KaKZrvQJuGhNi/8tWIiRCeyjwzTn0dbYxePPx6knVq1lfSWxbWse6',1,'Etudiant',0),
+(293,'RAMOS','clement',NULL,'2023-09-04',NULL,'','','ramos.clement','$2y$10$2nq9sOVxrNC6m5aKqw68f.6MmpcRzetq.qm4LpaQHCLSbuUZXeVjm',1,'Etudiant',0),
+(294,'ROUX','kevin',NULL,'2023-09-04',NULL,'','','roux.kevin','$2y$10$3jlp/7o3pLewV5fL3GV2J.PkkNUqaSKUgqZsRdEy5zSwzX1HpZTjS',1,'Etudiant',0),
+(295,'SAWANE','salle',NULL,'2023-09-04',NULL,'','','sawane.salle','$2y$10$D2dj.0mTOYqdJXiY.ORMJ.uwc/JqPjJqPyDbBebB/zLFjl8jtrkRq',1,'Etudiant',0),
+(296,'SOUAKRI','lounes',NULL,'2023-09-04',NULL,'','','souakri.lounes','$2y$10$eLcFIfCY.dG8pirygmu.f.9JT5GFt1WMyDw2xJEHyxLaNORBI2nee',1,'Etudiant',0),
+(297,'BONNET','matthieu',NULL,'2023-09-04',NULL,'','','bonnet.matthieu','$2y$10$Gz6vxW7uRyF.21sW33oTMel/yIZk8AFuLP00n81LIPd8XhtrLUFA.',1,'Etudiant',0),
+(298,'BUIL','victor',NULL,'2023-09-04',NULL,'','','buil.victor','$2y$10$oL1Hs1ChRjg.Z/ctUrW6/O3/mUNXNdotZfIzhfqpIRpQVJtOOr5Ye',1,'Etudiant',0),
+(299,'BURAUD','mathis',NULL,'2023-09-04',NULL,'','','buraud.mathis','$2y$10$T88L.I8FH1.yPbqrA1bjbOMV5PKfbDOALVzCkrpQrfWowLMyEUKiq',1,'Etudiant',0),
+(300,'COQUILLAU','elowan',NULL,'2023-09-04',NULL,'','','coquillau.elowan','$2y$10$4bes3wmOeU5ECpEN/8RBVOnKRXtD.3Bh9jaKaf9m9PFeDe/nueNVC',1,'Etudiant',0),
+(301,'COTTEREAU','corentin',NULL,'2023-09-04',NULL,'','','cottereau.corentin','$2y$10$/WWjbjvMfHERxHoOPbIkoe8IScbC1AD.TeYi3ipquU4Ll2WlKfiam',1,'Etudiant',0),
+(302,'DE ALMEIDA','angel',NULL,'2023-09-04',NULL,'','','dealmeida.angel','$2y$10$gZCtPO6nMFJVFebVNDZJSuGygJAvxwZu6jR8mhZUCgW8tMgZL4PTC',1,'Etudiant',0),
+(303,'DOMENICI','lheo',NULL,'2023-09-04',NULL,'','','domenici.lheo','$2y$10$KCl/7Mv/IRbZTXzocHm3EulSKpLe3U/gXKeFajbA8u2No1QAYUQeC',1,'Etudiant',0),
+(304,'GARNIER','aurelien',NULL,'2023-09-04',NULL,'','','garnier.aurelien','$2y$10$wDye3E8DE2BraJ4nDhrOPevJov6PRd4U0uxZnjApWGfsEAQoElizq',1,'Etudiant',0),
+(305,'GUICHARD','camille',NULL,'2023-09-04',NULL,'','','guichard.camille','$2y$10$CqKEETRFqDr4XYjNjOmBuen/9SjmH.B6L1N8ZZgQ6NB9TF2ilZSUm',1,'Etudiant',0),
+(306,'LEFEBVRE','aleksander',NULL,'2023-09-04',NULL,'','','lefebvre.aleksander','$2y$10$rP37oqAr.aFo3UgeoK20UuUvhUbOj9Sbb9VU7UG64v3yFJU5fLyQS',1,'Etudiant',0),
+(307,'MENARD','lucas',NULL,'2023-09-04',NULL,'','','menard.lucas','$2y$10$xcl0h3lHO9lVf0TaBxFtL.YPr6ephkdgE4qEThbqFD0TyXyt6Vxni',1,'Etudiant',0),
+(308,'MIE','martin',NULL,'2023-09-04',NULL,'','','mie.martin','$2y$10$cTxklMVeDggknfMGaUmUreUqGRUfQLutqQVSIzYSFFU9so2j4d1uq',1,'Etudiant',0),
+(309,'PERODEAU','matheo',NULL,'2023-09-04',NULL,'','','perodeau.matheo','$2y$10$sYxXUD11lKzs9byjX4V39erc.mAlpVmEQvGre/z1fv50IuOnNGp9a',1,'Etudiant',0),
+(310,'POUPEAU','mathieu',NULL,'2023-09-04',NULL,'','','poupeau.mathieu','$2y$10$yiNoHD8QYjSIQuDLmXUy6OSWl3ncsALNWgd195FHMwyx3XtdngnLq',1,'Etudiant',0),
+(311,'TEXIER','hugo',NULL,'2023-09-04',NULL,'','','texier.hugo','$2y$10$GIOZRvGjkTRIEcc0ecHV.eS1CtGhDArNsJefxGMXjMaytjT8KBc2W',1,'Etudiant',0),
+(312,'THOMAS','dorian',NULL,'2023-09-04',NULL,'','','thomas.dorian','$2y$10$OS6Z5ON6SuqtAeLl/BFv5eSV4giJItE0hhpuODYELqJ0WQWpOl7TO',1,'Etudiant',0),
+(313,'VINCENT','chloe',NULL,'2023-09-04',NULL,'','','vincent.chloe','$2y$10$EndTptWnDV0GAhsM0M3MC.yWiXl/qBy4KPSYavejgoXTx18DKj86e',1,'Etudiant',0);
+/*!40000 ALTER TABLE `User` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `utilisateur`
+--
+
+DROP TABLE IF EXISTS `utilisateur`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `utilisateur` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) NOT NULL,
+  `prenom` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `telephone` varchar(255) DEFAULT NULL,
+  `spe` varchar(4) DEFAULT NULL COMMENT 'Spécialité (SLAM ou SISR)',
+  `promo` varchar(4) DEFAULT NULL,
+  `login` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `password_reset` tinyint(1) DEFAULT NULL,
+  `statut` varchar(100) DEFAULT NULL,
+  `inactif` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `utilisateur`
+--
+
+LOCK TABLES `utilisateur` WRITE;
+/*!40000 ALTER TABLE `utilisateur` DISABLE KEYS */;
+INSERT INTO `utilisateur` VALUES
 (1,'Dupond','André','',NULL,NULL,'2023','test','$2y$10$XzVV.OVw3QxgcuEW9ZXGEubrF0jYfVrJV73FDMLVd1zP2lOFeOtUW',0,'Etudiant',1),
 (2,'prof','prof',NULL,NULL,NULL,NULL,'prof','$2y$10$Ib3pC565U/q.lb4lxsa5W.oNfVjlHpdgvHUU0HA7TgwAkffgXFQrW',0,'Professeur',0),
 (3,'Ornech','Jean-François','jean-francois.ornech@ac-poitiers.fr','',NULL,NULL,'jfornech','$2y$10$GVLSmMO4r25S2Uu.lpa6COtmNRdMr6.q.KgoDdVec.IIPtEi.GN.q',0,'Professeur',0),
 (18,'Patrice','DENIS ARONIS','mail@mail.local','',NULL,'2024','patrice','$2y$10$hR2DosUGTpgg/z4yy3X.vupNh9Rg7ri9rw3JIa8uJLzInmxLhBnLW',1,'Professeur',0),
 (20,'Etudiant','etudiant de test','','',NULL,'2024','sio','$2y$10$KeXbUulOY1uxBUdr.5zkDeTCDqLJHGYU8DF11Ji5PmUcBe79RI0Tq',0,'Etudiant',1),
 (21,'login','login',NULL,NULL,NULL,'2023','login','$2y$10$NNi/pR4j1Ne4N8MD.QFJOedZjQtNhcfPttfxHRXPLYyPGrGzBDnXu',0,'Etudiant',0),
-(22,'BARBIER','Loann',NULL,NULL,NULL,'2023','Loann','$2y$10$ZNrpDkjWY6hJIqehZUvCxuNV7cTAuwOwD7hJ.Zd7Vzvu9gP85o7H2',0,'Etudiant',0),
-(23,'BEAUFILS','Killian',NULL,NULL,NULL,'2023','Killian','$2y$10$W4VJ.dnjG6Mb.ZpzQwJv/.rrjJnB0OHG0sY2ff.4p/lgnSROcE43O',1,'Etudiant',0),
-(24,'DEGRAUW-VERRY','Axel',NULL,NULL,NULL,'2023','Axel','$2y$10$qTtT5t/gjyfaLh8I7mmXceyLZ5HS14pSdoJK1xws23GqePVzDdq/a',1,'Etudiant',0),
-(25,'ERNOULT','Gabin',NULL,NULL,NULL,'2023','Gabin','$2y$10$cStxPKScBkpFnm4Na/z4iOOkmtEZ/l.6AlRnapOlNEatLbNcrjpA6',1,'Etudiant',0),
-(26,'GAILLARD','Logan',NULL,NULL,NULL,'2023','Logan','$2y$10$nvb08iUGB1p//zep5EeseusY42ygT/aiSlYnys9HGq573R7Z0VBPK',0,'Etudiant',0),
-(27,'KOSIOREK','Alexandre',NULL,NULL,NULL,'2023','Alexandre','$2y$10$/Vi7CC5ZP3xXDj/gstV4BelELy77ARcBMCFiqSrHPSr.4BtypVcEq',0,'Etudiant',0),
-(28,'LE ROCHELEUIL-CHAILLE','Alexis',NULL,NULL,NULL,'2023','Alexis','$2y$10$xtW/SzljJBiac5qkYq/X5uOKCh5FUXBLtN22L08P6WeJqY0nwDAiW',0,'Etudiant',0),
-(29,'LEFEVRE','Manon',NULL,NULL,NULL,'2023','Manon','$2y$10$TtirF7AzMSeweLV8eetfLe/Zc5jOge0/0Xyp4np/xaqHt2kHj8Gmu',1,'Etudiant',0),
-(30,'LESCOUZERE','Mathéo',NULL,NULL,NULL,'2023','Mathéo','$2y$10$QN2EB8CsZci4LrmWowt14uZUCjyRUUXAUUTbS3oRh6Qai0KbXjEI2',0,'Etudiant',0),
-(31,'MANUKYAN','Astghik',NULL,NULL,NULL,'2023','Astghik','$2y$10$Oid6oIh2szcHR0IfJJk8Sue/IK400xedYH4bdgL7V8jbdnQkZMkQa',0,'Etudiant',0),
-(32,'MINGOUOLO','Noah',NULL,NULL,NULL,'2023','Noah','$2y$10$//NcOYhHQYPjb7eWMP9DruW1qeiOO1gmmMWGxlu30ccKD.BQ3zP8C',0,'Etudiant',0),
-(33,'MORNAC','Erwan',NULL,NULL,NULL,'2023','Erwan','$2y$10$j9FcCNc3G.L4pTAP.GpvE.krXC.idehMjvyAEbLfHUy.VBMDtv4rW',1,'Etudiant',0),
-(34,'RAMOS','Clement',NULL,NULL,NULL,'2023','Clement','$2y$10$mHSXyzFnF7ZW8A9FqDHdLeAUBfiosbV7W99muIzYAJEBMamjyvn6q',0,'Etudiant',0),
-(35,'ROBIN','Kyllian',NULL,NULL,NULL,'2023','Kyllian','$2y$10$QdwFusxX7KnMmsOFn5kxhuKYVQU3kyKn6kp93ywv/MsvjF2uR9eyG',0,'Etudiant',0),
-(36,'ROUX','Kevin',NULL,NULL,NULL,'2023','Kevin','$2y$10$WgGW3r6Dp8liNbdq5Zur8u2nEp9jhMrJS9q8JAO5mZD46fwRYTJye',1,'Etudiant',0),
-(37,'SAWANÉ','Sallé',NULL,NULL,NULL,'2023','Salle','$2y$10$LyQQUWZGCFsRxs61bEKSceM68XC4rPaMuUejfhfu3McoxnPzlwRXK',0,'Etudiant',0),
-(38,'SOUAKRI','Lounès',NULL,NULL,NULL,'2023','Lounes','$2y$10$7FJwSuyh55nKMLQ3zcSkpuUxZKLjpYb.6JiwFevR/t1uYSLP2tC3K',0,'Etudiant',0),
-(39,'TEXIER','Enola',NULL,NULL,NULL,'2023','Enola','$2y$10$RbZXEK6ypj2WRDqSSxKr5eHcD4Z8fkcd64JoOrHgX.Kc4fMvOUP/K',0,'Etudiant',0),
 (40,'CASTILLO','Jean-Christophe','','',NULL,'','castillojc','$2y$10$H5W2E9n/oN0m4C9ugRdbdeRUEYM.zM.DUGWMlPrIR1ID7XqI785vC',1,'Professeur',0),
 (41,'BOUCHEREAU','Bertrand','','',NULL,'2024','bouchereaub','$2y$10$HO4yuuq58SJBqqxnGzksCuvm4FWDBR6nWc3n6ZJHyNHdDEk2tBAK6',1,'Professeur',0),
 (43,'test3','test3','test3@test3.test3','',NULL,'2024','test3','$2y$10$vBFEKCAj89EuGo3oLKCZwOabwVoqMpIFIRuaRielTFisKJ07pts1G',0,'Etudiant',0),
 (44,'test4','test4','','',NULL,'2025','test4','$2y$10$NtrExBcCGJpDOA/hahsUWOAby9r7QQLo1lEMNvyjKsvgLhO.sszjC',0,'Professeur',0),
 (45,'test6','test6','fazef@fazef.fr','',NULL,'2025','ttest6','$2y$10$gTGaPW57oOOmOFkWYvDUZe6JVuhUJCO6pf7E9r8sFzkloy63i0Ufq',0,'Etudiant',0),
-(46,'test7','test7','frefr@fr.fr','','SLAM','2025','ttest7','$2y$10$P3z29YsZZ0mCJ/hyjgav4ua15bttqyN6Orht.rLPwdEMiO/o4JahW',0,'Etudiant',0);
-/*!40000 ALTER TABLE `User` ENABLE KEYS */;
+(46,'test7','test7','frefr@fr.fr','','SLAM','2025','ttest7','$2y$10$P3z29YsZZ0mCJ/hyjgav4ua15bttqyN6Orht.rLPwdEMiO/o4JahW',0,'Etudiant',0),
+(47,'Loann','BARBIER',NULL,NULL,'SIO','2023','barbier.loann','$2y$10$Zh1sPL7IGrYMlEPk13.KAeS9YUHOnBKb9mGhlePDKgaQ3zd5BLKAK',1,'étudiant',0);
+/*!40000 ALTER TABLE `utilisateur` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER Test_redondance_login
-BEFORE INSERT
-ON `User` FOR EACH ROW
-BEGIN
-    DECLARE count_exist INT;
-    
-    -- Vérifier si le SIRET existe déjà dans la table
-    SELECT COUNT(*) INTO count_exist FROM user WHERE login = NEW.login;
-    
-    -- Si le login existe déjà, lever une erreur
-    IF count_exist > 0 THEN
-        SIGNAL SQLSTATE '45001'
-        SET MESSAGE_TEXT = 'Le login existe déjà dans la base de données.';
-    END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Temporary table structure for view `vue_entreprise`
@@ -547,70 +577,7 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
--- Dumping routines for database 'gestion_stage'
+-- Temporary table structure for view `vue_stage`
 --
 
---
--- Final view structure for view `Activite`
---
-
-/*!50001 DROP VIEW IF EXISTS `Activite`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013  SQL SECURITY DEFINER */
-/*!50001 VIEW `Activite` AS select `Activite_Etu`.`id` AS `IdActivite`,`User`.`id` AS `IdEtudiant`,`Entreprise`.`id` AS `IdEntreprise`,cast(`Activite_Etu`.`date` as date) AS `Date`,cast(`Activite_Etu`.`date` as time) AS `Heure`,`Activite_Etu`.`type` AS `Type`,concat(`User`.`nom`,' ',`User`.`prenom`) AS `Etudiant`,`Entreprise`.`nomEntreprise` AS `Entreprise`,`Entreprise`.`ville` AS `Ville`,`Activite_Etu`.`Commentaire` AS `Commentaire` from ((`Activite_Etu` join `User` on(`Activite_Etu`.`IdEtudiant` = `User`.`id`)) join `Entreprise` on(`Activite_Etu`.`ID_Entreprise` = `Entreprise`.`id`)) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `Contact_employe`
---
-
-/*!50001 DROP VIEW IF EXISTS `Contact_employe`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013  SQL SECURITY DEFINER */
-/*!50001 VIEW `Contact_employe` AS select `Employe`.`id` AS `EmployeID`,`Employe`.`nom` AS `nom`,`Employe`.`prenom` AS `prenom`,`Employe`.`email` AS `email`,`Employe`.`telephone` AS `telephone`,`Employe`.`fonction` AS `fonction`,`Entreprise`.`id` AS `EntrepriseID`,`Entreprise`.`nomEntreprise` AS `entreprise`,`User`.`id` AS `UserID`,concat(`User`.`nom`,' ',`User`.`prenom`) AS `Created_User`,`Employe`.`Created_date` AS `Created_date` from ((`Employe` join `Entreprise` on(`Employe`.`idEntreprise` = `Entreprise`.`id`)) join `User` on(`Employe`.`Created_UserID` = `User`.`id`)) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `vue_entreprise`
---
-
-/*!50001 DROP VIEW IF EXISTS `vue_entreprise`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013  SQL SECURITY DEFINER */
-/*!50001 VIEW `vue_entreprise` AS select `e`.`id` AS `EntrepriseID`,`e`.`siret` AS `siret`,`e`.`nomEntreprise` AS `nomEntreprise`,`e`.`adresse` AS `adresse`,`e`.`ville` AS `ville`,`e`.`codePostal` AS `codePostal`,`e`.`naf` AS `naf`,`e`.`type` AS `type`,`e`.`effectif` AS `effectif`,`e`.`Created_Date` AS `Created_Date`,concat(`u`.`nom`,' ',`u`.`prenom`) AS `Created_User` from (`Entreprise` `e` join `User` `u` on(`e`.`Created_UserID` = `u`.`id`)) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-05-19 22:47:58
+DROP TABLE IF EXISTS `vue_stage`;

@@ -76,9 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="columns is-centered" style="height: 100vh; align-items: center;">
-  <div class="column is-one-third">
+    <div class="column is-one-third">
 
-    <form class="box container" action="" method="post">
+        <form class="box container" action="" method="post">
         <fieldset>
         <?php if
         (isset($error_message)) : ?>
@@ -100,7 +100,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </span>
             </div>
         </div>
-
         <div class="field">
             <div class="control has-icons-left">
             <input id="password" name="password" class="input" type="password" placeholder="Mot de passe">
@@ -108,9 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <i class="fas fa-lock"></i>
             </span>
             </div>
-        </div>
-      </div>
-      
+        </div>      
         <div class="field">
             <div class="control">
             <button class="button is-success is-fullwidth" type="submit" value="Connection">Connection</button>
@@ -121,9 +118,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <br>
         <p class="has-text-centered"><strong>BTS SIO</strong> - Lycée Merleau Ponty</p>
-    </form>
+        </form>
     </div> 
 </div>
 </main>
 </body>
 </html>
+
+<!-- Version validé de login.php -->

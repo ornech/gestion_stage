@@ -154,3 +154,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 </body>
 </html>
+
+<!-- Version validé de password_reset.php -->
