@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="css/sign-in.css" rel="stylesheet">
-    <link href="css/floating-labels.css" rel="stylesheet">
 
     <title>Application gestion stage</title>
 </head>
@@ -77,50 +75,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<form class="box" action="" method="post">
-    <fieldset>
-      <?php if
-       (isset($error_message)) : ?>
-       <div class="field">
-          <div class="notification is-danger">
-             <?php echo $error_message; ?>
-          </div>
-       </div>
-      <?php endif; ?>
+<div class="columns is-centered" style="height: 100vh; align-items: center;">
+  <div class="column is-one-third">
 
-      <!-- Form Name -->
-      <legend>Connexion</legend>
+    <form class="box container" action="" method="post">
+        <fieldset>
+        <?php if
+        (isset($error_message)) : ?>
+        <div class="field">
+            <div class="notification is-danger">
+                <?php echo $error_message; ?>
+            </div>
+        </div>
+        <?php endif; ?>
 
-      <div class="field">
-        <div class="control has-icons-left">
-          <input id="login" name="login" class="input" type="text" placeholder="Utilisateur">
-          <span class="icon is-small is-left">
-            <i class="fas fa-user"></i>
-          </span>
+        <!-- Form Name -->
+        <legend class="is-size-3 mb-4">Connexion</legend>
+
+        <div class="field">
+            <div class="control has-icons-left">
+            <input id="login" name="login" class="input" type="text" placeholder="Utilisateur">
+            <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+            </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control has-icons-left">
+            <input id="password" name="password" class="input" type="password" placeholder="Mot de passe">
+            <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+            </span>
+            </div>
         </div>
       </div>
-
-      <div class="field">
-        <div class="control has-icons-left">
-          <input id="password" name="password" class="input" type="password" placeholder="Mot de passe">
-          <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
+      
+        <div class="field">
+            <div class="control">
+            <button class="button is-success is-fullwidth" type="submit" value="Connection">Connection</button>
+            </div>
         </div>
-      </div>
 
-      <div class="field">
-        <div class="control">
-          <button class="button is-success is-fullwidth" type="submit" value="Connection">Connection</button>
-        </div>
-      </div>
+        </fieldset>
 
-    </fieldset>
-
-    <br>
-    <p class="has-text-centered"><strong>BTS SIO</strong> - Lycée Merleau Ponty</p>
-  </form>
-
+        <br>
+        <p class="has-text-centered"><strong>BTS SIO</strong> - Lycée Merleau Ponty</p>
+    </form>
+    </div> 
+</div>
 </main>
 </body>
 </html>
