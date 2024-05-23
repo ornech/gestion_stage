@@ -234,22 +234,17 @@ class Profil {
     $this->password_reset = htmlspecialchars(strip_tags($password_reset));
 
     // Paramètres
-    $params = [
-        ':nom' => $this->nom,
-        ':prenom' => $this->prenom,
-        ':spe' => $this->spe,
-        ':date_entree' => $this->date_entree,
-        ':promo' => $this->promo,
-        ':login' => $this->login,
-        ':password' => $this->password,
-        ':statut' => $this->statut,
-        ':inactif' => $this->inactif,
-        ':password_reset' => $this->password_reset
-    ];
+    $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+    $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+    $stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
+    $stmt->bindParam(':date_entree', $date_entree, PDO::PARAM_STR);
+    $stmt->bindParam(':promo', $promo, PDO::PARAM_STR);
+    $stmt->bindParam(':login', $login, PDO::PARAM_STR);
+    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+    $stmt->bindParam(':statut', $statut, PDO::PARAM_STR);
+    $stmt->bindParam(':inactif', $inactif, PDO::PARAM_INT);
+    $stmt->bindParam(':password_reset', $password_reset, PDO::PARAM_INT);
 
-    foreach ($params as $key => $value) {
-        $stmt->bindParam($key, $value);
-    }
 
     try {
         if ($stmt->execute()) {
@@ -258,12 +253,12 @@ class Profil {
             throw new Exception("Erreur lors de l'exécution de la requête.");
         }
     } catch (Exception $e) {
-        // Affichage des erreurs SQL
-        $errorInfo = $stmt->errorInfo();
-        $message = "Erreur SQL : " . $errorInfo[2] . " (SQLSTATE: " . $errorInfo[0] . ", Code: " . $errorInfo[1] . ")";
-        header("Location: ../router.php?page=erreur&message=" . urlencode($message));
-        return false;
-    }
+    // Affichage des erreurs SQL
+      $errorInfo = $stmt->errorInfo();
+      $message = "Erreur SQL : " . $errorInfo[2] . " (SQLSTATE: " . $errorInfo[0] . ", Code: " . $errorInfo[1] . ") lors de l'importation du profil $this->login.";
+      header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+      return false;
+}
 }
 
 private function debugQuery($query, $params) {
