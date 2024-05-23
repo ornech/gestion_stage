@@ -25,17 +25,17 @@ require_once 'config/auth.php';
     <h2>Liste des entreprises</h2>
     <p><a href="router.php?page=create_entreprise" class="btn btn-success" role="button">Ajouter une entreprise</a></p>
 
-    <table  class="table" id="maTable">
+    <table class="table tableFilter" id="maTable">
         <thead>
             <tr>
                 <?php
                 // Liste des colonnes du tableau
                 $entreprise_tableau = [
-                    'nomEntreprise' => 'nomEntreprise',
-                    'adresse' => 'adresse',
-                    'ville' => 'ville',
-                    'type' => 'type',
-                    'codePostal' => 'codePostal'
+                    "Nom entreprise" => "nomEntreprise",
+                    "Adresse" => "adresse",
+                    'Ville' => "ville",
+                    'Type' => "type",
+                    'Code postal' => "codePostal"
                 ];
 
                 // Fonction pour récupérer les valeurs uniques d'une colonne
@@ -51,32 +51,15 @@ require_once 'config/auth.php';
 
                 // Générer les filtres personnalisés pour chaque colonne
                 $filters = [];
-                foreach ($entreprise_tableau as $column => $value) {
+                foreach ($entreprise_tableau as $column) {
                     $filters[$column] = uniqueValues($entreprises, $column);
                 }
 
                 // Affichage des filtres et des options de tri
                 $n = 0;
                 foreach ($entreprise_tableau as $column => $value) {
-                    echo '<td>';
-                    echo '<div class="field">';
-                    echo '<label class="label is-small" for="' . $column . '_filtre">Filtrer</label>';
-                    echo '<input id="' . $column . '_filtre" value="" onkeyup="searchInColumn(this, ' . $n . ')" style="width:100%;" class="input is-small">';
+                    echo '<td class="lineFilter" name="'. $column .'">';
 
-                    echo '<select id="' . $column . '_filtre" onchange="applyFilter(this.value, \'' . $column . '\')" style="width:100%;" class="select is-small">';
-                    echo '<option value="">Tout afficher</option>';
-                    foreach ($filters[$column] as $filter) {
-                        echo '<option value="' . htmlspecialchars($filter) . '">' . htmlspecialchars($filter) . '</option>';
-                    }
-
-                    echo '</select>';
-                    echo '<label class="small" for="' . $column . '_trie">Trier</label>';
-                    echo '<select id="' . $column . '_trie" onchange="sortTable(' . $n . ', this.value)" class="select is-small" style="width:100%;">';
-                    echo '<option value="">---</option>';
-                    echo '<option value="asc">Croissant</option>';
-                    echo '<option value="desc">Décroissant</option>';
-                    echo '</select>';
-                    echo '<div>';
                     echo '</td>';
                     $n++;
                 }
@@ -88,85 +71,14 @@ require_once 'config/auth.php';
             <?php foreach ($entreprises as $entreprise): ?>
                 <tr>
                     <td><a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->id ?>"><?= htmlspecialchars($entreprise->nomEntreprise) ?></a></td>
-                    <td><?= htmlspecialchars($entreprise->adresse) ?></td>
-                    <td><?= htmlspecialchars($entreprise->ville) ?></td>
-                    <td><?= htmlspecialchars($entreprise->type) ?></td>
-                    <td><?= htmlspecialchars($entreprise->codePostal) ?></td>
+                    <td><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
+                    <td><?= $entreprise->ville != null ? htmlspecialchars($entreprise->ville) : "Non défini" ?></td>
+                    <td><?= $entreprise->type != null ? htmlspecialchars($entreprise->type) : "Non défini" ?></td>
+                    <td><?= $entreprise->codePostal != null ? htmlspecialchars($entreprise->codePostal) : "Non défini"?></td>
 
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-
-    <script>
-        // Fonction pour appliquer un filtre sur une colonne
-        function applyFilter(value, column) {
-            var table = document.querySelector('table');
-            var rows = table.getElementsByTagName('tr');
-            for (var i = 1; i < rows.length; i++) {
-                var row = rows[i];
-                var cells = row.getElementsByTagName('td');
-                var cell = Array.from(cells).find(cell => cell.innerText === value);
-                row.style.display = (value === '' || cell) ? '' : 'none';
-            }
-        }
-
-        // Fonction pour appliquer un tri sur une colonne
-        function sortTable(n, order) {
-            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            table = document.getElementById("maTable");
-            switching = true;
-            dir = order;
-
-            while (switching) {
-                switching = false;
-                rows = Array.from(table.rows).filter(row => row.style.display !== "none");
-
-                for (i = 1; i < (rows.length - 1); i++) {
-                    shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("TD")[n];
-                    y = rows[i + 1].getElementsByTagName("TD")[n];
-
-                    if (dir == "asc") {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-                if (shouldSwitch) {
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                    switchcount++;
-                } else {
-                    if (switchcount == 0 && dir == "asc") {
-                        dir = "desc";
-                        switching = true;
-                    }
-                }
-            }
-        }
-
-        // Fonction pour rechercher dans une colonne
-        function searchInColumn(input, columnIndex) {
-            var filter = input.value.toLowerCase();
-            var table = document.getElementById("maTable");
-            var rows = table.getElementsByTagName("tr");
-
-            for (var i = 1; i < rows.length; i++) {
-                var row = rows[i];
-                var cell = row.getElementsByTagName("td")[columnIndex];
-                if (cell) {
-                    var txtValue = cell.textContent || cell.innerText;
-                    row.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
-                }
-            }
-        }
-    </script>
 </body>
 </html>
