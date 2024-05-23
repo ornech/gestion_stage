@@ -109,7 +109,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </span>
             </div>
         </div>
-
+      </div>
+      
         <div class="field">
             <div class="control">
             <button class="button is-success is-fullwidth" type="submit" value="Connection">Connection</button>
@@ -123,8 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
     </div> 
 </div>
-
-
 </main>
 </body>
 </html>
