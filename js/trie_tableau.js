@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
   let table = document.getElementsByClassName("tableFilter");
   if (!table[0]) return;
 
-  let headers = document.getElementsByClassName("columnFilter");
+  let headers = document.getElementsByClassName("lineFilter");
 
   Array.from(headers).forEach((header, i) => {
       let nom = header.getAttribute("name") ? header.getAttribute("name") : "Undefined";

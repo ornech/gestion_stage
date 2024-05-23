@@ -58,7 +58,7 @@ require_once 'config/auth.php';
                 // Affichage des filtres et des options de tri
                 $n = 0;
                 foreach ($entreprise_tableau as $column => $value) {
-                    echo '<td class="columnFilter" name="'. $column .'">';
+                    echo '<td class="lineFilter" name="'. $column .'">';
 
                     echo '</td>';
                     $n++;
