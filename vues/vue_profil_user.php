@@ -17,7 +17,7 @@ if($Profil) {
 <p><strong>Statut: </strong> <?= $Profil->statut ? $Profil->statut : "Non défini"  ?></p>
 <p><strong>Promotion: </strong> <?= $Profil->promo ? $Profil->promo : "Non défini"  ?></p>
 <p><strong>Spécialité: </strong> <?= $Profil->spe ? $Profil->spe : "Non défini"  ?></p>
-        
+<p><?= $Profil->$group ?></p>
 <?php
 } else {
    // Si aucun profil n'a été trouvée, afficher un message d'erreur
@@ -27,4 +27,4 @@ if($Profil) {
 }else{
    header("Location: ../router.php?page=profil");
 }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
-?>
+
