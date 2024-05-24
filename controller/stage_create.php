@@ -1,6 +1,6 @@
 <?php
 // Inclure le fichier qui définit la classe Entreprise
-require_once '../model/Profil.php';
+require_once '../model/Stage.php';
 
 // Démarrer la session en premier
 session_start();
@@ -28,7 +28,7 @@ if(isset($_POST['idEntreprise'])) {
   // Appel de la méthode  de l'objet Stage
   if ($stage->create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$titreStage,$description,$dateDebut,$dateFin)) {
     // Redirection vers la page de détails de l'entreprise après la mise à jour
-    header("Location: ../router.php?page=gestion_etu");
+    header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $idEntreprise);
     exit();
   } else {
     // Afficher un message d'erreur en cas d'échec de la mise à jour
