@@ -2,7 +2,7 @@
 
 class Stage {
     private $conn;
-    private $table_name = "stage";
+    private $table_name = "Stage";
     private $vue_name = "vue_stage";
     public $idEntreprise;
     public $idMaitreDeStage;
