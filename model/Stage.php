@@ -22,8 +22,27 @@ class Stage {
     // id|idEntreprise|idMaitreDeStage|idEtudiant|titreStage|description|dateDebut|dateFin|
 
     public function list(){
-      $query = "SELECT * FROM " . $this->table_name;
+      $query = "SELECT * FROM " . $this->vue_name;
       $stmt = $this->conn->prepare($query);
+
+      try {
+          if($stmt->execute()){
+              return $stmt->fetchAll(PDO::FETCH_OBJ);
+          } else {
+              throw new Exception("Erreur lors de l'exécution de la requête.");
+          }
+      } catch (Exception $e) {
+          //echo "Erreur : " . $e->getMessage();
+          $message = "SQL : " . implode(", ", $stmt->errorInfo());
+          header("Location: ../router.php?page=erreur&title=Erreur&message=$message");
+          return false;
+      }
+    }
+
+    public function list_by_classe($classe){
+      $query = "SELECT * FROM " . $this->vue_name . " WHERE Classe=:classe AND Statut='Etudiant'";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(":classe", $classe);
 
       try {
           if($stmt->execute()){

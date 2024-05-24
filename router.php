@@ -229,6 +229,27 @@ function router($page, $conn) {
       include 'vues/vue_stage_list.php';
       break;
 
+  case 'stage_sio1':
+      include_once 'model/Stage.php';
+      $stageModel = new Stage($conn);
+      $stages = $stageModel->list_by_classe("SIO1");
+      include 'vues/vue_stage_list.php';
+      break;
+
+  case 'stage_sio2':
+      include_once 'model/Stage.php';
+      $stageModel = new Stage($conn);
+      $stages = $stageModel->list_by_classe("SIO2");
+      include 'vues/vue_stage_list.php';
+      break;
+
+  case 'stage_ancien':
+      include_once 'model/Stage.php';
+      $stageModel = new Stage($conn);
+      $stages = $stageModel->list_by_classe("Ancien étudiant");
+      include 'vues/vue_stage_list.php';
+      break;
+
   case 'stage_create':
       include_once 'model/Stage.php';
       include_once 'model/Contact.php';
