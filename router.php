@@ -232,6 +232,7 @@ function router($page, $conn) {
   case 'stage_create':
       include_once 'model/Stage.php';
       include_once 'model/Contact.php';
+      
       $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
       $idUser = $_SESSION['userID'];
 

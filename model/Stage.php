@@ -11,7 +11,7 @@ class Stage {
     public $titreStage;
     public $description;
     public $dateDebut;
-    public $dateFin;
+    public $duree;
 
 
     public function __construct($db){
@@ -39,28 +39,28 @@ class Stage {
       }
     }
 
-    public function create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$dateFin){
+    public function create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$duree){
       $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
       idMaitreDeStage=:idMaitreDeStage ,
       idEtudiant=:idEtudiant ,
       classe=:classe ,
       dateDebut=:dateDebut ,
-      dateFin=:dateFin";
-  
+      dateFin=DATE_ADD(:dateDebut, INTERVAL :duree WEEK)";
+
       $stmt = $this->conn->prepare($query);
       $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
       $this->idMaitreDeStage=htmlspecialchars(strip_tags($idMaitreDeStage));
       $this->idEtudiant=htmlspecialchars(strip_tags($idEtudiant));
       $this->classe=htmlspecialchars(strip_tags($classe));
       $this->dateDebut=htmlspecialchars(strip_tags($dateDebut));
-      $this->dateFin=htmlspecialchars(strip_tags($dateFin));
-  
+      $this->duree=htmlspecialchars(strip_tags($duree));
+
       $stmt->bindParam(":idEntreprise", $this->idEntreprise);
       $stmt->bindParam(":idMaitreDeStage", $this->idMaitreDeStage);
       $stmt->bindParam(":idEtudiant", $this->idEtudiant);
       $stmt->bindParam(":classe", $this->classe);
       $stmt->bindParam(":dateDebut", $this->dateDebut);
-      $stmt->bindParam(":dateFin", $this->dateFin);
+      $stmt->bindParam(":duree", $this->duree);
   
       try {
         if($stmt->execute()){

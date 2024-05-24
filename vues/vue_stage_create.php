@@ -35,34 +35,52 @@ require_once 'config/auth.php';
             </div>
 
             <div class="field">
-                <label for="classe" class="label">Classe</label>
-                <div class="control has-icons-left">
-                    <div class="select">
-                        <select id="classe" name="classe">
-                            <option value="SIO1" selected>SIO 1</option>
-                            <option value="SIO2">SIO 2</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-user-graduate"></i>
-                    </span>
-                </div>
+              <label for="classe" class="label">Classe</label>
+              <div class="control has-icons-left">
+                  <div class="select">
+                      <select id="classe" name="classe">
+                          <option value="SIO1" selected>SIO 1</option>
+                          <option value="SIO2">SIO 2</option>
+                          <option value="autre">Autre</option>
+                      </select>
+                  </div>
+                  <span class="icon is-small is-left">
+                      <i class="fas fa-user-graduate"></i>
+                  </span>
+              </div>
             </div>
           </div>
 
 
-          <div class="field">
-              <label for="dateDebut" class="label">Début du stage</label>
-              <div class="control has-icons-left has-icons-right">
-                  <input type="date" id="dateDebut" name="dateDebut" class="input" ondblclick="this.showPicker()">
-                  <span class="icon is-small is-left">
-                      <i class="fas fa-hourglass-start"></i>
-                  </span>
-              </div>
-          </div>
+          <div class="assemble">
+            <div class="field">
+                <label for="dateDebut" class="label">Début du stage</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input type="date" id="dateDebut" name="dateDebut" class="input" ondblclick="this.showPicker()">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-hourglass-start"></i>
+                    </span>
+                </div>
+            </div>
 
-          <div class="field">
+            <div class="field">
+                <label for="duree" class="label">Durée du stage</label>
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select id="duree" name="duree">
+                            <option value="6" selected>6</option>
+                            <option value="5" >5</option>
+                            <option value="4" >4</option>
+                        </select>
+                    </div>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-clock"></i>
+                    </span>
+                </div>
+            </div>  
+          </div>
+          
+          <!-- <div class="field">
               <label for="dateFin" class="label">Fin du stage</label>
               <div class="control has-icons-left has-icons-right">
                   <input type="date" id="dateFin" name="dateFin" class="input" ondblclick="this.showPicker()">
@@ -70,9 +88,9 @@ require_once 'config/auth.php';
                       <i class="fas fa-hourglass-end"></i>
                   </span>
               </div>
-          </div>  
+          </div>   -->
 
-          <div class="control">
+          <div class="control espacement">
               <button class="button is-primary">Ajouter</button>
           </div>
 
@@ -86,18 +104,13 @@ require_once 'config/auth.php';
       margin-bottom: 20px;
    }
 
-  input[type="date"]::-webkit-calendar-picker-indicator {
+  /* input[type="date"]::-webkit-calendar-picker-indicator {
     display: none;
-  }
+  } */
 
   .assemble{
     display: flex;
     gap: 2%;
-  }
-
-  .assemble {
-    display: flex;
-    gap: 2%; 
   }
 
 </style>

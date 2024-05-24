@@ -18,13 +18,13 @@ if(isset($_POST['idEntreprise'])) {
   $idEtudiant = $_POST['idEtudiant'];
   $classe = $_POST['classe'];
   $dateDebut = $_POST['dateDebut'];
-  $dateFin = $_POST['dateFin'];
+  $duree = $_POST['duree'];
 
   // Création d'une instance de l'objet Stage
   $stage = new Stage($conn);
 
   // Appel de la méthode  de l'objet Stage
-  if ($stage->create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$dateFin)) {
+  if ($stage->create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$duree)) {
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $idEntreprise);
     exit();
