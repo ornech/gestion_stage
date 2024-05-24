@@ -218,7 +218,7 @@ function router($page, $conn) {
       include_once 'model/Stage.php';
       $idUser = isset($_GET['id']) ? $_GET['id'] : null;
       $stageModel = new Stage($conn);
-      $Stage = $stageModel->read($idUser);
+      $Stage = $stageModel->readFromEtudiantId($idUser);
       include 'vues/vue_stage_user.php';
       break;
 
@@ -227,6 +227,23 @@ function router($page, $conn) {
       $stageModel = new Stage($conn);
       $Stages = $stageModel->list();
       include 'vues/vue_stage_list.php';
+      break;
+
+  case 'stage_create':
+      include_once 'model/Stage.php';
+      include_once 'model/Contact.php';
+      
+      $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
+      $idUser = $_SESSION['userID'];
+
+      if($idEntreprise == null){
+        header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès au formulaire de création de stage, veuillez réessayer.");
+      }
+
+      $contacteModel = new Contact($conn);
+      $contacts = $contacteModel->read_list($idEntreprise);
+
+      include 'vues/vue_stage_create.php';
       break;
 
   case 'import_pronote':
