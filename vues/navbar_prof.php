@@ -4,7 +4,7 @@ require_once 'config/auth.php';
 <nav class="navbar is-link" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="#">
-      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="Logo">
+      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="GESTAGE">
     </a>
 
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -19,33 +19,42 @@ require_once 'config/auth.php';
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link" href="router.php?page=stage_list"><i class='far fa-calendar-alt'>&nbsp;</i>Stages</a>
         <div class="navbar-dropdown">
-          <a class="navbar-item" style="opacity: .20;">Mes suivis</a>
-          <a class="navbar-item" href="router.php?page=stage_sio1">SIO1</a>
-          <a class="navbar-item" href="router.php?page=stage_sio2">SIO2</a>
+          <a class="navbar-item" style="opacity: .20;">Suivis< des étudiants</a>
+          <a class="navbar-item" href="router.php?page=stage_sio1"><i class="fa fa fa-cube"></i> &nbsp; SIO1</a>
+          <a class="navbar-item" href="router.php?page=stage_sio2"><i class="fa fa fa-cubes"></i> &nbsp; SIO2</a>
+        </div>
+      </div>
+
+    <div class="navbar-item has-dropdown is-hoverable">
+      <a class="navbar-link"> <i class="fa fa-institution"></i>  &nbsp; Entreprise </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="router.php?page=recherche"><i class='fa fa-search'></i> &nbsp; Recherche</a>
+          <a class="navbar-item" href="router.php?page=listerEntreprises"><i class="fa-regular fa-address-card"></i>&nbsp; Annuaire</a>
+          <hr class="navbar-divider">
+
+          <a class="navbar-item" href="router.php?page=import_entreprise"><i class="fa fa-download"></i> &nbsp; Importer entreprise</a>
         </div>
       </div>
 
 
-      <a class="navbar-item" href="router.php?page=listerEntreprises"><i class="fa-regular fa-address-card"></i>&nbsp;Entreprises</a>
-      <a class="navbar-item" href="router.php?page=recherche"><i class='fa fa-search'>&nbsp;</i>Recherche</a>
 
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link"> <i class="fas fa-users"></i>&nbsp; Administration </a>
-      <div class="navbar-dropdown">
-          <a class="navbar-item" href="router.php?page=create_user">Ajouter utilisateur</a>
-          <a class="navbar-item" href="router.php?page=gestion_etu">Gestion utilisateurs</a>
-          <a class="navbar-item" href="router.php?page=import_pronote"> Importation pronote</a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="router.php?page=create_user"> <i class="fa fa-user-plus"></i>&nbsp; Ajouter utilisateur</a>
+          <a class="navbar-item" href="router.php?page=gestion_etu"><i class="fa fa-users"></i> &nbsp; Gestion utilisateurs</a>
+          <hr class="navbar-divider">
+          <a class="navbar-item" href="router.php?page=import_pronote"> <i class="fa fa-download"></i>&nbsp;  Importation CSV pronote</a>
         </div>
       </div>
+
       <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          Profil
-        </a>
+        <a class="navbar-link"><i class="fa fa-user-circle"></i>  &nbsp; Profil </a>
         <div class="navbar-dropdown">
           <p class="navbar-item"  style="opacity: .50;">Compte professeur</p>
           <a class="navbar-item" href="router.php?page=profil"> <?php echo $_SESSION['utilisateur'] ?></a>
           <hr class="navbar-divider">
-          <a href="logout.php" class="navbar-item" ><i class="fas fa-sign-out-alt"></i>Se déconnecter</a>
+          <a href="logout.php" class="navbar-item" ><i class="fas fa-sign-out-alt"></i>&nbsp;  Se déconnecter</a>
         </div>
       </div>
     </div>

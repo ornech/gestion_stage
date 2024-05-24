@@ -89,6 +89,11 @@ function router($page, $conn) {
       include 'vues/vue_entreprise_create.php';
       break;
 
+    case 'import_entreprise':
+      include 'vues/vue_entreprise_import.php';
+      break;
+
+
    case 'entreprise_importer':
       include_once 'model/Entreprise.php';
       //$entrepriseModel = new Entreprise($conn);
@@ -253,7 +258,7 @@ function router($page, $conn) {
   case 'stage_create':
       include_once 'model/Stage.php';
       include_once 'model/Contact.php';
-      
+
       $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
       $idUser = $_SESSION['userID'];
 

@@ -24,7 +24,7 @@ require_once 'config/auth.php';
 
     ?>
 
-    <table class="table is-fullwidth tableFilter">
+    <table class="table is-fullwidth tableFilter" id="maTable">
       <thead>
         <tr>
           <th class="lineFilter" name="Etudiant"></th>
