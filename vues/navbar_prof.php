@@ -20,8 +20,8 @@ require_once 'config/auth.php';
         <a class="navbar-link" href="router.php?page=stage_list"><i class='far fa-calendar-alt'>&nbsp;</i>Stages</a>
         <div class="navbar-dropdown">
           <a class="navbar-item" style="opacity: .20;">Mes suivis</a>
-          <a class="navbar-item" style="opacity: .20;">SIO1</a>
-          <a class="navbar-item" style="opacity: .20;">SIO2</a>
+          <a class="navbar-item" href="router.php?page=stage_sio1">SIO1</a>
+          <a class="navbar-item" href="router.php?page=stage_sio2">SIO2</a>
         </div>
       </div>
 
