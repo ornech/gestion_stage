@@ -26,11 +26,13 @@ require_once 'config/auth.php';
       </div>
 
     <div class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link"> <i class="fa fa-institution"></i>  &nbsp; Entreprise </a>
+      <a class="navbar-link"> <i class="fa fa-institution"></i>  &nbsp; Entreprises </a>
         <div class="navbar-dropdown">
           <a class="navbar-item" href="router.php?page=recherche"><i class='fa fa-search'></i> &nbsp; Recherche</a>
           <a class="navbar-item" href="router.php?page=listerEntreprises"><i class="fa-regular fa-address-card"></i>&nbsp; Annuaire</a>
+
           <hr class="navbar-divider">
+          <a class="navbar-item" href="router.php?page=ajouter_entreprise"><i class="fa-regular fa-address-card"></i>&nbsp; Ajout manuellement</a>
 
           <a class="navbar-item" href="router.php?page=import_entreprise"><i class="fa fa-download"></i> &nbsp; Importer entreprise</a>
         </div>
@@ -84,5 +86,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-
+<BR>
 <main class="container">
