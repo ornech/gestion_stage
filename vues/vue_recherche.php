@@ -2,7 +2,7 @@
 require_once 'config/auth.php';
 include 'vues/var_data.php';
 ?>
-<p class="title is-2">Rechecher d'entreprise</p>
+<p class="title is-2">Recherche d'entreprise</p>
 <p class="subtitle is-4">Base de données SIRENE</p>
 
 <?php
@@ -24,15 +24,6 @@ foreach ($tableau_naf as $code_naf => $libelle_naf) {
 echo '</select>';
 echo "\n";
 
-// echo '<select class="form-select" name="cp">'; //
-// echo "\n";
-//
-// foreach ($codes_postaux as $code_postal => $ville) {
-//     $selected = (strval($code_postal) === strval($selected_cp)) ? 'selected' : ''; // Vérifie si l'option doit être pré-sélectionnée
-//     echo '<option value="' . $code_postal . '" ' . $selected . '>' . $ville . '</option>';
-//     echo "\n";
-// }
-// echo '</select>';
 
 echo "&nbsp; <input id='cp' type='text' class='form-control' value ='" . $selected_cp . "' name='cp' placeholder='Code postal'>";
 echo "\n";
