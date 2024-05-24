@@ -1,8 +1,5 @@
 <?php
 require_once 'config/auth.php';
-var_dump($_GET);
-var_dump($ficheEntreprise);
-var_dump($idEntreprise);
 ?>
 <style>
         h2 {
@@ -22,8 +19,7 @@ var_dump($idEntreprise);
 <?php
 
     // Vérifier si les détails de l'entreprise sont disponibles
-    if(isset($_GET["idEntreprise"])) {
-        echo 'ca existe';
+    if($ficheEntreprise) {
         // Afficher les détails de l'entreprise
 ?>
 
