@@ -13,36 +13,9 @@ function getValue() {
 }
 </SCRIPT>
 
-<H2 class="display-6"> Ajouter une entreprise</H2>
+<p class="title is-2">Ajouter entreprise</p>
+<p class="subtitle is-4">Renseignez les champs manuellement</p>
 
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="siret-tab" data-bs-toggle="tab" data-bs-target="#siret" type="button" role="tab" aria-controls="home" aria-selected="true">A partir du siret</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Manuellement</button>
-  </li>
-</ul>
-
-<div class="tab-content" id="myTabContent">
-  <div class="tab-pane show active" id="siret" role="tabpanel" aria-labelledby="home-tab">
-    <BR>
-    <p>Importez les données relative à une entreprise à partir de son numéro de SIRET.</p>
-    <form action="../controller/entreprise_create_siret.php" method="GET" class="form-group mb-3">
-      <input type="hidden" name="Created_UserID" value="<?= $_SESSION["userID"];?>">
-      <div class="input-group mb-3">  <span class="input-group-text">Renseignez le N° de SIRET</span>
-            <input type="text" class="form-control" name="siret" required minlength="14" maxlength="14" size="14" >
-        <button class="btn btn-outline-secondary" onclick="getValue();" type="button">Vérifier le N° de SIRET</button>
-        <button class="btn btn-outline-primary" type="submit">Valider</button>
-
-      </div>
-
-    </form>
-
-  </div>
-  <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="siret-tab">
-    <BR>
-    <p>Renseignez les champs manuellement</p>
 
     <form action="../controller/creer_entreprise.php" method="POST">
       <input type="hidden" name="Created_UserID" value="<?= $_SESSION["userID"];?>">

@@ -13,10 +13,10 @@ function getValue() {
 }
 </SCRIPT>
 
-<H2 class="display-6"> Importez une entreprise</H2>
+<p class="title is-2">Importer entreprise</p>
+<p class="subtitle is-4">Depuis la base de données SIRENE</p>
+<p>Importez les données relatives à une entreprise à partir de son numéro de SIRET.</p>
 
-
-<p>Importez les données relative à une entreprise à partir de son numéro de SIRET.</p>
 <form action="../controller/entreprise_create_siret.php" method="GET" class="form-group mb-3">
   <input type="hidden" name="Created_UserID" value="<?= $_SESSION["userID"];?>">
   <div class="input-group mb-3">  <span class="input-group-text">Renseignez le N° de SIRET</span>

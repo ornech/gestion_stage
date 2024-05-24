@@ -31,25 +31,18 @@ function router($page, $conn) {
     case 'listerEntreprises':
       include 'model/Entreprise.php'; // Inclure le modèle Entreprise
       include 'model/Contact.php'; // Inclure le modèle Contact
-
       $entrepriseModel = new Entreprise($conn); // Instancier le modèle
-
       $entreprises = $entrepriseModel->read(); // Lire les entreprises
-
       include 'vues/vue_liste_entreprises.php'; // Inclure la vue pour afficher la liste des entreprises
-
       break;
 
     case 'fiche_entreprise':
       include_once 'model/Entreprise.php';
       include_once 'model/Contact.php';
-
       // Instancier le modèle Entreprise
       $entrepriseModel = new Entreprise($conn);
       $contacteModel = new Contact($conn); // Instancier le modèle
-
       // Récupérer l'ID de l'entreprise depuis l'URL
-
       if (isset($_GET['idEntreprise'])) {
         $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
         // Charger les détails de l'entreprise en fonction de l'ID
@@ -62,14 +55,9 @@ function router($page, $conn) {
         $ficheEntreprise = $entrepriseModel->read_fiche_siret($siret);
         $contacts = $contacteModel->read_list_siret($siret); // Lire les entreprises
         }
-
-
       // Inclure la vue pour afficher les détails de l'entreprise
       include 'vues/vue_fiche_entreprises.php';
       include 'vues/vue_contact_list.php';
-
-
-
       break;
 
     case 'modifier_entreprise':
@@ -93,13 +81,8 @@ function router($page, $conn) {
       include 'vues/vue_entreprise_import.php';
       break;
 
-
-   case 'entreprise_importer':
-      include_once 'model/Entreprise.php';
-      //$entrepriseModel = new Entreprise($conn);
-      //$importer = $entrepriseModel->importer();
-      include 'vues/xxxxxxxx.php';
-
+    case 'ajouter_entreprise':
+      include 'vues/vue_entreprise_ajouter.php';
       break;
 
     case 'activite_prof':
