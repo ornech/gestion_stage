@@ -39,13 +39,11 @@ class Stage {
       }
     }
 
-    public function create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$titreStage,$description,$dateDebut,$dateFin){
+    public function create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$dateFin){
       $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
       idMaitreDeStage=:idMaitreDeStage ,
       idEtudiant=:idEtudiant ,
       classe=:classe ,
-      titreStage=:titreStage ,
-      description=:description ,
       dateDebut=:dateDebut ,
       dateFin=:dateFin";
   
@@ -54,8 +52,6 @@ class Stage {
       $this->idMaitreDeStage=htmlspecialchars(strip_tags($idMaitreDeStage));
       $this->idEtudiant=htmlspecialchars(strip_tags($idEtudiant));
       $this->classe=htmlspecialchars(strip_tags($classe));
-      $this->titreStage=htmlspecialchars(strip_tags($titreStage));
-      $this->description=htmlspecialchars(strip_tags($description));
       $this->dateDebut=htmlspecialchars(strip_tags($dateDebut));
       $this->dateFin=htmlspecialchars(strip_tags($dateFin));
   
@@ -63,8 +59,6 @@ class Stage {
       $stmt->bindParam(":idMaitreDeStage", $this->idMaitreDeStage);
       $stmt->bindParam(":idEtudiant", $this->idEtudiant);
       $stmt->bindParam(":classe", $this->classe);
-      $stmt->bindParam(":titreStage", $this->titreStage);
-      $stmt->bindParam(":description", $this->description);
       $stmt->bindParam(":dateDebut", $this->dateDebut);
       $stmt->bindParam(":dateFin", $this->dateFin);
   
