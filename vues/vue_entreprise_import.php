@@ -19,11 +19,12 @@ function getValue() {
 
 <form action="../controller/entreprise_create_siret.php" method="GET" class="form-group mb-3">
   <input type="hidden" name="Created_UserID" value="<?= $_SESSION["userID"];?>">
-  <div class="input-group mb-3">  <span class="input-group-text">Renseignez le N° de SIRET</span>
+  <div class="field">
+     <label class="label">Renseignez le N° de SIRET</label>
+     
     <input type="text" class="form-control" name="siret" required minlength="14" maxlength="14" size="14" >
-    <button class="btn btn-outline-secondary" onclick="getValue();" type="button">Vérifier le N° de SIRET</button>
-    <button class="btn btn-outline-primary" type="submit">Valider</button>
-
+    <button class="button is-link is-light" onclick="getValue();" type="button">Vérifier le N° de SIRET</button>
+    <button class="button is-link" type="submit">Valider</button>
   </div>
 
 </form>
