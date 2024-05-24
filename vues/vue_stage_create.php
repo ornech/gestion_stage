@@ -18,8 +18,7 @@ require_once 'config/auth.php';
                 <div class="control has-icons-left">
                     <div class="select">
                         <select id="idMaitreDeStage" name="idMaitreDeStage">
-                           <option value="1" selected>Ne pas définir</option>
-
+                          
                             <?php
                               foreach ($contacts as $contact) {
                                 echo '<option value="'. $contact->EmployeID. '">' . $contact->nom . " " . $contact->prenom . '</option>';
