@@ -4,7 +4,7 @@ require_once 'config/auth.php';
 <BR>
   <?php
   // Vérifier si les données sont disponibles
-  if($Stages) {
+  if($stages) {
     // Données
     // `s`.`id` AS `idStage`,
     // `s`.`idEntreprise` AS `idEntreprise`,
@@ -24,23 +24,27 @@ require_once 'config/auth.php';
 
     ?>
 
-    <table class="table is-fullwidth">
+    <table class="table is-fullwidth tableFilter">
       <thead>
         <tr>
-          <th>Etudiant </th>
-          <th>Promotion</th>
-          <th>Entreprise</th>
-          <th>Maitre de stage</td>
+          <th class="lineFilter" name="Etudiant"></th>
+          <th class="lineFilter" name="Classe"></th>
+          <th class="lineFilter" name="Date début"></th>
+          <th class="lineFilter" name="Date fin"></th>
+          <th class="lineFilter" name="Entreprise"></th>
+          <th class="lineFilter" name="Maitre de stage"></td>
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($Stages as $Stage): ?>
+          <?php foreach ($stages as $stage): ?>
             <tr>
-              <td><a href="../router.php?page=view_profil&id=<?= $Stage->idEtudiant ?>"><?= $Stage->EtudiantNom  ?> <?= $Stage->EtudiantPrenom ?> </a></td>
-              <td><?= $Stage->EtudiantPromo ? $Stage->EtudiantPromo : "Non défini" ?></td>
-              <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $Stage->idEntreprise ?>"><?= $Stage->Entreprise ?></td>
+              <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
+              <td><?= $stage->Classe ? $stage->Classe : "Non défini" ?></td>
+              <td><?= $stage->dateDebut ? $stage->dateDebut : "Non défini" ?></td>
+              <td><?= $stage->dateFin ? $stage->dateFin : "Non défini" ?></td>
+              <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></td>
               <td>
-                <a href="../router.php?page=Contact_fiche&idContact=<?= $Stage->idMaitreDeStage ?>"><?= $Stage->idMaitreDeStage ?></a></td>
+                <a href="../router.php?page=Contact_fiche&idContact=<?= $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></td>
               </tr>
             <?php endforeach; ?>
           </tbody>
