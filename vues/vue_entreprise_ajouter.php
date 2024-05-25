@@ -25,66 +25,93 @@ function getValue() {
       <div class="grid">
 
         <div class="cell">
-        <div class="field">
-          <label class="label">Nom de l'entreprise</label>
-          <div class="control">
-            <input class="input" type="text"  name="nomEntreprise" required>
+          <div class="field">
+            <label class="label">Nom de l'entreprise</label>
+            <div class="control">
+              <input class="input" type="text"  name="nomEntreprise" required>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="cell">
-        <div class="field">
-          <label  class="label">Code NAF</label>
-          <div class="control">
-            <input type="text" class="input" name="naf" required>
+        <div class="cell">
+          <div class="field">
+            <label class="label">Type d'organisation</label>
+            <div class="control">
+              <select name="type" class="select" required>
+                <option value="" selected>Please choose</option>
+                <option value="" selected>PME</option>
+                <option value="" selected>Société individuelle</option>
+                <option value="" selected>Administration publique</option>
+                <option value="" selected>Association</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="cell">
-        <div class="field">
-          <label class="label">SIRET</label>
-          <div class="control">
-            <input type="text" class="input" name="siret" required>
+        <div class="cell">
+          <div class="field">
+            <label class="label">Adresse</label>
+            <div class="control">
+              <input type="text" class="input" name="adresse" required>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="cell">
-        <div class="field">
-          <label class="label">Adresse</label>
-          <div class="control">
-            <input type="text" class="input" name="adresse" required>
+        <div class="cell">
+          <div class="field">
+            <label  class="label">Complément d'adresse</label>
+            <div class="control">
+              <input type="text" class="input" name="adresse2">
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="cell">
-        <div class="field">
-          <label class="label">Ville</label>
-          <div class="control">
-            <input type="text" class="input" name="ville" required>
+        <div class="cell">
+          <div class="field">
+            <label class="label">Code postal</label>
+            <div class="control">
+              <input type="text" class="input" name="codePostal" required>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="cell">
-        <div class="field">
-          <label class="label">Code postal</label>
-          <div class="control">
-            <input type="text" class="input" name="codePostal" required>
+        <div class="cell">
+          <div class="field">
+            <label class="label">Ville</label>
+            <div class="control">
+              <input type="text" class="input" name="ville" required>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="cell">
-        <input type="submit" class="button" name="submit" value="Enregistrer">
+
+
+        <div class="cell">
+          <div class="field">
+            <label  class="label">Code NAF</label>
+            <div class="control">
+              <input type="text" class="input" name="naf" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="cell">
+          <div class="field">
+            <label class="label">SIRET</label>
+            <div class="control">
+              <input type="text" class="input" name="siret" required>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="cell">
+          <input type="submit" class="button" name="submit" value="Enregistrer">
+        </div>
+
       </div>
-      
     </div>
   </div>
-</div>
 
 
-  </form>
+</form>
