@@ -28,7 +28,7 @@ require_once 'config/auth.php';
           <th>Prénom</th>
           <th>Téléphone</th>
           <th>Mail </th>
-          <th>Fonction</th>
+          <!--<th>Fonction</th>-->
           <th></td>
           </tr>
         </thead>
@@ -39,7 +39,7 @@ require_once 'config/auth.php';
               <td><?= $contact->prenom ? $contact->prenom : "Non défini" ?></td>
               <td><?= $contact->telephone ? $contact->telephone : "Non défini" ?></td>
               <td><?= $contact->email ? $contact->email : "Non défini" ?></td>
-              <td><?= $contact->fonction ? $contact->fonction : "Non défini" ?></td>
+              <!--<?= $contact->fonction ? $contact->fonction : "Non défini" ?>-->
               <td>
                 <a href="../router.php?page=Contact_fiche&idContact=<?= $contact->EmployeID ?>">voir</a></td>
               </tr>
