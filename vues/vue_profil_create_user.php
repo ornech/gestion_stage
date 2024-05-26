@@ -2,35 +2,34 @@
 require_once 'config/auth.php';
 ?>
 
-<p style="margin-top: 30px" class="h1"> Création profil</p>
+<p class="title is-2">Ajout utilisateur</p>
+<p class="subtitle is-4">Création manuellement d'un compte- utilisateur</p>
 
 <form action="../controller/create_user.php" method="post" class="g-3">
 
   <div style="margin-top: 15px; display: inline-flex; align-items: center;">
-    <label  for="statut">Status de l'utilisateur :</label>
-      <select class="form-select" id="statut" name="statut" required style="width: 150px; margin-left: 10px;" onchange=choixStatut()>
+    <label  for="statut">Status de l'utilisateur</label>
+      <select class="control" id="statut" name="statut" required style="width: 150px; margin-left: 10px;" onchange=choixStatut()>
         <option value="Etudiant">Etudiant</option>
         <option value="Professeur">Professeur</option>
     </select>
   </div>
 
-  <p class="h4 espacement">
-    Infomation de l'utilisateur :
-  </p>
-
   <div class="row">
     <div class="col">
       <div class="form-floating mb-3" style="width: 100%">
-        <input type="text" class="form-control" id="nom" name="nom" placeholder="Dupont" required>
         <label for="nom">Nom</label>
-      </div>  
+        <input type="text" class="control" id="nom" name="nom" placeholder="Dupont" required>
+
+      </div>
     </div>
 
     <div class="col">
       <div class="form-floating mb-3" style="width: 100%">
-        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Alice" required>
-        <label for="prenom">Prénom</label>
-      </div>  
+        <label for="prenom" class="label">Prénom</label>
+        <input type="text" class="control" id="prenom" name="prenom" placeholder="Alice" required>
+
+      </div>
     </div>
 
   </div>
@@ -38,50 +37,48 @@ require_once 'config/auth.php';
   <div class="row">
     <div class="col">
       <div class="form-floating mb-3" style="width: 100%">
-        <input type="email" class="form-control" id="email" name="email" placeholder="alicedupont@email.com">
         <label for="email">Email</label>
-      </div>  
+        <input type="email" class="control" id="email" name="email" placeholder="alicedupont@email.com">
+      </div>
     </div>
 
     <div class="col">
       <div class="form-floating mb-3" style="width: 100%">
-        <input type="text" class="form-control form-control-lg" id="telephone" name="telephone" placeholder="06 07 08 09 10">
         <label for="telephone">Téléphone</label>
-      </div>  
+        <input type="text" class="control" id="telephone" name="telephone" placeholder="06 07 08 09 10">
+      </div>
     </div>
   </div>
 
   <div class="row" id="divEtudiant">
     <div class="col">
       <div class="form-floating mb-3" style="width: 100%">
-        <input type="text" class="form-control form-control-lg" id="promo" name="promo" placeholder="2025" maxlength="4">
         <label for="promo">Promotion</label>
-      </div>  
+        <input type="text" class="control" id="promo" name="promo" placeholder="2025" maxlength="4">
+      </div>
     </div>
 
     <div class="col">
     <label for="spe">Spécialité</label>
-      <select class="form-select form-select-lg" id="spe" name="spe" style="width: 250px">
+      <select class="control" id="spe" name="spe" style="width: 250px">
         <option value="SLAM">SLAM</option>
         <option value="SISR">SISR</option>
       </select>
     </div>
   </div>
 
-  <p class="h4 espacement">
-    Compte de l'utilisateur :
-  </p>
-
   <div class="espacement">
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="login" name="login" placeholder="adupont" style="width: 250px" required>
-      <label for="login">Login</label>
+      <input type="text" class="control" id="login" name="login" placeholder="adupont" style="width: 250px" required>
+      <label for="login">login suggéré</label>
     </div>
   </div>
 
-  <p class="h6">Le mot de passe qui sera attribué automatiquement sera : <u>achanger</u></p>
+  <p>Le mot de passe par défaut est : <u>achanger</u></p>
+  <p>Il devra être changer à la première connexion</p>
 
-  <button id="buttonCreate" class="btn btn-success btn-lg" type="submit">Inscrire</button>
+
+  <button id="buttonCreate" class="button" type="submit">Créer utilisateur</button>
 </form>
 
 <script>
@@ -111,8 +108,8 @@ require_once 'config/auth.php';
   window.addEventListener("DOMContentLoaded", function() { //Lorsque la page est chargée
     choixStatut();
 
-    promo.value = currentPromo; //Augmenter la valeur de 1 à currentPromo pour avoir la prochaine promo du lycée par défaut    
-  }, false); 
+    promo.value = currentPromo; //Augmenter la valeur de 1 à currentPromo pour avoir la prochaine promo du lycée par défaut
+  }, false);
 
 
   // fonction de création du login
@@ -152,7 +149,7 @@ require_once 'config/auth.php';
       promo.value = currentPromo;
     }
   }
-  
+
 </script>
 
 <!-- Du CCS pour corriger le problème d'espacement -->
