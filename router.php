@@ -4,6 +4,10 @@
 // session_start();
 
 // Vérifie si l'utilisateur est connecté
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+
 require_once 'config/auth.php';
 require_once 'config/db_connection.php';
 
@@ -86,6 +90,8 @@ function router($page, $conn) {
       break;
 
     case 'activite_prof':
+      route_protect('Professeur');
+
       include_once 'model/activite.php';
       // Instancier le modèle Entreprise
       $ActiviteModel = new Activite($conn);
@@ -117,21 +123,20 @@ function router($page, $conn) {
       break;
 
     case 'view_profil':
-        include_once 'model/Profil.php';
-        $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
-        $profilModel = new Profil($conn);
-        $Profil = $profilModel->read_profil($idProfil);
-        include 'vues/vue_profil_user.php';
-        break;
+      include_once 'model/Profil.php';
+      $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
+      $profilModel = new Profil($conn);
+      $Profil = $profilModel->read_profil($idProfil);
+      include 'vues/vue_profil_user.php';
+      break;
 
     case 'create_user':
-      //include_once 'model/Profil.php';
-      //$profilModel = new Profil($conn);
-      //$create_user = $profilModel->create_user();
+      route_protect('Professeur');
       include 'vues/vue_profil_create_user.php';
       break;
 
     case 'gestion_etu':
+      route_protect('Professeur');
       include_once 'model/Profil.php';
       $profilModel = new Profil($conn);
       $profils = $profilModel->list_profil();
@@ -139,6 +144,7 @@ function router($page, $conn) {
       break;
 
     case 'reset_password':
+      route_protect('Professeur');
       include_once 'model/Profil.php';
       $idProfil = isset($_GET['idProfil']) ? $_GET['idProfil'] : null;
       $profilModel = new Profil($conn);
@@ -146,6 +152,7 @@ function router($page, $conn) {
       break;
 
     case 'profil_disable':
+      route_protect('Professeur');
       include_once 'model/Profil.php';
       $idProfil = isset($_GET['idProfil']) ? $_GET['idProfil'] : null;
       $profilModel = new Profil($conn);
@@ -153,6 +160,7 @@ function router($page, $conn) {
       break;
 
     case 'profil_enable':
+      route_protect('Professeur');
       include_once 'model/Profil.php';
       $idProfil = isset($_GET['idProfil']) ? $_GET['idProfil'] : null;
       $profilModel = new Profil($conn);
@@ -211,6 +219,7 @@ function router($page, $conn) {
       break;
 
   case 'stage_list':
+      route_protect('Professeur');
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
       $Stages = $stageModel->list();
@@ -256,6 +265,7 @@ function router($page, $conn) {
       break;
 
   case 'import_pronote':
+      route_protect('Professeur');
       include_once 'model/Profil.php';
       $import_pronoteModel = new Profil($conn);
       include 'vues/vue_import_pronote.php';
