@@ -16,6 +16,11 @@ function getValue() {
 <p class="title is-2">Ajouter entreprise</p>
 <p class="subtitle is-4">Renseignez les champs manuellement</p>
 
+<div class="notification is-danger is-light">
+  <p><i class="fa fa-warning"></i> &nbsp; Il est recommandé d'utiliser l'<a href="../router.php?page=import_entreprise">ajout par un numéro de siret</a>,
+  afin d'importer automatiquement les données relative à une entreprise.</p>
+  <p>En utilsant ce formualaire, vous prenez le risque d'insérer des informations éronnées et rendre l'exploitation des données moins pertinante.</p>
+</div>
 
 <form action="../controller/creer_entreprise.php" method="POST">
   <input type="hidden" name="Created_UserID" value="<?= $_SESSION["userID"];?>">

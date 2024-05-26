@@ -17,7 +17,9 @@ function convertDateFormat($date) {
     if($_SESSION['statut'] == "Professeur") {
         // Afficher les détails du profil
 ?>
-<H2> Gestion étudiants </H2>
+<p class="title is-2">Gestion utilisateurs</p>
+<p class="subtitle is-4">Admimistration des comptes</p>
+
   <a class='btn btn-success' href='router.php?page=create_user' role='button'>Créer un compte</a>
     <table class="table table-striped table-hover" id="maTable">
         <thead>
