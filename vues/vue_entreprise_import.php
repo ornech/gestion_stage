@@ -16,9 +16,11 @@ function getValue() {
 <p class="title is-2">Importer entreprise</p>
 <p class="subtitle is-4">Depuis la base de données SIRENE</p>
 
-<div class="notification">
-  <button class="delete"></button>
-  Vous pouvez récupérer les N° de SIRET :
+<div class="notification is-success is-light">
+
+<p><i class="fa fa-thumbs-up"></i> &nbsp; Cette fonctionnalité importe automatiquement les dernières informations disponibles sur une entreprise depuis la base de données SIREN.
+Vous évitez ainsi d'insérer des informations éronnées ou obsolètes.</p>  <br>
+  <p>Vous pouvez récupérer les N° de SIRET :</p>
 
   <p>&nbsp; - &nbsp;Depuis la page <a href="../router.php?page=recherche"><i class="fa fa-search"></i> &nbsp; Recherche</a></p>
   <p>&nbsp; - &nbsp;Sur le site <a href="https://annuaire-entreprises.data.gouv.fr/" target="_blank">https://annuaire-entreprises.data.gouv.fr/</a></p>
