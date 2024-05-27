@@ -42,10 +42,7 @@ function convertDateFormat($date) {
             <?php foreach ($profils as $profil): ?>
                   <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
                     <td><?= $profil->nom ?> <?= $profil->prenom ?></td>
-                    <td><?PHP
-                    $date_entree = convertDateFormat($profil->date_entree);
-                    echo $date_entree;
-                     ?></td>
+                    <td><?= isset($profil->date_entree) ? convertDateFormat($profil->date_entree) : "Non définit"; ?></td>
                      <td><?=$test=verifgroupe($profil, $conn, $dateActuelle)?></td>
                     <td><?= $profil->login ?></td>
                     <td><?= $profil->spe ?></td>

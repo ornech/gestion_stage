@@ -14,14 +14,14 @@ function verifgroupe($Profil, $conn, $dateActuelle) {
             if ($datediff->days < 350 && $classebdd != "SIO1") {
                 $classe = "SIO1";
             } 
-            elseif ($datediff->days < 720 && $classebdd != "SIO2") {
+            elseif ($datediff->days < 720 && $classebdd != "SIO2" && $datediff->days >= 350) {
                 $classe = "SIO2";
             } 
             elseif ($datediff->days >= 720 && $classebdd != "Ancien étudiant") {
                 $classe = "Ancien étudiant";
             } 
             else {
-                $classe = "Non défini";
+                $classe = $classebdd;
             }
 
             $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
@@ -44,67 +44,4 @@ function verifgroupe($Profil, $conn, $dateActuelle) {
         return $classe;
     }
 }
-
-
-//     if ($status === 'Etudiant') {
-//         if ($datediff->days < 350 && $classebdd!="SIO1") {
-//             $classe="SIO1";
-//             var_dump($datediff);
-//             $sql = "UPDATE" . $table_name . " SET classe = :classe WHERE id = :id";
-//             $stmt = $conn->prepare($sql);
-//             $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
-//             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-//             $stmt->execute();
-            
-//         } 
-//         elseif ($datediff->days < 720 && $classebdd != "SIO2") {
-//             $classe = "SIO2";
-//             $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
-//             $stmt = $conn->prepare($sql);
-//             $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
-//             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-//             $stmt->execute();
-
-//             } 
-        
-
-//         elseif ($datediff->days >= 720 && $classebdd!="Ancien étudiant") {
-//             $classe = "Ancien étudiant";
-//             $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
-//             $stmt = $conn->prepare($sql);
-//             $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
-//             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-//             $stmt->execute();
-//             }
-
-        
-//         else {
-//             $classe = "Non défini";
-//             $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
-//             $stmt = $conn->prepare($sql);
-//             $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
-//             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-//             $stmt->execute();
-                
-//             }
-//             return $classe;
-//         }
-    
-//     else {
-//         $classe = "Enseignant";
-//         $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
-//         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-//         $stmt->execute();
-//  return $classe;
-//         }
- 
-   
-
-
- 
-
-
-
 ?>
