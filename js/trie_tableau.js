@@ -4,42 +4,42 @@ function placeFilter(baliseHeader, nameColonne, valueColonnes, numColonne){
   let nomAttachColonne = nameColonne.split(' ').join('');
 
   baliseHeader.innerHTML += `
-    <div class="dropdown is-hoverable"> 
-    
-      <div class="dropdown-trigger">
-        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-          <span>${nameColonne}</span>
-          <span class="icon is-small">
-            <i class="fas fa-angle-down" aria-hidden="true"></i>
-          </span>
-        </button>
-      </div>
 
-      <div class="dropdown-menu" id="dropdown-menu4" role="menu" style="border: solid 2px #ccc;  border-radius: 6px">
-        <div class="dropdown-content">
-          <div class="dropdown-item">
-            <span class="label is-small">Filtrer</span>
-            <input id="Input_${nomAttachColonne}_filtre" value="" onkeyup="searchInColumn(this, '${numColonne}')"  class="input is-small">
-            <select id="Select_${nomAttachColonne}_filtre" onchange="applyFilter(this.value, \'${nomAttachColonne}\')" class="select is-small">
-              <option value="">Tout afficher</option>
+  <div class="dropdown">
+    <div class="dropdown-trigger">
+      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu${numColonne}" >
+        <span>${nameColonne}</span>
+        <span class="icon is-small">
+          <i class="fas fa-angle-down" aria-hidden="true"></i>
+        </span>
+      </button>
+    </div>
 
-              ${Array.from(new Set(valueColonnes)).map(value => `<option value="${htmlspecialchars(value)}">${htmlspecialchars(value)}</option>`).join('')}
+    <div class="dropdown-menu" id="dropdown-menu${numColonne}" role="menu" style="border: solid 2px #ccc; border-radius: 6px">
+      <div class="dropdown-content">
+        <div class="dropdown-item">
+          <span class="label is-small">Filtrer</span>
+          <input id="Input_${nomAttachColonne}_filtre" value="" onkeyup="searchInColumn(this, '${numColonne}')" class="input is-small">
+          <select id="Select_${nomAttachColonne}_filtre" onchange="applyFilter(this.value, '${nomAttachColonne}')" class="select is-small">
+            <option value="">Tout afficher</option>
+            ${Array.from(new Set(valueColonnes)).map(value => `<option value="${htmlspecialchars(value)}">${htmlspecialchars(value)}</option>`).join('')}
+          </select>
 
-            </select>
+          <hr class="dropdown-divider" />
 
-            <hr class="dropdown-divider" />
-            <label class="label is-small" for="' . $column . '_trie">Trier</label>
-            <select id="' . $column . '_trie" onchange="sortTable('${numColonne}', this.value)" class="select is-small" style="width:100%;">
-              <option value="">---</option>
-              <option value="asc">Croissant</option>
-              <option value="desc">Décroissant</option>
-            </select>
+          <label class="label is-small" for="${nameColonne}_trie">Trier</label>
+          <select id="${nameColonne}_trie" onchange="sortTable('${numColonne}', this.value)" class="select is-small" style="width:100%;">
+            <option value="">---</option>
+            <option value="asc">Croissant</option>
+            <option value="desc">Décroissant</option>
+          </select>
 
-          </div>
+
         </div>
       </div>
     </div>
-  `;
+  </div>
+`;
 }
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -60,6 +60,24 @@ document.addEventListener("DOMContentLoaded", function(){
 
       placeFilter(header, nom, valueColonnes[nom], i);
   });
+
+  const dropdowns = document.querySelectorAll('.dropdown');
+
+  dropdowns.forEach(dropdown => {
+    const trigger = dropdown.querySelector('.dropdown-trigger button');
+    trigger.addEventListener('click', () => {
+      dropdown.classList.toggle('is-active');
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    dropdowns.forEach(dropdown => {
+      if (!dropdown.contains(event.target)) {
+        dropdown.classList.remove('is-active');
+      }
+    });
+  });
+
 });
 
 // Fonction pour appliquer un filtre sur une colonne
@@ -87,8 +105,8 @@ function sortTable(n, order) {
 
       for (i = 1; i < (rows.length - 1); i++) {
           shouldSwitch = false;
-          x = rows[i].getElementsByTagName("TD")[n];
-          y = rows[i + 1].getElementsByTagName("TD")[n];
+          x = rows[i].getElementsByTagName("td")[n];
+          y = rows[i + 1].getElementsByTagName("td")[n];
 
           if (dir == "asc") {
               if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
