@@ -4,6 +4,7 @@ function placeFilter(baliseHeader, nameColonne, valueColonnes, numColonne){
   let nomAttachColonne = nameColonne.split(' ').join('');
 
   baliseHeader.innerHTML += `
+<<<<<<< HEAD
 
   <div class="dropdown">
     <div class="dropdown-trigger">
@@ -34,6 +35,41 @@ function placeFilter(baliseHeader, nameColonne, valueColonnes, numColonne){
             <option value="desc">Décroissant</option>
           </select>
 
+=======
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
+>
+  <div class="dropdown">
+    <div class="dropdown-trigger">
+      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu${numColonne}" >
+        <span>${nameColonne}</span>
+        <span class="icon is-small">
+          <i class="fas fa-angle-down" aria-hidden="true"></i>
+        </span>
+      </button>
+    </div>
+
+    <div class="dropdown-menu" id="dropdown-menu${numColonne}" role="menu" style="border: solid 2px #ccc; border-radius: 6px">
+      <div class="dropdown-content">
+        <div class="dropdown-item">
+          <span class="label is-small">Filtrer</span>
+          <input id="Input_${nomAttachColonne}_filtre" value="" onkeyup="searchInColumn(this, '${numColonne}')" class="input is-small">
+          <select id="Select_${nomAttachColonne}_filtre" onchange="applyFilter(this.value, '${nomAttachColonne}')" class="select is-small">
+            <option value="">Tout afficher</option>
+            ${Array.from(new Set(valueColonnes)).map(value => `<option value="${htmlspecialchars(value)}">${htmlspecialchars(value)}</option>`).join('')}
+          </select>
+
+          <hr class="dropdown-divider" />
+
+          <label class="label is-small" for="${nameColonne}_trie">Trier</label>
+          <select id="${nameColonne}_trie" onchange="sortTable('${numColonne}', this.value)" class="select is-small" style="width:100%;">
+            <option value="">---</option>
+            <option value="asc">Croissant</option>
+            <option value="desc">Décroissant</option>
+          </select>
+
+>>>>>>> 5672f0189cc3cfff62826e83f2b0f53ae5e8f347
         </div>
       </div>
     </div>
