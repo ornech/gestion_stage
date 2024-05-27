@@ -12,7 +12,6 @@ require_once '../config/db_connection.php';
 // Récupérer les valeurs sélectionnées (s'il y en a)
 if(isset($_GET['siret'])) {
   $siret = isset($_GET['siret']) ? $_GET['siret'] : null;
-  var_dump($siret);
 
   // Créer une instance de la classe Recherche
   $entreprise = new Entreprise($conn);
@@ -31,7 +30,6 @@ if(isset($_GET['siret'])) {
   // Rediriger vers une page d'erreur si le formulaire n'a pas été soumis
   // header("Location: vue_erreur.php");
   echo "<BR>Erreur ... ";
-  var_dump($siret);
   exit();
 }
 
