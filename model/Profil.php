@@ -38,13 +38,13 @@ class Profil {
     // Retournez directement le résultat au lieu de le stocker dans une variable intermédiaire
     return $stmt->fetch(PDO::FETCH_OBJ);
   }
-
   public function list_profil(){
-    $query = "SELECT * FROM " . $this->table_name;
+    $query = "SELECT * FROM " . $this->table_name  . " WHERE statut='Professeur' OR (statut='Etudiant' AND date_entree IS NOT NULL) ";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
+
 
   public function create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut){
     $query = "INSERT INTO " . $this->table_name . " SET nom=:nom,
