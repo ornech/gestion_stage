@@ -1,5 +1,6 @@
 <?php
 require_once 'config/auth.php';
+include 'test_groupe.php';
 ?>
 
 <?php
@@ -15,6 +16,9 @@ function convertDateFormat($date) {
 }
     // Vérifier si les détails du profil sont disponibles
     if($_SESSION['statut'] == "Professeur") {
+      $dateActuelle = new DateTime();
+
+      //$verif=verifgroupe($conn, $dateActuelle);
         // Afficher les détails du profil
 ?>
 <H2> Gestion étudiants </H2>
@@ -24,6 +28,7 @@ function convertDateFormat($date) {
             <tr class="table-secondary">
               <th>Utilisateur</th>
               <th>Date d'entrée</th>
+              <th>Classe</th>
               <th>Login</th>
               <th>Spécialité</button></th>
               <th>Statut</th>
@@ -39,6 +44,7 @@ function convertDateFormat($date) {
                     $date_entree = convertDateFormat($profil->date_entree);
                     echo $date_entree;
                      ?></td>
+                     <td><?=$test=verifgroupe($conn, $dateActuelle)?></td>
                     <td><?= $profil->login ?></td>
                     <td><?= $profil->spe ?></td>
                     <td><?= $profil->statut ?></td>

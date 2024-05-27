@@ -1,9 +1,8 @@
 <?php
 require_once 'config/auth.php';
-include 'test_groupe.php';
-$dateActuelle = new DateTime();
+
 if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_GET["page"] == "profil") {
-    $groupe = verifgroupe($Profil, $dateActuelle);
+    
 // Vérifier si les détails du profil sont disponibles
 if($Profil) {
 // Afficher les détails du profi
@@ -35,7 +34,7 @@ if($Profil) {
     <p class="card-text">Prénom: <strong><?= $Profil->prenom ?></strong> </p>
     <p class="card-text">Mail: <strong><?= $Profil->email ? $Profil->email : "Non défini" ?></strong> </p>
     <p class="card-text">Login: <strong><?= $Profil->login ? $Profil->login : "Non défini" ?></strong> </p>
-    <p class="card-text">Groupe: <strong><?= $groupe ?></strong> </p>
+    <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
     <p class="card-text">Statut: <strong><?= $Profil->statut ? $Profil->statut : "Non défini"  ?></strong> </p>
     <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo : "Non défini"  ?></strong> </p>
     <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
