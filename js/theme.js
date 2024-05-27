@@ -70,15 +70,15 @@ function initButton(){
 function changeButtonIcon(themeSelected){
   let icon = document.getElementsByClassName("button-i")[0];
   if(themeSelected == "light"){
-    icon.classList.remove("fa-moon");
-    icon.classList.add("fa-sun");
-    icon.style.color = "hsl(42 100% 53%)";
-    icon.style.transform = "rotate(22.5deg)";
-  }
-  else if(themeSelected == "dark"){
     icon.classList.remove("fa-sun");
     icon.classList.add("fa-moon");
     icon.style.color = "hsl(220 100% 53%)";
     icon.style.transform = "rotate(0deg)";
+  }
+  else if(themeSelected == "dark"){
+    icon.classList.remove("fa-moon");
+    icon.classList.add("fa-sun");
+    icon.style.color = "hsl(42 100% 53%)";
+    icon.style.transform = "rotate(22.5deg)";
   }
 }
