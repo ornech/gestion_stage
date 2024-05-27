@@ -222,7 +222,7 @@ function router($page, $conn) {
       route_protect('Professeur');
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
-      $Stages = $stageModel->list();
+      $stages = $stageModel->list();
       include 'vues/vue_stage_list.php';
       break;
 
