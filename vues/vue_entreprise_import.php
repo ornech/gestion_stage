@@ -3,15 +3,16 @@
 require_once 'config/auth.php';
 // require_once __DIR__ . '/../config/auth.php';
 ?>
-<SCRIPT>
+<script>
 function getValue() {
   // Sélectionner l'élément input et récupérer sa valeur
   var input = document.getElementById("siret").value;
+  console.log(input);
   var url = ("https://annuaire-entreprises.data.gouv.fr/etablissement/" + input);
   // Afficher la valeur . input;
   window.location.href=url;
 }
-</SCRIPT>
+</script>
 
 <p class="title is-2">Importer entreprise</p>
 <p class="subtitle is-4">Depuis la base de données SIRENE</p>
@@ -31,7 +32,7 @@ Vous évitez ainsi d'insérer des informations éronnées ou obsolètes.</p>  <b
   <input type="hidden" name="Created_UserID" value="<?= $_SESSION["userID"];?>">
   <div class="field">
     <div class="control">
-      <input  class="input is-normal" name="siret"  placeholder="Renseignez le N° de SIRET (14 caractères)" required minlength="14" maxlength="14" size="14" >
+      <input type="text" class="input is-normal" id="siret" name="siret" placeholder="Renseignez le N° de SIRET (14 caractères)" required minlength="14" maxlength="14" size="14" >
     </div>
   </div>
 
