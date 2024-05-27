@@ -34,6 +34,7 @@ function placeFilter(baliseHeader, nameColonne, valueColonnes, numColonne){
             <option value="desc">Décroissant</option>
           </select>
 
+
         </div>
       </div>
     </div>
