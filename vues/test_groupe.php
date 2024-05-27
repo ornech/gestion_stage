@@ -3,61 +3,36 @@ require_once 'config/auth.php';
 function verifgroupe($Profil, $conn, $dateActuelle) {
     // Récupération des données du profil   
     $table_name = "User";
-    $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
     $status = $Profil->statut;
     $date = $Profil->date_entree;
+    $id = $Profil->id;
     $dateEntree = ($date != null) ? new DateTime($date) : null;
     $datediff = ($dateEntree != null) ? $dateActuelle->diff($dateEntree) : null;
     $classebdd = $Profil->classe;
     if ($status === 'Etudiant') {
-        if ($datediff->days < 350) {
-            $classe = "SIO1"; 
-            if ($classebdd != $classe) {
-                $sql = "UPDATE" . $table_name . " SET classe = :classe WHERE id = :id";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
-                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-                $stmt->execute();
-            }
-
-        } 
-        elseif ($datediff->days < 720) {
-            $classe = "SIO2";
-            if ($classebdd != $classe) {
-                $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
-                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-                $stmt->execute();
-
+        if ($datediff !== null) {
+            if ($datediff->days < 350 && $classebdd != "SIO1") {
+                $classe = "SIO1";
             } 
+            elseif ($datediff->days < 720 && $classebdd != "SIO2") {
+                $classe = "SIO2";
+            } 
+            elseif ($datediff->days >= 720 && $classebdd != "Ancien étudiant") {
+                $classe = "Ancien étudiant";
+            } 
+            else {
+                $classe = "Non défini";
             }
 
-        elseif ($datediff->days >= 720) {
-            $classe = "Ancien étudiant";
-            if ($classebdd != $classe) {
-                $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
-                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-                $stmt->execute();
-            }
+            $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
 
-        } 
-        else {
-            $classe = "Non défini";
-            if ($classebdd != $classe) {
-                $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
-                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-                $stmt->execute();
-                
-            }
+            return $classe;
         }
-        return $classe;
     } 
-    
     else {
         $classe = "Enseignant";
         $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
@@ -66,10 +41,67 @@ function verifgroupe($Profil, $conn, $dateActuelle) {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        }
-   return $classe;
-   
+        return $classe;
     }
+}
+
+
+//     if ($status === 'Etudiant') {
+//         if ($datediff->days < 350 && $classebdd!="SIO1") {
+//             $classe="SIO1";
+//             var_dump($datediff);
+//             $sql = "UPDATE" . $table_name . " SET classe = :classe WHERE id = :id";
+//             $stmt = $conn->prepare($sql);
+//             $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
+//             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+//             $stmt->execute();
+            
+//         } 
+//         elseif ($datediff->days < 720 && $classebdd != "SIO2") {
+//             $classe = "SIO2";
+//             $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
+//             $stmt = $conn->prepare($sql);
+//             $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
+//             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+//             $stmt->execute();
+
+//             } 
+        
+
+//         elseif ($datediff->days >= 720 && $classebdd!="Ancien étudiant") {
+//             $classe = "Ancien étudiant";
+//             $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
+//             $stmt = $conn->prepare($sql);
+//             $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
+//             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+//             $stmt->execute();
+//             }
+
+        
+//         else {
+//             $classe = "Non défini";
+//             $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
+//             $stmt = $conn->prepare($sql);
+//             $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
+//             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+//             $stmt->execute();
+                
+//             }
+//             return $classe;
+//         }
+    
+//     else {
+//         $classe = "Enseignant";
+//         $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
+//         $stmt = $conn->prepare($sql);
+//         $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
+//         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+//         $stmt->execute();
+//  return $classe;
+//         }
+ 
+   
+
 
  
 
