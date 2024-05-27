@@ -13,7 +13,7 @@ function verifgroupe($Profil, $conn, $dateActuelle) {
         if ($datediff->days < 350) {
             $classe = "SIO1"; 
             if ($classebdd != $classe) {
-                $sql = "UPDATE User SET classe = :classe WHERE id = :id";
+                $sql = "UPDATE" . $table_name . " SET classe = :classe WHERE id = :id";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -24,7 +24,7 @@ function verifgroupe($Profil, $conn, $dateActuelle) {
         elseif ($datediff->days < 720) {
             $classe = "SIO2";
             if ($classebdd != $classe) {
-                $sql = "UPDATE User SET classe = :classe WHERE id = :id";
+                $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -36,7 +36,7 @@ function verifgroupe($Profil, $conn, $dateActuelle) {
         elseif ($datediff->days >= 720) {
             $classe = "Ancien étudiant";
             if ($classebdd != $classe) {
-                $sql = "UPDATE User SET classe = :classe WHERE id = :id";
+                $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -47,7 +47,7 @@ function verifgroupe($Profil, $conn, $dateActuelle) {
         else {
             $classe = "Non défini";
             if ($classebdd != $classe) {
-                $sql = "UPDATE User SET classe = :classe WHERE id = :id";
+                $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -60,7 +60,7 @@ function verifgroupe($Profil, $conn, $dateActuelle) {
     
     else {
         $classe = "Enseignant";
-        $sql = "UPDATE User SET classe = :classe WHERE id = :id";
+        $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
