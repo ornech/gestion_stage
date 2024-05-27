@@ -40,7 +40,7 @@ class Stage {
     }
 
     public function list_by_classe($classe){
-      $query = "SELECT * FROM " . $this->vue_name . " WHERE Classe=:classe";
+      $query = "SELECT * FROM " . $this->vue_name . " WHERE classe=:classe";
       $stmt = $this->conn->prepare($query);
       $stmt->bindParam(":classe", $classe);
 
