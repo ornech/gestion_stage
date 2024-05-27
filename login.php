@@ -12,7 +12,6 @@
 </head>
 
 <body>
-  <button class="button button-flying" style="position: fixed; bottom: 4%; right: 2%; z-index: 1;" onclick="yourFunction()">A</button>
   <main>
 
   <style>
