@@ -1,20 +1,12 @@
 <?php
 require_once 'config/auth.php';
-
-function verifgroupe($conn, $dateActuelle) {
+function verifgroupe($Profil, $conn, $dateActuelle) {
     // Récupération des données du profil   
-    $id = isset($_GET['id']) ? $_GET['id'] : null;
-    $status = isset($_GET['statut']) ? $_GET['statut'] : null;
-    $date = isset($_GET['date_entree']) ? $_GET['date_entree'] : null;
+    $status = $Profil->statut;
+    $date = $Profil->date_entree;
     $dateEntree = ($date != null) ? new DateTime($date) : null;
     $datediff = ($dateEntree != null) ? $dateActuelle->diff($dateEntree) : null;
-    $classe="";
-    $classebdd = isset($_GET['classe']) ? $_GET['classe'] : null;
-    // var_dump($id);
-    // var_dump($conn);
-    // var_dump($date);
-    // var_dump($datediff);
-    // var_dump($classebdd);
+    $classebdd = $Profil->classe;
     if ($status === 'Etudiant') {
         if ($datediff->days < 350) {
             $classe = "SIO1"; 
@@ -35,10 +27,11 @@ function verifgroupe($conn, $dateActuelle) {
                 $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
                 $stmt->execute();
+
             } 
             }
 
-        elseif ($datediff->days > 720) {
+        elseif ($datediff->days >= 720) {
             $classe = "Ancien étudiant";
             if ($classebdd != $classe) {
                 $sql = "UPDATE user SET classe = :classe WHERE id = :id";
@@ -57,6 +50,7 @@ function verifgroupe($conn, $dateActuelle) {
                 $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
                 $stmt->execute();
+                
             }
         }
         return $classe;

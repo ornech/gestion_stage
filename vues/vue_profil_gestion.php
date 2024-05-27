@@ -46,7 +46,7 @@ function convertDateFormat($date) {
                     $date_entree = convertDateFormat($profil->date_entree);
                     echo $date_entree;
                      ?></td>
-                     <td><?=$test=verifgroupe($conn, $dateActuelle)?></td>
+                     <td><?=$test=verifgroupe($profil, $conn, $dateActuelle)?></td>
                     <td><?= $profil->login ?></td>
                     <td><?= $profil->spe ?></td>
                     <td><?= $profil->statut ?></td>
