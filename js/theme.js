@@ -1,5 +1,6 @@
 // Variables
 let themeButton;
+let actuelTheme = null;
 
 //Initiation du thème par défaut ou actuel
 const default_theme = "light";
@@ -13,6 +14,7 @@ const setTheme = (theme, save = true) => {
   if(themeButton != null) {
     changeButtonIcon(theme); //Fonction changement d'icone
   }
+  actuelTheme = theme;
 };
 
 if (localStorage.getItem("theme")) {
@@ -53,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function initButton(){
+  changeButtonIcon(actuelTheme);
   themeButton.addEventListener("click", function() {
     if (document.documentElement.getAttribute("data-theme") == "dark") {
       console.log("Attribution du thème light");
