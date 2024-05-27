@@ -40,7 +40,7 @@ class Stage {
     }
 
     public function list_by_classe($classe){
-      $query = "SELECT * FROM " . $this->vue_name . " WHERE Classe=:classe AND Statut='Etudiant'";
+      $query = "SELECT * FROM " . $this->vue_name . " WHERE Classe=:classe";
       $stmt = $this->conn->prepare($query);
       $stmt->bindParam(":classe", $classe);
 
@@ -80,7 +80,7 @@ class Stage {
       $stmt->bindParam(":classe", $this->classe);
       $stmt->bindParam(":dateDebut", $this->dateDebut);
       $stmt->bindParam(":duree", $this->duree);
-  
+
       try {
         if($stmt->execute()){
           return true;
@@ -94,7 +94,7 @@ class Stage {
         return false;
       }
     }
-  
+
 
     public function readFromEntrepriseId($idEntreprise){
       $query = "SELECT * FROM " . $this->vue_name . "WHERE idEntreprise =:idEntreprise";
