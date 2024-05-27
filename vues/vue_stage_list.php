@@ -39,7 +39,7 @@ require_once 'config/auth.php';
           <?php foreach ($stages as $stage): ?>
             <tr>
               <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
-              <td><?= $stage->Classe ? $stage->Classe : "Non défini" ?></td>
+              <td><?= $stage->classe ? $stage->classe : "Non défini" ?></td>
               <td><?= $stage->dateDebut ? $stage->dateDebut : "Non défini" ?></td>
               <td><?= $stage->dateFin ? $stage->dateFin : "Non défini" ?></td>
               <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></td>
