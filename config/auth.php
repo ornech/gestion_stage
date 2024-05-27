@@ -2,15 +2,13 @@
 // Fichier: config/auth.php
 
 // Vérifie si aucune session n'est démarrée
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+
 
 // Vérifie si l'utilisateur n'est pas connecté
 if (!isset($_SESSION['username'])) {
-    // Redirige vers la page de connexion
-    header("Location: ../login.php");
-    exit();
+  // Redirige vers la page de connexion
+  header("Location: ../login.php");
+  exit();
 }
 
 // Limitez la durée de validité de la session
@@ -26,5 +24,15 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) >
 
 // Mettez à jour le timestamp de dernière activité
 $_SESSION['last_activity'] = time();
+
+function route_protect($requiredRole) {
+  if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
+  if (!isset($_SESSION['statut']) || $_SESSION['statut'] !== $requiredRole) {
+    header('Location: ../router.php?page=erreur&titre=Non autorisé !&message=Vous n\'êtes pas autorisé à accéder à cette URL...');
+    exit();
+  }
+}
 
 ?>

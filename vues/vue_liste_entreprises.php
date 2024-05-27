@@ -22,9 +22,8 @@ require_once 'config/auth.php';
     </style>
 </head>
 <body>
-    <h2>Liste des entreprises</h2>
-    <p><a href="router.php?page=create_entreprise" class="btn btn-success" role="button">Ajouter une entreprise</a></p>
-
+  <p class="title is-2">Annuaire entreprises</p>
+  <p class="subtitle is-4">Entreprises qui ont été démarchées ou qui ont acceuillies des stagiaires.</p>
     <table class="table tableFilter" id="maTable">
         <thead>
             <tr>
