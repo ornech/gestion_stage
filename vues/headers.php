@@ -18,6 +18,7 @@ require_once 'config/auth.php';
   <link rel="stylesheet" href="../css/style.css">
 
   <script src="/js/trie_tableau.js"></script>
+  <script src="/js/theme.js"></script>
 
 </head>
 <body>
