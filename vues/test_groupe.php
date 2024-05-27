@@ -2,6 +2,8 @@
 require_once 'config/auth.php';
 function verifgroupe($Profil, $conn, $dateActuelle) {
     // Récupération des données du profil   
+    $table_name = "User";
+    $sql = "UPDATE " . $table_name . " SET classe = :classe WHERE id = :id";
     $status = $Profil->statut;
     $date = $Profil->date_entree;
     $dateEntree = ($date != null) ? new DateTime($date) : null;
