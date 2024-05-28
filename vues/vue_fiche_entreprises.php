@@ -4,7 +4,7 @@ require_once 'config/auth.php';
 
 <?php
 // Vérifier si les détails de l'entreprise sont disponibles
-if($ficheEntreprise) {
+if($ficheEntreprise){
   // Afficher les détails de l'entreprise
   ?>
   <p class="title is-2"><?= $ficheEntreprise->nomEntreprise ?></p>
@@ -59,8 +59,8 @@ if($ficheEntreprise) {
     }
 
     echo "<br><br><a href='router.php?page=stage_list&=" . "'><button type='button' class='button'>Consulter les stages effectués</button></a>";
-    //if($stages) {
-      //include 'vues/vue_stage_list.php';
+    if($stages) {
+      include 'vues/vue_stage_list.php';
       ?>
 
     <table class="table is-fullwidth tableFilter" id="maTable">
@@ -91,11 +91,11 @@ if($ficheEntreprise) {
 
       <?php
     
-        }
+        }}
   else {
     // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
     echo "<p>Aucune entreprise trouvée avec cet identifiant.</p>";
-  }
+  }}
   ?>
 
 
