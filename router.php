@@ -305,6 +305,16 @@ function router($page, $conn) {
       include 'vues/vue_prof_stage_create.php';
       break;
 
+    case 'vue_popup_test':
+      $idPopup = 1;
+      include 'vues/popups/test.php';
+      break;
+
+    case 'vue_popup_Othertest':
+      $idPopup = 2;
+      include 'vues/popups/test.php';
+      break;
+
   case 'import_pronote':
       route_protect('Professeur');
       include_once 'model/Profil.php';
