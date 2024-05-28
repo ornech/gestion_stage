@@ -49,24 +49,23 @@ if($ficheEntreprise) {
 
 <!-- -------------------------------------------------------------------------------- -->
 
+<?php
+if (isset($contact)){
+  echo "<a href='router.php?page=stage_create&idEntreprise=" . $ficheEntreprise->EntrepriseID .
+  "'><button type='button' class='button'>Ajouter un stage</button></a>";
+}
+else{
+  echo "Pour ajouter un stage, il faut d'abord ajouter un contact si celui-ci n'existe pas déjà.";
 
+}
+
+if(isset($stages[0])) {
+
+
+       ?>
   <div class="box">
     <p class="title is-6">Stages</p>
-    <?php
-    if (isset($contact)){
-      echo "<a href='router.php?page=stage_create&idEntreprise=" . $ficheEntreprise->EntrepriseID . 
-      "'><button type='button' class='button'>Ajouter un stage</button></a>";
-    } 
-    else{
-      echo "Pour ajouter un stage, il faut d'abord ajouter un contact si celui-ci n'existe pas déjà.";
-      
-    }
-  
-   
-    if(isset($stages)) {
 
-      
-           ?>
     <table class="table is-fullwidth tableFilter" id="maTable">
     <thead>
       <tr>
@@ -80,7 +79,7 @@ if($ficheEntreprise) {
       <tbody>
         <?php foreach ($stages as $stage): ?>
           <tr>
-            <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= 
+            <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?=
             $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
             <td><?= $stage->classe ? $stage->classe : "-" ?></td>
             <td><?= $stage->dateDebut ? $stage->dateDebut : "-" ?></td>
@@ -93,7 +92,7 @@ if($ficheEntreprise) {
       </table>
 
       <?php
-    
+
         }}
   else {
     // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
