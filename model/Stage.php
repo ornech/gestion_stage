@@ -21,6 +21,16 @@ class Stage {
     // Strucuture table STAGE
     // id|idEntreprise|idMaitreDeStage|idEtudiant|titreStage|description|dateDebut|dateFin|
 
+
+    
+  public function list_by_entreprise($idEntreprise) {
+    $sql = "SELECT * FROM stage WHERE idEntreprise = :idEntreprise";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':idEntreprise', $idEntreprise);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
     public function list(){
       $query = "SELECT * FROM " . $this->vue_name;
       $stmt = $this->conn->prepare($query);

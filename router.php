@@ -29,6 +29,18 @@ if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
 function router($page, $conn) {
   switch ($page) {
     case 'accueil':
+      include_once 'model/Stage.php'; // Inclure le modèle Stage
+      include_once 'model/Entreprise.php'; // Inclure le modèle Entreprise
+      include_once 'model/Contact.php'; // Inclure le modèle Contact
+      
+      $stageModel = new Stage($conn); // Instancier le modèle
+      $stages = $stageModel->list();
+
+      $entrepriseModel = new Entreprise($conn); // Instancier le modèle
+      $entreprises = $entrepriseModel->read();
+
+      $contactModel = new Contact($conn); // Instancier le modèle
+      $contacts = $contactModel->list();
       include 'vues/accueil.php';
       break;
 
@@ -43,7 +55,13 @@ function router($page, $conn) {
     case 'fiche_entreprise':
       include_once 'model/Entreprise.php';
       include_once 'model/Contact.php';
+
+      include_once 'model/Stage.php';
+      $stageModel = new Stage($conn);
+      
       // Instancier le modèle Entreprise
+
+
       $entrepriseModel = new Entreprise($conn);
       $contacteModel = new Contact($conn); // Instancier le modèle
       // Récupérer l'ID de l'entreprise depuis l'URL
@@ -52,6 +70,7 @@ function router($page, $conn) {
         // Charger les détails de l'entreprise en fonction de l'ID
         $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
         $contacts = $contacteModel->read_list($idEntreprise); // Lire les entreprises
+        $stages = $stageModel->list_by_entreprise($idEntreprise);
       }
       if (isset($_GET['siret'])) {
         $siret = isset($_GET['siret']) ? $_GET['siret'] : null;
@@ -208,6 +227,10 @@ function router($page, $conn) {
       }
 
       include 'vues/vue_contact_create.php';
+      break;
+      
+  case 'stage_consignes':
+      include 'vues/vue_stage_consignes.php';
       break;
 
   case 'stage_read':
