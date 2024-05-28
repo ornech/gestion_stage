@@ -3,6 +3,7 @@
 class Contact {
     private $conn;
     private $table_name = "employe";
+    private $vue_name = "contact_employe";
     private $nom;
     private $prenom;
     private $email;
@@ -30,7 +31,7 @@ class Contact {
 
     // Liste des entreprises
     public function read_list($idEntreprise){
-        $query = "SELECT * FROM Contact_employe WHERE EntrepriseID = :idEntreprise";
+        $query = "SELECT * FROM ". $this->$vue_name . " WHERE EntrepriseID = :idEntreprise";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
         $stmt->execute();
