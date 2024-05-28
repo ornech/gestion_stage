@@ -61,8 +61,6 @@ if($ficheEntreprise) {
       echo "Pour ajouter un stage, il faut d'abord ajouter un contact si celui-ci n'existe pas déjà.";
       
     }
-
-    echo "<br><br><a href='router.php?page=stage_list&=" . "'><button type='button' class='button'>Consulter les stages effectués</button></a>";
   
    
     if(isset($stages)) {
@@ -83,10 +81,10 @@ if($ficheEntreprise) {
         <?php foreach ($stages as $stage): ?>
           <tr>
             <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= 
-            $stage->idEtudiant->nom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
-            <td><?= $stage->classe ? $stage->classe : "Non défini" ?></td>
-            <td><?= $stage->dateDebut ? $stage->dateDebut : "Non défini" ?></td>
-            <td><?= $stage->dateFin ? $stage->dateFin : "Non défini" ?></td>
+            $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
+            <td><?= $stage->classe ? $stage->classe : "-" ?></td>
+            <td><?= $stage->dateDebut ? $stage->dateDebut : "-" ?></td>
+            <td><?= $stage->dateFin ? $stage->dateFin : "-" ?></td>
             <td>
               <a href="../router.php?page=Contact_fiche&idContact=<?= $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></td>
             </tr>
