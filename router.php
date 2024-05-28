@@ -55,7 +55,13 @@ function router($page, $conn) {
     case 'fiche_entreprise':
       include_once 'model/Entreprise.php';
       include_once 'model/Contact.php';
+
+      include_once 'model/Stage.php';
+      $stageModel = new Stage($conn);
+      
       // Instancier le modèle Entreprise
+
+
       $entrepriseModel = new Entreprise($conn);
       $contacteModel = new Contact($conn); // Instancier le modèle
       // Récupérer l'ID de l'entreprise depuis l'URL
@@ -64,6 +70,7 @@ function router($page, $conn) {
         // Charger les détails de l'entreprise en fonction de l'ID
         $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
         $contacts = $contacteModel->read_list($idEntreprise); // Lire les entreprises
+        $stages = $stageModel->list_by_entreprise($idEntreprise);
       }
       if (isset($_GET['siret'])) {
         $siret = isset($_GET['siret']) ? $_GET['siret'] : null;
@@ -278,6 +285,24 @@ function router($page, $conn) {
       $contacts = $contacteModel->read_list($idEntreprise);
 
       include 'vues/vue_stage_create.php';
+      break;
+
+    case 'prof_stage_create':
+      route_protect('Professeur');
+      include_once 'model/Profil.php';
+      include_once 'model/Stage.php';
+      include_once 'model/Contact.php';
+
+      $profilModel = new Profil($conn);
+      $profils = $profilModel->list_profil();
+
+      $stageModel = new Stage($conn);
+      $stages = $stageModel->list();
+
+      $contacteModel = new Contact($conn);
+      $contacts = $contacteModel->list();
+
+      include 'vues/vue_prof_stage_create.php';
       break;
 
   case 'import_pronote':
