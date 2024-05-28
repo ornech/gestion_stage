@@ -2,7 +2,7 @@
 require_once 'config/auth.php';
 function verifgroupe($Profil, $conn, $dateActuelle) {
     // Récupération des données du profil   
-    $table_name = "User";
+    $table_name = "user";
     $status = $Profil->statut;
     $date = $Profil->date_entree;
     $id = $Profil->id;
