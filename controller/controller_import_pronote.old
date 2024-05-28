@@ -67,7 +67,7 @@ if (isset($_POST['submit'])) {
         }
 
         // Vérifiez si le login existe déjà
-        $checkSql = "SELECT COUNT(*) FROM User WHERE login = :login";
+        $checkSql = "SELECT COUNT(*) FROM user WHERE login = :login";
         $checkStmt = $conn->prepare($checkSql);
         $checkStmt->bindParam(':login', $login, PDO::PARAM_STR);
         $checkStmt->execute();

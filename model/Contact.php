@@ -2,7 +2,8 @@
 
 class Contact {
     private $conn;
-    private $table_name = "Employe";
+    private $table_name = "employe";
+    private $vue_name = "contact_employe";
     private $nom;
     private $prenom;
     private $email;
@@ -30,7 +31,7 @@ class Contact {
 
     // Liste des entreprises
     public function read_list($idEntreprise){
-        $query = "SELECT * FROM Contact_employe WHERE EntrepriseID = :idEntreprise";
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
         $stmt->execute();
@@ -38,7 +39,7 @@ class Contact {
     }
 
     public function read_list_siret($siret){
-        $query = "SELECT * FROM Contact_employe WHERE EntrepriseID = (SELECT id from Entreprise WHERE siret =:siret)";
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = (SELECT id from entreprise WHERE siret =:siret)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':siret', $siret, PDO::PARAM_INT);
         $stmt->execute();
@@ -47,7 +48,7 @@ class Contact {
 
 
     public function read_fiche($idContact) {
-        $query = "SELECT * FROM Contact_employe WHERE EmployeID = :idContact";
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE EmployeID = :idContact";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idContact', $idContact, PDO::PARAM_INT);
         $stmt->execute();

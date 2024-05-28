@@ -2,6 +2,8 @@
 // Démarrer la session en premier
 session_start();
 
+$table_name = "user";
+
 // Vérifie si l'utilisateur est connecté
 require_once '../config/auth.php';
 require_once '../config/db_connection.php';
@@ -120,7 +122,7 @@ if (isset($_POST['submit'])) {
                 }
 
                 // Vérifiez si le login existe déjà
-                $checkSql = "SELECT COUNT(*) FROM User WHERE login = :login";
+                $checkSql = "SELECT COUNT(*) FROM $table_name WHERE login = :login";
                 $checkStmt = $conn->prepare($checkSql);
                 $checkStmt->bindParam(':login', $login, PDO::PARAM_STR);
                 $checkStmt->execute();

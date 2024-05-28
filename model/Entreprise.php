@@ -2,8 +2,8 @@
 
 class Entreprise {
   private $conn;
-  private $table_name = "Entreprise";
-
+  private $table_name = "entreprise";
+  private $vue_name = "vue_entreprise";
   public $idEntreprise;
   public $nomEntreprise;
   public $adresse;
@@ -284,7 +284,7 @@ class Entreprise {
 
 
   public function read_fiche($idEntreprise) {
-    $query = "SELECT * FROM vue_entreprise WHERE EntrepriseID = :idEntreprise";
+    $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
     $stmt->execute();
@@ -292,7 +292,7 @@ class Entreprise {
   }
 
   public function read_fiche_siret($siret) {
-    $query = "SELECT * FROM vue_entreprise WHERE siret = :siret";
+    $query = "SELECT * FROM ". $this->vue_name . " WHERE siret = :siret";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':siret', $siret, PDO::PARAM_INT);
     $stmt->execute();

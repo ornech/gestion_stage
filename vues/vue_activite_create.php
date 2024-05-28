@@ -4,7 +4,7 @@ require_once 'config/db_connection.php';
 
 try {
   // Préparer la requête SQL pour sélectionner les deux colonnes spécifiques de la table
-  $query = "SELECT id, nomEntreprise, ville  FROM Entreprise ORDER BY nomEntreprise ASC";
+  $query = "SELECT id, nomEntreprise, ville  FROM entreprise ORDER BY nomEntreprise ASC";
 
   // Exécuter la requête SQL
   $stmt = $conn->query($query);

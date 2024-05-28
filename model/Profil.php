@@ -1,7 +1,7 @@
 <?php
 class Profil {
   private $conn;
-  private $table_name = "User";
+  private $table_name = "user";
 
   public $idEtudiant;
   public $nom;
