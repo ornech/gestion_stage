@@ -30,6 +30,13 @@ class Contact {
         //     }
 
     // Liste des entreprises
+    public function list(){
+        $query = "SELECT * FROM ". $this->vue_name;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function read_list($idEntreprise){
         $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
         $stmt = $this->conn->prepare($query);
