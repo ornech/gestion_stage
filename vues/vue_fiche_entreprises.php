@@ -42,13 +42,59 @@ if($ficheEntreprise) {
     <?php
     include 'vues/vue_contact_list.php';
     ?>
+    <p><a href='router.php?page=contact_create&idEntreprise=<?= $_GET["idEntreprise"] ?>'>
+    <button type='button' class='button'>Ajouter un contact</button>
+  </a></p>
   </div>
+
+<!-- -------------------------------------------------------------------------------- -->
+
+<?php
+if (isset($contact)){
+  echo "<a href='router.php?page=stage_create&idEntreprise=" . $ficheEntreprise->EntrepriseID .
+  "'><button type='button' class='button'>Ajouter un stage</button></a>";
+}
+else{
+  echo "Pour ajouter un stage, il faut d'abord ajouter un contact si celui-ci n'existe pas déjà.";
+
+}
+
+if(isset($stages[0])) {
+
+
+       ?>
   <div class="box">
     <p class="title is-6">Stages</p>
 
-    <?php
-    echo "<a href='router.php?page=stage_create&idEntreprise=" . $ficheEntreprise->EntrepriseID . "'>Ajouter un stage</a>";
-  } else {
+    <table class="table is-fullwidth tableFilter" id="maTable">
+    <thead>
+      <tr>
+        <th>Etudiant</th>
+        <th>Classe</th>
+        <th>Date début</th>
+        <th>Date fin</th>
+        <th>Maitre de stage</td>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($stages as $stage): ?>
+          <tr>
+            <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?=
+            $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
+            <td><?= $stage->classe ? $stage->classe : "-" ?></td>
+            <td><?= $stage->dateDebut ? $stage->dateDebut : "-" ?></td>
+            <td><?= $stage->dateFin ? $stage->dateFin : "-" ?></td>
+            <td>
+              <a href="../router.php?page=Contact_fiche&idContact=<?= $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+
+      <?php
+
+        }}
+  else {
     // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
     echo "<p>Aucune entreprise trouvée avec cet identifiant.</p>";
   }

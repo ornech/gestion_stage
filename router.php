@@ -55,7 +55,13 @@ function router($page, $conn) {
     case 'fiche_entreprise':
       include_once 'model/Entreprise.php';
       include_once 'model/Contact.php';
+
+      include_once 'model/Stage.php';
+      $stageModel = new Stage($conn);
+      
       // Instancier le modèle Entreprise
+
+
       $entrepriseModel = new Entreprise($conn);
       $contacteModel = new Contact($conn); // Instancier le modèle
       // Récupérer l'ID de l'entreprise depuis l'URL
@@ -64,6 +70,7 @@ function router($page, $conn) {
         // Charger les détails de l'entreprise en fonction de l'ID
         $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
         $contacts = $contacteModel->read_list($idEntreprise); // Lire les entreprises
+        $stages = $stageModel->list_by_entreprise($idEntreprise);
       }
       if (isset($_GET['siret'])) {
         $siret = isset($_GET['siret']) ? $_GET['siret'] : null;
