@@ -3,6 +3,7 @@
 class Activite {
   private $conn;
   private $table_name = "activite_etu";
+  private $vue_name = "activite";
   public $date;
   public $ID_Entreprise;
   public $type;
@@ -48,28 +49,28 @@ class Activite {
 
   // Liste des activités
   public function liste_activites(){
-    $query = "SELECT * FROM Activite "; // " . $this->table_name;
+    $query = "SELECT * FROM ". $this->vue_name . " "; // " . $this->table_name;
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
   public function activite_prof(){
-    $query = "SELECT * FROM Activite ORDER BY Date DESC, Heure DESC";
+    $query = "SELECT * FROM ". $this->vue_name . " ORDER BY Date DESC, Heure DESC";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
   public function activite_etu(){
-    $query = "SELECT * FROM Activite WHERE IdEtudiant = " . intval($_SESSION['userID']) . " ORDER BY Date DESC, Heure DESC";
+    $query = "SELECT * FROM ". $this->vue_name . " WHERE IdEtudiant = " . intval($_SESSION['userID']) . " ORDER BY Date DESC, Heure DESC";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
   public function createActivite($ID_Entreprise, $type, $Commentaire, $IdEtudiant) {
-    $query = "INSERT INTO Activite_Etu (ID_Entreprise, date, type, Commentaire, IdEtudiant)
+    $query = "INSERT INTO ". $this->vue_name . " (ID_Entreprise, date, type, Commentaire, IdEtudiant)
     VALUES (:ID_Entreprise, NOW(), :type, :Commentaire, :IdEtudiant)";
 
     $stmt = $this->conn->prepare($query);
