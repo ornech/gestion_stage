@@ -24,7 +24,7 @@ if(isset($_GET['siret'])) {
 
   } else {
       // Afficher un message d'erreur en cas d'échec de la mise à jour
-      echo "Une erreur s'est produite avec le model ...";
+      echo "Une erreur s'est produite avec le model: "  . $_SERVER['SCRIPT_NAME'];
   }
 } else {
   // Rediriger vers une page d'erreur si le formulaire n'a pas été soumis

@@ -137,107 +137,90 @@ class Entreprise {
   // entreprise_create_siret
   // Créer une nouvelle entreprise
   public function entreprise_create_siret($siret){
-
-    // Récupérer le code NAF sélectionné
-    if (isset($siret)) {
-
-      // Mettre à jour l'URL avec le nouveau code NAF
-      $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret/";
-      $url = $url . $siret;
-
+    // Vérifie si le SIRET est défini et non vide
+    if (isset($siret) && !empty($siret)) {
+        // Met à jour l'URL avec le nouveau SIRET
+        $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret/" . $siret;
+    } else {
+        die('Erreur : le SIRET n\'est pas défini ou est vide.');
     }
+
     // Clé d'API
     $api_key = '94bcc60b-d0b4-3b55-8f7c-a1e5156a760b';
 
     // Configuration de la requête cURL
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-      'Accept: application/json',
-      //cURL -k command line
-
-      'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
-
-
-      'Authorization: Bearer ' . $api_key
+        'Accept: application/json',
+        'Authorization: Bearer ' . $api_key
     ));
-
-
-    //Ceci est à conservé ??? (Cela m'a permit de faire fonctionner l'API)
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     // Exécution de la requête
     $response = curl_exec($ch);
 
-    // Vérification des erreurs
+    // Vérification des erreurs cURL
     if ($response === false) {
-      die('Erreur lors de la récupération des données de l\'API: ' . curl_error($ch));
+        die('Erreur lors de la récupération des données de l\'API: ' . curl_error($ch));
     }
 
     // Fermeture de la session cURL
     curl_close($ch);
 
-
     // Décode la réponse JSON en tableau PHP
     $entrepriseData = json_decode($response, true);
-    //echo $response;
+
     // Vérifie si le décodage a réussi
     if ($entrepriseData === null && json_last_error() !== JSON_ERROR_NONE) {
-      die('Erreur lors du décodage de la réponse JSON.');
+        die('Erreur lors du décodage de la réponse JSON: ' . json_last_error_msg());
     }
 
-    if($entrepriseData["header"]["statut"] != 200){
-      $message = "Erreur de requête : " . $entrepriseData["header"]["message"];
-      header("Location: ../router.php?page=erreur&message=$message");
-      return false;
+    // Debugging
+    // echo "<hr>";
+    // var_dump($response);
+    // var_dump($entrepriseData);
+
+    // Vérifie le statut de la réponse
+    if (isset($entrepriseData["header"]["statut"]) && $entrepriseData["header"]["statut"] == 200) {
+        // Continuer avec le reste du traitement
+        echo 'Réponse API valide. Continuer le traitement...';
+    } else {
+        die('Erreur : ["header"]["statut"] != 200 ou non défini.');
     }
 
-    // nomEntreprise
-    // adresse
-    // adresse2
-    // ville
-    // tel
-    // codePostal
-    // dep_geo
-    // siret
-    // naf
-    // type
-    // effectif
-    // Created_UserID
-    // Created_Date
+    // Prépare les données pour l'insertion
+    $addr = $entrepriseData['etablissement']['adresseEtablissement']['numeroVoieEtablissement'] . " "
+        . $entrepriseData['etablissement']['adresseEtablissement']['typeVoieEtablissement'] . " "
+        . $entrepriseData['etablissement']['adresseEtablissement']['libelleVoieEtablissement'];
 
+    $this->nomEntreprise = htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['denominationUniteLegale'] ?? 'Non défini'));
+    $this->adresse = htmlspecialchars(strip_tags($addr ?? 'Non défini'));
+    $this->ville = htmlspecialchars(strip_tags($entrepriseData['etablissement']['adresseEtablissement']['libelleCommuneEtablissement'] ?? 'Non défini'));
+    $this->codePostal = htmlspecialchars(strip_tags($entrepriseData['etablissement']['adresseEtablissement']['codePostalEtablissement'] ?? 'Non défini'));
+    $this->siret = htmlspecialchars(strip_tags($siret ?? 'Non défini'));
+    $this->naf = htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['activitePrincipaleUniteLegale'] ?? 'Non défini'));
+    $this->type = htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['categorieEntreprise'] ?? 'Non défini'));
+    $this->effectif = htmlspecialchars(strip_tags($entrepriseData['etablissement']['trancheEffectifsEtablissement'] ?? 'Non défini'));
+    $this->Created_UserID = htmlspecialchars(strip_tags($_SESSION['userID']));
+
+    // Prépare la requête SQL
     $query = "INSERT INTO " . $this->table_name . " SET
-    nomEntreprise=:nomEntreprise,
-    adresse=:adresse,
-    ville=:ville,
-    codePostal=:codePostal,
-    siret=:siret,
-    naf=:naf,
-    effectif=:effectif,
-    type=:type,
-    Created_Date=NOW(),
-    Created_UserID=:Created_UserID
-    ";
-
+        nomEntreprise = :nomEntreprise,
+        adresse = :adresse,
+        ville = :ville,
+        codePostal = :codePostal,
+        siret = :siret,
+        naf = :naf,
+        effectif = :effectif,
+        type = :type,
+        Created_Date = NOW(),
+        Created_UserID = :Created_UserID";
 
     $stmt = $this->conn->prepare($query);
 
-    // Nettoyage et assignation des valeurs
-    $addr = $entrepriseData['etablissement']['adresseEtablissement']['numeroVoieEtablissement'] . " "
-    . $entrepriseData['etablissement']['adresseEtablissement']['typeVoieEtablissement'] . " "
-    . $entrepriseData['etablissement']['adresseEtablissement']['libelleVoieEtablissement'];
-
-    $this->nomEntreprise= $entrepriseData['etablissement']['uniteLegale']['denominationUniteLegale'] ? htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['denominationUniteLegale'])) : "Non défini";
-    $this->adresse= $addr ? $addr : "Non défini";
-    $this->ville= $entrepriseData['etablissement']['adresseEtablissement']['libelleCommuneEtablissement'] ? htmlspecialchars(strip_tags($entrepriseData['etablissement']['adresseEtablissement']['libelleCommuneEtablissement'])) : "Non défini";
-    $this->codePostal= $entrepriseData['etablissement']['adresseEtablissement']['codePostalEtablissement'] ? htmlspecialchars(strip_tags($entrepriseData['etablissement']['adresseEtablissement']['codePostalEtablissement'])) : "Non défini";
-    $this->siret= $siret ? $siret : "Non défini";
-    $this->naf= $entrepriseData['etablissement']['uniteLegale']['activitePrincipaleUniteLegale'] ? htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['activitePrincipaleUniteLegale'])) : "Non défini";
-    $this->type= $entrepriseData['etablissement']['uniteLegale']['categorieEntreprise'] ? htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['categorieEntreprise'])) : "Non défini";
-    $this->effectif= $entrepriseData['etablissement']['trancheEffectifsEtablissement'] ? htmlspecialchars(strip_tags($entrepriseData['etablissement']['trancheEffectifsEtablissement'])) : "Non défini";
-    $this->Created_UserID=htmlspecialchars(strip_tags($_SESSION['userID']));
-
+    // Lie les paramètres
     $stmt->bindParam(":nomEntreprise", $this->nomEntreprise);
     $stmt->bindParam(":adresse", $this->adresse);
     $stmt->bindParam(":ville", $this->ville);
@@ -248,31 +231,28 @@ class Entreprise {
     $stmt->bindParam(":effectif", $this->effectif);
     $stmt->bindParam(":Created_UserID", $this->Created_UserID);
 
+    // Exécution de la requête et gestion des erreurs
     try {
-      if($stmt->execute()){
-        $message = "Ceci est une erreur";
-        header("Location: ../router.php?page=erreur&message=$message");
-
-        return true;
-      } else {
-        $message = "Erreur SQL : " . $stmt->getMessage();
-        header("Location: ../router.php?page=erreur&message=$message");
-      }
-    }
-    catch (Exception $e) {
-      //echo "Erreur : " . $e->getMessage();
-      $errorInfo = $stmt->errorInfo();
-      if ($errorInfo[0] == 45001) {
-        header("Location: ../router.php?page=fiche_entreprise&siret=$siret");
+        if ($stmt->execute()) {
+            header("Location: ../router.php?page=success");
+            return true;
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            $message = "Erreur SQL : " . $errorInfo[2];
+            header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+            return false;
+        }
+    } catch (Exception $e) {
+        $errorInfo = $stmt->errorInfo();
+        if ($errorInfo[0] == 45001) {
+            header("Location: ../router.php?page=fiche_entreprise&siret=" . urlencode($siret));
+        } else {
+            $message = "Erreur SQL : " . $e->getMessage();
+            header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+        }
         return false;
-      } else {
-        //$message = "Erreur SQL : " . $e->getMessage() . "<BR>" . $errorInfo[2];
-        // header("Location: ../router.php?page=erreur&message=$message");
-        return false;
-      }
     }
-
-  }
+}
 
   // Liste des entreprises
   public function read(){
