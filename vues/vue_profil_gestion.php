@@ -27,6 +27,11 @@ if ($_SESSION['statut'] == "Professeur") {
     return $profil->password_reset == 1;
   });
 
+  function getClasses($users, $classe) {
+    $resultFilter = array_filter($users, function ($user) use ($classe) { return $user->classe == $classe; });
+    return $resultFilter;
+  }
+
 ?>
   <div class="field is-grouped" style="align-items: center;">
     <div>
@@ -51,14 +56,32 @@ if ($_SESSION['statut'] == "Professeur") {
     </div>
     <div class="control">
       <div class="tags has-addons is-medium">
-        <span class="tag is-dark">Password reset</span>
+        <span class="tag is-dark">Password inchangé</span>
         <span class="tag is-warning"><?= "<b>" . count($profilsPWReset) . "</b>" ?></span>
       </div>
     </div>
     <div class="control">
       <div class="tags has-addons is-medium">
-        <span class="tag is-dark">Password non changé</span>
-        <span class="tag is-link"><?= "<b>" . count($profils) - count($profilsPWReset) . "</b>" ?></span>
+        <span class="tag is-dark">Professeur</span>
+        <span class="tag is-link"><?= "<b>" . count(getClasses($profils, "Enseignant")) . "</b>" ?></span>
+      </div>
+    </div>
+    <div class="control">
+      <div class="tags has-addons is-medium">
+        <span class="tag is-dark">SIO 1</span>
+        <span class="tag is-link"><?= "<b>" . count(getClasses($profils, "SIO1")) . "</b>" ?></span>
+      </div>
+    </div>
+    <div class="control">
+      <div class="tags has-addons is-medium">
+        <span class="tag is-dark">SIO 2</span>
+        <span class="tag is-link"><?= "<b>" . count(getClasses($profils, "SIO2")) . "</b>" ?></span>
+      </div>
+    </div>
+    <div class="control">
+      <div class="tags has-addons is-medium">
+        <span class="tag is-dark">Ancien étudiant</span>
+        <span class="tag is-link"><?= "<b>" . count(getClasses($profils, "Ancien étudiant")) . "</b>" ?></span>
       </div>
     </div>
   </div>
@@ -131,47 +154,3 @@ if ($_SESSION['statut'] == "Professeur") {
   // Si le statut de l'utilisateur connecté est n'est pas un professeur :
 }
 ?>
-
-<style>
-  tbody tr:hover {
-    backdrop-filter: invert(10%);
-  }
-
-  .tooltip {
-    position: relative;
-    display: inline-block;
-  }
-
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: auto;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-  }
-
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
-</style>
