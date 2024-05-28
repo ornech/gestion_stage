@@ -48,7 +48,6 @@ if($ficheEntreprise) {
   </div>
   <div class="box">
     <p class="title is-6">Stages</p>
-
     <?php
     if (isset($contact)){
       echo "<a href='router.php?page=stage_create&idEntreprise=" . $ficheEntreprise->EntrepriseID . 
@@ -58,10 +57,41 @@ if($ficheEntreprise) {
       echo "Pour ajouter un stage, il faut d'abord ajouter un contact si celui-ci n'existe pas déjà.";
       
     }
-    echo "<br><br><a href='router.php?page=stage_list&=" . "'><button type='button' class='button'>Consulter les stages effectués</button></a>";
-      
-    }
 
+    echo "<br><br><a href='router.php?page=stage_list&=" . "'><button type='button' class='button'>Consulter les stages effectués</button></a>";
+    //if($stages) {
+      //include 'vues/vue_stage_list.php';
+      ?>
+
+    <table class="table is-fullwidth tableFilter" id="maTable">
+    <thead>
+      <tr>
+        <th>Etudiant</th>
+        <th>Classe</th>
+        <th>Date début</th>
+        <th>Date fin</th>
+        <th>Entreprise</th>
+        <th>Maitre de stage</td>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($stages as $stage): ?>
+          <tr>
+            <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
+            <td><?= $stage->classe ? $stage->classe : "Non défini" ?></td>
+            <td><?= $stage->dateDebut ? $stage->dateDebut : "Non défini" ?></td>
+            <td><?= $stage->dateFin ? $stage->dateFin : "Non défini" ?></td>
+            <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></td>
+            <td>
+              <a href="../router.php?page=Contact_fiche&idContact=<?= $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+
+      <?php
+    
+        }
   else {
     // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
     echo "<p>Aucune entreprise trouvée avec cet identifiant.</p>";

@@ -223,6 +223,7 @@ function router($page, $conn) {
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
       $stages = $stageModel->list();
+      include 'vues/vue_fiche_entreprises.php';
       include 'vues/vue_stage_list.php';
       break;
 

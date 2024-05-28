@@ -48,9 +48,7 @@ if($contacts) {
   echo "<p>Aucun contact pour cette entreprise</p>";
 
   ?>
-  <a href='router.php?page=contact_create&idEntreprise=<?= $_GET["idEntreprise"] ?>'>
-    <button type='button' class='button'>Ajouter un contact</button>
-  </a>
+
   <?php
 
 }
