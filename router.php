@@ -29,6 +29,18 @@ if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
 function router($page, $conn) {
   switch ($page) {
     case 'accueil':
+      include_once 'model/Stage.php'; // Inclure le modèle Stage
+      include_once 'model/Entreprise.php'; // Inclure le modèle Entreprise
+      include_once 'model/Contact.php'; // Inclure le modèle Contact
+      
+      $stageModel = new Stage($conn); // Instancier le modèle
+      $stages = $stageModel->list();
+
+      $entrepriseModel = new Entreprise($conn); // Instancier le modèle
+      $entreprises = $entrepriseModel->read();
+
+      $contactModel = new Contact($conn); // Instancier le modèle
+      $contacts = $contactModel->list();
       include 'vues/accueil.php';
       break;
 
