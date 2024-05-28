@@ -42,13 +42,27 @@ if($ficheEntreprise) {
     <?php
     include 'vues/vue_contact_list.php';
     ?>
+    <p><a href='router.php?page=contact_create&idEntreprise=<?= $_GET["idEntreprise"] ?>'>
+    <button type='button' class='button'>Ajouter un contact</button>
+  </a></p>
   </div>
   <div class="box">
     <p class="title is-6">Stages</p>
 
     <?php
-    echo "<a href='router.php?page=stage_create&idEntreprise=" . $ficheEntreprise->EntrepriseID . "'>Ajouter un stage</a>";
-  } else {
+    if (isset($contact)){
+      echo "<a href='router.php?page=stage_create&idEntreprise=" . $ficheEntreprise->EntrepriseID . 
+      "'><button type='button' class='button'>Ajouter un stage</button></a>";
+    } 
+    else{
+      echo "Pour ajouter un stage, il faut d'abord ajouter un contact si celui-ci n'existe pas déjà.";
+      
+    }
+    echo "<br><br><a href='router.php?page=stage_list&=" . "'><button type='button' class='button'>Consulter les stages effectués</button></a>";
+      
+    }
+
+  else {
     // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
     echo "<p>Aucune entreprise trouvée avec cet identifiant.</p>";
   }

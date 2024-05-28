@@ -16,10 +16,7 @@ if($contacts) {
   // Created_User
   // Created_date
 
-  ?>  <p class="title is-4">Contacts
-    <a href='router.php?page=contact_create&idEntreprise=<?= $_GET["idEntreprise"] ?>'>
-      <button type='button' class='button'>Ajouter un contact</button>
-    </a></p>
+  ?>  <p class="title is-4">Contacts</p>
     <table class="table table-striped table-hover">
       <!--  <thead>
       <tr>
