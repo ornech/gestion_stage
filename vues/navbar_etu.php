@@ -19,6 +19,7 @@ require_once 'config/auth.php';
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link" href="router.php?page=stage_list"><i class='far fa-calendar-alt'>&nbsp;</i>Stages</a>
         <div class="navbar-dropdown">
+          <a class="navbar-item" href="router.php?page=stage_consignes"><i class="fa fa-bullhorn"></i> &nbsp; Consignes</a>
           <a class="navbar-item" style="opacity: .20;">Suivi d'activité</a>
           <a class="navbar-item" style="opacity: .20;" href="router.php?page=stage_etu_sio1"><i class="fa fa fa-cube"></i> &nbsp; SIO1</a>
           <a class="navbar-item" style="opacity: .20;" href="router.php?page=stage_etu_sio2"><i class="fa fa fa-cubes"></i> &nbsp; SIO2</a>

@@ -209,6 +209,10 @@ function router($page, $conn) {
 
       include 'vues/vue_contact_create.php';
       break;
+      
+  case 'stage_consignes':
+      include 'vues/vue_stage_consignes.php';
+      break;
 
   case 'stage_read':
       include_once 'model/Stage.php';
