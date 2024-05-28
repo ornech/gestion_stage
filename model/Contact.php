@@ -2,7 +2,7 @@
 
 class Contact {
     private $conn;
-    private $table_name = "Employe";
+    private $table_name = "employe";
     private $nom;
     private $prenom;
     private $email;

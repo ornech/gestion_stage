@@ -2,8 +2,7 @@
 
 class Activite {
   private $conn;
-  private $table_name = "Activite_Etu";
-
+  private $table_name = "activite_etu";
   public $date;
   public $ID_Entreprise;
   public $type;

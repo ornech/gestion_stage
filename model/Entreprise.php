@@ -2,7 +2,7 @@
 
 class Entreprise {
   private $conn;
-  private $table_name = "Entreprise";
+  private $table_name = "entreprise";
 
   public $idEntreprise;
   public $nomEntreprise;
