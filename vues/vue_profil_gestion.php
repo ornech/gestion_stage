@@ -25,25 +25,25 @@ function convertDateFormat($date) {
 <p class="subtitle is-4">Admimistration des comptes</p>
 
   <a class='btn btn-success' href='router.php?page=create_user' role='button'>Créer un compte</a>
-    <table class="table table-striped table-hover" id="maTable">
+    <table class="table table-striped table-hover tableFilter" id="maTable">
         <thead>
             <tr class="table-secondary">
-              <th>Utilisateur</th>
-              <th>Date d'entrée</th>
-              <th>Classe</th>
-              <th>Login</th>
-              <th>Spécialité</button></th>
-              <th>Statut</th>
+              <th class="lineFilter" name="Utilisateur"></th>
+              <th class="lineFilter" name="Date d'entrée"></th>
+              <th class="lineFilter" name="Classe"></th>
+              <th class="lineFilter" name="Login"></th>
+              <th class="lineFilter" name="Spécialité"></th>
+              <th class="lineFilter" name="Statut"></th>
               <th><span id ="mdp" class="hover-text">Reset password &#9432;</span></th>
               <th><span id="acc" class="hover-text">Désactivé  &#9432;</span> </th>
             </tr>
         </thead>
-        <tr>
+        <tbody>
             <?php foreach ($profils as $profil): ?>
                   <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
                     <td><?= $profil->nom ?> <?= $profil->prenom ?></td>
                     <td><?= isset($profil->date_entree) ? convertDateFormat($profil->date_entree) : "Non définit"; ?></td>
-                     <td><?=$test=verifgroupe($profil, $conn, $dateActuelle)?></td>
+                    <td><?=$test=verifgroupe($profil, $conn, $dateActuelle)?></td>
                     <td><?= $profil->login ?></td>
                     <td><?= $profil->spe ?></td>
                     <td><?= $profil->statut ?></td>
