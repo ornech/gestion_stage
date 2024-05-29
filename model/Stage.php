@@ -22,7 +22,7 @@ class Stage {
     // id|idEntreprise|idMaitreDeStage|idEtudiant|titreStage|description|dateDebut|dateFin|
 
 
-    
+
   public function list_by_entreprise($idEntreprise) {
     $sql = "SELECT * FROM " . $this->vue_name . " WHERE idEntreprise = :idEntreprise";
     $stmt = $this->conn->prepare($sql);
@@ -128,10 +128,9 @@ class Stage {
     }
 
     public function readFromEtudiantId($idEtudiant){
-      $query = "SELECT * FROM " . $this->vue_name . "WHERE idEtudiant =:idEtudiant";
+      $query = "SELECT * FROM " . $this->vue_name . " WHERE idEtudiant =:idEtudiant";
       $stmt = $this->conn->prepare($query);
       $stmt->bindParam(':idEtudiant', $idEtudiant, PDO::PARAM_INT);
-
 
       try {
           if($stmt->execute()){
@@ -140,12 +139,33 @@ class Stage {
               throw new Exception("Erreur lors de l'exécution de la requête.");
           }
       } catch (Exception $e) {
-          //echo "Erreur : " . $e->getMessage();
+          echo "Erreur : " . $e->getMessage();
           $message = "SQL : " . implode(", ", $stmt->errorInfo());
-          header("Location: ../router.php?page=erreur&title=Erreur&message=$message");
+          //header("Location: ../router.php?page=erreur&title=Erreur&message=$message");
           return false;
       }
     }
+
+    public function assignation_suivi($idStage, $idProfesseur){
+      $query = "UPDATE " . $this->table_name . " SET idProfesseur = :idProfesseur WHERE id = :idStage";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':idStage', $idStage, PDO::PARAM_INT);
+      $stmt->bindParam(':idProfesseur', $idProfesseur, PDO::PARAM_INT);
+
+      try {
+          if($stmt->execute()){
+              return $stmt->fetchAll(PDO::FETCH_OBJ);
+          } else {
+              throw new Exception("Erreur lors de l'exécution de la requête.");
+          }
+      } catch (Exception $e) {
+          echo "Erreur : " . $e->getMessage();
+          $message = "SQL : " . implode(", ", $stmt->errorInfo());
+          //header("Location: ../router.php?page=erreur&title=Erreur&message=$message");
+          return false;
+      }
+    }
+
 }
 
 ?>

@@ -37,7 +37,7 @@ function router($page, $conn) {
       include_once 'model/Stage.php'; // Inclure le modèle Stage
       include_once 'model/Entreprise.php'; // Inclure le modèle Entreprise
       include_once 'model/Contact.php'; // Inclure le modèle Contact
-      
+
       $stageModel = new Stage($conn); // Instancier le modèle
       $stages = $stageModel->list();
 
@@ -63,7 +63,7 @@ function router($page, $conn) {
 
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
-      
+
       // Instancier le modèle Entreprise  __
 
 
@@ -152,9 +152,10 @@ function router($page, $conn) {
 
       $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
       $profilModel = new Profil($conn);
+      $stageModel = new Stage($conn);
       $Profil = $profilModel->read_profil($idProfil);
-      $stages = $profilModel->list_by_etudiant($idProfil); 
-     
+      $stages = $stageModel->readFromEtudiantId($idProfil);
+
       include 'vues/vue_profil_user.php';
       break;
 
@@ -237,7 +238,7 @@ function router($page, $conn) {
 
       include 'vues/vue_contact_create.php';
       break;
-        
+
     case 'stage_consignes':
       include 'vues/vue_stage_consignes.php';
       break;
@@ -313,10 +314,15 @@ function router($page, $conn) {
 
       include 'vues/vue_prof_create_stage.php';
       break;
+      
+    case 'stage_suivi_prof':
+      route_protect('Professeur');
+      include 'vues/vue_stage_suivi_create.php';
+      break;
 
     case 'vue_popup_select_etu':
       include_once 'model/Profil.php';
-      
+
       $profilModel = new Profil($conn);
       $profils = $profilModel->list_profil();
 
@@ -344,7 +350,7 @@ function router($page, $conn) {
     case 'vue_popup_create_entreprise':
       $isPopup = true;
       include 'vues/vue_entreprise_import.php';
-      break;      
+      break;
 
     case 'vue_popup_create_maitredestage':
       include_once 'model/Contact.php';
@@ -358,7 +364,7 @@ function router($page, $conn) {
       }
 
       include 'vues/vue_contact_create.php';
-      break; 
+      break;
 
     case 'import_pronote':
       route_protect('Professeur');

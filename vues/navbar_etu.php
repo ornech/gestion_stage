@@ -3,9 +3,7 @@ require_once 'config/auth.php';
 ?>
 <nav class="navbar is-link" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="index.php">
-      <img src="../images/bulma-logo.png" width="112" height="28" alt="GESTAGE">
-    </a>
+      <a class="navbar-item" href="index.php">GESTAGE</a>
 
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
       <span aria-hidden="true"></span>
