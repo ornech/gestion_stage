@@ -2,7 +2,7 @@
 require_once 'config/auth.php';
 
 if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_GET["page"] == "profil") {
-    
+
 // Vérifier si les détails du profil sont disponibles
 if($Profil) {
 // Afficher les détails du profi
@@ -46,7 +46,7 @@ if($Profil) {
                 </div>
             </div>
         </div>
-<?php 
+<?php
 $statut=$Profil->statut;
 if ($statut=='Etudiant'){
 ?>
@@ -54,11 +54,9 @@ if ($statut=='Etudiant'){
             <div class="box"  style="display: flex; flex-direction: column; height: 100%;">
                 <h3 class="title is-4 has-text-centered orange-line-bottom">Stages effectuées</h3>
                 <?php
-                           
-                            
+
 if (isset($stages[0])) {
     foreach ($stages as $stage) {
-        
 
     ?>
     <table class="table is-fullwidth tableFilter" id="maTable">
@@ -74,7 +72,7 @@ if (isset($stages[0])) {
         <tbody>
             <?php
 
-           
+
                 ?>
                 <tr>
                     <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></td>
@@ -83,16 +81,16 @@ if (isset($stages[0])) {
                     <td><?= $stage->dateFin ? $stage->dateFin : "-" ?></td>
                     <td><a href="../router.php?page=Contact_fiche&idContact=<?= $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></td>
                 </tr>  </tbody>
-    </table>   
+    </table>
             <?php
         }
 }
 else{
     echo "<br>L'étudiant n'a pas effectué de stage.";
 }
-    ?>  
-     
-      
+    ?>
+
+
 </div>
         </div>
         </div>
@@ -113,4 +111,3 @@ else {
 }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
 
 ?>
-
