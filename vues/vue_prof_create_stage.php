@@ -8,9 +8,9 @@ require_once 'config/auth.php';
       <h1 class="title is-1 has-text-centered">Créer un stage</h1>
 
       <form action="router.php" method="post">
-        <input type="hidden" name="idEtudiant" value="">
-        <input type="hidden" name="idEntreprise" value="">
-        <input type="hidden" name="idMaitreDeStage" value="">
+        <input type="hidden" id="idEtudiant" name="idEtudiant" value=""/>
+        <input type="hidden" id="idEntreprise" name="idEntreprise" value="">
+        <input type="hidden" id="idMaitreDeStage" name="idMaitreDeStage" value="">
 
         <label class="label" for="nameEtudiant">Étudiant</label>
         <div class="field has-addons">
@@ -29,6 +29,9 @@ require_once 'config/auth.php';
           </div>
           <p class="control">
             <a class="button is-info" onclick="openPopup('vue_popup_select_entreprise')" >Selectionner</a>
+          </p>
+          <p class="control">
+            <a class="button is-primary" onclick="openPopup('vue_popup_create_entreprise')" >Créer</a>
           </p>
         </div>
 
@@ -55,9 +58,9 @@ require_once 'config/auth.php';
             <div class="control has-icons-left">
               <div class="select">
                 <select id="duree" name="duree" onchange="checkForm()">
-                  <option value="6" selected>6</option>
-                  <option value="5">5</option>
-                  <option value="4">4</option>
+                  <option value="6" selected>6 semaines</option>
+                  <option value="5">5 semaines</option>
+                  <option value="4">4 semaines</option>
                 </select>
               </div>
               <span class="icon is-small is-left">
@@ -85,12 +88,21 @@ require_once 'config/auth.php';
   function openPopup(route) {
     if(popupAlreadyOpened == true) return;
     popupAlreadyOpened = true;
-    var popup = window.open("router.php?page=" + route, "_blank", "popup");
+    var popup = window.open("router.php?page=" + route, "_blank",  "width=700, height=600");
     // Attendre la réponse de la popup
     window.addEventListener("message", function(event) {
       if (event.origin === window.location.origin) {
       var response = event.data;
-      console.log("Réponse de la popup :", response);
+
+      if(response.statut == "success"){
+        processResponse(response.contents);
+      }else if(response.statut == "cancel"){
+        console.log("Opération annulée");
+        console.log(response);
+      }else{
+        console.log("Erreur lors de la récupération des données");
+      }
+
       window.removeEventListener("message", arguments.callee);
       popupAlreadyOpened = false;
       }
@@ -120,5 +132,25 @@ require_once 'config/auth.php';
     }
 
   }
+
+  function processResponse(response){
+    if(response["type"] == "profil"){
+      console.log(response)
+      document.getElementById("idEtudiant").value = response["id"];
+      document.getElementById("nameEtudiant").value = response["nom"] + " " + response["prenom"];
+    }else if(response["type"] == "entreprise"){
+      console.log(response)
+      document.getElementById("idEntreprise").value = response["id"];
+      document.getElementById("nameEntreprise").value = response["nom"];
+    }
+
+    checkForm();
+  }
+
+  window.addEventListener("unload", function() {
+    console.log(window.location);
+    sendResponse({statut: "cancel", why: window.location}, "/");
+    window.close();
+  });
 
 </script>

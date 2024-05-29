@@ -1,16 +1,9 @@
 if (window.opener == null || typeof(window.opener.postMessage) == "undefined") {
-  //redeirect to the accueing location
-  window.location.href = "http://gestage.local/";
+  window.location.href = window.location.origin;
 }
 
-function sendResponse(response, host){
-  window.opener.postMessage(response, host);
-}
-
-window.addEventListener("unload", function() {
-  sendResponse({statut: "cancel"}, "http://gestage.local/");
+function sendResponse(response){
+  console.log(response)
+  window.opener.postMessage(response, window.location.origin);
   window.close();
-});
-
-
-
+}

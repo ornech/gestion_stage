@@ -10,7 +10,8 @@ function getValue() {
   console.log(input);
   var url = ("https://annuaire-entreprises.data.gouv.fr/etablissement/" + input);
   // Afficher la valeur . input;
-  window.location.href=url;
+  window.open(url,'_blank');
+  this.focus();
 }
 </script>
 
@@ -28,7 +29,10 @@ Vous évitez ainsi d'insérer des informations éronnées ou obsolètes.</p>  <b
 </div>
 
 <p>Importez les données relatives à une entreprise à partir de son numéro de SIRET.</p>
+
 <form action="../controller/entreprise_create_siret.php" method="GET" class="form-group mb-3">
+  <?= isset($isPopup) ? "<input type='hidden' name='isPopup' value='true'>" : "" ?>
+
   <input type="hidden" name="Created_UserID" value="<?= $_SESSION["userID"];?>">
   <div class="field">
     <div class="control">

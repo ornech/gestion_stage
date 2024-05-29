@@ -220,7 +220,7 @@ function router($page, $conn) {
       include 'vues/vue_contact_fiche.php';
       break;
 
-   case 'contact_create':
+    case 'contact_create':
       include_once 'model/Contact.php';
 
       // Instancie le modèle
@@ -233,12 +233,12 @@ function router($page, $conn) {
 
       include 'vues/vue_contact_create.php';
       break;
-      
-  case 'stage_consignes':
+        
+    case 'stage_consignes':
       include 'vues/vue_stage_consignes.php';
       break;
 
-  case 'stage_read':
+    case 'stage_read':
       include_once 'model/Stage.php';
       $idUser = isset($_GET['id']) ? $_GET['id'] : null;
       $stageModel = new Stage($conn);
@@ -246,7 +246,7 @@ function router($page, $conn) {
       include 'vues/vue_stage_user.php';
       break;
 
-  case 'stage_list':
+    case 'stage_list':
       route_protect('Professeur');
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
@@ -254,28 +254,28 @@ function router($page, $conn) {
       include 'vues/vue_stage_list.php';
       break;
 
-  case 'stage_sio1':
+    case 'stage_sio1':
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
       $stages = $stageModel->list_by_classe("SIO1");
       include 'vues/vue_stage_list.php';
       break;
 
-  case 'stage_sio2':
+    case 'stage_sio2':
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
       $stages = $stageModel->list_by_classe("SIO2");
       include 'vues/vue_stage_list.php';
       break;
 
-  case 'stage_ancien':
+    case 'stage_ancien':
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
       $stages = $stageModel->list_by_classe("Ancien étudiant");
       include 'vues/vue_stage_list.php';
       break;
 
-  case 'stage_create':
+    case 'stage_create':
       include_once 'model/Stage.php';
       include_once 'model/Contact.php';
 
@@ -307,7 +307,7 @@ function router($page, $conn) {
       $contacteModel = new Contact($conn);
       $contacts = $contacteModel->list();
 
-      include 'vues/vue_prof_stage_create.php';
+      include 'vues/vue_prof_create_stage.php';
       break;
 
     case 'vue_popup_select_etu':
@@ -316,17 +316,31 @@ function router($page, $conn) {
       $profilModel = new Profil($conn);
       $profils = $profilModel->list_profil();
 
-      include 'vues/popups/vue_popup_selectetu.php';
+      include 'vues/popups/vue_popup_select.php';
       break;
 
-  case 'import_pronote':
+    case 'vue_popup_select_entreprise':
+      include_once 'model/Entreprise.php';
+
+      $entrepriseModel = new Entreprise($conn);
+      $entreprises = $entrepriseModel->read();
+
+      include 'vues/popups/vue_popup_select.php';
+      break;
+
+    case 'vue_popup_create_entreprise':
+      $isPopup = true;
+      include 'vues/vue_entreprise_import.php';
+      break;
+
+    case 'import_pronote':
       route_protect('Professeur');
       include_once 'model/Profil.php';
       $import_pronoteModel = new Profil($conn);
       include 'vues/vue_import_pronote.php';
       break;
 
-   case 'erreur':
+    case 'erreur':
       $message = isset($_GET['messge']) ? $_GET['message'] : null;
       include 'vues/vue_erreur.php'; // Page d'accueil par défaut
       break;
@@ -334,8 +348,8 @@ function router($page, $conn) {
     default:
       include 'vues/vue_erreur.php'; // Page d'accueil par défaut
       break;
-    }
   }
+}
 
   // Appeler la fonction de routage pour afficher la vue appropriée
 

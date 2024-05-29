@@ -136,7 +136,7 @@ class Entreprise {
 
   // entreprise_create_siret
   // Créer une nouvelle entreprise
-  public function entreprise_create_siret($siret){
+  public function entreprise_create_siret($siret, $isPopup){
     // Vérifie si le SIRET est défini et non vide
     if (isset($siret) && !empty($siret)) {
         // Met à jour l'URL avec le nouveau SIRET
@@ -234,7 +234,6 @@ class Entreprise {
     // Exécution de la requête et gestion des erreurs
     try {
         if ($stmt->execute()) {
-            header("Location: ../router.php?page=success");
             return true;
         } else {
             $errorInfo = $stmt->errorInfo();
@@ -245,7 +244,11 @@ class Entreprise {
     } catch (Exception $e) {
         $errorInfo = $stmt->errorInfo();
         if ($errorInfo[0] == 45001) {
+          if($isPopup == true){
+            return true;
+          }else{
             header("Location: ../router.php?page=fiche_entreprise&siret=" . urlencode($siret));
+          }
         } else {
             $message = "Erreur SQL : " . $e->getMessage();
             header("Location: ../router.php?page=erreur&message=" . urlencode($message));
@@ -253,6 +256,13 @@ class Entreprise {
         return false;
     }
 }
+
+  public function getLastEnterprise(){
+    $query = "SELECT * FROM " . $this->table_name . " ORDER BY id DESC LIMIT 1";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
 
   // Liste des entreprises
   public function read(){
