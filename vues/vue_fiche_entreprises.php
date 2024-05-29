@@ -55,8 +55,13 @@ if (isset($contact)){
   "'><button type='button' class='button'>Ajouter un stage</button></a>";
 }
 else{
-  echo "Pour ajouter un stage, il faut d'abord ajouter un contact si celui-ci n'existe pas déjà.";
+   ?>
+<div class="notification is-warning is-light">
+  Si vous possédez une <strong>convention de stage</strong> avec cette entreprise, ajoutez le contact qui a signé votre convention<BR>
+  Vous serez ensuite autorisé à enregistrer votre stage depuis cette page.
+</div>
 
+<?php
 }
 
 if(isset($stages[0])) {
