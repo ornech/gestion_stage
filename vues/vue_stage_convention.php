@@ -78,6 +78,7 @@ require_once 'config/auth.php';
     la convention pourra être adaptée pour tenir compte des contraintes imposées par la législation du<BR>
     pays d’accueil.</p>
 
+
     <p><strong>Article 2 (programme) :</strong></p>
     <p>Les stages sont destinés à donner à l’étudiant une représentation concrète du milieu professionnel
       des services informatiques et de l’emploi, tout en lui permettant d’acquérir et d’éprouver les
@@ -164,6 +165,7 @@ require_once 'config/auth.php';
                                 téléphonique. Le tuteur s’engage à communiquer le plus rapidement à l’enseignant responsable tout problème qui
                                 se poserait durant la période de stage. </p>
 
+
                                 <p>Fait en trois exemplaires,à Rochefort, le ................</p>
 
                                 <table>
@@ -181,3 +183,22 @@ require_once 'config/auth.php';
                                     </table>
 
                                   </section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<script>
+
+  window.addEventListener('DOMContentLoaded', function() {
+    const element = document.querySelector('section[class=section]');
+    const options = {
+      filename: 'convention.pdf',
+      image: { type: 'jpg', quality: 0.98 },
+      html2canvas: { scale: 1 },
+      jsPDF: { unit: 'px', format: 'a1', orientation: 'portrait' }
+    };
+
+    html2pdf().set(options).from(element).save();
+  });
+</script>
+
+
