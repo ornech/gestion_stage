@@ -1,4 +1,4 @@
-<?php
+<button?php
 require_once 'config/auth.php';
 ?>
 
@@ -45,7 +45,7 @@ require_once 'config/auth.php';
             <button type="button" class="button is-info" id="btnSelectMaitreDeStage" disabled >Selectionner</button>
           </p>
           <p class="control">
-            <a class="button is-primary" id="btnCreateMaitreDeStage">Créer</a>
+            <button type="button" class="button is-primary" id="btnCreateMaitreDeStage" disabled>Créer</button>
           </p>
         </div>
 
@@ -133,7 +133,7 @@ require_once 'config/auth.php';
       document.getElementById("btnCreateMaitreDeStage").disabled = false;
     }
     else{
-      document.getElementById("btnCreateMaitreDeStage").disabled = true;
+      document.getElementById("btnSelectMaitreDeStage").disabled = true;
       document.getElementById("btnCreateMaitreDeStage").disabled = true;
     }
 
