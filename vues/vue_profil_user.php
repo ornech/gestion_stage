@@ -46,7 +46,10 @@ if($Profil) {
                 </div>
             </div>
         </div>
-
+<?php 
+$statut=$Profil->statut;
+if ($statut=='Etudiant'){
+?>
         <div class="column is-two-third">
             <div class="box"  style="display: flex; flex-direction: column; height: 100%;">
                 <h3 class="title is-4 has-text-centered orange-line-bottom">Stages effectuées</h3>
@@ -98,7 +101,9 @@ else{
 
 
 
-} else {
+} }
+
+else {
    // Si aucun profil n'a été trouvée, afficher un message d'erreur
    echo "<p>Aucun profil trouvé avec ce lien.</p>";
 }
