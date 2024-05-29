@@ -333,6 +333,11 @@ function router($page, $conn) {
       include 'vues/vue_entreprise_import.php';
       break;
 
+    case 'vue_popup_create_entreprise':
+      $isPopup = true;
+      include 'vues/vue_entreprise_import.php';
+      break;
+
     case 'import_pronote':
       route_protect('Professeur');
       include_once 'model/Profil.php';

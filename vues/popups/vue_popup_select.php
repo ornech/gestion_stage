@@ -7,7 +7,6 @@
   if(isset($profils)){
 ?>
 
-
 <p class="title is-3 has-text-centered">Cliquez sur un étudiant pour l'ajouter</p>
 <table class="table table-hover tableFilter is-fullwidth" id="maTable">
   <thead>
@@ -61,6 +60,30 @@
 </table>
 
 <?php
+  }else if(isset($contacts)){
+?>
+
+<p class="title is-3 has-text-centered">Cliquez sur un contact pour l'ajouter</p>
+<table class="table table-hover tableFilter is-fullwidth" id="maTable">
+  <thead>
+    <tr>
+      <td class="lineFilter" name="Nom"></td>
+      <td class="lineFilter" name="Prénom"></td>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($contacts as $contact):?>
+
+      <tr style="cursor: pointer;" id="<?= $contact->id ?>">
+        <td id="nom"><?=$contact->nom?></td>
+        <td id="prenom"><?=$contact->prenom?></td>
+      </tr>
+
+    <?php endforeach;?>
+  </tbody>
+</table>
+
+<?php
   } else{}
 ?>
 
@@ -103,8 +126,7 @@
   }
 
   window.addEventListener("unload", function() {
-    console.log(window.location);
-    sendResponse({statut: "cancel", why: window.location}, "/");
+    sendResponse({statut: "cancel"}, "/");
     window.close();
   });
 </script>

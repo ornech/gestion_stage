@@ -41,7 +41,7 @@ require_once 'config/auth.php';
             <input type="text" class="input is-info" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" onchange="checkForm()" disabled>
           </div>
           <p class="control">
-            <button class="button is-info" id="btnMaitreDeStage" onclick="openPopup('vue_popup_select_maitredestage')" disabled >Selectionner</h>
+            <button type="button" class="button is-info" id="btnMaitreDeStage" onclick="openPopup('vue_popup_select_maitredestage')" disabled >Selectionner</h>
           </p>
         </div>
 
@@ -146,11 +146,5 @@ require_once 'config/auth.php';
 
     checkForm();
   }
-
-  window.addEventListener("unload", function() {
-    console.log(window.location);
-    sendResponse({statut: "cancel", why: window.location}, "/");
-    window.close();
-  });
 
 </script>
