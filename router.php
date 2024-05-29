@@ -59,7 +59,7 @@ function router($page, $conn) {
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
       
-      // Instancier le modèle Entreprise
+      // Instancier le modèle Entreprise  __
 
 
       $entrepriseModel = new Entreprise($conn);
@@ -143,9 +143,13 @@ function router($page, $conn) {
 
     case 'view_profil':
       include_once 'model/Profil.php';
+      include_once 'model/Stage.php';
+
       $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
       $profilModel = new Profil($conn);
       $Profil = $profilModel->read_profil($idProfil);
+      $stages = $profilModel->list_by_etudiant($idProfil); 
+     
       include 'vues/vue_profil_user.php';
       break;
 

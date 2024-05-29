@@ -2,7 +2,7 @@
 class Profil {
   private $conn;
   private $table_name = "user";
-
+  private $vue_name = "vue_stage";
   public $idEtudiant;
   public $nom;
   public $prenom;
@@ -19,7 +19,16 @@ class Profil {
     $this->conn = $db;
   }
 
-  // Méthodes CRUD à implémenter
+ // Méthodes CRUD à implémenter
+
+ public function list_by_etudiant($idEtudiant) {
+  $sql = "SELECT * FROM  `vue_stage` WHERE idEtudiant = :idEtudiant";
+  $stmt = $this->conn->prepare($sql);
+  $stmt->bindParam(':idEtudiant', $idEtudiant);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
+
   public function read_my_profil() {
     $idProfil = $_SESSION['userID'];
     $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idProfil";
