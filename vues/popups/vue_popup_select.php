@@ -2,7 +2,7 @@
   require_once 'config/auth.php';
 ?>
 
-<script>const type = <?php if(isset($profils)){echo "\"profil\"";} else if(isset($entreprises)){echo "\"entreprise\"";} ?>;</script>
+<script>const type = <?php if(isset($profils)){echo "\"profil\"";} else if(isset($entreprises)){echo "\"entreprise\"";} else if(isset($contacts)){echo "\"contact\"";} ?>;</script>
 <?php  
   if(isset($profils)){
 ?>
@@ -20,10 +20,10 @@
   <tbody>
     <?php foreach($profils as $profil):?>
 
-      <tr style="cursor: pointer;" id="<?= $profil->id ?>">
+      <tr class="content" style="cursor: pointer;" id="<?= $profil->id ?>">
         <td id="nom"><?=$profil->nom?></td>
         <td id="prenom"><?=$profil->prenom?></td>
-        <td><?=$profil->classe?></td>
+        <td id="classe"><?=$profil->classe?></td>
         <td><?=$profil->spe?></td>
       </tr>
 
@@ -48,7 +48,7 @@
   <tbody>
     <?php foreach($entreprises as $entreprise):?>
 
-      <tr style="cursor: pointer;" id="<?= $entreprise->id ?>">
+      <tr class="content" style="cursor: pointer;" id="<?= $entreprise->id ?>">
         <td id="nom"><?=$entreprise->nomEntreprise?></td>
         <td><?=$entreprise->adresse?></td>
         <td><?=$entreprise->ville?></td>
@@ -74,7 +74,7 @@
   <tbody>
     <?php foreach($contacts as $contact):?>
 
-      <tr style="cursor: pointer;" id="<?= $contact->id ?>">
+      <tr class="content" style="cursor: pointer;" id="<?= $contact->EmployeID ?>">
         <td id="nom"><?=$contact->nom?></td>
         <td id="prenom"><?=$contact->prenom?></td>
       </tr>
@@ -87,16 +87,9 @@
   } else{}
 ?>
 
-
-
-
-
-
-
-
 <script>
   document.addEventListener('DOMContentLoaded', function(){
-    document.querySelectorAll('tr').forEach(function(line){
+    document.querySelectorAll('tr[class="content"]').forEach(function(line){
       line.addEventListener('click', function(){
         console.log("Clicked: " + line.id);
         initToSend(line);
