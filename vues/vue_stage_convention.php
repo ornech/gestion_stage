@@ -71,11 +71,11 @@ require_once 'config/auth.php';
   <h2>TITRE I : DISPOSITIONS GÉNÉRALES</h2>
 
   <p><strong>Article 1 (objet) :</strong></p>
-  <p>La présente convention a pour objet la mise en œuvre, au bénéfice des étudiants du lycée, d’une
-    action d’éducation concertée, organisée, conformément aux dispositions du décret n°2006-1093 du 29
-    août 2006, modifié par le décret n°2010-956 du 25 août 2010, pris en application de l’article 9 de
-    la loi n°2006-396 du 31 mars 2006 pour l’égalité des chances. Si le stage se déroule à l’étranger,
-    la convention pourra être adaptée pour tenir compte des contraintes imposées par la législation du
+  <p>La présente convention a pour objet la mise en œuvre, au bénéfice des étudiants du lycée, d’une <BR>
+    action d’éducation concertée, organisée, conformément aux dispositions du décret n°2006-1093 du 29<BR>
+    août 2006, modifié par le décret n°2010-956 du 25 août 2010, pris en application de l’article 9 de<BR>
+    la loi n°2006-396 du 31 mars 2006 pour l’égalité des chances. Si le stage se déroule à l’étranger,<BR>
+    la convention pourra être adaptée pour tenir compte des contraintes imposées par la législation du<BR>
     pays d’accueil.</p>
 
     <p><strong>Article 2 (programme) :</strong></p>
