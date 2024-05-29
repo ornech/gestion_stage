@@ -49,3 +49,8 @@ tbody tr:hover {
   visibility: visible;
   opacity: 1;
 }
+
+.assemble{
+  display: flex;
+  gap: 2%;
+}
