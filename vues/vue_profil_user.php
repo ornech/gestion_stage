@@ -21,31 +21,89 @@ if($Profil) {
         .blue-line-bottom {
             border-bottom: 2px solid #00d1b2;
         }
-
+        .orange-line-bottom {
+            border-bottom: 2px solid orange;
+        }
     </style>
 
 <body>
 <div class="container">
-        <div class="card">
-            <div class="card-content">
-                <div class="content">
-                <h2 class="title is-2 has-text-centered blue-line-bottom mb-4">Le profil de <?= $Profil->nom ?></h2>
-    <p class="card-text">Nom: <strong><?= $Profil->nom ?></strong> </p>
-    <p class="card-text">Prénom: <strong><?= $Profil->prenom ?></strong> </p>
-    <p class="card-text">Mail: <strong><?= $Profil->email ? $Profil->email : "Non défini" ?></strong> </p>
-    <p class="card-text">Login: <strong><?= $Profil->login ? $Profil->login : "Non défini" ?></strong> </p>
-    <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
-    <p class="card-text">Statut: <strong><?= $Profil->statut ? $Profil->statut : "Non défini"  ?></strong> </p>
-    <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo : "Non défini"  ?></strong> </p>
-    <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
-</div>
-  </div>
-  </div>
-</div>
-</body>
+        <div class="columns">
+            <div class="column is-one-third">
+                <div class="box">
+                    <div class="card-content">
+                        <div class="content">
+                        <h3 class="title is-4 has-text-centered blue-line-bottom mb-4">Le profil de <?= $Profil->nom ?></h3>
+                    <p class="card-text">Nom: <strong><?= $Profil->nom ?></strong> </p>
+                    <p class="card-text">Prénom: <strong><?= $Profil->prenom ?></strong> </p>
+                    <p class="card-text">Mail: <strong><?= $Profil->email ? $Profil->email : "Non défini" ?></strong> </p>
+                    <p class="card-text">Login: <strong><?= $Profil->login ? $Profil->login : "Non défini" ?></strong> </p>
+                    <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
+                    <p class="card-text">Statut: <strong><?= $Profil->statut ? $Profil->statut : "Non défini"  ?></strong> </p>
+                    <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo : "Non défini"  ?></strong> </p>
+                    <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+<?php 
+$statut=$Profil->statut;
+if ($statut=='Etudiant'){
+?>
+        <div class="column is-two-third">
+            <div class="box"  style="display: flex; flex-direction: column; height: 100%;">
+                <h3 class="title is-4 has-text-centered orange-line-bottom">Stages effectuées</h3>
+                <?php
+                           
+                            
+if (isset($stages[0])) {
+    foreach ($stages as $stage) {
+        
 
+    ?>
+    <table class="table is-fullwidth tableFilter" id="maTable">
+        <thead>
+            <tr>
+                <th>Entreprise</th>
+                <th>Classe</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Maitre de stage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+
+           
+                ?>
+                <tr>
+                    <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></td>
+                    <td><?= $stage->classe ? $stage->classe : "-" ?></td>
+                    <td><?= $stage->dateDebut ? $stage->dateDebut : "-" ?></td>
+                    <td><?= $stage->dateFin ? $stage->dateFin : "-" ?></td>
+                    <td><a href="../router.php?page=Contact_fiche&idContact=<?= $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></td>
+                </tr>  </tbody>
+    </table>   
+            <?php
+        }
+}
+else{
+    echo "<br>L'étudiant n'a pas effectué de stage.";
+}
+    ?>  
+     
+      
+</div>
+        </div>
+        </div>
+</body>
 <?php
-} else {
+
+
+
+} }
+
+else {
    // Si aucun profil n'a été trouvée, afficher un message d'erreur
    echo "<p>Aucun profil trouvé avec ce lien.</p>";
 }
