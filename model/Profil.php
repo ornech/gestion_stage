@@ -2,7 +2,7 @@
 class Profil {
   private $conn;
   private $table_name = "user";
-
+  //private $vue_name = "";
   public $idEtudiant;
   public $nom;
   public $prenom;
@@ -20,6 +20,21 @@ class Profil {
   }
 
   // Méthodes CRUD à implémenter
+
+public function list_by_etudiant() {
+   $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Etudiant'";
+   $stmt = $this->conn->prepare($sql);
+   $stmt->execute();
+   return $stmt->fetchAll(PDO::FETCH_OBJ);
+ }
+
+ public function list_by_professeur() {
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Professeur'";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
   public function read_my_profil() {
     $idProfil = $_SESSION['userID'];
     $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idProfil";
@@ -151,58 +166,6 @@ class Profil {
       // Afficher les erreurs SQL en cas d'échec de l'exécution
       echo "Erreur SQL : " . implode(", ", $stmt->errorInfo());
       return false; // Échec de la mise à jour
-    }
-  }
-
-  public function import_________OLD($nom, $prenom ,$spe, $date_entree, $promo, $login ,$password, $statut, $inactif, $password_reset){
-
-    $query = "INSERT INTO " . $this->table_name . "
-    SET nom = :nom,
-    prenom = :prenom,
-    spe = :spe,
-    date_entree = :date_entree,
-    promo = :promo,
-    login = :login,
-    password = :password,
-    statut = :statut,
-    inactif = :inactif,
-    password_reset = :password_reset";
-
-    $stmt = $this->conn->prepare($query);
-
-    $this->nom=htmlspecialchars(strip_tags($nom));
-    $this->prenom=htmlspecialchars(strip_tags($prenom));
-    $this->promo=htmlspecialchars(strip_tags($promo));
-    $this->spe=htmlspecialchars(strip_tags($spe));
-    $this->date_entree=htmlspecialchars(strip_tags($date_entree));
-    $this->login=htmlspecialchars(strip_tags($login));
-    $this->password=htmlspecialchars(strip_tags($password));
-    $this->statut=htmlspecialchars(strip_tags($statut));
-    $this->inactif=htmlspecialchars(strip_tags($inactif));
-    $this->password_reset=htmlspecialchars(strip_tags($password_reset));
-
-    $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
-    $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
-    $stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
-    $stmt->bindParam(':date_entree', $date_entree, PDO::PARAM_STR); // A vérifier
-    $stmt->bindParam(':promo', $promo, PDO::PARAM_STR);
-    $stmt->bindParam(':login', $login, PDO::PARAM_STR);
-    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
-    $stmt->bindParam(':statut', $statut, PDO::PARAM_STR);
-    $stmt->bindParam(':inactif', $inactif, PDO::PARAM_INT);
-    $stmt->bindParam(':password_reset', $password_reset, PDO::PARAM_INT);
-
-    try {
-      if($stmt->execute()){
-        return true;
-      } else {
-        throw new Exception("Erreur lors de l'exécution de la requête.");
-      }
-    } catch (Exception $e) {
-      //echo "Erreur : " . $e->getMessage();
-      $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
-      header("Location: ../router.php?page=erreur&message=$message");
-      return false;
     }
   }
 

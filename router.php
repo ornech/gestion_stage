@@ -64,7 +64,7 @@ function router($page, $conn) {
       include_once 'model/Stage.php';
       $stageModel = new Stage($conn);
       
-      // Instancier le modèle Entreprise
+      // Instancier le modèle Entreprise  __
 
 
       $entrepriseModel = new Entreprise($conn);
@@ -148,9 +148,13 @@ function router($page, $conn) {
 
     case 'view_profil':
       include_once 'model/Profil.php';
+      include_once 'model/Stage.php';
+
       $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
       $profilModel = new Profil($conn);
       $Profil = $profilModel->read_profil($idProfil);
+      $stages = $profilModel->list_by_etudiant($idProfil); 
+     
       include 'vues/vue_profil_user.php';
       break;
 
@@ -363,7 +367,12 @@ function router($page, $conn) {
       include 'vues/vue_import_pronote.php';
       break;
 
-    case 'erreur':
+
+  case 'stage_convention':
+      include 'vues/vue_stage_convention.php';
+      break;
+
+   case 'erreur':
       $message = isset($_GET['messge']) ? $_GET['message'] : null;
       include 'vues/vue_erreur.php'; // Page d'accueil par défaut
       break;
