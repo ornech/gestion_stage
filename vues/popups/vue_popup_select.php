@@ -2,7 +2,7 @@
   require_once 'config/auth.php';
 ?>
 
-<script>const type = <?php if(isset($profils)){echo "\"profil\"";} else if(isset($entreprises)){echo "\"entreprise\"";} ?>;</script>
+<script>const type = <?php if(isset($profils)){echo "\"profil\"";} else if(isset($entreprises)){echo "\"entreprise\"";} else if(isset($contacts)){echo "\"contact\"";} ?>;</script>
 <?php  
   if(isset($profils)){
 ?>
@@ -74,7 +74,7 @@
   <tbody>
     <?php foreach($contacts as $contact):?>
 
-      <tr style="cursor: pointer;" id="<?= $contact->id ?>">
+      <tr style="cursor: pointer;" id="<?= $contact->EmployeID ?>">
         <td id="nom"><?=$contact->nom?></td>
         <td id="prenom"><?=$contact->prenom?></td>
       </tr>

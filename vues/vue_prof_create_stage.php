@@ -31,7 +31,7 @@ require_once 'config/auth.php';
             <a class="button is-info" onclick="openPopup('vue_popup_select_entreprise')" >Selectionner</a>
           </p>
           <p class="control">
-            <a class="button is-primary" onclick="openPopup('vue_popup_create_entreprise')" >Créer</a>
+            <a class="button is-primary" onclick="openPopup('vue_popup_create_entreprise')" >Importer</a>
           </p>
         </div>
 
@@ -41,7 +41,10 @@ require_once 'config/auth.php';
             <input type="text" class="input is-info" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" onchange="checkForm()" disabled>
           </div>
           <p class="control">
-            <button type="button" class="button is-info" id="btnMaitreDeStage" onclick="openPopup('vue_popup_select_maitredestage')" disabled >Selectionner</h>
+            <button type="button" class="button is-info" id="btnSelectMaitreDeStage" disabled >Selectionner</button>
+          </p>
+          <p class="control">
+            <a class="button is-primary" id="btnCreateMaitreDeStage">Créer</a>
           </p>
         </div>
 
@@ -125,10 +128,12 @@ require_once 'config/auth.php';
     }
 
     if(idEtudiant != "" && idEntreprise != ""){
-      document.getElementById("btnMaitreDeStage").disabled = false;
+      document.getElementById("btnSelectMaitreDeStage").disabled = false;
+      document.getElementById("btnCreateMaitreDeStage").disabled = false;
     }
     else{
-      document.getElementById("btnMaitreDeStage").disabled = true;
+      document.getElementById("btnCreateMaitreDeStage").disabled = true;
+      document.getElementById("btnCreateMaitreDeStage").disabled = true;
     }
 
   }
@@ -142,6 +147,15 @@ require_once 'config/auth.php';
       console.log(response)
       document.getElementById("idEntreprise").value = response["id"];
       document.getElementById("nameEntreprise").value = response["nom"];
+
+      //Add attribute to the button btnSelectMaitreDeStage and btnCreateMaitreDeStage onclick openPopup('vue_popup_select_maitredestage')
+      document.getElementById("btnSelectMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_select_maitredestage&idEntreprise=" + response["id"] + "')");
+      document.getElementById("btnCreateMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_create_maitredestage&idEntreprise=" + response["id"] + "')");
+
+    }else if(response["type"] == "contact"){
+      console.log(response)
+      document.getElementById("idMaitreDeStage").value = response["id"];
+      document.getElementById("nameMaitreDeStage").value = response["nom"] + " " + response["prenom"];
     }
 
     checkForm();

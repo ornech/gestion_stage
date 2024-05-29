@@ -328,15 +328,19 @@ function router($page, $conn) {
       include 'vues/popups/vue_popup_select.php';
       break;
 
-    case 'vue_popup_create_entreprise':
-      $isPopup = true;
-      include 'vues/vue_entreprise_import.php';
+    case 'vue_popup_select_maitredestage':
+      include_once 'model/Contact.php';
+
+      $contacteModel = new Contact($conn);
+      $contacts = $contacteModel->read_list($_GET["idEntreprise"]);
+
+      include 'vues/popups/vue_popup_select.php';
       break;
 
     case 'vue_popup_create_entreprise':
       $isPopup = true;
       include 'vues/vue_entreprise_import.php';
-      break;
+      break;      
 
     case 'import_pronote':
       route_protect('Professeur');
