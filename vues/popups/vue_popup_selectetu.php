@@ -2,6 +2,8 @@
   require_once 'config/auth.php';
 ?>
 
+<span class="is-2">Cliquez sur un étudiant pour l'ajouter</span>
+
 <table class="table table-hover tableFilter">
   <thead>
     <tr>
@@ -12,15 +14,16 @@
     </tr>
   </thead>
   <tbody>
-  <?php foreach ($profils as $profil) : ?>
-        <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
-          <td><?= $profil->nom ?> <?= $profil->prenom ?></td>
-          <td>test</td>
-          <td>test</td>
-          <td><?= $profil->login ?></td>
-        <?php endforeach; ?>
-        </tr>
-    </tbody>
+    <?php foreach($profils as $profil):?>
+
+      <tr>
+      <td><?=$profil->nom?></td>
+      <td><?=$profil->prenom?></td>
+      <td><?=$profil->classe?></td>
+      <td><?=$profil->spe?></td>
+      </tr>
+
+    <?php endforeach;?>
 
   </tbody>
 </table>
