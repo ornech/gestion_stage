@@ -298,6 +298,10 @@ function router($page, $conn) {
       include 'vues/vue_import_pronote.php';
       break;
 
+  case 'stage_convention':
+      include 'vues/vue_stage_convention.php';
+      break;
+
    case 'erreur':
       $message = isset($_GET['messge']) ? $_GET['message'] : null;
       include 'vues/vue_erreur.php'; // Page d'accueil par défaut
