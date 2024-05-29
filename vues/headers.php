@@ -20,5 +20,8 @@ require_once 'config/auth.php';
   <script src="/js/trie_tableau.js"></script>
   <script src="/js/theme.js"></script>
 
+  <!-- Si la vue est une popup, alors intégré ce javascript -->
+  <?= str_starts_with($page, "vue_popup") ? "<script src=\"/js/popup.js\"></script>" : "" ?>
+
 </head>
 <body>

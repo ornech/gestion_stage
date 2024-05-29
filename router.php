@@ -11,18 +11,23 @@ if (session_status() == PHP_SESSION_NONE) {
 require_once 'config/auth.php';
 require_once 'config/db_connection.php';
 
+// Récupérer la page demandée depuis l'URL ou d'autres paramètres de requête
+$page = isset($_GET['page']) ? $_GET['page'] : 'accueil';
+
 // Inclure les en-têtes HTML
 include 'vues/headers.php';
 
 // Affichez le contenu de la page en fonction du statut de l'utilisateur connecté
-if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
-  // Affichez le menu pour les professeurs
-  include 'vues/navbar_prof.php';
-  //echo "Bienvenue sur la page enseignant";
-} else {
-  // Affichez le menu par défaut
-  include 'vues/navbar_etu.php';
-  //echo "Bienvenue sur la page étudiant";
+if(!str_starts_with($page, "vue_popup")){
+  if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
+    // Affichez le menu pour les professeurs
+    include 'vues/navbar_prof.php';
+    //echo "Bienvenue sur la page enseignant";
+  } else {
+    // Affichez le menu par défaut
+    include 'vues/navbar_etu.php';
+    //echo "Bienvenue sur la page étudiant";
+  }
 }
 
 // Fonction de routage
@@ -305,14 +310,13 @@ function router($page, $conn) {
       include 'vues/vue_prof_stage_create.php';
       break;
 
-    case 'vue_popup_test':
-      $idPopup = 1;
-      include 'vues/popups/test.php';
-      break;
+    case 'vue_popup_select_etu':
+      include_once 'model/Profil.php';
+      
+      $profilModel = new Profil($conn);
+      $profils = $profilModel->list_profil();
 
-    case 'vue_popup_Othertest':
-      $idPopup = 2;
-      include 'vues/popups/test.php';
+      include 'vues/popups/vue_popup_selectetu.php';
       break;
 
   case 'import_pronote':
@@ -332,9 +336,6 @@ function router($page, $conn) {
       break;
     }
   }
-
-  // Récupérer la page demandée depuis l'URL ou d'autres paramètres de requête
-  $page = isset($_GET['page']) ? $_GET['page'] : 'accueil';
 
   // Appeler la fonction de routage pour afficher la vue appropriée
 
