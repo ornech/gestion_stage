@@ -45,7 +45,7 @@ if($contacts) {
 <?php
 } else if(isset($_GET["idEntreprise"]) && $ficheEntreprise) {
   // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
-  echo "<p>Aucun contact pour cette entreprise</p>";
+//  echo "<p>Aucun contact pour cette entreprise</p>";
 
   ?>
 
