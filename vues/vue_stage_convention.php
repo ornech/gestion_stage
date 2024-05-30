@@ -1,7 +1,42 @@
 <?php
 require_once 'config/auth.php';
 ?>
+<?php
+if (isset($_GET["idStage"])){
 
+  include_once 'model/Stage.php'; // Inclure le modèle Stage
+  $stageModel = new Stage($conn); // Instancier le modèle
+  $stage = $stageModel->stage_by_id($_GET["idStage"]);
+  $data = $stage[0];
+  // Colonnes vue_stage
+  // idStage
+  // idEntreprise
+  // idMaitreDeStage
+  // idEtudiant
+  // classe
+  // Statut
+  // description
+  // dateDebut
+  // dateFin
+  // idProfesseur
+  // EtudiantNom
+  // EtudiantPrenom
+  // EtudiantEmail
+  // EtudiantSpe
+  // EtudiantPromo
+  // siret
+  // Entreprise
+  // Entreprise_adresse
+  // Entreprise_codePostal
+  // Entreprise_ville
+  // employe_nom
+  // employe_prenom
+  // employe_fonction
+
+
+}
+
+?>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -72,7 +107,7 @@ require_once 'config/auth.php';
           <strong>LE LYCÉE<br>MERLEAU-PONTY</strong>
         </td>
         <td>
-          <strong>NOM ENTREPRISE</strong>
+          <strong><?= $data->Entreprise ?></strong>
         </td>
       </tr>
       <tr>
@@ -85,9 +120,9 @@ require_once 'config/auth.php';
           Nom : Jean-François ORNECH<br>Mél : jean-francois.ornech@ac-poitiers.fr
         </td>
         <td>
-          <strong>Représenté par :</strong><br>...<br>
-          <strong>Fonction : ...<br>
-          <strong>Nom et adresse de l’entreprise :</strong><br>...<br>....<br>....<br><br>
+          <strong>Représenté par :</strong> <?= $data->employe_nom ?> <?= $data->employe_prenom ?><br><br>
+          <strong>Fonction : </strong> <?= $data->employe_fonction ?><br><br>
+          <strong>Nom et adresse de l’entreprise :</strong><br><?= $data->Entreprise_adresse ?><br><?= $data->Entreprise_codePostal ?> <?= $data->Entreprise_ville ?><br><br>
           <strong>Tuteur du stagiaire :</strong><br>
           Nom : ...<br>Fonction : ...<br>Service : ...<br>Tél : ...<br>Mél : ...
         </td>
@@ -100,11 +135,11 @@ require_once 'config/auth.php';
   <table>
     <tr>
       <td>Nom :</td>
-      <td>……………………………………………….</td>
+      <td><?= $data->EtudiantNom ?> <?= $data->EtudiantPrenom ?></td>
     </tr>
     <tr>
       <td>Section :</td>
-      <td>SIO1</td>
+      <td><?= $data->classe ?></td>
     </tr>
     <tr>
       <td>Adresse :</td>
@@ -116,7 +151,7 @@ require_once 'config/auth.php';
     </tr>
     <tr>
       <td>Mél :</td>
-      <td>……………………………………………….</td>
+      <td><?= $data->EtudiantEmail ?></td>
     </tr>
   </table>
 
