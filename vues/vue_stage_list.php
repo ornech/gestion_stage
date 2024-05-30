@@ -75,7 +75,7 @@ require_once 'config/auth.php';
               <option value="<?= $professeur->id ?>" <?= isset($profilStage->idProfesseur) && $profilStage->idProfesseur == $professeur->id ? "selected" : "" ?>><?= "$professeur->nom $professeur->prenom" ?></option>
               <?php endforeach;?>
             </select>
-            
+
           </form>
         </div>
         <?php else:?>
@@ -83,7 +83,7 @@ require_once 'config/auth.php';
         <?php endif; ?>
       </td>
       
-      <td>-</td>
+      <td><?php if(isset($profilStage->idStage)):?><button class="button" onclick="window.open('router.php?page=stage_convention&idStage=<?= $profilStage->idStage?>')">Récupérer</button><?php endif;?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>
