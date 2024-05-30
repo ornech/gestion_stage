@@ -26,8 +26,17 @@ class Stage {
     $stmt->bindParam(':idEntreprise', $idEntreprise);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
+  public function stage_by_id($idStage) {
+    $sql = "SELECT * FROM " . $this->vue_name . " WHERE idStage = :idStage";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':idStage', $idStage);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
 
   }
+
 
   public function list(){
     $query = "SELECT * FROM " . $this->vue_name;
@@ -161,7 +170,7 @@ class Stage {
         header("Location: ../router.php?page=erreur&title=Erreur&message=$message");
         return false;
     }
-    
+
   }
 }
 
