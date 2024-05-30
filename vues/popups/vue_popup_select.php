@@ -91,7 +91,6 @@
   document.addEventListener('DOMContentLoaded', function(){
     document.querySelectorAll('tr[class="content"]').forEach(function(line){
       line.addEventListener('click', function(){
-        console.log("Clicked: " + line.id);
         initToSend(line);
       });
     });
