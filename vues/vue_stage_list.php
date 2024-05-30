@@ -27,12 +27,12 @@ require_once 'config/auth.php';
 <table class="table is-fullwidth is-fluid tableFilter" id="maTable">
   <thead>
     <tr>
-      <th class="lineFilter" name="Étudiant"></th>
-      <th class="lineFilter" name="Classe"></th>
-      <th class="lineFilter" name="Début du stage"></th>
-      <th class="lineFilter" name="Fin du stage"></th>
-      <th class="lineFilter" name="Professeur assigné"></th>
-      <th class="lineFilter" name="Éditer convention"></th>
+      <th></th>
+      <th>Classe</th>
+      <th>Début du stage</th>
+      <th>Fin de stage</th>
+      <th>Professeur assigné</th>
+      <th>Convention</th>
     </tr>
   </thead>
   <tbody>

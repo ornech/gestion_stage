@@ -260,6 +260,7 @@ function router($page, $conn) {
       break;
 
     case 'stage_sio1':
+      route_protect('Professeur');
       include_once 'model/Stage.php';
       include_once 'model/Profil.php';
 
