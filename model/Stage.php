@@ -20,10 +20,10 @@ class Stage {
     // Strucuture table STAGE
     // id|idEntreprise|idMaitreDeStage|idEtudiant|titreStage|description|dateDebut|dateFin|
     
-    public function list_by_stage($idStage){
-      $sql = "SELECT * FROM " . $this->vue_name . " WHERE idStage = :idStage";
+    public function list_by_classe($classe){
+      $sql = "SELECT * FROM " . $this->vue_name . " WHERE classe = :classe";
       $stmt = $this->conn->prepare($sql);
-      $stmt->bindParam(':idStage', $idStage);
+      $stmt->bindParam(':classe', $classe);
       $stmt->execute();
       return $stmt->fetchAll(PDO::FETCH_OBJ);
   // Cette méthode doit renvoyer la liste des stages depuis la vue_stage.
