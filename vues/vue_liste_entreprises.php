@@ -24,7 +24,16 @@ require_once 'config/auth.php';
 <body>
   <p class="title is-2">Annuaire entreprises</p>
   <p class="subtitle is-4">Entreprises qui ont été démarchées ou qui ont acceuillies des stagiaires.</p>
-    <table class="table tableFilter" id="maTable">
+  <div class="field is-grouped is-grouped-multiline is-flex ">
+ 
+    <div class="control">
+  <div class="tags has-addons is-large">
+    <span class="tag is-dark">Entreprises</span>
+    <span class="tag is-link"><?= "<b>" . count((array)$entreprises) . "</b>" ?></span>
+  </div>
+</div>
+
+  <table class="table tableFilter" id="maTable">
         <thead>
             <tr>
                 <?php
