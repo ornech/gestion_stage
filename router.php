@@ -261,15 +261,29 @@ function router($page, $conn) {
 
     case 'stage_sio1':
       include_once 'model/Stage.php';
+      include_once 'model/Profil.php';
+
+      $stage = "SIO1";
+
+      $profilModel = new Profil($conn);
+      $profils = $profilModel->list_by_classe($stage);
+
       $stageModel = new Stage($conn);
-      $stages = $stageModel->list_by_classe("SIO1");
+
       include 'vues/vue_stage_list.php';
       break;
 
     case 'stage_sio2':
       include_once 'model/Stage.php';
+      include_once 'model/Profil.php';
+
+      $stage = "SIO2";
+
+      $profilModel = new Profil($conn);
+      $profils = $profilModel->list_by_classe($stage);
+
       $stageModel = new Stage($conn);
-      $stages = $stageModel->list_by_classe("SIO2");
+
       include 'vues/vue_stage_list.php';
       break;
 

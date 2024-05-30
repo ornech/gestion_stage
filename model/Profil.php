@@ -21,12 +21,20 @@ class Profil {
 
   // Méthodes CRUD à implémenter
 
-public function list_by_etudiant() {
-   $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Etudiant'";
-   $stmt = $this->conn->prepare($sql);
-   $stmt->execute();
-   return $stmt->fetchAll(PDO::FETCH_OBJ);
- }
+  public function list_by_etudiant() {
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Etudiant'";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
+  public function list_by_classe($classe){
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe=:classe";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
 
  public function list_by_professeur() {
     $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Professeur'";
@@ -53,13 +61,13 @@ public function list_by_etudiant() {
     // Retournez directement le résultat au lieu de le stocker dans une variable intermédiaire
     return $stmt->fetch(PDO::FETCH_OBJ);
   }
+
   public function list_profil(){
     $query = "SELECT * FROM " . $this->table_name  . " WHERE statut='Professeur' OR (statut='Etudiant' AND date_entree IS NOT NULL) ";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
-
 
   public function create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut){
     $query = "INSERT INTO " . $this->table_name . " SET nom=:nom,
@@ -114,7 +122,6 @@ public function list_by_etudiant() {
       return false;
     }
   }
-
 
   public function reset_password($idProfil){
 
@@ -221,8 +228,8 @@ public function list_by_etudiant() {
       $message = "Erreur SQL : " . $errorInfo[2] . " (SQLSTATE: " . $errorInfo[0] . ", Code: " . $errorInfo[1] . ") lors de l'importation du profil $this->login.";
       header("Location: ../router.php?page=erreur&message=" . urlencode($message));
       return false;
-}
-}
+    }
+  }
 
 private function debugQuery($query, $params) {
     foreach ($params as $key => $value) {
