@@ -88,11 +88,22 @@ require_once 'config/auth.php';
 
 <script type="text/javascript">
   var popupAlreadyOpened = false;
+  var countIsNotDetectable = 0;
 
   function openPopup(route) {
     if(popupAlreadyOpened == true) return;
     popupAlreadyOpened = true;
     var popup = window.open("router.php?page=" + route, "_blank",  "width=700, height=600");
+
+    // setTimeout tout les 1/2 secondes pour essayer de voir si on peut toujours communiquer avec la popup si non removeEventListener message
+    var interval = setInterval(function(){
+      if(popup.closed){
+        clearInterval(interval);
+        window.removeEventListener("message", arguments.callee);
+        popupAlreadyOpened = false;
+      }
+    }, 500);
+
     // Attendre la réponse de la popup
     window.addEventListener("message", function(event) {
       if (event.origin === window.location.origin) {

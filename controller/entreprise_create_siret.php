@@ -38,26 +38,14 @@ if(isset($_GET['siret']) && (isset($_GET['isPopup']) == false)) {
 
   // Appeler la méthode recherche
   if ($entreprise->entreprise_create_siret($siret, true)) {
-    if(!isset($entreprise->idEntreprise)){
-      $entrepriseCreated = $entreprise->getLastEnterprise();
       ?><script>
       sendResponse(
         {statut: "success", contents: {
           type: "entreprise", 
-          id: <?=$entrepriseCreated->id?>, 
+          id: <?= $conn->lastInsertId() ?>, 
           nom: "<?=$entreprise->nomEntreprise?>"
         }});
       </script><?php
-    }else{
-      ?><script>
-      sendResponse(
-        {statut: "success", contents: {
-          type: "entreprise", 
-          id: <?=$entreprise->idEntreprise?>, 
-          nom: "<?=$entreprise->nomEntreprise?>"
-        }});
-      </script><?php
-    }
     exit();
 
   } else {

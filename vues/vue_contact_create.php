@@ -5,6 +5,7 @@ require_once 'config/auth.php';
 <div class="container is-fluid">
 <form action="../controller/contact_create.php" method="post" class="g-3">
    <input type="hidden" name="idEntreprise" value="<?= $idEntreprise; ?>"/>  
+   <?= isset($isPopup) ? "<input type='hidden' name='isPopup' value='true'>" : "" ?>
 
    <p class="h4 espacement">
       Information du nouveau contact :

@@ -15,6 +15,8 @@ require_once 'config/auth.php';
   }
 </script>
 
+<a href="https://developer.mozilla.org/" class="button is-link">Tester</a>
+
 <div class="container is-fluid">
 
   <p class="title is-2">Importer entreprise</p>
