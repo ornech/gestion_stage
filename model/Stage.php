@@ -147,6 +147,7 @@ class Stage {
     }
 
     public function assignation_suivi($idStage, $idProfesseur){
+
       $query = "UPDATE " . $this->table_name . " SET idProfesseur = :idProfesseur WHERE id = :idStage";
       $stmt = $this->conn->prepare($query);
       $stmt->bindParam(':idStage', $idStage, PDO::PARAM_INT);
@@ -154,18 +155,18 @@ class Stage {
 
       try {
           if($stmt->execute()){
-              return $stmt->fetchAll(PDO::FETCH_OBJ);
+              return true;
           } else {
               throw new Exception("Erreur lors de l'exécution de la requête.");
           }
       } catch (Exception $e) {
           echo "Erreur : " . $e->getMessage();
           $message = "SQL : " . implode(", ", $stmt->errorInfo());
-          //header("Location: ../router.php?page=erreur&title=Erreur&message=$message");
+          header("Location: ../router.php?page=erreur&title=Erreur&message=$message");
           return false;
       }
+      
     }
-
 }
 
 ?>
