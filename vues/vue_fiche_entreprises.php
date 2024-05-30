@@ -7,7 +7,24 @@ require_once 'config/auth.php';
 if($ficheEntreprise) {
   // Afficher les détails de l'entreprise
   ?>
-  <p class="title is-2"><?= $ficheEntreprise->nomEntreprise ?></p>
+     <p class="title is-2"><?= $ficheEntreprise->nomEntreprise ?></p>
+<div>
+    <div class="field is-grouped is-grouped-multiline is-flex ">
+ 
+    <div class="control">
+  <div class="tags has-addons is-medium">
+    <span class="tag is-dark">Contacts</span>
+    <span class="tag is-link"><?= "<b>" . count((array)$contacts) . "</b>" ?></span>
+  </div>
+</div>
+<div class="control">
+  <div class="tags has-addons is-medium">
+    <span class="tag is-dark">Stages</span>
+    <span class="tag is-warning"><?= "<b>" . count((array)$stages) . "</b>" ?></span>
+  </div>
+</div>
+</div>
+</div>
 
   <div class="container">
     <div class="fixed-grid">
