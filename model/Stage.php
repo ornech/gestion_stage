@@ -17,7 +17,6 @@ class Stage {
     public function __construct($db){
       $this->conn = $db;
     }
-
     // Strucuture table STAGE
     // id|idEntreprise|idMaitreDeStage|idEtudiant|titreStage|description|dateDebut|dateFin|
 

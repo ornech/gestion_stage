@@ -7,15 +7,13 @@ require_once 'config/auth.php';
   function getValue() {
     // Sélectionner l'élément input et récupérer sa valeur
     var input = document.getElementById("siret").value;
-    console.log(input);
+
     var url = ("https://annuaire-entreprises.data.gouv.fr/etablissement/" + input);
     // Afficher la valeur . input;
     window.open(url, '_blank');
     this.focus();
   }
 </script>
-
-<a href="https://developer.mozilla.org/" class="button is-link">Tester</a>
 
 <div class="container is-fluid">
 

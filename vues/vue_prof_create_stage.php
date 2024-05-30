@@ -113,7 +113,6 @@ require_once 'config/auth.php';
         processResponse(response.contents);
       }else if(response.statut == "cancel"){
         console.log("Opération annulée");
-        console.log(response);
       }else{
         console.log("Erreur lors de la récupération des données");
       }
@@ -126,7 +125,6 @@ require_once 'config/auth.php';
 
   //Vérifie si tout est rempli, si oui activé le bouton Créer
   function checkForm() {
-    console.log("Checking form...");
     var idEtudiant = document.getElementById("idEtudiant").value;
     var idEntreprise = document.getElementById("idEntreprise").value;
     var idMaitreDeStage = document.getElementById("idMaitreDeStage").value;
@@ -152,12 +150,10 @@ require_once 'config/auth.php';
 
   function processResponse(response){
     if(response["type"] == "profil"){
-      console.log(response)
       document.getElementById("idEtudiant").value = response["id"];
       document.getElementById("nameEtudiant").value = response["nom"] + " " + response["prenom"];
       document.getElementById("classe").value = response["classe"];
     }else if(response["type"] == "entreprise"){
-      console.log(response)
       document.getElementById("idEntreprise").value = response["id"];
       document.getElementById("nameEntreprise").value = response["nom"];
 
@@ -166,7 +162,6 @@ require_once 'config/auth.php';
       document.getElementById("btnCreateMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_create_maitredestage&idEntreprise=" + response["id"] + "')");
 
     }else if(response["type"] == "contact"){
-      console.log(response)
       document.getElementById("idMaitreDeStage").value = response["id"];
       document.getElementById("nameMaitreDeStage").value = response["nom"] + " " + response["prenom"];
     }
