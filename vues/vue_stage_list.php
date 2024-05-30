@@ -28,7 +28,7 @@ require_once 'config/auth.php';
       <thead>
         <tr>
           <th class="lineFilter" name="Etudiant"></th>
-          <th class="lineFilter" name="Classe"></th>
+          <th class="lineFilter" name=""></th>
           <th class="lineFilter" name="Date début"></th>
           <th class="lineFilter" name="Date fin"></th>
           <th class="lineFilter" name="Entreprise"></th>
@@ -36,10 +36,12 @@ require_once 'config/auth.php';
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($stages as $stage): ?>
-            <tr>
-              <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
-              <td><?= $stage->classe ? $stage->classe : "Non défini" ?></td>
+          <?php foreach ($profils as $profil): 
+            $stageModel->readFromEtudiantId($profil->id);
+          ?>
+            <tr <?=?>>
+              <td><a href="../router.php?page=view_profil&id=<?= $profil->id ?>"><?= $profil->nom  ?> <?= $profil->prenom ?></a></td>
+              <td><?= $profil->classe ? $profil->classe : "Non défini" ?></td>
               <td><?= $stage->dateDebut ? $stage->dateDebut : "Non défini" ?></td>
               <td><?= $stage->dateFin ? $stage->dateFin : "Non défini" ?></td>
               <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></td>
