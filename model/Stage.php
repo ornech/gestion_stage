@@ -17,11 +17,18 @@ class Stage {
     public function __construct($db){
       $this->conn = $db;
     }
-
     // Strucuture table STAGE
     // id|idEntreprise|idMaitreDeStage|idEtudiant|titreStage|description|dateDebut|dateFin|
+    
+    public function list_by_stage($idStage){
+      $sql = "SELECT * FROM " . $this->vue_name . " WHERE idStage = :idStage";
+      $stmt = $this->conn->prepare($sql);
+      $stmt->bindParam(':idStage', $idStage);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_OBJ);
+  // Cette méthode doit renvoyer la liste des stages depuis la vue_stage.
 
-
+    }
 
   public function list_by_entreprise($idEntreprise) {
     $sql = "SELECT * FROM " . $this->vue_name . " WHERE idEntreprise = :idEntreprise";
