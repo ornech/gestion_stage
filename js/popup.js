@@ -7,12 +7,3 @@ function sendResponse(response){
   window.opener.postMessage(response, window.location.origin);
   window.close();
 }
-
-window.addEventListener("beforeunload", function() {
-  console.log(window.location)
-  sendResponse({statut: "cancel"}, window.location.origin);
-  window.close();
-});
-
-
-

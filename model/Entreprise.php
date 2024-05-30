@@ -256,14 +256,6 @@ class Entreprise {
         return false;
     }
 }
-
-  public function getLastEnterprise(){
-    $query = "SELECT * FROM " . $this->table_name . " ORDER BY id DESC LIMIT 1";
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_OBJ);
-  }
-
   // Liste des entreprises
   public function read(){
     $query = "SELECT * FROM " . $this->table_name;

@@ -348,6 +348,7 @@ function router($page, $conn) {
 
     case 'vue_popup_create_maitredestage':
       include_once 'model/Contact.php';
+      $isPopup = true;
 
       // Instancie le modèle
       $contactModel = new Contact($conn);
