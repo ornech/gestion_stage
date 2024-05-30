@@ -15,9 +15,8 @@ require_once 'config/auth.php';
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
       <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link" href="router.php?page=stage_list"><i class='far fa-calendar-alt'>&nbsp;</i>Stages</a>
+        <a class="navbar-link"><i class='far fa-calendar-alt'>&nbsp;</i>Stages</a>
         <div class="navbar-dropdown">
-          <a class="navbar-item" href="router.php?page=stage_suivi_prof">Suivi étudiants</a>
           <a class="navbar-item" href="router.php?page=stage_consignes"><i class="fa fa-bullhorn"></i> &nbsp; Consignes</a>
           <a class="navbar-item" href="router.php?page=stage_sio1"><i class="fa fa fa-cube"></i> &nbsp; SIO1</a>
           <a class="navbar-item" href="router.php?page=stage_sio2"><i class="fa fa fa-cubes"></i> &nbsp; SIO2</a>
@@ -36,8 +35,6 @@ require_once 'config/auth.php';
           <a class="navbar-item" href="router.php?page=import_entreprise"><i class="fa fa-download"></i> &nbsp; Importer entreprise</a>
         </div>
       </div>
-
-
 
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link"> <i class="fas fa-users"></i>&nbsp; Administration </a>

@@ -1,97 +1,101 @@
 <?php
 require_once 'config/auth.php';
 ?>
-<BR>
-<?php
-// Vérifier si les données sont disponibles
-if ($profils) {
-  // Données
-  // `s`.`id` AS `idStage`,
-  // `s`.`idEntreprise` AS `idEntreprise`,
-  // `s`.`idMaitreDeStage` AS `idMaitreDeStage`,
-  // `s`.`idEtudiant` AS `idEtudiant`,
-  // `s`.`titreStage` AS `titreStage`,
-  // `s`.`description` AS `description`,
-  // `s`.`dateDebut` AS `dateDebut`,
-  // `s`.`dateFin` AS `dateFin`,
-  // `u`.`nom` AS EtudiantNom,
-  // `u`.`prenom` AS EtudiantPrenom,
-  // `u`.`email` AS EtudiantEmail,
-  // `u`.`spe` AS EtudiantSpe,
-  // `u`.`promo` AS EtudiantPromo,
-  // `e`.`siret` AS `siret`,
-  // `e`.`nomEntreprise` AS `Entreprise`
-
-?>
-
-  <table class="table is-fullwidth is-fluid tableFilter" id="maTable">
-    <thead>
-      <tr>
-        <th class="lineFilter" name="Étudiant"></th>
-        <th class="lineFilter" name="Classe"></th>
-        <th class="lineFilter" name="Début du stage"></th>
-        <th class="lineFilter" name="Fin du stage"></th>
-        <th class="lineFilter" name="Professeur assigné"></th>
-        <th class="lineFilter" name="Éditer convention"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach ($profils as $profil) :
-        $profilStage = array_filter($stageModel->readFromEtudiantId($profil->id), function ($stages) use ($stage) {
-          return $stages->classe == $stage;
-        }); ?>
-
-        <tr>
-          <th>
-            <a href="../router.php?page=view_profil&id=<?= $profil->id ?>">
-
-              <?php if (!isset($profilStage[0])) : ?>
-                <i class="fa-solid fa-x" style="color: hsl(0 100% 50%);"></i>
-              <?php elseif (isset($profilStage[0])) :
-                $profilStage = $profilStage[0];  ?>
-                <i class="fa-solid fa-check" style="color: hsl(120 100% 25%);"></i>
-              <?php endif; ?>
-
-              <?php echo "$profil->nom  $profil->prenom"; ?>
-            </a>
-          </th> <!-- Nom de l'étudiant -->
-
-          <td><?= isset($profil->classe) ? $profil->classe : "-" ?></td> <!-- Classe de l'étudiant -->
-          <td><?= isset($profilStage->dateDebut) ? $profilStage->dateDebut : "-" ?></td> <!-- Date de début du stage -->
-          <td><?= isset($profilStage->dateFin) ? $profilStage->dateFin : "-" ?></td> <!-- Date de fin du stage -->
-          <td>
-            <?php
-            if(isset($profilStage->idProfesseur)){
-              $professeur = $profilModel->read_profil($profilStage->idProfesseur);
-              echo $professeur->nom . " " . $professeur->prenom;
-            }else{echo "-";}
-            ?>
-          </td><!-- Professeur assigné -->
-          <td>-</td>
-        </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-
 
 <?php
-} else if (isset($_GET["idEntreprise"]) && $ficheEntreprise) {
-  // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
-  echo "<p>Aucun contact pour cette entreprise</p>";
+  if (isset($_POST["Stage"]) && isset($_POST["Professeur"])) {
+    $idStage = $_POST["Stage"];
+    $idProfesseur = $_POST["Professeur"];
 
-?>
-  <a href='router.php?page=contact_create&idEntreprise=<?= $_GET["idEntreprise"] ?>'>
-    <button type='button' class='btn btn-primary'>Ajouter un contact</button>
-  </a>
-<?php
-
-}
-
-?>
-
-<style>
-  tr.is-danger td,
-  tr.is-danger th {
-    background-color: #ff003373;
+    $stage = new Stage($conn);
+    if ($stage->assignation_suivi($idStage, $idProfesseur)) {
+      ?>
+      <div class="notification is-success">
+        <p class="subtitle is-4">Changement effectué</p>
+        L'assignation de professeur a été effectuée avec succès.
+      </div>
+      <?php
+    } else {
+      // Afficher un message d'erreur en cas d'échec de la mise à jour
+      echo "Une erreur s'est produite.";
+    }
   }
-</style>
+?>
+
+<p class="title is-2">Liste des stages de la classe <?= $classe ?></p>
+
+<table class="table is-fullwidth is-fluid tableFilter" id="maTable">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Classe</th>
+      <th>Début du stage</th>
+      <th>Fin de stage</th>
+      <th>Professeur assigné</th>
+      <th>Convention</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <?php foreach ($profils as $profil) :
+      $profilStage = array_filter($stageModel->readFromEtudiantId($profil->id), function ($stages) use ($classe) {
+        return $stages->classe == $classe;
+      }); 
+      $professeurs = $profilModel->list_by_professeur();
+      ?>
+
+    <tr>
+      <th>
+        <a href="../router.php?page=view_profil&id=<?= $profil->id ?>">
+
+          <?php if (!isset($profilStage[0])) : ?>
+            <i class="fa-solid fa-x" style="color: hsl(0 100% 50%);"></i>
+          <?php elseif (isset($profilStage[0])) :
+            $profilStage = $profilStage[0];  ?>
+            <i class="fa-solid fa-check" style="color: hsl(120 100% 25%);"></i>
+          <?php endif; ?>
+
+          <?php echo "$profil->nom  $profil->prenom"; ?>
+        </a>
+      </th>
+
+      <td><?= isset($profil->classe) ? $profil->classe : "-" ?></td>
+      <td><?= isset($profilStage->dateDebut) ? $profilStage->dateDebut : "-" ?></td>
+      <td><?= isset($profilStage->dateFin) ? $profilStage->dateFin : "-" ?></td>
+
+      <td>
+        <?php if(isset($profilStage->idProfesseur)) :?>
+
+        <div class="select changeProf">
+          <form method="post" action="">
+            <input type="hidden" name="Stage" class="stageId" value="<?= isset($profilStage->idStage) ? $profilStage->idStage : "" ?>">
+            
+            <select name="Professeur" class="Professeur">
+              <?php foreach ($professeurs as $professeur) :?>
+              <option value="<?= $professeur->id ?>" <?= isset($profilStage->idProfesseur) && $profilStage->idProfesseur == $professeur->id ? "selected" : "" ?>><?= "$professeur->nom $professeur->prenom" ?></option>
+              <?php endforeach;?>
+            </select>
+
+          </form>
+        </div>
+        <?php else:?>
+          -
+        <?php endif; ?>
+      </td>
+      
+      <td><?php if(isset($profilStage->idStage)):?><button class="button" onclick="window.open('router.php?page=stage_convention&idStage=<?= $profilStage->idStage?>')">Récupérer</button><?php endif;?></td>
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
+
+<script>
+  document.querySelectorAll('div.changeProf').forEach(function(div) {
+    var select = div.querySelector('select');
+    select.addEventListener('change', function() {
+      if (div.querySelector('.stageId').value !== "") {
+        this.form.submit();
+      }
+    });
+  });
+</script>

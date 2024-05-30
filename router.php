@@ -260,13 +260,14 @@ function router($page, $conn) {
       break;
 
     case 'stage_sio1':
+      route_protect('Professeur');
       include_once 'model/Stage.php';
       include_once 'model/Profil.php';
 
-      $stage = "SIO1";
+      $classe = "SIO1";
 
       $profilModel = new Profil($conn);
-      $profils = $profilModel->list_by_classe($stage);
+      $profils = $profilModel->list_by_classe($classe);
 
       $stageModel = new Stage($conn);
 
@@ -277,10 +278,10 @@ function router($page, $conn) {
       include_once 'model/Stage.php';
       include_once 'model/Profil.php';
 
-      $stage = "SIO2";
+      $classe = "SIO2";
 
       $profilModel = new Profil($conn);
-      $profils = $profilModel->list_by_classe($stage);
+      $profils = $profilModel->list_by_classe($classe);
 
       $stageModel = new Stage($conn);
 
