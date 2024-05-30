@@ -1,7 +1,17 @@
 <?php
 require_once 'config/auth.php';
 ?>
+<?php
+if (isset($_GET["idStage"])){
+  $table_name = "vue_stage"
+  $sql = "SELECT * FROM" . $table_name . " SWHERE idStage = :idStage";
+  $stmt = $conn->prepare($sql);
+  $stmt->bindParam(':idStage', $id, PDO::PARAM_INT);
+  $stmt->execute();
+  return $data;
+}
 
+?>
 <style>
   body {
     font-family: Arial, sans-serif;
