@@ -105,7 +105,7 @@ if (isset($_POST['submit'])) {
                 $nom_complet = $line[0];
                 $resultat = isolerNomPrenom($nom_complet);
                 $nom = strtoupper($resultat['nom']);
-                $prenom = $resultat['prenom'];
+                $prenom = ucfirst($resultat['prenom']);
                 $date_entree = convertDateFormat($line[4]);
                 $spe = ''; // Exemple de spécialité
                 $promo = extractYear($date_entree);;
