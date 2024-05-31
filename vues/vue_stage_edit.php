@@ -154,13 +154,12 @@ require_once 'config/auth.php';
   }
 
   function processResponse(response){
-    if(response["type"] == "profil"){
-      document.getElementById("idEtudiant").value = response["id"];
-      document.getElementById("nameEtudiant").value = response["nom"] + " " + response["prenom"];
-      document.getElementById("classe").value = response["classe"];
-    }else if(response["type"] == "entreprise"){
+    if(response["type"] == "entreprise"){
       document.getElementById("idEntreprise").value = response["id"];
       document.getElementById("nameEntreprise").value = response["nom"];
+
+      document.getElementById("idMaitreDeStage").value = "";
+      document.getElementById("nameMaitreDeStage").value = "";
 
       //Add attribute to the button btnSelectMaitreDeStage and btnCreateMaitreDeStage onclick openPopup('vue_popup_select_maitredestage')
       document.getElementById("btnSelectMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_select_maitredestage&idEntreprise=" + response["id"] + "')");
