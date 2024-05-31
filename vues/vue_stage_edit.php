@@ -16,6 +16,18 @@ require_once 'config/auth.php';
     $weeks = getWeeksDifference($Stage->dateDebut, $Stage->dateFin);
   }
 
+  $maitreDeStages = [];
+  json_encode(array_map(function($contact) use (&$maitreDeStages) { // Le & est comme dans le langage C, il permet de pouvoir modifier la variable dans la fonction
+    $maitreDeStages[$contact->EmployeID] = [
+      'id' => $contact->EntrepriseID,
+      'nom' => $contact->nom,
+      'prenom' => $contact->prenom
+    ];
+  }, $contacts));
+
+  //impression de la variable $maitreDeStages dans une variable javascript
+  echo "<script> const maitreDeStages = ".json_encode($maitreDeStages)."; </script>";
+
 ?>
 
 <div class="container">
@@ -24,6 +36,7 @@ require_once 'config/auth.php';
       <h1 class="title is-2 has-text-centered">Modification un stage de <?= $Stage->EtudiantNom . " ". $Stage->EtudiantPrenom?></h1>
 
       <form action="/controller/stage_edit.php" method="post">
+        <input type="hidden" id="idEtudiant" name="idEtudiant" value="<?= $Stage->idEtudiant?>">
         <input type="hidden" id="idEntreprise" name="idEntreprise" value="<?= $Stage->idEntreprise?>">
         <input type="hidden" id="idMaitreDeStage" name="idMaitreDeStage" value="<?= $Stage->idMaitreDeStage?>">
         <input type="hidden" id="classe" name="classe" value="<?= $Stage->classe?>">
@@ -44,11 +57,28 @@ require_once 'config/auth.php';
         <label class="label" for="nameMaitreDeStage">Maitre de stage</label>
         <div class="field has-addons">
           <div class="control is-expanded">
-            <input type="text" class="input is-info" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" value="<?= $Stage->employe_nom . " " . $Stage->employe_prenom ?>" onchange="checkForm()" disabled>
+            <div class="select" style="width: 100%;">
+              <select class="input" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" value="<?= $Stage->employe_nom . " " . $Stage->employe_prenom ?>" onchange="idMDSchange(this)">
+          
+                <script>
+                  function printMaitreDeStage($entrepriseId){
+                    var select = document.getElementById("nameMaitreDeStage");
+                    select.innerHTML = "";
+                    var idMaitreDeStage = document.getElementById("idMaitreDeStage").value;
+                    select.innerHTML = "";
+                    for (const [key, value] of Object.entries(maitreDeStages)) {
+                      if(value.id == $entrepriseId){
+                  select.innerHTML += '<option value="' + key + '" ' + (key == idMaitreDeStage ? "selected" : "") + '>' + value.nom + " " + value.prenom + '</option>';
+                      }
+                    }
+                  }
+
+                  printMaitreDeStage(<?php echo $Stage->idEntreprise ?>);
+                </script>
+
+              </select>
+            </div>
           </div>
-          <p class="control">
-            <button type="button" class="button is-info" id="btnSelectMaitreDeStage" disabled >Selectionner</button>
-          </p>
           <p class="control">
             <button type="button" class="button is-primary" id="btnCreateMaitreDeStage" disabled>Créer</button>
           </p>
@@ -136,6 +166,8 @@ require_once 'config/auth.php';
     var start_date = document.getElementById("dateDebut").value;
     var duree = document.getElementById("duree").value;
 
+    printMaitreDeStage(idEntreprise);
+
     if (idEntreprise != "" && idMaitreDeStage != "" && start_date != "" && duree != "") {
       document.getElementById("submitForm").disabled = false;
     } else {
@@ -143,12 +175,12 @@ require_once 'config/auth.php';
     }
 
     if(idEntreprise != ""){
-      document.getElementById("btnSelectMaitreDeStage").disabled = false;
       document.getElementById("btnCreateMaitreDeStage").disabled = false;
+      document.getElementById("btnCreateMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_create_maitredestage&idEntreprise=" + idEntreprise + "')");
     }
     else{
-      document.getElementById("btnSelectMaitreDeStage").disabled = true;
       document.getElementById("btnCreateMaitreDeStage").disabled = true;
+      document.getElementById("btnCreateMaitreDeStage").removeAttribute("onclick");
     }
 
   }
@@ -162,7 +194,6 @@ require_once 'config/auth.php';
       document.getElementById("nameMaitreDeStage").value = "";
 
       //Add attribute to the button btnSelectMaitreDeStage and btnCreateMaitreDeStage onclick openPopup('vue_popup_select_maitredestage')
-      document.getElementById("btnSelectMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_select_maitredestage&idEntreprise=" + response["id"] + "')");
       document.getElementById("btnCreateMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_create_maitredestage&idEntreprise=" + response["id"] + "')");
 
     }else if(response["type"] == "contact"){
@@ -170,6 +201,11 @@ require_once 'config/auth.php';
       document.getElementById("nameMaitreDeStage").value = response["nom"] + " " + response["prenom"];
     }
 
+    checkForm();
+  }
+
+  function idMDSchange(select){
+    document.getElementById("idMaitreDeStage").value = select.value;
     checkForm();
   }
 
