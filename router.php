@@ -245,9 +245,17 @@ function router($page, $conn) {
 
     case 'stage_read':
       include_once 'model/Stage.php';
-      $idUser = isset($_GET['id']) ? $_GET['id'] : null;
+      include_once 'model/Profil.php';
+
+      $idStage = isset($_GET['id']) ? $_GET['id'] : null;
+      $idEtudiant = isset($_GET['idEtudiant']) ? $_GET['idEtudiant'] : null;
+
       $stageModel = new Stage($conn);
-      $Stage = $stageModel->readFromEtudiantId($idUser);
+      $profilModel = new Profil($conn);
+
+      $Profil = $profilModel->  list_by_professeur($idEtudiant);
+      $stage = $stageModel->stage_by_id($idStage);
+
       include 'vues/vue_stage_user.php';
       break;
 
@@ -353,7 +361,7 @@ function router($page, $conn) {
 
       include 'vues/vue_prof_create_stage.php';
       break;
-      
+
     case 'stage_suivi_prof':
       route_protect('Professeur');
       include 'vues/vue_stage_suivi_create.php';
