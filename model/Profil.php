@@ -14,6 +14,8 @@ class Profil {
   public $password;
   public $password_reset;
   public $statut;
+  public $date_entree;
+  public $inactif;
 
   public function __construct($db){
     $this->conn = $db;
