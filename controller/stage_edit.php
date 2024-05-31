@@ -10,8 +10,9 @@ require_once '../config/auth.php';
 require_once '../config/db_connection.php';
 
 // Vérifie si le formulaire a été soumis
-if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"])) {
+if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"]) && isset($_POST["idEtudiant"])){
   // Récupération des données du formulaire
+  $idEtudiant = $_POST['idEtudiant'];
   $idEntreprise = $_POST['idEntreprise'];
   $idMaitreDeStage = $_POST['idMaitreDeStage'];
   $classe = $_POST['classe'];
@@ -22,7 +23,7 @@ if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"])) {
   $stage = new Stage($conn);
 
   // Appel de la méthode  de l'objet Stage
-  if ($stage->edit_stage($idEntreprise,$idMaitreDeStage,$dateDebut,$duree)) {
+  if ($stage->edit_stage($idEtudiant,$idEntreprise,$idMaitreDeStage,$dateDebut,$duree)) {
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     if($classe == "SIO1"){
       header("Location: ../router.php?page=stage_sio1");

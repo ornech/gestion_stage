@@ -253,6 +253,7 @@ function router($page, $conn) {
 
     case 'stage_edit':
       include_once 'model/Stage.php';
+      include_once 'model/Contact.php';
       $idStage = isset($_GET['idStage']) ? $_GET['idStage'] : null;
 
       if($idStage == null){
@@ -265,6 +266,9 @@ function router($page, $conn) {
       if($Stage == null){
         exit(header("Location: router.php?page=erreur&title=Erreur d'accès&message=Impossible de trouver le stage demandé, veuillez réessayer."));
       }
+
+      $contacteModel = new Contact($conn);
+      $contacts = $contacteModel->list();
 
       $Stage = $Stage[0];
 

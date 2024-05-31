@@ -1,5 +1,20 @@
-<button?php
+<?php
 require_once 'config/auth.php';
+?>
+
+<?php
+  $maitreDeStages = [];
+  json_encode(array_map(function($contact) use (&$maitreDeStages) { // Le & est comme dans le langage C, il permet de pouvoir modifier la variable dans la fonction
+    $maitreDeStages[$contact->EmployeID] = [
+      'id' => $contact->EntrepriseID,
+      'nom' => $contact->nom,
+      'prenom' => $contact->prenom
+    ];
+  }, $contacts));
+
+  //impression de la variable $maitreDeStages dans une variable javascript
+  echo "<script> var maitreDeStages = ".json_encode($maitreDeStages)."; </script>";
+
 ?>
 
 <div class="container">
@@ -39,11 +54,27 @@ require_once 'config/auth.php';
         <label class="label" for="nameMaitreDeStage">Maitre de stage</label>
         <div class="field has-addons">
           <div class="control is-expanded">
-            <input type="text" class="input is-info" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" onchange="checkForm()" disabled>
+            <div class="select" style="width: 100%;">
+              <select class="input" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" value="<?= $Stage->employe_nom . " " . $Stage->employe_prenom ?>" onchange="idMDSchange(this)">
+          
+                <script>
+                  function printMaitreDeStage($entrepriseId){
+                    var select = document.getElementById("nameMaitreDeStage");
+                    select.innerHTML = "";
+                    var idMaitreDeStage = document.getElementById("idMaitreDeStage").value;
+                    select.innerHTML = "";
+                    for (const [key, value] of Object.entries(maitreDeStages)) {
+                      if(value.id == $entrepriseId){
+                  select.innerHTML += '<option value="' + key + '" ' + (key == idMaitreDeStage ? "selected" : "") + '>' + value.nom + " " + value.prenom + '</option>';
+                      }
+                    }
+                  }
+
+                </script>
+
+              </select>
+            </div>
           </div>
-          <p class="control">
-            <button type="button" class="button is-info" id="btnSelectMaitreDeStage" disabled >Selectionner</button>
-          </p>
           <p class="control">
             <button type="button" class="button is-primary" id="btnCreateMaitreDeStage" disabled>Créer</button>
           </p>
@@ -138,11 +169,13 @@ require_once 'config/auth.php';
     }
 
     if(idEtudiant != "" && idEntreprise != ""){
-      document.getElementById("btnSelectMaitreDeStage").disabled = false;
+      console.log("idEntreprise: " + idEntreprise);
+      printMaitreDeStage(idEntreprise);
+      document.getElementById("nameMaitreDeStage").disabled = false;
       document.getElementById("btnCreateMaitreDeStage").disabled = false;
     }
     else{
-      document.getElementById("btnSelectMaitreDeStage").disabled = true;
+      document.getElementById("nameMaitreDeStage").disabled = true;
       document.getElementById("btnCreateMaitreDeStage").disabled = true;
     }
 
@@ -157,15 +190,27 @@ require_once 'config/auth.php';
       document.getElementById("idEntreprise").value = response["id"];
       document.getElementById("nameEntreprise").value = response["nom"];
 
-      //Add attribute to the button btnSelectMaitreDeStage and btnCreateMaitreDeStage onclick openPopup('vue_popup_select_maitredestage')
-      document.getElementById("btnSelectMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_select_maitredestage&idEntreprise=" + response["id"] + "')");
       document.getElementById("btnCreateMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_create_maitredestage&idEntreprise=" + response["id"] + "')");
 
     }else if(response["type"] == "contact"){
       document.getElementById("idMaitreDeStage").value = response["id"];
       document.getElementById("nameMaitreDeStage").value = response["nom"] + " " + response["prenom"];
+      var idEntreprise = document.getElementById("idEntreprise").value;
+
+      maitreDeStages[response["id"]] = {
+        id: idEntreprise,
+        nom: response["nom"],
+        prenom: response["prenom"]
+      };
+
+      printMaitreDeStage(idEntreprise);
     }
 
+    checkForm();
+  }
+
+  function idMDSchange(select){
+    document.getElementById("idMaitreDeStage").value = select.value;
     checkForm();
   }
 
