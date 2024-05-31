@@ -2,7 +2,7 @@
 require_once 'config/auth.php';
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" <?= $page == "stage_convention" ? "data-theme=\"light\"" : ""?>>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,8 @@ require_once 'config/auth.php';
   <link rel="stylesheet" href="../css/style.css">
 
   <script src="/js/trie_tableau.js"></script>
-  <script src="/js/theme.js"></script>
+
+  <?php if(isset($page) && $page != "stage_convention"):?><script src="/js/theme.js"></script><?php endif;?>
 
   <!-- Si la vue est une popup, alors intégré ce javascript -->
   <?= str_starts_with($page, "vue_popup") ? "<script src=\"/js/popup.js\"></script>" : "" ?>
