@@ -245,9 +245,26 @@ function router($page, $conn) {
 
     case 'stage_read':
       include_once 'model/Stage.php';
-      $idUser = isset($_GET['id']) ? $_GET['id'] : null;
+      include_once 'model/Contact.php';
+      include_once 'model/Entreprise.php';
+      include_once 'model/Profil.php';
+
+      $idStage = isset($_GET['id']) ? $_GET['id'] : null;
+      $idEtudiant = isset($_GET['idEtudiant']) ? $_GET['idEtudiant'] : null;
+      $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
+
       $stageModel = new Stage($conn);
-      $Stage = $stageModel->readFromEtudiantId($idUser);
+      $entrepriseModel = new Entreprise($conn);
+      $contacteModel = new Contact($conn); 
+      $profilModel = new Profil($conn);
+
+      $Profil = $profilModel->  list_by_professeur($idEtudiant);
+      $stage = $stageModel->stage_by_id($idStage);
+      $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
+      $contacts = $contacteModel->read_list($idEntreprise);
+     // $prof = $profilModel ->  list_by_professeur($idProfesseur)
+
+      
       include 'vues/vue_stage_user.php';
       break;
 
