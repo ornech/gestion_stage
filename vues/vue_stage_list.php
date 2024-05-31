@@ -49,10 +49,10 @@ require_once 'config/auth.php';
         <a href="../router.php?page=view_profil&id=<?= $profil->id ?>">
 
           <?php if (!isset($profilStage[0])) : ?>
-            <i class="fa-solid fa-x" style="color: hsl(0 100% 50%);"></i>
+            <i class="fa-regular fa-circle" style="color: hsl(0 100% 50%);"></i>&nbsp;
           <?php elseif (isset($profilStage[0])) :
             $profilStage = $profilStage[0];  ?>
-            <i class="fa-solid fa-check" style="color: hsl(120 100% 25%);"></i>
+            <i class="fa-solid fa-circle" style="color: hsl(120 100% 25%);"></i>&nbsp;
           <?php endif; ?>
 
           <?php echo "$profil->nom  $profil->prenom"; ?>
