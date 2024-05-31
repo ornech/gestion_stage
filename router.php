@@ -251,6 +251,30 @@ function router($page, $conn) {
       include 'vues/vue_stage_user.php';
       break;
 
+    case 'stage_edit':
+      include_once 'model/Stage.php';
+      include_once 'model/Contact.php';
+      $idStage = isset($_GET['idStage']) ? $_GET['idStage'] : null;
+
+      if($idStage == null){
+        exit(header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès au formulaire de d'édition du stage, veuillez réessayer."));
+      }
+
+      $stageModel = new Stage($conn);
+      $Stage = isset($stageModel->stage_by_id($idStage)[0]) ? $stageModel->stage_by_id($idStage) : null;
+
+      if($Stage == null){
+        exit(header("Location: router.php?page=erreur&title=Erreur d'accès&message=Impossible de trouver le stage demandé, veuillez réessayer."));
+      }
+
+      $contacteModel = new Contact($conn);
+      $contacts = $contacteModel->list();
+
+      $Stage = $Stage[0];
+
+      include 'vues/vue_stage_edit.php';
+      break;
+
     case 'stage_list':
       route_protect('Professeur');
       include_once 'model/Stage.php';
