@@ -1,36 +1,37 @@
 <?php
 require_once 'config/auth.php';
-var_dump($Stage)
 ?>
 
-<?php if(isset($Stage)): ?>
+<?php if(isset($Stage)): 
+  function getWeeksDifference($dateDebut, $dateFin) {
+    $start = new DateTime($dateDebut);
+    $end = new DateTime($dateFin);
+    $interval = $start->diff($end);
+    $weeks = floor($interval->days / 7);
+    return $weeks;
+  }
+
+  $weeks = 0;
+  if(isset($Stage->dateDebut) && isset($Stage->dateFin)){
+    $weeks = getWeeksDifference($Stage->dateDebut, $Stage->dateFin);
+  }
+
+?>
 
 <div class="container">
   <div class="columns is-centered">
-    <div class="column is-half">
-      <h1 class="title is-1 has-text-centered">Modification d'un stage</h1>
+    <div class="column is-three-quarters">
+      <h1 class="title is-2 has-text-centered">Modification un stage de <?= $Stage->EtudiantNom . " ". $Stage->EtudiantPrenom?></h1>
 
-      <form action="/controller/stage_create.php" method="post">
-        <input type="hidden" id="idEtudiant" name="idEtudiant" value=""/>
-        <input type="hidden" id="idEntreprise" name="idEntreprise" value="">
-        <input type="hidden" id="idMaitreDeStage" name="idMaitreDeStage" value="">
-        <input type="hidden" id="classe" name="classe" value="">
-        <p>Étudiant : <?=  $Stage->EtudiantNom?></p>
-
-        <label class="label" for="nameEtudiant">Étudiant</label>
-        <div class="field has-addons">
-          <div class="control is-expanded">
-            <input type="text" class="input is-info" placeholder="Veuillez selectionner un étudiant" id="nameEtudiant" onchange="checkForm()" disabled>
-          </div>
-          <p class="control">
-            <a class="button is-info" onclick="openPopup('vue_popup_select_etu')" >Selectionner</a>
-          </p>
-        </div>
+      <form action="/controller/stage_edit.php" method="post">
+        <input type="hidden" id="idEntreprise" name="idEntreprise" value="<?= $Stage->idEntreprise?>">
+        <input type="hidden" id="idMaitreDeStage" name="idMaitreDeStage" value="<?= $Stage->idMaitreDeStage?>">
+        <input type="hidden" id="classe" name="classe" value="<?= $Stage->classe?>">
 
         <label class="label" for="nameEntreprise">Entreprise</label>
         <div class="field has-addons">
           <div class="control is-expanded">
-            <input type="text" class="input is-info" placeholder="Veuillez selectionner une entreprise" id="nameEntreprise" onchange="checkForm()" disabled>
+            <input type="text" class="input is-info" placeholder="Veuillez selectionner une entreprise" id="nameEntreprise" value="<?= $Stage->Entreprise?>" onchange="checkForm()" disabled>
           </div>
           <p class="control">
             <a class="button is-info" onclick="openPopup('vue_popup_select_entreprise')" >Selectionner</a>
@@ -43,7 +44,7 @@ var_dump($Stage)
         <label class="label" for="nameMaitreDeStage">Maitre de stage</label>
         <div class="field has-addons">
           <div class="control is-expanded">
-            <input type="text" class="input is-info" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" onchange="checkForm()" disabled>
+            <input type="text" class="input is-info" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" value="<?= $Stage->employe_nom . " " . $Stage->employe_prenom ?>" onchange="checkForm()" disabled>
           </div>
           <p class="control">
             <button type="button" class="button is-info" id="btnSelectMaitreDeStage" disabled >Selectionner</button>
@@ -57,7 +58,7 @@ var_dump($Stage)
           <div class="field">
             <label class="label">Date de début</label>
             <div class="control">
-              <input class="input" type="date" name="dateDebut" id="dateDebut" onchange="checkForm()">
+              <input class="input" type="date" name="dateDebut" id="dateDebut" value="<?= $Stage->dateDebut?>" onchange="checkForm()">
             </div>
           </div>
 
@@ -66,9 +67,9 @@ var_dump($Stage)
             <div class="control has-icons-left">
               <div class="select">
                 <select id="duree" name="duree" onchange="checkForm()">
-                  <option value="6" selected>6 semaines</option>
-                  <option value="5">5 semaines</option>
-                  <option value="4">4 semaines</option>
+                  <option value="6" <?= $weeks == 6 || ($weeks != 5 && $weeks != 4) ? "selected" : ""?>>6 semaines</option>
+                  <option value="5" <?= $weeks == 5 ? "selected" : ""?>>5 semaines</option>
+                  <option value="4" <?= $weeks == 4 ? "selected" : ""?>>4 semaines</option>
                 </select>
               </div>
               <span class="icon is-small is-left">
@@ -129,19 +130,19 @@ var_dump($Stage)
 
   //Vérifie si tout est rempli, si oui activé le bouton Créer
   function checkForm() {
-    var idEtudiant = document.getElementById("idEtudiant").value;
+
     var idEntreprise = document.getElementById("idEntreprise").value;
     var idMaitreDeStage = document.getElementById("idMaitreDeStage").value;
     var start_date = document.getElementById("dateDebut").value;
     var duree = document.getElementById("duree").value;
 
-    if (idEtudiant != "" && idEntreprise != "" && idMaitreDeStage != "" && start_date != "" && duree != "") {
+    if (idEntreprise != "" && idMaitreDeStage != "" && start_date != "" && duree != "") {
       document.getElementById("submitForm").disabled = false;
     } else {
       document.getElementById("submitForm").disabled = true;
     }
 
-    if(idEtudiant != "" && idEntreprise != ""){
+    if(idEntreprise != ""){
       document.getElementById("btnSelectMaitreDeStage").disabled = false;
       document.getElementById("btnCreateMaitreDeStage").disabled = false;
     }
@@ -172,6 +173,8 @@ var_dump($Stage)
 
     checkForm();
   }
+
+  addEventListener("DOMContentLoaded", checkForm());
 
 </script>
 
