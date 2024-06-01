@@ -53,6 +53,36 @@ class Contact {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function contact_update($idContact, $email, $telephone, $fonction, $service, $Created_UserID) {
+        $query = "UPDATE " . $this->table_name . "  SET
+        email=:email ,
+        telephone=:telephone ,
+        fonction=:fonction ,
+        service=:service ,
+        created_userid=:created_userid
+        WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $idContact, PDO::PARAM_INT);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':telephone', $telephone);
+        $stmt->bindParam(':fonction', $fonction);
+        $stmt->bindParam(':service', $service);
+        $stmt->bindParam(':created_userid', $Created_UserID);
+
+        try {
+            if($stmt->execute()){
+              //header("Location: ../router.php?page=Contact_fiche&idContact=" . $idContact);
+              return true;
+            } else {
+                throw new Exception("Erreur lors de l'exécution de la requête.");
+            }
+        } catch (Exception $e) {
+            //echo "Erreur : " . $e->getMessage();
+            $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+            header("Location: ../router.php?page=erreur&title=Update contact&message=$message");
+            return false;
+        }
+    }
 
     public function read_fiche($idContact) {
         $query = "SELECT * FROM ". $this->vue_name . " WHERE EmployeID = :idContact";

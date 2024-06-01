@@ -31,14 +31,23 @@ require_once 'config/auth.php';
               <?= $ContactFiche->Entreprise_codePostal ?> <?= $ContactFiche->Entreprise_ville ?><BR>
             </div>
           </div>
+          <?php
+
+          //seul le créateur du contact ou un professeur peut modifier le contact
+          if($ContactFiche->UserID === $_SESSION["userID"] || $_SESSION["statut"]=="Professeur" ){
+           ?>
           <footer class="card-footer">
-            <a href="#" class="card-footer-item">Edit</a>
+            <a href="router.php?page=contact_update&idContact=<?= $ContactFiche->EmployeID ?>" class="card-footer-item">Edit</a>
             <br>
 
           </footer>
+          <?php
+        }
+
+           ?>
         </div>
         <center>
-        <i>Crée par <a href="../router.php?page=view_profil&id=<?= $ContactFiche->UserID ?>"><?= $ContactFiche->Created_User ?></a> le <?= $ContactFiche->Created_date ?></i>
+        <i>Crée par <?= $ContactFiche->Created_User ?> le <?= $ContactFiche->Created_date ?></i>
       </center>
       </div>
 
