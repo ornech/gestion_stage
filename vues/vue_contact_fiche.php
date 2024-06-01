@@ -2,58 +2,50 @@
 require_once 'config/auth.php';
 ?>
 <BR>
-<?php
-    // Vérifier si les données sont disponibles
-    if($ContactFiche) {
-      // EmployeID
-      // nom
-      // prenom
-      // email
-      // telephone
-      // fonction
-      // EntrepriseID
-      // entreprise
-      // UserID
-      // Created_User
-      // Created_date
+  <?php
+  // Vérifier si les données sont disponibles
+  if($ContactFiche) {
 
-?>
-<center>
-<div class="card w-75">
-<div class="card text-center">
-  <div class="card-header">
-    <h2 class="card-title"><?= $ContactFiche->nom ?> <?= $ContactFiche->prenom ?></h2>
-    <p class="card-text"> <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $ContactFiche->EntrepriseID ?>"><?= $ContactFiche->entreprise ?></a></p>
-  </div>
-  <div class="card-body">
-    <p class="card-text">Fonction: <strong><?= $ContactFiche->fonction ?></strong> </p>
-    <p class="card-text">email: <strong><?= $ContactFiche->email ?></strong></p>
-    <p class="card-text">telephone:<strong> <?= $ContactFiche->telephone ?></strong></p>
-  </div>
-  <div class="card-footer text-muted">
-    <i>Crée par <a href="../router.php?page=view_profil&id=<?= $ContactFiche->UserID ?>"><?= $ContactFiche->Created_User ?></a> le <?= $ContactFiche->Created_date ?></i>
-  </div>
-</div>
-</div>
-</center>
+    ?>
+    <p class="title is-2">Annuaire entreprise</p>
 
-<!--
-        <p><strong>EmployeID:</strong> <?= $ContactFiche->EmployeID ?></p>
-        <p><strong>nom:</strong> <?= $ContactFiche->nom ?></p>
-        <p><strong>prenom:</strong> <?= $ContactFiche->prenom ?></p>
-        <p><strong>email:</strong> <?= $ContactFiche->email ?></p>
-        <p><strong>telephone:</strong> <?= $ContactFiche->telephone ?></p>
-        <p><strong>fonction:</strong> <?= $ContactFiche->fonction ?></p>
-        <p><strong>EntrepriseID:</strong> <?= $ContactFiche->EntrepriseID ?></p>
-        <p><strong>entreprise:</strong> <?= $ContactFiche->entreprise ?></p>
-        <p><strong>UserID:</strong> <?= $ContactFiche->UserID ?></p>
-        <p><strong>Created_User:</strong> <?= $ContactFiche->Created_User ?></p>
-        <p><strong>Created_date:</strong> <?= $ContactFiche->Created_date ?></p>
--->
+    <div class="column is-three-fifths is-offset-one-fifth">
 
-<?php
+      <div class="card">
+        <header class="card-header">
+            <p class="subtitle is-2"><i class="fa fa-address-book"></i> <?= $ContactFiche->nom ?> <?= $ContactFiche->prenom ?></p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+              <p class="subtitle is-5">Fonction <strong> <?= $ContactFiche->fonction ?></strong></p>
+              <p class="subtitle is-5">Service <strong> <?= $ContactFiche->service ?></strong></p>
+              <p class="subtitle is-5">Mail <strong> <?= $ContactFiche->email ?></strong></p>
+              <p class="subtitle is-5">Tel <strong><?= $ContactFiche->telephone ?></strong></p>
+
+            </div>
+
+            <div class="content">
+              <u>Entreprise</u><BR>
+              <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $ContactFiche->EntrepriseID ?>"><?= $ContactFiche->entreprise ?></a><BR>
+              <?= $ContactFiche->Entreprise_adresse ?><BR>
+              <?= $ContactFiche->Entreprise_codePostal ?> <?= $ContactFiche->Entreprise_ville ?><BR>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a href="#" class="card-footer-item">Edit</a>
+            <br>
+
+          </footer>
+        </div>
+        <center>
+        <i>Crée par <a href="../router.php?page=view_profil&id=<?= $ContactFiche->UserID ?>"><?= $ContactFiche->Created_User ?></a> le <?= $ContactFiche->Created_date ?></i>
+      </center>
+      </div>
+
+
+      <?php
     } else {
-        // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
-        echo "<p>Aucune donnée disponible</p>";
+      // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
+      echo "<p>Aucune donnée disponible</p>";
     }
-?>
+    ?>
