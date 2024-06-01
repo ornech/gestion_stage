@@ -213,18 +213,6 @@ function router($page, $conn) {
       include 'vues/vue_recherche_details.php';
       break;
 
-    case 'Contact_fiche':
-      include_once 'model/Contact.php';
-      // Instancie le modèle
-      $contactModel = new Contact($conn);
-      // Récupérer l'ID du contact depuis l'URL
-      $idContact = isset($_GET['idContact']) ? $_GET['idContact'] : null;
-      // Charge les données
-      $ContactFiche = $contactModel->read_fiche($idContact);
-      // Inclure la vue
-      include 'vues/vue_contact_fiche.php';
-      break;
-
     case 'contact_create':
       include_once 'model/Contact.php';
 
@@ -237,6 +225,30 @@ function router($page, $conn) {
       }
 
       include 'vues/vue_contact_create.php';
+      break;
+
+  case 'Contact_fiche':
+        include_once 'model/Contact.php';
+        // Instancie le modèle
+        $contactModel = new Contact($conn);
+        // Récupérer l'ID du contact depuis l'URL
+        $idContact = isset($_GET['idContact']) ? $_GET['idContact'] : null;
+        // Charge les données
+        $ContactFiche = $contactModel->read_fiche($idContact);
+        // Inclure la vue
+        include 'vues/vue_contact_fiche.php';
+        break;
+
+    case 'contact_update':
+      include_once 'model/Contact.php';
+      // Instancie le modèle
+      $contactModel = new Contact($conn);
+      // Récupérer l'ID du contact depuis l'URL
+      $idContact = isset($_GET['idContact']) ? $_GET['idContact'] : null;
+      // Charge les données
+      $ContactFiche = $contactModel->read_fiche($idContact);
+      // Inclure la vue
+      include 'vues/vue_contact_fiche_edit.php';
       break;
 
     case 'stage_consignes':
