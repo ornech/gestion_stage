@@ -13,7 +13,7 @@ require_once 'config/auth.php';
     <p class="title is-2">Annuaire entreprise</p>
 
     <div class="column is-three-fifths is-offset-one-fifth">
-      <form action="../controller/contact_update.php" method="POST">
+      <form id="formulaire" action="../controller/contact_update.php" method="POST">
         <div class="card">
           <header class="card-header">
             <p class="subtitle is-2"><i class="fa fa-address-book"></i> <?= $ContactFiche->nom ?> <?= $ContactFiche->prenom ?></p>
@@ -23,8 +23,8 @@ require_once 'config/auth.php';
               <input type="hidden" name="EmployeID" value="<?= $ContactFiche->EmployeID ?>">
               <p class="subtitle is-5">Fonction <input class="input" type="text" name="fonction" value="<?= $ContactFiche->fonction ?>"></p>
               <p class="subtitle is-5">Service <input class="input" type="text" name="service" value="<?= $ContactFiche->service ?>"></p>
-              <p class="subtitle is-5">Mail  <input class="input" type="text" name="email" value="<?= $ContactFiche->email ?>"></p>
-              <p class="subtitle is-5">Tel <input class="input" type="text" name="telephone" value="<?= $ContactFiche->telephone ?>"></p>
+              <p class="subtitle is-5">Mail  <input class="input" id="email" type="email" name="email" value="<?= $ContactFiche->email ?>"></p>
+              <p class="subtitle is-5">Tel <input class="input" id="telephone" type="tel" name="telephone" value="<?= $ContactFiche->telephone ?>"></p>
 
             </div>
 
@@ -53,6 +53,46 @@ require_once 'config/auth.php';
             </center>
           </div>
 
+          <script>
+                 // Fonction de validation du numéro de téléphone français
+                 function validatePhoneNumber(phone) {
+                     const regex = /^(\+33\s?|0)[1-9]([.\s]?\d{2}){4}$/;
+                     return regex.test(phone);
+                 }
+
+                 // Fonction de validation de l'email
+                 function validateEmail(email) {
+                     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                     return regex.test(email);
+                 }
+
+                 // Ajouter un écouteur d'événement pour le formulaire
+                 document.getElementById('formulaire').addEventListener('submit', function(event) {
+                     const phoneInput = document.getElementById('telephone').value.trim();
+                     const emailInput = document.getElementById('email').value.trim();
+
+                     // Si les deux champs sont vides, empêcher la soumission du formulaire
+                     if (phoneInput === '' && emailInput === '') {
+                         alert('Veuillez entrer un numéro de téléphone ou une adresse email.');
+                         event.preventDefault();
+                         return;
+                     }
+
+                     // Si le numéro de téléphone est rempli mais invalide, empêcher la soumission du formulaire
+                     if (phoneInput !== '' && !validatePhoneNumber(phoneInput)) {
+                         alert('Veuillez entrer un numéro de téléphone français valide.');
+                         event.preventDefault();
+                         return;
+                     }
+
+                     // Si l'email est rempli mais invalide, empêcher la soumission du formulaire
+                     if (emailInput !== '' && !validateEmail(emailInput)) {
+                         alert('Veuillez entrer une adresse email valide.');
+                         event.preventDefault();
+                         return;
+                     }
+                 });
+             </script>
 
           <?php
         }
