@@ -2,11 +2,10 @@
 
 class Activite {
   private $conn;
-  private $table_name = "activite_etu";
-  private $vue_name = "vue_activite";
+  private $table_name = "logs";
+  private $vue_name = "vue_logs";
   public $idActiviteType;
   public $idUser;
-  public $action_type;
   public $entite_type;
   public $entite_id;
   public $old_values;
@@ -17,28 +16,25 @@ class Activite {
   }
 
   // Créer une nouvelle activité
-  public function create($idActiviteType, $idUser, $action_type, $entite_type, $entite_id, $old_values, $new_values){
-    $query = "INSERT INTO ". $this->table_name . " idActiviteType=:idActiviteType, 
+  public function create($idActiviteType, $idUser, $entite_type, $entite_id, $old_values, $new_values){
+    $query = "INSERT INTO ". $this->table_name . " SET idLogType=:idLogType, 
     idUser=:idUser, 
-    action_type=:action_type, 
     entite_type=:entite_type, 
     entite_id=:entite_id, 
     old_values=:old_values, 
     new_values=:new_values, 
     date=NOW()";
 
-    $this->idActiviteType=htmlspecialchars(strip_tags($idActiviteType['idActiviteType']));
-    $this->idUser=htmlspecialchars(strip_tags($idUser['idUser']));
-    $this->action_type=htmlspecialchars(strip_tags($action_type['action_type']));
-    $this->entite_type=htmlspecialchars(strip_tags($entite_type['entite_type']));
-    $this->entite_id=htmlspecialchars(strip_tags($entite_id['entite_id']));
-    $this->old_values=htmlspecialchars(strip_tags($old_values['old_values']));
-    $this->new_values=htmlspecialchars(strip_tags($new_values['new_values']));
+    $this->idActiviteType=htmlspecialchars(strip_tags($idActiviteType));
+    $this->idUser=htmlspecialchars(strip_tags($idUser));
+    $this->entite_type=htmlspecialchars(strip_tags($entite_type));
+    $this->entite_id=htmlspecialchars(strip_tags($entite_id));
+    $this->old_values=htmlspecialchars(strip_tags($old_values));
+    $this->new_values=htmlspecialchars(strip_tags($new_values));
 
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':idActiviteType', $this->idActiviteType);
+    $stmt->bindParam(':idLogType', $this->idActiviteType);
     $stmt->bindParam(':idUser', $this->idUser);
-    $stmt->bindParam(':action_type', $this->action_type);
     $stmt->bindParam(':entite_type', $this->entite_type);
     $stmt->bindParam(':entite_id', $this->entite_id);
     $stmt->bindParam(':old_values', $this->old_values);
@@ -52,7 +48,7 @@ class Activite {
         throw new Exception("Erreur lors de l'exécution de la requête.");
       }
     } catch (Exception $e) {
-      //echo "Erreur : " . $e->getMessage();
+      echo "Erreur : " . $e->getMessage();
       $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
       header("Location: ../router.php?page=erreur&message=$message");
       return false;
