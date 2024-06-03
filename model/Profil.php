@@ -71,7 +71,7 @@ class Profil {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
-  public function create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut){
+  public function create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut,$dateEntree){
     $query = "INSERT INTO " . $this->table_name . " SET nom=:nom,
     prenom=:prenom ,
     email=:email ,
@@ -83,7 +83,7 @@ class Profil {
     inactif=0";
 
     //Rajoute dans le query spe et promo si le statut n'est pas Professeur
-    $query = $statut != "Professeur" ? $query . " , spe=:spe, promo=:promo" : $query;
+    $query = $statut != "Professeur" ? $query . " , spe=:spe, promo=:promo, date_entree=:date_entree" : $query;
 
     $stmt = $this->conn->prepare($query);
     $this->nom=htmlspecialchars(strip_tags($nom));
@@ -95,6 +95,7 @@ class Profil {
     $this->login=htmlspecialchars(strip_tags($login));
     $this->password=htmlspecialchars(strip_tags($password));
     $this->statut=htmlspecialchars(strip_tags($statut));
+    $this->date_entree=htmlspecialchars(strip_tags($dateEntree));
 
     echo "statut : " . $statut . "<br>";
 
@@ -109,6 +110,7 @@ class Profil {
     if($statut != "Professeur"){ //Si le statut est professeur, on n'attribut pas de promotion et de spécialité
       $stmt->bindParam(":spe", $this->spe);
       $stmt->bindParam(":promo", $this->promo);
+      $stmt->bindParam(":date_entree", $this->date_entree);
     }
 
     try {
