@@ -2,84 +2,113 @@
 require_once 'config/auth.php';
 ?>
 
-<p class="title is-2">Ajout utilisateur</p>
-<p class="subtitle is-4">Création manuellement d'un compte- utilisateur</p>
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-three-quarters">
+      <p class="title is-2 has-text-centered">Ajout utilisateur</p>
+      <p class="subtitle is-4 has-text-centered">Création manuellement d'un compte- utilisateur</p>
 
-<form action="../controller/create_user.php" method="post" class="g-3">
+      <form action="../controller/create_user.php" method="post" class="g-3">
 
-  <div style="margin-top: 15px; display: inline-flex; align-items: center;">
-    <label  for="statut">Status de l'utilisateur</label>
-      <select class="control" id="statut" name="statut" required style="width: 150px; margin-left: 10px;" onchange=choixStatut()>
-        <option value="Etudiant">Etudiant</option>
-        <option value="Professeur">Professeur</option>
-    </select>
-  </div>
+        <label class="label" for="statut">Statut de l'utilisateur</label>
+        <div class="field">
+          <div class="select">
+            <select id="statut" name="statut" required onchange="choixStatut()">
+              <option value="Etudiant">Etudiant</option>
+              <option value="Professeur">Professeur</option>
+            </select>
+          </div>
+        </div>
 
-  <div class="row">
-    <div class="col">
-      <div class="form-floating mb-3" style="width: 100%">
-        <label for="nom">Nom</label>
-        <input type="text" class="control" id="nom" name="nom" placeholder="Dupont" required>
+        <div class="field is-horizontal">
+          <div class="field-body">
+            <div class="field">
+              <label class="label" for="nom">Nom</label>
+              <div class="control">
+                <input type="text" class="input" id="nom" name="nom" placeholder="Dupont" required>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="prenom">Prénom</label>
+              <div class="control">
+                <input type="text" class="input" id="prenom" name="prenom" placeholder="Alice" required>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="field is-horizontal">
+          <div class="field-body">
+            <div class="field">
+              <label class="label" for="email">Email</label>
+              <div class="control">
+                <input type="email" class="input" id="email" name="email" placeholder="alicedupont@email.com">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="telephone">Téléphone</label>
+              <div class="control">
+                <input type="text" class="input" id="telephone" name="telephone" placeholder="06 00 00 00 00">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal" id="divEtudiant">
+          <div class="field-body">
+
+            <div class="field">
+              <label class="label" for="promo">Date d'entrée</label>
+              <div class="control">
+                <input type="date" class="input" id="dateEntree" name="dateEntree" ondblclick="this.showPicker()" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="promo">Promotion</label>
+              <div class="control">
+                <input type="text" class="input" id="promo" name="promo" placeholder="2025" maxlength="4">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="spe">Spécialité</label>
+              <div class="control" style="width: 100%;">
+                <div class="select" >
+                  <select id="spe" name="spe">
+                    <option value="SLAM">SLAM</option>
+                    <option value="SISR">SISR</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="login">login suggéré</label>
+          <div class="control">
+            <input type="text" class="input" id="login" name="login" placeholder="alice.dupont" style="width: 250px" required>
+          </div>
+        </div>
+
+        <div class="control">
+          <p>Le mot de passe par défaut est : <u>achanger</u></p>
+          <p>Il devra être changé à la première connexion</p>
+        </div>
+
+
+      <div class="field">
+        <div class="control espacement">
+          <button id="buttonCreate" class="button is-primary" type="submit">Créer utilisateur</button>
+        </div>
       </div>
-    </div>
 
-    <div class="col">
-      <div class="form-floating mb-3" style="width: 100%">
-        <label for="prenom" class="label">Prénom</label>
-        <input type="text" class="control" id="prenom" name="prenom" placeholder="Alice" required>
-
-      </div>
-    </div>
-
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <div class="form-floating mb-3" style="width: 100%">
-        <label for="email">Email</label>
-        <input type="email" class="control" id="email" name="email" placeholder="alicedupont@email.com">
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="form-floating mb-3" style="width: 100%">
-        <label for="telephone">Téléphone</label>
-        <input type="text" class="control" id="telephone" name="telephone" placeholder="06 07 08 09 10">
-      </div>
+      </form>
     </div>
   </div>
-
-  <div class="row" id="divEtudiant">
-    <div class="col">
-      <div class="form-floating mb-3" style="width: 100%">
-        <label for="promo">Promotion</label>
-        <input type="text" class="control" id="promo" name="promo" placeholder="2025" maxlength="4">
-      </div>
-    </div>
-
-    <div class="col">
-    <label for="spe">Spécialité</label>
-      <select class="control" id="spe" name="spe" style="width: 250px">
-        <option value="SLAM">SLAM</option>
-        <option value="SISR">SISR</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="espacement">
-    <div class="form-floating mb-3">
-      <input type="text" class="control" id="login" name="login" placeholder="adupont" style="width: 250px" required>
-      <label for="login">login suggéré</label>
-    </div>
-  </div>
-
-  <p>Le mot de passe par défaut est : <u>achanger</u></p>
-  <p>Il devra être changer à la première connexion</p>
-
-
-  <button id="buttonCreate" class="button" type="submit">Créer utilisateur</button>
-</form>
+</div>
 
 <script>
 
@@ -97,6 +126,7 @@ require_once 'config/auth.php';
   const divEtudiant = document.getElementById('divEtudiant');
   const promo = document.getElementById('promo');
   const choix = document.getElementById('statut');
+  const dateEntree = document.getElementById('dateEntree');
 
   let currentPromo = new Date().getFullYear() + 1;
 
@@ -116,27 +146,30 @@ require_once 'config/auth.php';
   function createLogin() {
     //Si nomField et prenomField ne sont pas vide (J'ai mit dans le condition .value pour faire moin long car "" == false)
     if (nomField.value && prenomField.value) {
-      let prenom = prenomField.value.split(/[-\s]+/);
-
-      for (let i = 0; i < prenom.length; i++){
-        prenom[i] = prenom[i][0];
+      function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       }
+
+      let prenom = removeAccents(prenomField.value).split(/[-\s]+/);
 
       prenom = prenom.join("").toLowerCase();
 
-      let nom = nomField.value.split(/[-\s]+/).join("").toLowerCase();
+      let nom = removeAccents(nomField.value).split(/[-\s]+/).join("").toLowerCase();
 
-      loginField.value = prenom + nom;
+      let login = nom + "." + prenom;
+
+      loginField.value = login;
     }
   }
 
-
   function choixStatut(){
     if (choix.value == "Professeur") {
+      dateEntree.required = false;
       divEtudiant.classList.add('hidden');
       promo.value = currentPromo;
     }
     else {
+      dateEntree.required = true;
       divEtudiant.classList.remove('hidden');
     }
   }
@@ -152,14 +185,8 @@ require_once 'config/auth.php';
 
 </script>
 
-<!-- Du CCS pour corriger le problème d'espacement -->
+
 <style>
-  .col-md{
-    flex: 0 0 0%;
-  }
-  .row{
-    flex-wrap: wrap;
-  }
   .espacement{
     padding-top: 20px;
   }

@@ -24,12 +24,13 @@ if(isset($_POST['nom'])) {
   $login = $_POST['login'];
   $password = password_hash("achanger", PASSWORD_DEFAULT);
   $statut = $_POST['statut'];
+  $dateEntree = $_POST['dateEntree'];
 
   // Création d'une instance de l'objet Entreprise
   $profil = new Profil($conn);
 
   // Appel de la méthode  de l'objet Profil
-  if ($profil->create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut)) {
+  if ($profil->create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut,$dateEntree)) {
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     header("Location: ../router.php?page=gestion_etu");
     exit();
