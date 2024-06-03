@@ -199,6 +199,15 @@ require_once 'config/auth.php';
     }else if(response["type"] == "contact"){
       document.getElementById("idMaitreDeStage").value = response["id"];
       document.getElementById("nameMaitreDeStage").value = response["nom"] + " " + response["prenom"];
+      var idEntreprise = document.getElementById("idEntreprise").value;
+
+      maitreDeStages[response["id"]] = {
+        id: idEntreprise,
+        nom: response["nom"],
+        prenom: response["prenom"]
+      };
+
+      printMaitreDeStage(idEntreprise);
     }
 
     checkForm();
