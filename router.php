@@ -11,6 +11,9 @@ if (session_status() == PHP_SESSION_NONE) {
 require_once 'config/auth.php';
 require_once 'config/db_connection.php';
 
+// Inclure le contrôleur de l'activité des utilisateurs
+require_once 'controller/controller_activite_etu.php';
+
 // Récupérer la page demandée depuis l'URL ou d'autres paramètres de requête
 $page = isset($_GET['page']) ? $_GET['page'] : 'accueil';
 
@@ -29,6 +32,7 @@ if(!str_starts_with($page, "vue_popup")){
     //echo "Bienvenue sur la page étudiant";
   }
 }
+
 
 // Fonction de routage
 function router($page, $conn) {
@@ -450,9 +454,11 @@ function router($page, $conn) {
 }
 
   // Appeler la fonction de routage pour afficher la vue appropriée
+  
 
   router($page, $conn); // Passer $conn en paramètre
   if(!str_starts_with($page, "vue_popup")){
     include 'vues/footer.php';
   }
-  ?>
+
+?>

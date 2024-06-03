@@ -3,48 +3,61 @@
 class Activite {
   private $conn;
   private $table_name = "activite_etu";
-  private $vue_name = "activite";
-  public $date;
-  public $ID_Entreprise;
-  public $type;
-  public $Commentaire;
-  public $IdEtudiant;
+  private $vue_name = "vue_activite";
+  public $idActiviteType;
+  public $idUser;
+  public $action_type;
+  public $entite_type;
+  public $entite_id;
+  public $old_values;
+  public $new_values;
 
   public function __construct($db){
     $this->conn = $db;
   }
 
   // Créer une nouvelle activité
-  public function create(){
-    $query = "INSERT INTO " . $this->table_name . "
-    SET ID_Entreprise=:ID_Entreprise, date=NOW(), type=:type,
-    Commentaire=:Commentaire, IdEtudiant=:IdEtudiant";
+  public function create($idActiviteType, $idUser, $action_type, $entite_type, $entite_id, $old_values, $new_values){
+    $query = "INSERT INTO ". $this->table_name . " idActiviteType=:idActiviteType, 
+    idUser=:idUser, 
+    action_type=:action_type, 
+    entite_type=:entite_type, 
+    entite_id=:entite_id, 
+    old_values=:old_values, 
+    new_values=:new_values, 
+    date=NOW()";
+
+    $this->idActiviteType=htmlspecialchars(strip_tags($idActiviteType['idActiviteType']));
+    $this->idUser=htmlspecialchars(strip_tags($idUser['idUser']));
+    $this->action_type=htmlspecialchars(strip_tags($action_type['action_type']));
+    $this->entite_type=htmlspecialchars(strip_tags($entite_type['entite_type']));
+    $this->entite_id=htmlspecialchars(strip_tags($entite_id['entite_id']));
+    $this->old_values=htmlspecialchars(strip_tags($old_values['old_values']));
+    $this->new_values=htmlspecialchars(strip_tags($new_values['new_values']));
 
     $stmt = $this->conn->prepare($query);
-    $this->ID_Entreprise=htmlspecialchars(strip_tags($this->ID_Entreprise));
-    $this->type=htmlspecialchars(strip_tags($this->type));
-    $this->Commentaire=htmlspecialchars(strip_tags($this->Commentaire));
-    $this->IdEtudiant=htmlspecialchars(strip_tags($this->IdEtudiant));
+    $stmt->bindParam(':idActiviteType', $this->idActiviteType);
+    $stmt->bindParam(':idUser', $this->idUser);
+    $stmt->bindParam(':action_type', $this->action_type);
+    $stmt->bindParam(':entite_type', $this->entite_type);
+    $stmt->bindParam(':entite_id', $this->entite_id);
+    $stmt->bindParam(':old_values', $this->old_values);
+    $stmt->bindParam(':new_values', $this->new_values);
 
-    $stmt->bindParam(":ID_Entreprise", $this->ID_Entreprise);
-    $stmt->bindParam(":type", $this->type);
-    $stmt->bindParam(":Commentaire", $this->Commentaire);
-    $stmt->bindParam(":IdEtudiant", $this->IdEtudiant);
 
-    // Affichage de la requête SQL avec les valeurs liées
-    $boundParams = array(
-      ':ID_Entreprise' => $this->ID_Entreprise,
-      ':type' => $this->type,
-      ':Commentaire' => $this->Commentaire,
-      ':IdEtudiant' => $this->IdEtudiant
-    );
-    $finalQuery = strtr($query, $boundParams);
-    echo "Requête SQL finale : " . $finalQuery . "<br>";
-
-    if($stmt->execute()){
-      return true;
+    try {
+      if($stmt->execute()){
+        return true;
+      } else {
+        throw new Exception("Erreur lors de l'exécution de la requête.");
+      }
+    } catch (Exception $e) {
+      //echo "Erreur : " . $e->getMessage();
+      $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+      header("Location: ../router.php?page=erreur&message=$message");
+      return false;
     }
-    return false;
+
   }
 
   // Liste des activités
@@ -55,35 +68,8 @@ class Activite {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
-  public function activite_prof(){
-    $query = "SELECT * FROM ". $this->vue_name . " ORDER BY Date DESC, Heure DESC";
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
-  }
-
-  public function activite_etu(){
-    $query = "SELECT * FROM ". $this->vue_name . " WHERE IdEtudiant = " . intval($_SESSION['userID']) . " ORDER BY Date DESC, Heure DESC";
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
-  }
-
-  public function createActivite($ID_Entreprise, $type, $Commentaire, $IdEtudiant) {
-    $query = "INSERT INTO ". $this->vue_name . " (ID_Entreprise, date, type, Commentaire, IdEtudiant)
-    VALUES (:ID_Entreprise, NOW(), :type, :Commentaire, :IdEtudiant)";
-
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':ID_Entreprise', $ID_Entreprise);
-    $stmt->bindParam(':type', $type);
-    $stmt->bindParam(':Commentaire', $Commentaire);
-    $stmt->bindParam(':IdEtudiant', $IdEtudiant);
-
-    return $stmt->execute();
-  }
-
   // Détails d'une activité pour un étudiant donné
-  public function detail_activite_etu($IdEtudiant) {
+  public function detail_activite_etu() {
 
     return ;
   }
