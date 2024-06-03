@@ -137,7 +137,7 @@ function checkIsComplete($profilToCheck)
 
 <style>
 
-  a, .is-selected{
+  table a, .is-selected{
     color: inherit !important;
   }
 </style>
