@@ -29,8 +29,12 @@ class Activite {
     $this->idUser=htmlspecialchars(strip_tags($idUser));
     $this->entite_type=htmlspecialchars(strip_tags($entite_type));
     $this->entite_id=htmlspecialchars(strip_tags($entite_id));
-    $this->old_values=htmlspecialchars(strip_tags($old_values));
-    $this->new_values=htmlspecialchars(strip_tags($new_values));
+
+    
+    $this->old_values=$old_values;
+    $this->new_values=$new_values;
+
+    var_dump($this->new_values);
 
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idLogType', $this->idActiviteType);
@@ -39,7 +43,6 @@ class Activite {
     $stmt->bindParam(':entite_id', $this->entite_id);
     $stmt->bindParam(':old_values', $this->old_values);
     $stmt->bindParam(':new_values', $this->new_values);
-
 
     try {
       if($stmt->execute()){

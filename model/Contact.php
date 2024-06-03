@@ -94,10 +94,8 @@ class Contact {
     }
 
     public function create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID){
-      // Inclure le contrôleur de l'activité des utilisateurs
       require_once '../controller/controller_activite_etu.php';
-      addActivite(9, $Created_UserID, "contact", $idEntreprise, null, null, $this->conn);
-
+      
       echo $nom . " " . $prenom . " " . $email . " " . $telephone . " " . $fonction . " " . $idEntreprise . " " . $Created_UserID;
       $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
           nom=:nom ,
@@ -128,7 +126,14 @@ class Contact {
 
       try {
           if($stmt->execute()){
+            //Obtenir les données que l'on vient de créer dans la table
+            $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE id = LAST_INSERT_ID();");
+            $stmt->execute();
+            $newValue = $stmt->fetch(PDO::FETCH_OBJ);
+            if(addActivite(9, $Created_UserID, "contact", $idEntreprise, null, $newValue, $this->conn)){
               return true;
+            }
+              return false;
           } else {
               throw new Exception("Erreur lors de l'exécution de la requête.");
           }
