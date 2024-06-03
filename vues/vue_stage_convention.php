@@ -33,7 +33,6 @@ if (isset($_GET["idStage"])){
   // employe_prenom
   // employe_fonction
 
-
 }
 
 ?>
@@ -232,7 +231,7 @@ if (isset($_GET["idStage"])){
   window.addEventListener('DOMContentLoaded', function() {
     const element = document.querySelector('.section');
     const options = {
-      filename: 'convention.pdf',
+      filename: 'convention-stage<?=isset($data) ? "-".$data->EtudiantNom : "" ?>.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
