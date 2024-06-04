@@ -6,7 +6,7 @@ require_once '../config/db_connection.php';
 // Inclure le fichier qui définit la classe Entreprise
 require_once '../model/Activite.php';
 
-function addActivite($idActiviteType, $idUser, $entite_type = null, $entite_id = null, $old_values = null, $new_values = null, $conn) {
+function addActivite($conn, $idActiviteType, $idUser, $entite_type = null, $entite_id = null, $old_values = null, $new_values = null) {
   $activite = new Activite($conn);
 
   if($idActiviteType == null || $idUser == null || $conn == null) {
