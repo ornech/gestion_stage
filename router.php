@@ -435,8 +435,19 @@ function router($page, $conn) {
       break;
 
 
-  case 'stage_convention':
+    case 'stage_convention':
       include 'vues/vue_stage_convention.php';
+      break;
+
+    case 'logs':
+      route_protect('Professeur');
+
+      include_once 'model/Log.php';
+
+      $logModel = new Log($conn);
+      $logs = $logModel->list();
+  
+      include 'vues/vue_logs.php';
       break;
 
    case 'erreur':
