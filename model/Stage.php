@@ -112,7 +112,7 @@ class Stage {
     }
   }
 
-  public function edit_stage($idEtudiant, $idEntreprise,$idMaitreDeStage,$dateDebut,$duree){
+  public function edit_stage($idEtudiant, $idEntreprise, $idMaitreDeStage, $dateDebut, $duree){
     $query = "UPDATE " . $this->table_name . " SET idEntreprise=:idEntreprise ,
     idMaitreDeStage=:idMaitreDeStage ,
     dateDebut=:dateDebut ,
