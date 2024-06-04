@@ -30,6 +30,7 @@ if(!str_starts_with($page, "vue_popup")){
   }
 }
 
+
 // Fonction de routage
 function router($page, $conn) {
   switch ($page) {
@@ -450,9 +451,11 @@ function router($page, $conn) {
 }
 
   // Appeler la fonction de routage pour afficher la vue appropriée
+  
 
   router($page, $conn); // Passer $conn en paramètre
   if(!str_starts_with($page, "vue_popup")){
     include 'vues/footer.php';
   }
-  ?>
+
+?>

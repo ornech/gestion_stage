@@ -26,15 +26,17 @@ $entrepriseData = array(
 
 // Vérifie si le formulaire a été soumis
 if(isset($_POST['submit'])) {
+    require_once '../controller/controller_log.php';
+
     // Récupération des données du formulaire
-    $nomEntreprise = $_POST['nomEntreprise'];
-    $adresse = $_POST['adresse'];
-    $ville = $_POST['ville'];
-    $tel = $_POST['tel'];
-    $codePostal = $_POST['codePostal'];
-    $dep_geo = $_POST['dep_geo'];
-    $code_ape = $_POST['code_ape'];
-    $effectif = $_POST['effectif'];
+    $nomEntreprise = isset($_POST['nomEntreprise']) ? $_POST['nomEntreprise'] : null;
+    $adresse = isset($_POST['adresse']) ? $_POST['adresse'] : null;
+    $ville = isset($_POST['ville']) ? $_POST['ville'] : null;
+    $tel = isset($_POST['tel']) ? $_POST['tel'] : null;
+    $codePostal = isset($_POST['codePostal']) ? $_POST['codePostal'] : null;
+    $dep_geo = isset($_POST['dep_geo']) ? $_POST['dep_geo'] : null;
+    $code_ape = isset($_POST['code_ape']) ? $_POST['code_ape'] : null;
+    $effectif = isset($_POST['effectif']) ? $_POST['effectif'] : null;
 
     // Création d'un objet DateTime pour l'instant présent
     $date = new DateTime();
@@ -60,8 +62,13 @@ if(isset($_POST['submit'])) {
     // Appel de la méthode update de l'objet Entreprise pour mettre à jour les informations
     if ($entreprise->create($entrepriseData)) {
         // Redirection vers la page de détails de l'entreprise après la mise à jour
-        //header("Location: ../router.php?page=fiche_entreprise&idEntreprise=$idEntreprise");
-        echo var_dump($entrepriseData);
+
+        $newEntrepriseId = $conn->lastInsertId();
+        $newValue = $entreprise->read_fiche($newEntrepriseId);       
+
+        addLog($conn, 2, $_SESSION['userID'], "entreprise", $newEntrepriseId, null, $newValue);
+        
+        header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $newEntrepriseId);
         exit();
     } else {
         // Afficher un message d'erreur en cas d'échec de la mise à jour

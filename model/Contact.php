@@ -54,34 +54,43 @@ class Contact {
     }
 
     public function contact_update($idContact, $email, $telephone, $fonction, $service, $Created_UserID) {
-        $query = "UPDATE " . $this->table_name . "  SET
-        email=:email ,
-        telephone=:telephone ,
-        fonction=:fonction ,
-        service=:service ,
-        created_userid=:created_userid
-        WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $idContact, PDO::PARAM_INT);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':telephone', $telephone);
-        $stmt->bindParam(':fonction', $fonction);
-        $stmt->bindParam(':service', $service);
-        $stmt->bindParam(':created_userid', $Created_UserID);
+      require_once '../controller/controller_log.php';
+      $oldValue = $this->read_fiche($idContact);
+      
+      $query = "UPDATE " . $this->table_name . "  SET
+      email=:email ,
+      telephone=:telephone ,
+      fonction=:fonction ,
+      service=:service ,
+      created_userid=:created_userid
+      WHERE id = :id";
 
-        try {
-            if($stmt->execute()){
-              //header("Location: ../router.php?page=Contact_fiche&idContact=" . $idContact);
-              return true;
-            } else {
-                throw new Exception("Erreur lors de l'exécution de la requête.");
-            }
-        } catch (Exception $e) {
-            //echo "Erreur : " . $e->getMessage();
-            $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
-            header("Location: ../router.php?page=erreur&title=Update contact&message=$message");
+      $stmt = $this->conn->prepare($query);
+
+      $stmt->bindParam(':id', $idContact, PDO::PARAM_INT);
+      $stmt->bindParam(':email', $email);
+      $stmt->bindParam(':telephone', $telephone);
+      $stmt->bindParam(':fonction', $fonction);
+      $stmt->bindParam(':service', $service);
+      $stmt->bindParam(':created_userid', $Created_UserID);
+
+      try {
+        if($stmt->execute()){
+          //Obtenir les données que l'on vient de créer dans la table
+          $newValue = $this->read_fiche($idContact);
+          if(addLog($this->conn, 10, $Created_UserID, "contact", $idContact, $oldValue, $newValue)){
+            return true;
+          }
             return false;
+        } else {
+            throw new Exception("Erreur lors de l'exécution de la requête.");
         }
+      } catch (Exception $e) {
+          //echo "Erreur : " . $e->getMessage();
+          $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+          header("Location: ../router.php?page=erreur&title=Update contact&message=$message");
+          return false;
+      }
     }
 
     public function read_fiche($idContact) {
@@ -93,46 +102,56 @@ class Contact {
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function create_contact($nom,$prenom,$email,$telephone,$fonction,$idEntreprise,$Created_UserID){
-        echo $nom . " " . $prenom . " " . $email . " " . $telephone . " " . $fonction . " " . $idEntreprise . " " . $Created_UserID;
-        $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
-            nom=:nom ,
-            prenom=:prenom ,
-            email=:email ,
-            telephone=:telephone ,
-            fonction=:fonction ,
-            Created_UserID=:Created_UserID,
-            Created_date=NOW()";
+    public function create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID){
+      require_once '../controller/controller_log.php';
+      
+      echo $nom . " " . $prenom . " " . $email . " " . $telephone . " " . $fonction . " " . $idEntreprise . " " . $Created_UserID;
+      $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
+          nom=:nom ,
+          prenom=:prenom ,
+          email=:email ,
+          telephone=:telephone ,
+          fonction=:fonction ,
+          Created_UserID=:Created_UserID,
+          Created_date=NOW()";
 
-        $stmt = $this->conn->prepare($query);
-        $this->nom=htmlspecialchars(strip_tags($nom));
-        $this->prenom=htmlspecialchars(strip_tags($prenom));
-        $this->email=htmlspecialchars(strip_tags($email));
-        $this->telephone=htmlspecialchars(strip_tags($telephone));
-        $this->fonction=htmlspecialchars(strip_tags($fonction));
-        $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
-        $this->Created_UserID=htmlspecialchars(strip_tags($Created_UserID));
+      $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":nom", $this->nom);
-        $stmt->bindParam(":prenom", $this->prenom);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":telephone", $this->telephone);
-        $stmt->bindParam(":fonction", $this->fonction);
-        $stmt->bindParam(":idEntreprise", $this->idEntreprise);
-        $stmt->bindParam(":Created_UserID", $this->Created_UserID);
+      $this->nom=htmlspecialchars(strip_tags($nom));
+      $this->prenom=htmlspecialchars(strip_tags($prenom));
+      $this->email=htmlspecialchars(strip_tags($email));
+      $this->telephone=htmlspecialchars(strip_tags($telephone));
+      $this->fonction=htmlspecialchars(strip_tags($fonction));
+      $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
+      $this->Created_UserID=htmlspecialchars(strip_tags($Created_UserID));
 
-        try {
-            if($stmt->execute()){
-                return true;
-            } else {
-                throw new Exception("Erreur lors de l'exécution de la requête.");
+      $stmt->bindParam(":nom", $this->nom);
+      $stmt->bindParam(":prenom", $this->prenom);
+      $stmt->bindParam(":email", $this->email);
+      $stmt->bindParam(":telephone", $this->telephone);
+      $stmt->bindParam(":fonction", $this->fonction);
+      $stmt->bindParam(":idEntreprise", $this->idEntreprise);
+      $stmt->bindParam(":Created_UserID", $this->Created_UserID);
+
+      try {
+          if($stmt->execute()){
+            //Obtenir les données que l'on vient de créer dans la table
+            $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE id = LAST_INSERT_ID();");
+            $stmt->execute();
+            $newValue = $stmt->fetch(PDO::FETCH_OBJ);
+            if(addLog($this->conn, 9, $Created_UserID, "contact", $newValue->id, null, $newValue)){
+              return true;
             }
-        } catch (Exception $e) {
-            //echo "Erreur : " . $e->getMessage();
-            $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
-            header("Location: ../router.php?page=erreur&title=Erreur lors de la création du contact&message=$message");
-            return false;
-        }
+              return false;
+          } else {
+              throw new Exception("Erreur lors de l'exécution de la requête.");
+          }
+      } catch (Exception $e) {
+          //echo "Erreur : " . $e->getMessage();
+          $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+          header("Location: ../router.php?page=erreur&title=Erreur lors de la création du contact&message=$message");
+          return false;
+      }
     }
 
 }

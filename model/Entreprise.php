@@ -27,6 +27,8 @@ class Entreprise {
 
   // Créer une nouvelle entreprise
   public function importer($entrepriseData){
+    require_once '../controller/controller_log.php';
+
     $query = "INSERT INTO " . $this->table_name . " SET
     nomEntreprise=:nomEntreprise,
     adresse=:adresse,
@@ -77,9 +79,14 @@ class Entreprise {
 
     try {
       if($stmt->execute()){
-        return true;
+        //Obtenir les données que l'on vient de créer dans la table
+        $newValue = $this->read_fiche($this->conn->lastInsertId());
+        if(addLog($this->conn, 1, $this->Created_UserID, "entrerprise", $newValue->EntrepriseID, null, $newValue)){
+          return true;
+        }
+          return false;
       } else {
-        throw new Exception("Erreur lors de l'exécution de la requête.");
+          throw new Exception("Erreur lors de l'exécution de la requête.");
       }
     } catch (Exception $e) {
       //echo "Erreur : " . $e->getMessage();
@@ -99,22 +106,22 @@ class Entreprise {
     Created_Date=:Created_Date,
     Created_UserID=:Created_UserID,
     dep_geo=:dep_geo,
-    code_ape=:code_ape,
+    naf=:naf,
     effectif=:effectif";
 
     $stmt = $this->conn->prepare($query);
 
     // Nettoyage et assignation des valeurs
-    $this->nomEntreprise=htmlspecialchars(strip_tags($entrepriseData['nomEntreprise']));
-    $this->adresse=htmlspecialchars(strip_tags($entrepriseData['adresse']));
-    $this->ville=htmlspecialchars(strip_tags($entrepriseData['ville']));
-    $this->tel=htmlspecialchars(strip_tags($entrepriseData['tel']));
-    $this->codePostal=htmlspecialchars(strip_tags($entrepriseData['codePostal']));
-    $this->Created_UserID=htmlspecialchars(strip_tags($entrepriseData['Created_UserID']));
-    $this->Created_Date=htmlspecialchars(strip_tags($entrepriseData['Created_Date']));
-    $this->dep_geo=htmlspecialchars(strip_tags($entrepriseData['dep_geo']));
-    $this->code_ape=htmlspecialchars(strip_tags($entrepriseData['code_ape']));
-    $this->effectif=htmlspecialchars(strip_tags($entrepriseData['effectif']));
+    $this->nomEntreprise= isset($entrepriseData['nomEntreprise']) ? htmlspecialchars(strip_tags($entrepriseData['nomEntreprise'])) : null;
+    $this->adresse = isset($entrepriseData['adresse']) ? htmlspecialchars(strip_tags($entrepriseData['adresse'])) : null;
+    $this->ville = isset($entrepriseData['ville']) ? htmlspecialchars(strip_tags($entrepriseData['ville'])) : null;
+    $this->tel = isset($entrepriseData['tel']) ? htmlspecialchars(strip_tags($entrepriseData['tel'])) : null;
+    $this->codePostal = isset($entrepriseData['codePostal']) ? htmlspecialchars(strip_tags($entrepriseData['codePostal'])) : null;
+    $this->Created_UserID = isset($entrepriseData['Created_UserID']) ? htmlspecialchars(strip_tags($entrepriseData['Created_UserID'])) : null;
+    $this->Created_Date = isset($entrepriseData['Created_Date']) ? htmlspecialchars(strip_tags($entrepriseData['Created_Date'])) : null;
+    $this->dep_geo = isset($entrepriseData['dep_geo']) ? htmlspecialchars(strip_tags($entrepriseData['dep_geo'])) : null;
+    $this->naf = isset($entrepriseData['code_ape']) ? htmlspecialchars(strip_tags($entrepriseData['code_ape'])) : null;
+    $this->effectif = isset($entrepriseData['effectif']) ? htmlspecialchars(strip_tags($entrepriseData['effectif'])) : null;
 
 
     $stmt->bindParam(":nomEntreprise", $this->nomEntreprise);
@@ -125,13 +132,15 @@ class Entreprise {
     $stmt->bindParam(":Created_UserID", $this->Created_UserID);
     $stmt->bindParam(":Created_Date", $this->Created_Date);
     $stmt->bindParam(":dep_geo", $this->dep_geo);
-    $stmt->bindParam(":code_ape", $this->code_ape);
+    $stmt->bindParam(":naf", $this->code_ape);
     $stmt->bindParam(":effectif", $this->effectif);
 
     if($stmt->execute()){
+      //Obtenir les données que l'on vient de créer dans la table
       return true;
+    } else {
+        throw new Exception("Erreur lors de l'exécution de la requête.");
     }
-    return false;
   }
 
   // entreprise_create_siret
@@ -234,7 +243,8 @@ class Entreprise {
     // Exécution de la requête et gestion des erreurs
     try {
         if ($stmt->execute()) {
-            return true;
+          //Obtenir les données que l'on vient de créer dans la table
+          return true;
         } else {
             $errorInfo = $stmt->errorInfo();
             $message = "Erreur SQL : " . $errorInfo[2];
@@ -247,7 +257,8 @@ class Entreprise {
           if($isPopup == true){
             return true;
           }else{
-            header("Location: ../router.php?page=fiche_entreprise&siret=" . urlencode($siret));
+            $result = $this->read_fiche_siret($siret);
+            header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $result->EntrepriseID);
           }
         } else {
             $message = "Erreur SQL : " . $e->getMessage();
@@ -255,7 +266,8 @@ class Entreprise {
         }
         return false;
     }
-}
+  }
+
   // Liste des entreprises
   public function read(){
     $query = "SELECT * FROM " . $this->table_name;
@@ -263,7 +275,6 @@ class Entreprise {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
-
 
   public function read_fiche($idEntreprise) {
     $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
@@ -283,6 +294,8 @@ class Entreprise {
 
   // Modèle Entreprise
   public function update($id, $nouvelles_infos) {
+    require_once '../controller/controller_log.php';
+
     // Préparez la requête SQL pour mettre à jour les informations de l'entreprise
     $query = "UPDATE " . $this->table_name . " SET nomEntreprise = :nom, adresse = :adresse, ville = :ville, tel = :tel, codePostal = :codePostal WHERE id = :id";
     // Préparez la requête
@@ -314,7 +327,6 @@ class Entreprise {
       return false; // Échec de la mise à jour
     }
   }
-
 
   // Supprimer une entreprise
   public function delete(){
