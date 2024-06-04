@@ -1,6 +1,6 @@
 <?php
 
-class Activite {
+class Log {
   private $conn;
   private $table_name = "logs";
   private $vue_name = "vue_logs";
@@ -33,8 +33,6 @@ class Activite {
     
     $this->old_values=$old_values;
     $this->new_values=$new_values;
-
-    var_dump($this->new_values);
 
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idLogType', $this->idActiviteType);

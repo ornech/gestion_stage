@@ -54,7 +54,7 @@ class Contact {
     }
 
     public function contact_update($idContact, $email, $telephone, $fonction, $service, $Created_UserID) {
-      require_once '../controller/controller_activite_etu.php';
+      require_once '../controller/controller_log.php';
       $oldValue = $this->read_fiche($idContact);
       
       $query = "UPDATE " . $this->table_name . "  SET
@@ -78,7 +78,7 @@ class Contact {
         if($stmt->execute()){
           //Obtenir les données que l'on vient de créer dans la table
           $newValue = $this->read_fiche($idContact);
-          if(addActivite($this->conn, 10, $Created_UserID, "contact", $newValue->EntrepriseID, $oldValue, $newValue)){
+          if(addLog($this->conn, 10, $Created_UserID, "contact", $idContact, $oldValue, $newValue)){
             return true;
           }
             return false;
@@ -103,7 +103,7 @@ class Contact {
     }
 
     public function create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID){
-      require_once '../controller/controller_activite_etu.php';
+      require_once '../controller/controller_log.php';
       
       echo $nom . " " . $prenom . " " . $email . " " . $telephone . " " . $fonction . " " . $idEntreprise . " " . $Created_UserID;
       $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
@@ -139,7 +139,7 @@ class Contact {
             $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE id = LAST_INSERT_ID();");
             $stmt->execute();
             $newValue = $stmt->fetch(PDO::FETCH_OBJ);
-            if(addActivite($this->conn, 9, $Created_UserID, "contact", $idEntreprise, null, $newValue)){
+            if(addLog($this->conn, 9, $Created_UserID, "contact", $newValue->id, null, $newValue)){
               return true;
             }
               return false;
