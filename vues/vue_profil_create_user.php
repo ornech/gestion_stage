@@ -71,7 +71,7 @@ require_once 'config/auth.php';
           <div class="field-body">
 
             <div class="field">
-              <label class="label" for="promo">Date d'entrée</label>
+              <label class="label" for="dateEntree">Date d'entrée</label>
               <div class="control">
                 <input type="date" class="input" id="dateEntree" name="dateEntree" ondblclick="this.showPicker()" required>
               </div>
@@ -103,7 +103,7 @@ require_once 'config/auth.php';
 <div class="field is-horizontal">
           <div class="field-body">
             <div class="field">
-              <label class="label" for="email">Login suggéré</label>
+              <label class="label" for="login">Login suggéré</label>
               <div class="control">
                 <input type="text" class="input" id="login" name="login" placeholder="alice.dupont" required>
               </div>
