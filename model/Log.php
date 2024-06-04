@@ -58,8 +58,8 @@ class Log {
   }
 
   // Liste des activités
-  public function liste_activites(){
-    $query = "SELECT * FROM ". $this->vue_name . " "; // " . $this->table_name;
+  public function list(){
+    $query = "SELECT * FROM ". $this->vue_name . " ORDER BY date DESC"; // " . $this->table_name;
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
