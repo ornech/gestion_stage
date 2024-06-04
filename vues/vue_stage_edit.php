@@ -2,8 +2,8 @@
 require_once 'config/auth.php';
 ?>
 <style>
-   .orange-line-bottom {
-            border-bottom: 2px solid orange;
+    .blue-line-bottom {
+            border-bottom: 2px solid #00d1b2;
         }
         </style>
 
@@ -39,7 +39,7 @@ require_once 'config/auth.php';
 <div class="container">
   <div class="columns is-centered">
     <div class="column is-three-quarters">
-      <h1 class="title is-2 has-text-centered orange-line-bottom mb-4">Stage <?= $Stage -> classe ?>:  <?= $Stage->EtudiantNom . " ". $Stage->EtudiantPrenom?></h1>
+      <h1 class="title is-2 has-text-centered blue-line-bottom mb-4">Stage <?= $Stage -> classe ?>:  <?= $Stage->EtudiantNom . " ". $Stage->EtudiantPrenom?></h1>
 
       <form action="/controller/stage_edit.php" method="post">
         <input type="hidden" id="idEtudiant" name="idEtudiant" value="<?= $Stage->idEtudiant?>">
