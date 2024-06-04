@@ -13,14 +13,21 @@ require_once '../config/db_connection.php';
 if(isset($_GET['siret']) && (isset($_GET['isPopup']) == false)) {
   $siret = isset($_GET['siret']) ? $_GET['siret'] : null;
 
+  require_once '../controller/controller_log.php';
+
   // Créer une instance de la classe Recherche
   $entreprise = new Entreprise($conn);
 
   // Appeler la méthode recherche
   if ($entreprise->entreprise_create_siret($siret, false)) {
-      //echo var_dump($entrepriseData);
-      header("Location: ../router.php?page=fiche_entreprise&siret=" . $siret);
-      exit();
+
+    $newValue = $entreprise->read_fiche_siret($siret);
+    $newEntrepriseId = $newValue->EntrepriseID;
+
+    addLog($conn, 3, $_SESSION['userID'], "entreprise", $newEntrepriseId, null, $newValue);
+    
+    header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $newEntrepriseId);
+    exit();
 
   } else {
       // Afficher un message d'erreur en cas d'échec de la mise à jour
@@ -31,6 +38,8 @@ if(isset($_GET['siret']) && (isset($_GET['isPopup']) == false)) {
   <script src="/js/popup.js"></script>
   <?php
 
+  require_once '../controller/controller_log.php';
+
   $siret = isset($_GET['siret']) ? $_GET['siret'] : null;
 
   // Créer une instance de la classe Recherche
@@ -38,14 +47,21 @@ if(isset($_GET['siret']) && (isset($_GET['isPopup']) == false)) {
 
   // Appeler la méthode recherche
   if ($entreprise->entreprise_create_siret($siret, true)) {
-      ?><script>
-      sendResponse(
-        {statut: "success", contents: {
-          type: "entreprise", 
-          id: <?= $conn->lastInsertId() ?>, 
-          nom: "<?=$entreprise->nomEntreprise?>"
-        }});
-      </script><?php
+      
+    $newValue = $entreprise->read_fiche_siret($siret);
+    $newEntrepriseId = $newValue->EntrepriseID;
+
+    addLog($conn, 3, $_SESSION['userID'], "entreprise", $newEntrepriseId, null, $newValue);
+
+    ?><script>
+    sendResponse(
+      {statut: "success", contents: {
+        type: "entreprise", 
+        id: <?= $newEntrepriseId ?>, 
+        nom: "<?=$entreprise->nomEntreprise?>"
+      }});
+    </script><?php
+    
     exit();
 
   } else {

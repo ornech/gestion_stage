@@ -12,6 +12,8 @@ require_once '../config/db_connection.php';
 var_dump($_POST);
 // Vérifie si le formulaire a été soumis
 if(isset($_POST['idEntreprise'])) {
+  require_once '../controller/controller_log.php';
+
   // Récupération des données du formulaire
   $idEntreprise = $_POST['idEntreprise'];
   $idMaitreDeStage = $_POST['idMaitreDeStage'];
@@ -25,6 +27,12 @@ if(isset($_POST['idEntreprise'])) {
 
   // Appel de la méthode  de l'objet Stage
   if ($stage->create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$duree)) {
+
+    $newStageId = $conn->lastInsertId();
+    $newValues = $stage->stage_by_id($newStageId)[0];
+
+    addLog($conn, 8, $_SESSION["userID"], "stage", $newStageId, null, $newValues);
+
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $idEntreprise);
     exit();

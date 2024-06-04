@@ -11,6 +11,8 @@ require_once '../config/db_connection.php';
 
 // Vérifie si le formulaire a été soumis
 if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"]) && isset($_POST["idEtudiant"])){
+  require_once '../controller/controller_log.php';
+
   // Récupération des données du formulaire
   $idEtudiant = $_POST['idEtudiant'];
   $idEntreprise = $_POST['idEntreprise'];
@@ -22,8 +24,15 @@ if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"]) && isset($_
   // Création d'une instance de l'objet Stage
   $stage = new Stage($conn);
 
+  //$oldValues = $stage->stage_by_id(ID_STAGE_A_METTRE)[0];
+
   // Appel de la méthode  de l'objet Stage
   if ($stage->edit_stage($idEtudiant,$idEntreprise,$idMaitreDeStage,$dateDebut,$duree)) {
+
+    //$newValues = $stage->stage_by_id(ID_STAGE_A_METTRE)[0];
+
+    //addLog($conn, 11, $_SESSION["userID"], "stage", ID_STAGE_A_METTRE, $oldValues, $newValues);
+
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     if($classe == "SIO1"){
       header("Location: ../router.php?page=stage_sio1");
