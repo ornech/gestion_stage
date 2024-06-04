@@ -30,7 +30,7 @@ if(isset($logs)): ?>
           <td><?=$log->logType?></td>
           <td><?= date('d/m/Y H:i:s', strtotime($log->date)) ?></td>
           <td><?=$log->pointGagne?></td>
-          <td><a href="router.php?page=view_logs_details&id=<?=$log->idActivite?>" target="_blank" class="button is-primary">Détail</a></td>
+          <td><a href="router.php?page=view_logs_details&id=<?=$log->idActivite?>" class="button is-small">Détail</a></td>
         </tr>
       <?php endforeach;?>
     </tbody>
