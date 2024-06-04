@@ -115,21 +115,31 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `Test_redondance` BEFORE INSERT ON `entreprise` FOR EACH ROW BEGIN
-    DECLARE count_exist INT;
-    
-    
-    SELECT COUNT(*) INTO count_exist FROM entreprise WHERE siret = NEW.siret;
-    
-    
-    IF count_exist > 0 THEN
-        SIGNAL SQLSTATE '45001'
-        SET MESSAGE_TEXT = 'Cette entreprise existe déjà dans la base de données.';
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `Test_redondance` BEFORE INSERT ON `entreprise` FOR EACH ROW BEGIN
+
+    DECLARE count_exist INT;
+
+    
+
+    
+
+    SELECT COUNT(*) INTO count_exist FROM entreprise WHERE siret = NEW.siret;
+
+    
+
+    
+
+    IF count_exist > 0 THEN
+
+        SIGNAL SQLSTATE '45001'
+
+        SET MESSAGE_TEXT = 'Cette entreprise existe déjà dans la base de données.';
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -173,7 +183,7 @@ CREATE TABLE `logs` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idLogType` int NOT NULL,
   `idUser` int NOT NULL,
-  `entite_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `entite_type` varchar(50),
   `entite_id` int DEFAULT NULL,
   `old_values` json DEFAULT NULL,
   `new_values` json DEFAULT NULL,
@@ -181,7 +191,7 @@ CREATE TABLE `logs` (
   PRIMARY KEY (`id`),
   KEY `idActivite` (`idLogType`),
   KEY `idUser` (`idUser`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,7 +396,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vue_entreprise` AS select `e`.`id` AS `EntrepriseID`,`e`.`siret` AS `siret`,`e`.`nomEntreprise` AS `nomEntreprise`,`e`.`adresse` AS `adresse`,`e`.`ville` AS `ville`,`e`.`codePostal` AS `codePostal`,`e`.`naf` AS `naf`,`e`.`type` AS `type`,`e`.`effectif` AS `effectif`,`e`.`Created_Date` AS `Created_Date`,concat(`u`.`nom`,' ',`u`.`prenom`) AS `Created_User` from (`entreprise` `e` join `user` `u` on((`e`.`Created_UserID` = `u`.`id`))) */;
@@ -404,7 +413,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vue_logs` AS select `l`.`id` AS `idActivite`,`l`.`idLogType` AS `idActiviteType`,`l`.`idUser` AS `idUser`,`t`.`type` AS `logType`,`t`.`points` AS `pointGagne`,`l`.`entite_type` AS `entite_type`,`l`.`entite_id` AS `entite_id`,`u`.`nom` AS `nomEtu`,`u`.`prenom` AS `prenomEtu`,`u`.`classe` AS `classeEtu`,`l`.`old_values` AS `old_values`,`l`.`new_values` AS `new_values`,`l`.`date` AS `date` from ((`logs` `l` join `user` `u` on((`l`.`idUser` = `u`.`id`))) join `log_type` `t` on((`l`.`idLogType` = `t`.`id`))) */;
