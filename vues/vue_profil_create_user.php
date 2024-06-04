@@ -1,12 +1,25 @@
 <?php
 require_once 'config/auth.php';
 ?>
+<style>
+  .blue-line-bottom {
+            border-bottom: 2px solid #00d1b2;
+        }
+  .espacement{
+    padding-top: 20px;
+  }
+  .hidden{
+    display: none !important;
+  }
 
+        </style>
+
+<div class="box">
 <div class="container">
   <div class="columns is-centered">
     <div class="column is-three-quarters">
-      <p class="title is-2 has-text-centered">Ajout utilisateur</p>
-      <p class="subtitle is-4 has-text-centered">Création manuellement d'un compte- utilisateur</p>
+      <p class="title is-2 has-text-centered blue-line-bottom mb-4">Ajouter utilisateur</p>
+      <p class="subtitle is-4 has-text-centered">Création manuelle d'un compte utilisateur</p>
 
       <form action="../controller/create_user.php" method="post" class="g-3">
 
@@ -85,20 +98,26 @@ require_once 'config/auth.php';
 
           </div>
         </div>
+<!-- //// -->
 
-        <div class="field">
-          <label class="label" for="login">login suggéré</label>
-          <div class="control">
-            <input type="text" class="input" id="login" name="login" placeholder="alice.dupont" style="width: 250px" required>
-          </div>
-        </div>
-
-        <div class="control">
-          <p>Le mot de passe par défaut est : <u>achanger</u></p>
-          <p>Il devra être changé à la première connexion</p>
-        </div>
-
-
+<div class="field is-horizontal">
+          <div class="field-body">
+            <div class="field">
+              <label class="label" for="email">Login suggéré</label>
+              <div class="control">
+                <input type="text" class="input" id="login" name="login" placeholder="alice.dupont" required>
+              </div>
+            </div>
+            <div class="field">
+            <article class="message is-primary">
+  <div class="message-body">
+  <p>Le mot de passe par défaut est : <strong>achanger</strong></p>
+    <p>Il devra être changé à la première connexion</p>          
+    </article>
+            </div>
+            </div>
+            </div>
+          
       <div class="field">
         <div class="control espacement">
           <button id="buttonCreate" class="button is-primary" type="submit">Créer utilisateur</button>
@@ -109,7 +128,7 @@ require_once 'config/auth.php';
     </div>
   </div>
 </div>
-
+</div>
 <script>
 
   //Toutes les récupération des balises utile pour le javaScript
@@ -185,12 +204,3 @@ require_once 'config/auth.php';
 
 </script>
 
-
-<style>
-  .espacement{
-    padding-top: 20px;
-  }
-  .hidden{
-    display: none !important;
-  }
-</style>
