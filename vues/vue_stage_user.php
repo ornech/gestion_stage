@@ -2,27 +2,27 @@
 require_once 'config/auth.php';
 
 //ajouter session id =:id
-if($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
+if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
 
-// Vérifier si les détails du profil sont disponibles
-$stage=$stage["0"];
-if(isset($stage)) {
-    if(isset($Profil)){
-      ?>
+  // Vérifier si les détails du profil sont disponibles
+  $stage = $stage["0"];
+  if (isset($stage)) {
+    if (isset($Profil)) {
+?>
 
 <!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->
 <style>
 
 </style>
 
-      <body>
+<body>
 
 <?php
 setlocale(LC_TIME, 'fr_FR.UTF-8');  //pour l'affichange de mois en francais
 $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
 
 $dateDebut = new DateTime($stage->dateDebut);
-$dateFin = new DateTime($stage->dateFin );
+$dateFin = new DateTime($stage->dateFin);
 $difference = $dateDebut->diff($dateFin); // (dateFin - dateDebut) -> difference en jour
 $semaines = floor($difference->days / 7); // difference en jour divisé sur 7 
 $debutFormat = $fmt->format($dateDebut); //affichage les mois en lettre 
@@ -41,55 +41,56 @@ $professeurs = $profilModel->list_by_professeur();
 <!-- --------------- DEBUT NOUVELLE VUE ----------------------  -->
 
 
-      <p class="title is-1">Stage <?= $stage->classe ?></p>
-      <p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
+<p class="title is-1">Stage <?= $stage->classe ?></p>
+<p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
 <HR>
-  <div class="box">
-        <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: &nbsp;<a href = '../router.php?page=view_profil&id=<?= 
-        $stage->idEtudiant ?>'><?=$stage->EtudiantNom ." ". $stage->EtudiantPrenom ?></a></p>
-        <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
-        <p>Position: A MODIFIER         </p>
-        <p>Durée de stage: <strong><?= $semaines?> semaines (<?=$debutFormat . " - " . $finFormat ?> )</strong></p>
-        <div style="display: flex; align-items: center;">
-  <p class="card-text" style="margin-right: 10px;">Professeur assigné: </p>
-  <?php if ($_SESSION['statut'] == "Professeur" ): ?>
-    <form method="post" action="">
-      <div class="select">
-      <input type="hidden" name="Stage" class="stageId" value="<?= isset($stage->idStage) ? $stage->idStage : "" ?>">
-      <select name="Professeur" class="Professeur select is-small">
-        <?php if (isset($stage->idProfesseur)): ?>
-          <?php foreach ($professeurs as $professeur): ?>
-            <option value="<?= $professeur->id ?>" <?= isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id ? "selected" : "" ?>>
-              <?= "$professeur->nom $professeur->prenom" ?>
-            </option>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <option value="">Aucun professeur assigné</option>
-          <?php foreach ($professeurs as $professeur): ?>
-            <option value="<?= $professeur->id ?>">
-              <?= "$professeur->nom $professeur->prenom" ?>
-            </option>
-          <?php endforeach; ?>
-        <?php endif; ?>
-      </select>
-    </form>
-  <?php else: ?>
-    -
-  <?php endif; ?>
-</div></div>
+<div class="box">
+  <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: &nbsp;<a href='../router.php?page=view_profil&id=<?=$stage->idEtudiant ?>'><?= $stage->EtudiantNom . " " . $stage->EtudiantPrenom ?></a></p>
+  <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
+  <p>Position: A MODIFIER </p>
+  <p>Durée de stage: <strong><?= $semaines ?> semaines (<?= $debutFormat . " - " . $finFormat ?> )</strong></p>
+  <div style="display: flex; align-items: center;">
+    <p class="card-text" style="margin-right: 10px;">Professeur assigné: </p>
+    <?php if ($_SESSION['statut'] == "Professeur") : ?>
+      <form method="post" action="">
+        <input type="hidden" name="Stage" class="stageId" value="<?= isset($stage->idStage) ? $stage->idStage : "" ?>">
 
+        <div class="select is-small">
+          <select name="Professeur">
+            <?php if (isset($stage->idProfesseur)) : ?>
+              <?php foreach ($professeurs as $professeur) : ?>
+                <option value="<?= $professeur->id ?>" <?= isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id ? "selected" : "" ?>>
+                  <?= "$professeur->nom $professeur->prenom" ?>
+                </option>
+              <?php endforeach; ?>
+            <?php else : ?>
+              <option value="">Aucun professeur assigné</option>
+              <?php foreach ($professeurs as $professeur) : ?>
+                <option value="<?= $professeur->id ?>">
+                  <?= "$professeur->nom $professeur->prenom" ?>
+                </option>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </select>
 
-        <HR>
-        <p class="card-text">Maître de stage: <strong><a href="../router.php?page=Contact_fiche&idContact=<?=
-          $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></strong> </p>
-        <p class="card-text">Fonction: <strong><?= $stage->employe_fonction ?></strong> </p>
-        <p class="card-text">Mail: <strong><?= $stage->employe_mail ?></strong> </p>
-        <p class="card-text">Téléphone: <strong><?= $stage->employe_telephone ?></strong> </p>
-       
-        <HR>
-        <p>Description:</p>
-        <p><?= $stage->description?></p>
+      </form>
+    <?php else : ?>
+      -
+    <?php endif; ?>
   </div>
+</div>
+
+
+<HR>
+<p class="card-text">Maître de stage: <strong><a href="../router.php?page=Contact_fiche&idContact=<?=$stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></strong> </p>
+<p class="card-text">Fonction: <strong><?= $stage->employe_fonction ?></strong> </p>
+<p class="card-text">Mail: <strong><?= $stage->employe_mail ?></strong> </p>
+<p class="card-text">Téléphone: <strong><?= $stage->employe_telephone ?></strong> </p>
+
+<HR>
+<p>Description:</p>
+<p><?= $stage->description ?></p>
+</div>
 
 
 <script>
@@ -108,15 +109,14 @@ $professeurs = $profilModel->list_by_professeur();
 <!-- --------------- FIN NOUVELLE VUE ----------------------  -->
 
 
-<?php
-    }}
-    else {
+  <?php
+    }
+  } else {
     // Si aucun profil n'a été trouvée, afficher un message d'erreur
     echo "<p>Aucun profil trouvé avec ce lien.</p>";
-    }
   }
-else{
+} else {
   header("Location: ../router.php?page=profil");
-  }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
-  //  || $_SESSION['id'] == $stage->idEtudiant
-?>
+} //Fin de la vérification de si l'utilisateur est connecté en tant que prof
+//  || $_SESSION['id'] == $stage->idEtudiant
+  ?>
