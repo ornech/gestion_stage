@@ -1,22 +1,17 @@
 <?php
 require_once 'config/auth.php';
 
-
 //ajouter session id =:id
 if(($_GET["page"] == "stage_read" && $_SESSION['statut'] == "Professeur") || $_GET["page"] == "stage") {
 
-  // Vérifier si les détails du profil sont disponibles
-  $stage=$stage["0"];
-  if(isset($stage)) {
-    // $statut=$Profil->statut; $nomVariable = $nomVariable["0"]
-    //if ($statut=='Etudiant'){
-    // Afficher les détails du profi
-
+// Vérifier si les détails du profil sont disponibles
+$stage=$stage["0"];
+if(isset($stage)) {
     if(isset($Profil)){
-
-
-
       ?>
+
+<!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->
+
       <style>
       .card {
         display: flex;
@@ -125,30 +120,35 @@ if(($_GET["page"] == "stage_read" && $_SESSION['statut'] == "Professeur") || $_G
                     </div>
                   </div>
 
-                  <p class="title is-1">Stage <?= $stage->classe ?></strong></p>
-                  <p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
-                  <HR>
-                    <div class="box">
-                          <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: Jean Dupont</p>
-                          <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
-                          <p>Position: Développeur Web</p>
-                          <p>Durée:6 semaines (Janvier 2024 - fevrier 2024)</p>
-                          <HR>
-                          <p>Description:</p>
-                          <p>Jean travaille sur le développement de nouvelles fonctionnalités pour le site web de l'entreprise en utilisant des technologies modernes comme React et Node.js.</p>
-                    </div>
-                  <?php
-                  //}
+<!-- --------------- FIN ANCIENNE VUE ----------------------  -->
 
-                }
-                else {
-                  // Si aucun profil n'a été trouvée, afficher un message d'erreur
-                  echo "<p>Aucun profil trouvé avec ce lien.</p>";
-                }
 
-              }
-              else{
-                header("Location: ../router.php?page=profil");
-              }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
+<!-- --------------- DEBUT NOUVELLE VUE ----------------------  -->
 
-              ?>
+<p class="title is-1">Stage <?= $stage->classe ?></strong></p>
+<p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
+<HR>
+  <div class="box">
+        <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: Jean Dupont</p>
+        <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
+        <p>Position: Développeur Web</p>
+        <p>Durée:6 semaines (Janvier 2024 - fevrier 2024)</p>
+        <HR>
+        <p>Description:</p>
+        <p>Jean travaille sur le développement de nouvelles fonctionnalités pour le site web de l'entreprise en utilisant des technologies modernes comme React et Node.js.</p>
+  </div>
+
+<!-- --------------- FIN NOUVELLE VUE ----------------------  -->
+
+
+<?php
+    }
+    else {
+    // Si aucun profil n'a été trouvée, afficher un message d'erreur
+    echo "<p>Aucun profil trouvé avec ce lien.</p>";
+    }
+  }
+else{
+  header("Location: ../router.php?page=profil");
+  }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
+?>
