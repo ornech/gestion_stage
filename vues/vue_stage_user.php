@@ -28,22 +28,36 @@ $semaines = floor($difference->days / 7); // difference en jour divisé sur 7
 $debutFormat = $fmt->format($dateDebut); //affichage les mois en lettre 
 $finFormat = $fmt->format($dateFin);
 $professeurs = $profilModel->list_by_professeur();
-// function checkIsComplete($profilToCheck)
-// {
-//   if (isset($profilToCheck->idProfesseur) == true && isset($profilToCheck->dateDebut) == true && isset($profilToCheck->dateFin) == true) {
-//     return "complet";
-//   } else if (isset($profilToCheck->idProfesseur) == false || isset($profilToCheck->dateDebut) == false || isset($profilToCheck->dateFin) == false) {
-//     return "incomplet";
-//   }
-//   return "pas-de-stage";
-// }
+
+
 ?>
 <!-- --------------- DEBUT NOUVELLE VUE ----------------------  -->
 
 
-<p class="title is-1">Stage <?= $stage->classe ?></p>
-<p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
-<HR>
+<div class="columns">
+  <div class="column">
+    <p class="title is-1">Stage <?= $stage->classe ?></p>
+    <p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
+  </div>
+  <div class="column is-narrow">
+    <?php if ($_SESSION['statut'] == "Professeur" || $_SESSION['id'] == $stage->idEtudiant) : ?>
+      <div class="buttons are-small is-flex-direction-column"> 
+        <?php if (isset($stage->idStage)) : ?>
+          <div> 
+            <button class="button is-medium" onclick="window.open('router.php?page=stage_convention&idStage=<?= $stage->idStage ?>')">Récupérer la convention</button>
+          </div>
+        <?php endif; ?>
+        <?php if (isset($stage)) : ?>
+          <div>
+            <button class="button is-primary is-medium" onclick="window.open('router.php?page=stage_edit&idStage=<?= $stage->idStage ?>')">Modifier les détails</button>
+          </div>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
+  </div>
+</div>
+
+ <HR>
 <div class="box">
   <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: &nbsp;<a href='../router.php?page=view_profil&id=<?=$stage->idEtudiant ?>'><?= $stage->EtudiantNom . " " . $stage->EtudiantPrenom ?></a></p>
   <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
@@ -75,7 +89,8 @@ $professeurs = $profilModel->list_by_professeur();
 
       </form>
     <?php else : ?>
-      -
+  <?php isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id ?>
+  <?= "$professeur->nom $professeur->prenom" ?>
     <?php endif; ?>
   </div>
 </div>
@@ -118,5 +133,5 @@ $professeurs = $profilModel->list_by_professeur();
 } else {
   header("Location: ../router.php?page=profil");
 } //Fin de la vérification de si l'utilisateur est connecté en tant que prof
-//  || $_SESSION['id'] == $stage->idEtudiant
+//  
   ?>
