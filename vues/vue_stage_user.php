@@ -10,7 +10,7 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
   if (isset($stage)) {
     if (isset($Profil)) {
 
-      if (($_SESSION['statut'] == "Professeur") ){
+      if (($_SESSION['statut'] == "Professeur") || ($_SESSION['statut'] == "Etudiant")&& $idUser==$stage->idEtudiant){
 ?>
 
 <!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->
@@ -98,7 +98,7 @@ $professeurs = $profilModel->list_by_professeur();
   <?= "$professeur->nom $professeur->prenom" ?>
     <?php endif; ?>
   </div>
-</div>
+
 
 
 <HR>

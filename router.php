@@ -262,7 +262,7 @@ function router($page, $conn) {
 
       $idStage = isset($_GET['id']) ? $_GET['id'] : null;
       $idEtudiant = isset($_GET['idEtudiant']) ? $_GET['idEtudiant'] : null;
-
+      $idUser = $_SESSION['userID'];
       $stageModel = new Stage($conn);
       $profilModel = new Profil($conn);
 
