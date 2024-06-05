@@ -55,7 +55,7 @@ require_once 'config/auth.php';
         <div class="field has-addons">
           <div class="control is-expanded">
             <div class="select" style="width: 100%;">
-              <select class="input" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" value="<?= $Stage->employe_nom . " " . $Stage->employe_prenom ?>" onchange="idMDSchange(this)">
+              <select class="input" placeholder="Veuillez selectionner un maitre de stage" id="nameMaitreDeStage" onchange="idMDSchange(this)">
           
                 <script>
                   function printMaitreDeStage($entrepriseId){
@@ -65,7 +65,7 @@ require_once 'config/auth.php';
                     select.innerHTML = "";
                     for (const [key, value] of Object.entries(maitreDeStages)) {
                       if(value.id == $entrepriseId){
-                  select.innerHTML += '<option value="' + key + '" ' + (key == idMaitreDeStage ? "selected" : "") + '>' + value.nom + " " + value.prenom + '</option>';
+                        select.innerHTML += '<option value="' + key + '" ' + (key == idMaitreDeStage ? "selected" : "") + '>' + value.nom + " " + value.prenom + '</option>';
                       }
                     }
                   }
@@ -84,7 +84,7 @@ require_once 'config/auth.php';
           <div class="field">
             <label class="label">Date de début</label>
             <div class="control">
-              <input class="input" type="date" name="dateDebut" id="dateDebut" onchange="checkForm()">
+              <input class="input" type="date" name="dateDebut" id="dateDebut" onchange="checkForm()" ondblclick="this.showPicker()">
             </div>
           </div>
 

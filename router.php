@@ -384,7 +384,7 @@ function router($page, $conn) {
       include_once 'model/Profil.php';
 
       $profilModel = new Profil($conn);
-      $profils = $profilModel->list_profil();
+      $profils = $profilModel->list_classes();
 
       include 'vues/popups/vue_popup_select.php';
       break;
