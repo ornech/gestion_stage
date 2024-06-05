@@ -177,6 +177,11 @@ function router($page, $conn) {
       }
       
       $Profil = $profilModel->read_profil($idProfil);
+
+      if($Profil->statut == "Professeur"){
+        header("Location: router.php?page=erreur&title=Erreur&message=Vous ne pouvez pas modifier un profil de type professeur.");
+      }
+      
       include 'vues/vue_profil_edit.php';
       break;
 
