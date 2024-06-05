@@ -1,4 +1,5 @@
 <?php
+ob_start();
 // Démarrer la session en premier
 // A du être supprimer sur windows ?
 // session_start();
@@ -469,4 +470,5 @@ function router($page, $conn) {
     include 'vues/footer.php';
   }
 
+ob_end_flush();
 ?>
