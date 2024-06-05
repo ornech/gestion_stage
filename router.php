@@ -281,16 +281,12 @@ function router($page, $conn) {
     case 'stage_read':
       include_once 'model/Stage.php';
       include_once 'model/Profil.php';
-
       $idStage = isset($_GET['id']) ? $_GET['id'] : null;
       $idEtudiant = isset($_GET['idEtudiant']) ? $_GET['idEtudiant'] : null;
-
       $stageModel = new Stage($conn);
       $profilModel = new Profil($conn);
-
       $Profil = $profilModel->list_by_professeur($idEtudiant);
       $stage = $stageModel->stage_by_id($idStage);
-
       include 'vues/vue_stage_user.php';
       break;
 
@@ -468,7 +464,7 @@ function router($page, $conn) {
 
       $logModel = new Log($conn);
       $logs = $logModel->list();
-  
+
       include 'vues/vue_logs.php';
       break;
 
@@ -484,7 +480,7 @@ function router($page, $conn) {
 }
 
   // Appeler la fonction de routage pour afficher la vue appropriée
-  
+
 
   router($page, $conn); // Passer $conn en paramètre
   if(!str_starts_with($page, "vue_popup")){
