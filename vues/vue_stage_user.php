@@ -122,13 +122,22 @@ if(($_GET["page"] == "stage_read" && $_SESSION['statut'] == "Professeur") || $_G
 
                         </div>
                       </div>
-                    </div></div>
+                    </div>
+                  </div>
 
-                  </body>
+                  <p class="title is-1">Stage <?= $stage->classe ?></strong></p>
+                  <p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
+                  <HR>
+                    <div class="box">
+                          <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: Jean Dupont</p>
+                          <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
+                          <p>Position: Développeur Web</p>
+                          <p>Durée:6 semaines (Janvier 2024 - fevrier 2024)</p>
+                          <HR>
+                          <p>Description:</p>
+                          <p>Jean travaille sur le développement de nouvelles fonctionnalités pour le site web de l'entreprise en utilisant des technologies modernes comme React et Node.js.</p>
+                    </div>
                   <?php
-
-
-
                   //}
 
                 }

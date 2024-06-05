@@ -23,6 +23,7 @@ if(isset($logs)): ?>
       <?php
       // Fetch user logs from the database
       // Loop through the logs and display them in the table
+      var_dump($logs);
       foreach ($logs as $log):
         ?>
         <tr>
