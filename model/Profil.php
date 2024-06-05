@@ -187,6 +187,32 @@ class Profil {
     }
   }
 
+  public function profil_update($id, $email, $telephone) {
+    $query = "UPDATE " . $this->table_name . " SET email=:email,
+    telephone=:telephone
+    WHERE id=:id";
+    // Préparez la requête
+    $stmt = $this->conn->prepare($query);
+    
+    $this->email=htmlspecialchars(strip_tags($email));
+    $this->telephone=htmlspecialchars(strip_tags($telephone));
+    $id = htmlspecialchars(strip_tags($id));
+
+    $stmt->bindParam(":id", $id);
+    $stmt->bindParam(":email", $email);
+    $stmt->bindParam(":telephone", $telephone);
+
+    // Exécutez la requête
+    if ($stmt->execute()) {
+      return true;
+
+    } else {
+      // Afficher les erreurs SQL en cas d'échec de l'exécution
+      echo "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+      return false; // Échec de la mise à jour
+    }
+  }
+
   public function import($nom, $prenom, $spe, $date_entree, $promo, $login, $password, $statut, $inactif, $password_reset) {
     $query = "INSERT INTO " . $this->table_name . "
     SET nom = :nom,

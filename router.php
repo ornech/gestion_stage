@@ -166,6 +166,32 @@ function router($page, $conn) {
       include 'vues/vue_profil_create_user.php';
       break;
 
+    case 'edit_profil':
+      route_protect('Professeur');
+      include_once 'model/Profil.php';
+      $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
+      $profilModel = new Profil($conn);
+
+      if($idProfil == null){
+        header("Location: router.php?page=erreur&title=Erreur&message=Une erreur est survenue lors de l'accès à la page.");
+      }
+      
+      $Profil = $profilModel->read_profil($idProfil);
+
+      if($Profil->statut == "Professeur"){
+        header("Location: router.php?page=erreur&title=Erreur&message=Vous ne pouvez pas modifier un profil de type professeur.");
+      }
+      
+      include 'vues/vue_profil_edit.php';
+      break;
+
+    case 'edit_my_profil':
+      include_once 'model/Profil.php';
+      $profilModel = new Profil($conn);
+      $Profil = $profilModel->read_my_profil();
+      include 'vues/vue_profil_edit.php';
+      break;
+
     case 'gestion_etu':
       route_protect('Professeur');
       include_once 'model/Profil.php';
