@@ -295,6 +295,14 @@ function router($page, $conn) {
       include 'vues/vue_stage_user.php';
       break;
 
+    case 'stage_etu':
+      include_once 'model/Stage.php';
+      $idEtudiant = $_SESSION["userID"];
+      $stageModel = new Stage($conn);
+      $stage = $stageModel->readFromEtudiantId($idEtudiant);
+      include 'vues/vue_stage_mes_stage.php';
+      break;
+
     case 'stage_edit':
       include_once 'model/Stage.php';
       include_once 'model/Contact.php';
