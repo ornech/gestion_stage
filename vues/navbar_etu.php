@@ -18,7 +18,7 @@ require_once 'config/auth.php';
         <a class="navbar-link"><i class='far fa-calendar-alt'>&nbsp;</i>Stages</a>
         <div class="navbar-dropdown">
           <a class="navbar-item" href="router.php?page=stage_consignes"><i class="fa fa-bullhorn"></i> &nbsp; Consignes</a>
-          <a class="navbar-item" href="router.php?page=profil_stage"><i class="fa fa fa-cubes"></i> &nbsp; Mes stages</a>
+          <a class="navbar-item" href="router.php?page=stage_etu"><i class="fa fa fa-cubes"></i> &nbsp; Mes stages</a>
         </div>
       </div>
 
