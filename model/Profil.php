@@ -38,6 +38,13 @@ class Profil {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
+  public function list_classes(){
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe='SIO1' OR classe='SIO2'";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
  public function list_by_professeur() {
     $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Professeur'";
     $stmt = $this->conn->prepare($sql);
