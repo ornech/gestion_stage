@@ -2,6 +2,8 @@
 // Initialiser la session
 session_start();
 
+$table_name = "user";
+
 // Vérifier si l'utilisateur est connecté, sinon le rediriger vers la page de connexion
 //if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 //    header('Location: login.php');
@@ -43,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($new_password_err) && empty($confirm_password_err)) {
         try {
             // Préparer une instruction de mise à jour
-            $sql = "UPDATE User SET password = :password , password_reset = '0' WHERE id = :id";
+            $sql = "UPDATE $table_name SET password = :password , password_reset = '0' WHERE id = :id";
 
             $stmt = $conn->prepare($sql);
 
