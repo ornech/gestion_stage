@@ -3,22 +3,16 @@ require_once 'config/auth.php';
 
 //ajouter session id =:id
 if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
-  
 
-  // Vérifier si les détails du profil sont disponibles
+// Vérifier si les détails du profil sont disponibles
   $stage = $stage["0"];
   if (isset($stage)) {
     if (isset($Profil)) {
 
-      if (($_SESSION['statut'] == "Professeur") || ($_SESSION['statut'] == "Etudiant")&& $idUser==$stage->idEtudiant){
+      if (($_SESSION['statut'] == "Professeur") || ($_SESSION['statut'] == "Etudiant")&& $idUser == $_SESSION["userID"]){
 ?>
 
 <!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->
-<style>
-
-</style>
-
-<body>
 
 <?php
 setlocale(LC_TIME, 'fr_FR.UTF-8');  //pour l'affichange de mois en francais
@@ -27,11 +21,10 @@ $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter
 $dateDebut = new DateTime($stage->dateDebut);
 $dateFin = new DateTime($stage->dateFin);
 $difference = $dateDebut->diff($dateFin); // (dateFin - dateDebut) -> difference en jour
-$semaines = floor($difference->days / 7); // difference en jour divisé sur 7 
-$debutFormat = $fmt->format($dateDebut); //affichage les mois en lettre 
+$semaines = floor($difference->days / 7); // difference en jour divisé sur 7
+$debutFormat = $fmt->format($dateDebut); //affichage les mois en lettre
 $finFormat = $fmt->format($dateFin);
 $professeurs = $profilModel->list_by_professeur();
-
 
 ?>
 <!-- --------------- DEBUT NOUVELLE VUE ----------------------  -->
@@ -138,5 +131,5 @@ $professeurs = $profilModel->list_by_professeur();
 } else {
   header("Location: ../router.php?page=profil");
 }} //Fin de la vérification de si l'utilisateur est connecté en tant que prof
-//  
+//
   ?>
