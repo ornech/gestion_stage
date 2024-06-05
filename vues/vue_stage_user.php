@@ -9,7 +9,7 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
   if (isset($stage)) {
     if (isset($Profil)) {
 
-      if (($_SESSION['statut'] == "Professeur") || ($_SESSION['statut'] == "Etudiant")&& $idUser == $_SESSION["userID"]){
+      if (($_SESSION['statut'] == "Professeur") || ($_SESSION['statut'] == "Etudiant")&& $stage->idEtudiant == $_SESSION["userID"]){
 ?>
 
 <!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->
