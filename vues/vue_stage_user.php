@@ -2,7 +2,7 @@
 require_once 'config/auth.php';
 
 //ajouter session id =:id
-if(($_GET["page"] == "stage_read" && $_SESSION['statut'] == "Professeur") || $_GET["page"] == "stage") {
+if($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
 
 // Vérifier si les détails du profil sont disponibles
 $stage=$stage["0"];
@@ -39,110 +39,75 @@ if(isset($stage)) {
       </style>
 
       <body>
-        <h3 class="title is-4 has-text-centered green-line-bottom mb-4">Stage <?= $stage->classe ?>: <?= $stage->EtudiantNom ?> <?=$stage ->EtudiantPrenom?></h3>
 
-        <!-- ---------------LA PARTIE DE PROFIL D'ETUDIANT----------------------  -->
+<?php
+setlocale(LC_TIME, 'fr_FR.UTF-8');  //pour l'affichange de mois en francais
+$fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
 
-
-        <div class="container">
-          <div class="columns">
-            <div class="column is-one-third">
-              <div class="box">
-                <div class="card-content">
-                  <div class="content">
-                    <h4 class="title is-5 has-text-centered blue-line-bottom mb-4">Etudiant</h3>
-
-                      <p class="card-text">Nom: <strong><?= $stage->EtudiantNom ?></strong> </p>
-                      <p class="card-text">Prénom: <strong><?= $stage->EtudiantPrenom ?></strong> </p>
-                      <p class="card-text">Mail: <strong><?= $stage->EtudiantEmail ? $stage->EtudiantEmail : "-" ?></strong> </p>
-                      <p class="card-text">Téléphone: <strong><?= $stage->EtudiantTel ? $stage->EtudiantTel : "-" ?></strong> </p>
-                      <p class="card-text">Classe: <strong><?= $stage->classe ?></strong> </p>
-                      <p class="card-text">Spécialité: <strong><?= $stage->EtudiantSpe ? $stage->EtudiantSpe : "-"  ?></strong> </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <?php
-              ?>
-              <!-- ---------------LA PARTIE D'ENTREPRISE----------------------  -->
-
-              <div class="column is-one-third">
-                <div class="card-content">
-                  <div class="box"  style="display: flex; flex-direction: column; height: 100%;">
-                    <h4 class="title is-5 has-text-centered blue-line-bottom mb-4">Entreprise</h3>
-                      <?php
-
-
-
-                      ?>
-
-                      <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
-                      <p class="card-text">Siert: <strong><?= $stage->siret ?></strong> </p>
-                      <p class="card-text">Adresse: <BR>
-                        <?= $stage->Entreprise_adresse ?><BR>
-                        <?= $stage->Entreprise_codePostal ? $stage->Entreprise_codePostal  : "-" ?> <?= $stage->Entreprise_ville ? $stage->Entreprise_ville  : "-" ?>
-                      </p>
-                      <p class="card-text">Effectif: <strong><?=$stage->Entreprise_effectif ? $stage->Entreprise_effectif  : "-" ?></strong> </p>
-                      <p class="card-text">Type: <strong><?=$stage->Entreprise_naf ? $stage->Entreprise_naf  : "-" ?></strong> </p>
-
-
-                      <?php
-
-
-                    }
-                    else{
-                      echo "Erreur";
-                    }
-                    ?>
-                  </div>
-                </div></div>
-
-                <!-- ---------------LA PARTIE DE CONTACT----------------------  -->
-
-                <div class="column is-one-third">
-                  <div class="card-content">
-                    <div class="box"  style="display: flex; flex-direction: column; height: 100%;">
-                      <h4 class="title is-5 has-text-centered blue-line-bottom mb-4">Contact</h3>
-
-                        <p class="card-text">Maître de stage: <strong><a href="../router.php?page=Contact_fiche&idContact=<?=
-                        $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></strong> </p>
-                        <p class="card-text">Fonction: <strong><?= $stage->employe_fonction ?></strong> </p>
-                        <p class="card-text">Mail: <strong><?= $stage->employe_mail ?></strong> </p>
-                        <p class="card-text">Téléphone: <strong><?= $stage->employe_telephone ?></strong> </p>
-                        <br>
-                        <h4 class="title is-5 has-text-centered yellow-line-bottom mb-4">Details de stage</h3>
-                          <p class="card-text">Debut:  <strong><?= $stage->dateDebut ?></strong> </p>
-                          <p class="card-text">Fin:  <strong><?= $stage->dateFin ?></strong> </p>
-                          <p class="card-text">Professeur assigné: <strong></strong> </p>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-<!-- --------------- FIN ANCIENNE VUE ----------------------  -->
-
-
+$dateDebut = new DateTime($stage->dateDebut);
+$dateFin = new DateTime($stage->dateFin );
+$difference = $dateDebut->diff($dateFin); // (dateFin - dateDebut) -> difference en jour
+$semaines = floor($difference->days / 7); // difference en jour divisé sur 7 
+$debutFormat = $fmt->format($dateDebut); //affichage les mois en lettre 
+$finFormat = $fmt->format($dateFin);
+function checkIsComplete($profilToCheck)
+{
+  if (isset($profilToCheck->idProfesseur) == true && isset($profilToCheck->dateDebut) == true && isset($profilToCheck->dateFin) == true) {
+    return "complet";
+  } else if (isset($profilToCheck->idProfesseur) == false || isset($profilToCheck->dateDebut) == false || isset($profilToCheck->dateFin) == false) {
+    return "incomplet";
+  }
+  return "pas-de-stage";
+}
+?>
 <!-- --------------- DEBUT NOUVELLE VUE ----------------------  -->
 
-<p class="title is-1">Stage <?= $stage->classe ?></strong></p>
-<p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
-<HR>
+<h1 class="title is-1">
+  <div class="columns is-vcentered">
+    <div class="column">
+      <p class="title is-1">Stage <?= $stage->classe ?></p>
+    </div>
+    <div class="column is-narrow">
+      <p class="subtitle is-3 has-text-centered"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
+    </div>
+    <div class="column"></div>
+  </div>
+</h1><HR>
   <div class="box">
-        <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: Jean Dupont</p>
+        <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: &nbsp;<a href = '../router.php?page=view_profil&id=<?= 
+        $stage->idEtudiant ?>'><?=$stage->EtudiantNom ." ". $stage->EtudiantPrenom ?></a></p>
         <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
-        <p>Position: Développeur Web</p>
-        <p>Durée:6 semaines (Janvier 2024 - fevrier 2024)</p>
+        <p>Position: A MODIFIER         </p>
+        <p>Durée de stage: <strong><?= $semaines?> semaines (<?=$debutFormat . " - " . $finFormat ?> )</strong></p>
+        <p class="card-text" href = '../router.php?page=view_profil&id=<?= 
+        $stage->idProfesseur ?>'>Professeur assigné: </p>
+
+        <HR>
+        <p class="card-text">Maître de stage: <strong><a href="../router.php?page=Contact_fiche&idContact=<?=
+          $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></strong> </p>
+        <p class="card-text">Fonction: <strong><?= $stage->employe_fonction ?></strong> </p>
+        <p class="card-text">Mail: <strong><?= $stage->employe_mail ?></strong> </p>
+        <p class="card-text">Téléphone: <strong><?= $stage->employe_telephone ?></strong> </p>
+       
         <HR>
         <p>Description:</p>
-        <p>Jean travaille sur le développement de nouvelles fonctionnalités pour le site web de l'entreprise en utilisant des technologies modernes comme React et Node.js.</p>
+        <p><?= $stage->description?></p>
   </div>
 
 <!-- --------------- FIN NOUVELLE VUE ----------------------  -->
-
+<script>
+  document.querySelectorAll('div.changeProf').forEach(function(div) {
+    var select = div.querySelector('select');
+    select.addEventListener('change', function() {
+      if (div.querySelector('.stageId').value !== "") {
+        this.form.submit();
+      }
+    });
+  });
+</script>
 
 <?php
-    }
+    }}
     else {
     // Si aucun profil n'a été trouvée, afficher un message d'erreur
     echo "<p>Aucun profil trouvé avec ce lien.</p>";
