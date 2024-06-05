@@ -27,7 +27,6 @@ require_once 'config/auth.php';
 
   //impression de la variable $maitreDeStages dans une variable javascript
   echo "<script> const maitreDeStages = ".json_encode($maitreDeStages)."; </script>";
-
 ?>
 
 <div class="container">
@@ -36,6 +35,7 @@ require_once 'config/auth.php';
       <h1 class="title is-2 has-text-centered">Modification un stage de <?= $Stage->EtudiantNom . " ". $Stage->EtudiantPrenom?></h1>
 
       <form action="/controller/stage_edit.php" method="post">
+        <input type="hidden" id="idStage" name="idStage" value="<?= $Stage->idStage?>">
         <input type="hidden" id="idEtudiant" name="idEtudiant" value="<?= $Stage->idEtudiant?>">
         <input type="hidden" id="idEntreprise" name="idEntreprise" value="<?= $Stage->idEntreprise?>">
         <input type="hidden" id="idMaitreDeStage" name="idMaitreDeStage" value="<?= $Stage->idMaitreDeStage?>">
