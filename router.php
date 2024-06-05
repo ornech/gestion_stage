@@ -271,7 +271,7 @@ function router($page, $conn) {
 
     case 'stage_etu':
       include_once 'model/Stage.php';
-      $idEtudiant = isset($_GET['idEtudiant']) ? $_GET['idEtudiant'] : null;
+      $idEtudiant = $_SESSION["userID"];
       $stageModel = new Stage($conn);
       $stage = $stageModel->readFromEtudiantId($idEtudiant);
       include 'vues/vue_stage_mes_stage.php';
