@@ -112,25 +112,24 @@ class Stage {
     }
   }
 
-  public function edit_stage($idEtudiant, $idEntreprise, $idMaitreDeStage, $dateDebut, $duree){
+  public function edit_stage($idStage, $idEntreprise, $idMaitreDeStage, $dateDebut, $duree){
     $query = "UPDATE " . $this->table_name . " SET idEntreprise=:idEntreprise ,
     idMaitreDeStage=:idMaitreDeStage ,
     dateDebut=:dateDebut ,
     dateFin=DATE_ADD(:dateDebut, INTERVAL :duree WEEK)
-    WHERE idEtudiant=:idEtudiant";
+    WHERE id=:idStage";
 
     $stmt = $this->conn->prepare($query);
     $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
     $this->idMaitreDeStage=htmlspecialchars(strip_tags($idMaitreDeStage));
     $this->dateDebut=htmlspecialchars(strip_tags($dateDebut));
     $this->duree=htmlspecialchars(strip_tags($duree));
-    $this->idEtudiant=htmlspecialchars(strip_tags($idEtudiant));
 
     $stmt->bindParam(":idEntreprise", $this->idEntreprise);
     $stmt->bindParam(":idMaitreDeStage", $this->idMaitreDeStage);
     $stmt->bindParam(":dateDebut", $this->dateDebut);
     $stmt->bindParam(":duree", $this->duree);
-    $stmt->bindParam(":idEtudiant", $idEtudiant);
+    $stmt->bindParam(":idStage", $idStage);
 
     try {
       if($stmt->execute()){

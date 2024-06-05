@@ -1,4 +1,5 @@
 <?php
+ob_start();
 // Démarrer la session en premier
 // A du être supprimer sur windows ?
 // session_start();
@@ -263,7 +264,7 @@ function router($page, $conn) {
       $idEtudiant = isset($_GET['idEtudiant']) ? $_GET['idEtudiant'] : null;
       $stageModel = new Stage($conn);
       $profilModel = new Profil($conn);
-      $Profil = $profilModel->  list_by_professeur($idEtudiant);
+      $Profil = $profilModel->list_by_professeur($idEtudiant);
       $stage = $stageModel->stage_by_id($idStage);
       include 'vues/vue_stage_user.php';
       break;
@@ -380,7 +381,7 @@ function router($page, $conn) {
       include_once 'model/Profil.php';
 
       $profilModel = new Profil($conn);
-      $profils = $profilModel->list_profil();
+      $profils = $profilModel->list_classes();
 
       include 'vues/popups/vue_popup_select.php';
       break;
@@ -465,4 +466,5 @@ function router($page, $conn) {
     include 'vues/footer.php';
   }
 
+ob_end_flush();
 ?>

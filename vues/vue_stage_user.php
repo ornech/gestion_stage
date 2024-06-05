@@ -4,12 +4,12 @@ require_once 'config/auth.php';
 //ajouter session id =:id
 if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
 
-// Vérifier si les détails du profil sont disponibles
+  // Vérifier si les détails du profil sont disponibles
   $stage = $stage["0"];
   if (isset($stage)) {
     if (isset($Profil)) {
 
-      if (($_SESSION['statut'] == "Professeur") || ($_SESSION['statut'] == "Etudiant")&& $stage->idEtudiant == $_SESSION["userID"]){
+      if (($_SESSION['statut'] == "Professeur") || ($_SESSION['statut'] == "Etudiant") && $idUser == $_SESSION["userID"]){
 ?>
 
 <!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->

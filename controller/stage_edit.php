@@ -10,11 +10,11 @@ require_once '../config/auth.php';
 require_once '../config/db_connection.php';
 
 // Vérifie si le formulaire a été soumis
-if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"]) && isset($_POST["idEtudiant"])){
+if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"]) && isset($_POST["idStage"])){
   require_once '../controller/controller_log.php';
 
   // Récupération des données du formulaire
-  $idEtudiant = $_POST['idEtudiant'];
+  $idStage = $_POST['idStage'];
   $idEntreprise = $_POST['idEntreprise'];
   $idMaitreDeStage = $_POST['idMaitreDeStage'];
   $classe = $_POST['classe'];
@@ -24,14 +24,14 @@ if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"]) && isset($_
   // Création d'une instance de l'objet Stage
   $stage = new Stage($conn);
 
-  //$oldValues = $stage->stage_by_id(ID_STAGE_A_METTRE)[0];
+  $oldValues = $stage->stage_by_id($idStage)[0];
 
   // Appel de la méthode  de l'objet Stage
-  if ($stage->edit_stage($idEtudiant,$idEntreprise,$idMaitreDeStage,$dateDebut,$duree)) {
+  if ($stage->edit_stage($idStage,$idEntreprise,$idMaitreDeStage,$dateDebut,$duree)) {
 
-    //$newValues = $stage->stage_by_id(ID_STAGE_A_METTRE)[0];
+    $newValues = $stage->stage_by_id($idStage)[0];
 
-    //addLog($conn, 11, $_SESSION["userID"], "stage", ID_STAGE_A_METTRE, $oldValues, $newValues);
+    addLog($conn, 11, $_SESSION["userID"], "stage", $idStage, $oldValues, $newValues);
 
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     if($classe == "SIO1"){

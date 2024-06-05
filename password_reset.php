@@ -2,6 +2,8 @@
 // Initialiser la session
 session_start();
 
+$table_name = "user";
+
 // Vérifier si l'utilisateur est connecté, sinon le rediriger vers la page de connexion
 //if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 //    header('Location: login.php');
@@ -43,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($new_password_err) && empty($confirm_password_err)) {
         try {
             // Préparer une instruction de mise à jour
-            $sql = "UPDATE User SET password = :password , password_reset = '0' WHERE id = :id";
+            $sql = "UPDATE $table_name SET password = :password , password_reset = '0' WHERE id = :id";
 
             $stmt = $conn->prepare($sql);
 
@@ -90,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="js/theme.js"></script>
 
     <title>Application gestion stage</title>
 </head>
@@ -123,18 +126,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </span>
                 </div>
             </div>
+            
 
-            <?php if(isset($new_password_err) || isset($confirm_password_err)) : ?>
-            <div class="field">
+            <?php if($new_password_err != ""):?>
+              <div class="field">
                 <div class="notification is-danger">
-                    <?=
-                        $new_password_err != "" && $confirm_password_err != "" ? $new_password_err . "<br>" . $confirm_password_err : 
-                        ($new_password_err != "" ? $new_password_err :
-                        ($confirm_password_err != "" ? $confirm_password_err : 'Erreur'));
-                    ?>
-                    
+                  <p>Erreur : <?=$new_password_err?></p>
                 </div>
-            </div>
+              </div>
+            <?php elseif($confirm_password_err != ""):?>
+              <div class="field">
+                <div class="notification is-danger">
+                  <p>Erreur : <?=$confirm_password_err?></p>
+                </div>
+              </div>
             <?php endif; ?>
 
             <div class="field">
