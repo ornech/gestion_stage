@@ -178,7 +178,7 @@ function router($page, $conn) {
       
       $Profil = $profilModel->read_profil($idProfil);
 
-      if($Profil->statut == "Professeur"){
+      if($Profil->statut == "Professeur" && $idProfil != $_SESSION["userID"]){
         header("Location: router.php?page=erreur&title=Erreur&message=Vous ne pouvez pas modifier un profil de type professeur.");
       }
       
