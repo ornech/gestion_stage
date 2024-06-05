@@ -83,7 +83,7 @@ $professeurs = $profilModel->list_by_professeur();
               <?php endforeach; ?>
             <?php endif; ?>
           </select>
-
+          </div>
       </form>
     <?php else : ?>
       <?php foreach ($professeurs as $professeur){
