@@ -3,11 +3,14 @@ require_once 'config/auth.php';
 
 //ajouter session id =:id
 if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
+  
 
   // Vérifier si les détails du profil sont disponibles
   $stage = $stage["0"];
   if (isset($stage)) {
     if (isset($Profil)) {
+
+      if (($_SESSION['statut'] == "Professeur") ){
 ?>
 
 <!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->
@@ -40,20 +43,14 @@ $professeurs = $profilModel->list_by_professeur();
     <p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
   </div>
   <div class="column is-narrow">
-    <?php if ($_SESSION['statut'] == "Professeur" || $_SESSION['id'] == $stage->idEtudiant) : ?>
-      <div class="buttons are-small is-flex-direction-column"> 
-        <?php if (isset($stage->idStage)) : ?>
-          <div> 
-            <button class="button is-medium" onclick="window.open('router.php?page=stage_convention&idStage=<?= $stage->idStage ?>')">Récupérer la convention</button>
-          </div>
-        <?php endif; ?>
-        <?php if (isset($stage)) : ?>
-          <div>
-            <button class="button is-primary is-medium" onclick="window.open('router.php?page=stage_edit&idStage=<?= $stage->idStage ?>')">Modifier les détails</button>
-          </div>
-        <?php endif; ?>
+    <div class="buttons are-small is-flex-direction-column">
+      <div>
+        <button class="button is-medium" onclick="window.open('router.php?page=stage_convention&idStage=<?= $stage->idStage ?>')">Récupérer la convention</button>
       </div>
-    <?php endif; ?>
+      <div>
+        <button class="button is-medium" onclick="window.open('router.php?page=stage_edit&idStage=<?= $stage->idStage ?>')">Modifier les détails</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -89,7 +86,15 @@ $professeurs = $profilModel->list_by_professeur();
 
       </form>
     <?php else : ?>
-  <?php isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id ?>
+      <?php foreach ($professeurs as $professeur){
+      if (isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id){
+            ?>
+                 <p> <?= "$professeur->nom $professeur->prenom" ?> </p>
+
+
+    <?php        }
+      }
+       ?>
   <?= "$professeur->nom $professeur->prenom" ?>
     <?php endif; ?>
   </div>
@@ -132,6 +137,6 @@ $professeurs = $profilModel->list_by_professeur();
   }
 } else {
   header("Location: ../router.php?page=profil");
-} //Fin de la vérification de si l'utilisateur est connecté en tant que prof
+}} //Fin de la vérification de si l'utilisateur est connecté en tant que prof
 //  
   ?>
