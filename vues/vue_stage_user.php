@@ -11,32 +11,9 @@ if(isset($stage)) {
       ?>
 
 <!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->
+<style>
 
-      <style>
-      .card {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .card-content {
-        text-align: center;
-      }
-
-      .blue-line-bottom {
-        border-bottom: 2px solid #00d1b2;
-        padding-bottom: 0.5rem;
-      }
-      .green-line-bottom {
-        border-bottom: 2px solid #23d160;
-        padding-bottom: 0.5rem;
-      }
-
-      .yellow-line-bottom {
-        border-bottom: 2px solid #ffdd57;
-        padding-bottom: 0.5rem;
-      }
-      </style>
+</style>
 
       <body>
 
@@ -50,37 +27,57 @@ $difference = $dateDebut->diff($dateFin); // (dateFin - dateDebut) -> difference
 $semaines = floor($difference->days / 7); // difference en jour divisé sur 7 
 $debutFormat = $fmt->format($dateDebut); //affichage les mois en lettre 
 $finFormat = $fmt->format($dateFin);
-function checkIsComplete($profilToCheck)
-{
-  if (isset($profilToCheck->idProfesseur) == true && isset($profilToCheck->dateDebut) == true && isset($profilToCheck->dateFin) == true) {
-    return "complet";
-  } else if (isset($profilToCheck->idProfesseur) == false || isset($profilToCheck->dateDebut) == false || isset($profilToCheck->dateFin) == false) {
-    return "incomplet";
-  }
-  return "pas-de-stage";
-}
+$professeurs = $profilModel->list_by_professeur();
+// function checkIsComplete($profilToCheck)
+// {
+//   if (isset($profilToCheck->idProfesseur) == true && isset($profilToCheck->dateDebut) == true && isset($profilToCheck->dateFin) == true) {
+//     return "complet";
+//   } else if (isset($profilToCheck->idProfesseur) == false || isset($profilToCheck->dateDebut) == false || isset($profilToCheck->dateFin) == false) {
+//     return "incomplet";
+//   }
+//   return "pas-de-stage";
+// }
 ?>
 <!-- --------------- DEBUT NOUVELLE VUE ----------------------  -->
 
-<h1 class="title is-1">
-  <div class="columns is-vcentered">
-    <div class="column">
+
       <p class="title is-1">Stage <?= $stage->classe ?></p>
-    </div>
-    <div class="column is-narrow">
-      <p class="subtitle is-3 has-text-centered"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
-    </div>
-    <div class="column"></div>
-  </div>
-</h1><HR>
+      <p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
+<HR>
   <div class="box">
         <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: &nbsp;<a href = '../router.php?page=view_profil&id=<?= 
         $stage->idEtudiant ?>'><?=$stage->EtudiantNom ." ". $stage->EtudiantPrenom ?></a></p>
         <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
         <p>Position: A MODIFIER         </p>
         <p>Durée de stage: <strong><?= $semaines?> semaines (<?=$debutFormat . " - " . $finFormat ?> )</strong></p>
-        <p class="card-text" href = '../router.php?page=view_profil&id=<?= 
-        $stage->idProfesseur ?>'>Professeur assigné: </p>
+        <div style="display: flex; align-items: center;">
+  <p class="card-text" style="margin-right: 10px;">Professeur assigné: </p>
+  <?php if ($_SESSION['statut'] == "Professeur" ): ?>
+    <form method="post" action="">
+      <div class="select">
+      <input type="hidden" name="Stage" class="stageId" value="<?= isset($stage->idStage) ? $stage->idStage : "" ?>">
+      <select name="Professeur" class="Professeur select is-small">
+        <?php if (isset($stage->idProfesseur)): ?>
+          <?php foreach ($professeurs as $professeur): ?>
+            <option value="<?= $professeur->id ?>" <?= isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id ? "selected" : "" ?>>
+              <?= "$professeur->nom $professeur->prenom" ?>
+            </option>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <option value="">Aucun professeur assigné</option>
+          <?php foreach ($professeurs as $professeur): ?>
+            <option value="<?= $professeur->id ?>">
+              <?= "$professeur->nom $professeur->prenom" ?>
+            </option>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </select>
+    </form>
+  <?php else: ?>
+    -
+  <?php endif; ?>
+</div></div>
+
 
         <HR>
         <p class="card-text">Maître de stage: <strong><a href="../router.php?page=Contact_fiche&idContact=<?=
@@ -94,7 +91,7 @@ function checkIsComplete($profilToCheck)
         <p><?= $stage->description?></p>
   </div>
 
-<!-- --------------- FIN NOUVELLE VUE ----------------------  -->
+
 <script>
   document.querySelectorAll('div.changeProf').forEach(function(div) {
     var select = div.querySelector('select');
@@ -106,6 +103,11 @@ function checkIsComplete($profilToCheck)
   });
 </script>
 
+<td style="vertical-align: middle;"><?php if (isset($profilStage->idStage)) : ?><button class="button is-small" onclick="window.open('router.php?page=stage_convention&idStage=<?= $profilStage->idStage ?>')">Récupérer</button><?php endif; ?></td>
+<td style="vertical-align: middle;"><?php if (isset($profilStage)) : ?><button class="button is-small is-primary" onclick="window.open('router.php?page=stage_edit&idStage=<?= $profilStage->idStage ?>')">Modifier</button><?php endif; ?></td>
+<!-- --------------- FIN NOUVELLE VUE ----------------------  -->
+
+
 <?php
     }}
     else {
@@ -116,4 +118,5 @@ function checkIsComplete($profilToCheck)
 else{
   header("Location: ../router.php?page=profil");
   }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
+  //  || $_SESSION['id'] == $stage->idEtudiant
 ?>
