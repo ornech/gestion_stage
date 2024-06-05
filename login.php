@@ -45,33 +45,38 @@
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        $error_message = "";
+
         // Vérifier si un utilisateur correspondant a été trouvé
         if ($user) {
-        }
-        // Vérifier si le mot de passe correspond
-        //if ($login == $user['login'] && $user['inactif'] == 0) {
-        if (password_verify($password, $user['password']) && $login == $user['login'] && $user['inactif'] == 0) {
-          // Authentification réussie, créer une session utilisateur
-          $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
-          $_SESSION['statut'] = $user['statut']; // Stocker le statut dans la session
-          $_SESSION['utilisateur'] = $user['nom'] . " " . $user['prenom'];
-          $_SESSION['userID'] = $user['id'];
 
-          if ($user['password_reset'] == 1) {
-            // TODO : A compléter
-            header("Location: password_reset.php?login=" . $user['id'] . "");
-          } else {
-            // Rediriger l'utilisateur vers une page sécurisée ou la page d'accueil
-            header("Location: index.php");
-            exit;
+          // Vérifier si le mot de passe correspond
+          //if ($login == $user['login'] && $user['inactif'] == 0) {
+          if (password_verify($password, $user['password']) && $login == $user['login'] && $user['inactif'] == 0) {
+            // Authentification réussie, créer une session utilisateur
+            $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
+            $_SESSION['statut'] = $user['statut']; // Stocker le statut dans la session
+            $_SESSION['utilisateur'] = $user['nom'] . " " . $user['prenom'];
+            $_SESSION['userID'] = $user['id'];
+
+            if ($user['password_reset'] == 1) {
+              // TODO : A compléter
+              header("Location: password_reset.php?login=" . $user['id'] . "");
+            } else {
+              // Rediriger l'utilisateur vers une page sécurisée ou la page d'accueil
+              header("Location: index.php");
+              exit;
+            }
           }
-        }
 
-        if ($user['inactif'] == 1) {
-          $error_message = "Ce compte est désactivé, veuillez compter un administrateur pour dévérrouiller ce compte.";
-          exit;
-        } else {
-          // Mot de passe incorrect, afficher un message d'erreur
+          if ($user['inactif'] == 1) {
+            $error_message = "Ce compte est désactivé, veuillez compter un administrateur pour dévérrouiller ce compte.";
+            exit;
+          } else {
+            // Mot de passe incorrect, afficher un message d'erreur
+            $error_message = "Nom d'utilisateur ou mot de passe incorrect.";
+          }
+        }else{
           $error_message = "Nom d'utilisateur ou mot de passe incorrect.";
         }
       } catch (PDOException $e) {
@@ -132,7 +137,7 @@
 
 
           <fieldset>
-            <?php if (isset($error_message)) : ?>
+            <?php if ($error_message != "") : ?>
               <div class="field">
                 <div class="notification is-danger">
                   <?php echo $error_message; ?>
@@ -141,7 +146,7 @@
             <?php endif; ?>
             <BR>
 
-            <!--   <legend class="">Connexion</legend> -->
+            <!--<legend class="">Connexion</legend> -->
 
 
             <div class="field">
