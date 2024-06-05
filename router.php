@@ -266,7 +266,7 @@ function router($page, $conn) {
       $stageModel = new Stage($conn);
       $profilModel = new Profil($conn);
 
-      $Profil = $profilModel->  list_by_professeur($idEtudiant);
+      $Profil = $profilModel->list_by_professeur($idEtudiant);
       $stage = $stageModel->stage_by_id($idStage);
 
       include 'vues/vue_stage_user.php';

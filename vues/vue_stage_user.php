@@ -12,10 +12,6 @@ if(($_GET["page"] == "stage_read" && $_SESSION['statut'] == "Professeur") || $_G
     //if ($statut=='Etudiant'){
     // Afficher les détails du profi
 
-    if(isset($Profil)){
-
-
-
       ?>
       <style>
       .card {
@@ -90,15 +86,6 @@ if(($_GET["page"] == "stage_read" && $_SESSION['statut'] == "Professeur") || $_G
                       <p class="card-text">Effectif: <strong><?=$stage->Entreprise_effectif ? $stage->Entreprise_effectif  : "-" ?></strong> </p>
                       <p class="card-text">Type: <strong><?=$stage->Entreprise_naf ? $stage->Entreprise_naf  : "-" ?></strong> </p>
 
-
-                      <?php
-
-
-                    }
-                    else{
-                      echo "Erreur";
-                    }
-                    ?>
                   </div>
                 </div></div>
 
