@@ -6,9 +6,9 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
 
   // Vérifier si les détails du profil sont disponibles
   if (isset($stage)) {
-    if (($_SESSION['statut'] == "Etudiant" && $idUser == $_SESSION["userID"]){
+    if ($_SESSION['statut'] == "Etudiant" && $idUser == $_SESSION["userID"]) {
 
-      var_dump($stage)
+      var_dump($stage);
 ?>
 
 <!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->
