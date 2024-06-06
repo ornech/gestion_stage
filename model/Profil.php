@@ -2,6 +2,7 @@
 class Profil {
   private $conn;
   private $table_name = "user";
+  private $vue_logs = "vue_logs";
   //private $vue_name = "";
   public $idEtudiant;
   public $nom;
@@ -268,12 +269,20 @@ class Profil {
     }
   }
 
-private function debugQuery($query, $params) {
-    foreach ($params as $key => $value) {
-        $query = str_replace($key, "'" . addslashes($value) . "'", $query);
-    }
-    return $query;
-}
+  public function getPointByUser($id){
+    $query = "SELECT count(pointGagne) as `points` FROM $this->vue_logs INNER JOIN $this->table_name ON idUser=id WHERE idUser=:id GROUP BY idUser;";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+
+  private function debugQuery($query, $params) {
+      foreach ($params as $key => $value) {
+          $query = str_replace($key, "'" . addslashes($value) . "'", $query);
+      }
+      return $query;
+  }
 
 }
 ?>
