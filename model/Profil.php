@@ -25,14 +25,14 @@ class Profil {
   // Méthodes CRUD à implémenter
 
   public function list_by_etudiant() {
-    $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Etudiant'";
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Etudiant' AND isDeleted = 0";
     $stmt = $this->conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
   public function list_by_classe($classe){
-    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe=:classe";
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe=:classe AND isDeleted = 0";
     $stmt = $this->conn->prepare($sql);
     $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
     $stmt->execute();
@@ -40,14 +40,14 @@ class Profil {
   }
 
   public function list_classes(){
-    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe='SIO1' OR classe='SIO2'";
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe='SIO1' OR classe='SIO2' AND isDeleted = 0";
     $stmt = $this->conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
  public function list_by_professeur() {
-    $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Professeur'";
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Professeur' AND isDeleted = 0";
     $stmt = $this->conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -55,7 +55,7 @@ class Profil {
 
   public function read_my_profil() {
     $idProfil = $_SESSION['userID'];
-    $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idProfil";
+    $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idProfil AND isDeleted = 0";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idProfil', $idProfil, PDO::PARAM_INT);
     $stmt->execute();
@@ -64,7 +64,7 @@ class Profil {
   }
 
   public function read_profil($idProfil) {
-    $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idProfil";
+    $query = "SELECT * FROM " . $this->table_name . " WHERE id = :idProfil AND isDeleted = 0";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idProfil', $idProfil, PDO::PARAM_INT);
     $stmt->execute();
@@ -73,7 +73,7 @@ class Profil {
   }
 
   public function list_profil(){
-    $query = "SELECT * FROM " . $this->table_name  . " WHERE statut='Professeur' OR (statut='Etudiant' AND date_entree IS NOT NULL) ";
+    $query = "SELECT * FROM " . $this->table_name  . " WHERE statut='Professeur' OR (statut='Etudiant' AND date_entree IS NOT NULL) AND isDeleted = 0";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -139,7 +139,7 @@ class Profil {
 
     $new_password = password_hash("achanger", PASSWORD_DEFAULT);
     // Requête SQL pour mettre à jour la colonne password et password_reset
-    $query = "UPDATE " . $this->table_name . " SET password = :password, password_reset = 1 WHERE id = :idProfil";
+    $query = "UPDATE " . $this->table_name . " SET password = :password, password_reset = 1 WHERE id = :idProfil AND isDeleted = 0";
     // Préparez la requête
     $stmt = $this->conn->prepare($query);
     // Liaison des paramètres
@@ -157,7 +157,7 @@ class Profil {
   }
 
   public function profil_disable($idProfil){
-    $query = "UPDATE " . $this->table_name . " SET inactif=1  WHERE id = :idProfil";
+    $query = "UPDATE " . $this->table_name . " SET inactif=1  WHERE id = :idProfil  AND isDeleted = 0";
     // Préparez la requête
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(":idProfil", $idProfil);
@@ -172,7 +172,7 @@ class Profil {
   }
 
   public function profil_enable($idProfil){
-    $query = "UPDATE " . $this->table_name . " SET inactif=0  WHERE id = :idProfil";
+    $query = "UPDATE " . $this->table_name . " SET inactif=0  WHERE id = :idProfil AND isDeleted = 0";
     // Préparez la requête
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(":idProfil", $idProfil);
@@ -191,7 +191,7 @@ class Profil {
   public function profil_update($id, $email, $telephone) {
     $query = "UPDATE " . $this->table_name . " SET email=:email,
     telephone=:telephone
-    WHERE id=:id";
+    WHERE id=:id AND isDeleted = 0";
     // Préparez la requête
     $stmt = $this->conn->prepare($query);
     
@@ -270,11 +270,37 @@ class Profil {
   }
 
   public function getPointByUser($id){
-    $query = "SELECT count(pointGagne) as `points` FROM $this->vue_logs INNER JOIN $this->table_name ON idUser=id WHERE idUser=:id GROUP BY idUser;";
+    $query = "SELECT count(pointGagne) as `points` FROM $this->vue_logs INNER JOIN $this->table_name ON idUser=id WHERE idUser=:id AND isDeleted = 0 GROUP BY idUser;";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+
+  public function deleteUser($id){
+    $query = "UPDATE " . $this->table_name . " SET nom = 'ANONYMOUS',
+    prenom = 'Anonymous',
+    email = NULL,
+    date_entree = NULL,
+    telephone = NULL,
+    spe = NULL,
+    classe = NULL,
+    promo = NULL,
+    login = NULL,
+    password = NULL,
+    password_reset = 0,
+    statut = NULL,
+    inactif = 1,
+    dateFirstConn = NULL,    
+    isDeleted = 1 
+    WHERE id=:id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    if($stmt->execute()){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private function debugQuery($query, $params) {

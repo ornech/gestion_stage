@@ -43,7 +43,7 @@
 
       try {
         // Préparer la requête SQL pour récupérer l'utilisateur avec le nom d'utilisateur (login) fourni
-        $stmt = $conn->prepare("SELECT * FROM $table_name WHERE login = :login");
+        $stmt = $conn->prepare("SELECT * FROM $table_name WHERE login = :login AND isDeleted = 0");
         $stmt->bindParam(':login', $login);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);

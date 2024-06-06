@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($new_password_err) && empty($confirm_password_err)) {
         try {
             // Préparer une instruction de mise à jour
-            $sql = "UPDATE $table_name SET password = :password , password_reset = '0' WHERE id = :id";
+            $sql = "UPDATE $table_name SET password = :password , password_reset = '0' WHERE id = :id AND isDeleted = 0";
 
             $stmt = $conn->prepare($sql);
 
