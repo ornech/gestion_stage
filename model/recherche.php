@@ -179,19 +179,22 @@ class Recherche {
         die('Erreur lors du décodage de la réponse JSON.');
       }
       // Initialiser le résultat de la recherche
-      $result .= '<table id="maTable" class="table table-striped" border="1">
+      $result .= '
+      <div class="box">
+      <table id="maTable" class="table table-striped table-hover tableFilter">
       <tr>
-      <th style="width: 20%;" onclick="sortTable(1)"> <i class="fas fa-sort"></i>&nbsp; Nom</th>
-      <th style="width: 30%;">Adresse</th>
-      <th onclick="sortTable(2)"><i class="fas fa-sort"></i>&nbsp;CP</th>
-      <th onclick="sortTable(3)"><i class="fas fa-sort"></i>&nbsp;Ville</th>
-      <th onclick="sortTable(4)"><i class="fas fa-sort"></i>&nbsp;Cat</th>
+      <th class="lineFilter" name="Nom" style="width: 20%;" onclick="sortTable(1)"></th>
+      <th  class="lineFilter" name="Adresse" style="width: 30%;"></th>
+      <th class="lineFilter" name="CP" onclick="sortTable(2)"></th>
+      <th class="lineFilter" name="Ville" onclick="sortTable(3)"></th>
+      <th class="lineFilter" name="Catégorie" onclick="sortTable(4)"></th>
       <! -- <th>SIRET</th> -->
       <!-- <th>Activité</th> -->
       <!-- <th>Création</th> -->
-      <th onclick="sortTable(5)"><i class="fas fa-sort"></i>&nbsp;Etat</th>
+      <th class="lineFilter" name="Etat" onclick="sortTable(5)"></th>
       <th>Détails</th>
-      </tr>';
+      </tr>
+      </div>';
 
       // Parcourir les établissements
       foreach ($data['etablissements'] as $etablissement) {
