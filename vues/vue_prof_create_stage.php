@@ -62,12 +62,13 @@ require_once 'config/auth.php';
                     var select = document.getElementById("nameMaitreDeStage");
                     select.innerHTML = "";
                     var idMaitreDeStage = document.getElementById("idMaitreDeStage").value;
-                    select.innerHTML = "";
+
                     for (const [key, value] of Object.entries(maitreDeStages)) {
                       if(value.id == $entrepriseId){
                         select.innerHTML += '<option value="' + key + '" ' + (key == idMaitreDeStage ? "selected" : "") + '>' + value.nom + " " + value.prenom + '</option>';
                       }
                     }
+                    idMDSchange(select);
                   }
 
                 </script>
@@ -211,7 +212,6 @@ require_once 'config/auth.php';
 
   function idMDSchange(select){
     document.getElementById("idMaitreDeStage").value = select.value;
-    checkForm();
   }
 
 </script>
