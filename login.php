@@ -32,6 +32,8 @@
     // Inclure le fichier de connexion à la base de données
     require_once 'config/db_connection.php';
 
+    $error_message = "";
+
     // Vérifier si le formulaire de connexion a été soumis
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // Récupérer les informations soumises par le formulaire
