@@ -24,6 +24,7 @@
 
 
     <?php
+    $table_name = "user";
     // Démarrer la session
     session_start();
 
@@ -40,7 +41,7 @@
 
       try {
         // Préparer la requête SQL pour récupérer l'utilisateur avec le nom d'utilisateur (login) fourni
-        $stmt = $conn->prepare("SELECT * FROM user WHERE login = :login");
+        $stmt = $conn->prepare("SELECT * FROM $table_name WHERE login = :login");
         $stmt->bindParam(':login', $login);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -63,6 +64,12 @@
               // TODO : A compléter
               header("Location: password_reset.php?login=" . $user['id'] . "");
             } else {
+
+              $stmt = $conn->prepare("UPDATE $table_name SET dateFirstConn = NOW() WHERE id=:id and dateFirstConn IS NULL");
+              $stmt->bindParam(':id', $user['id']);
+              $stmt->execute();
+              $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
               // Rediriger l'utilisateur vers une page sécurisée ou la page d'accueil
               header("Location: index.php");
               exit;
