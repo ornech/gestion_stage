@@ -15,8 +15,8 @@ var_dump($_POST);
 // Vérifie si le formulaire a été soumis
 if(isset($_POST['nom'])) {
   // Récupération des données du formulaire
-  $nom = $_POST['nom'];
-  $prenom = $_POST['prenom'];
+  $nom = strtoupper($_POST['nom']);
+  $prenom = ucfirst(strtolower($_POST['prenom']));
   $email = $_POST['email'];
   $telephone = $_POST['telephone'];
   $promo = $_POST['promo'];
@@ -30,6 +30,8 @@ if(isset($_POST['nom'])) {
   $profil = new Profil($conn);
 
   // Appel de la méthode  de l'objet Profil
+
+  
   if ($profil->create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut,$dateEntree)) {
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     header("Location: ../router.php?page=gestion_etu");
@@ -38,6 +40,8 @@ if(isset($_POST['nom'])) {
     // Afficher un message d'erreur en cas d'échec de la mise à jour
     echo "Une erreur s'est produite.";
   }
+
+
 } else {
   // Rediriger vers une page d'erreur si le formulaire n'a pas été soumis
   // header("Location: vue_erreur.php");
