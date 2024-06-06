@@ -15,7 +15,7 @@ if(isset($userPoints->points)) {
 }
 ?>
 
- <style>
+<style>
     .card {
         display: flex;
         justify-content: center;
@@ -32,6 +32,15 @@ if(isset($userPoints->points)) {
     .orange-line-bottom {
         border-bottom: 2px solid orange;
     }
+
+    .unselectable {
+        -webkit-user-select: none;  /* Chrome all / Safari all */
+        -moz-user-select: none;     /* Firefox all */
+        -ms-user-select: none;      /* IE 10+ */
+        user-select: none;          /* Likely future */
+        cursor: default;            /* Non-essential, but cursor should not change when selecting text */
+    }
+
 </style>
 
 <div class="container">
@@ -51,6 +60,7 @@ if(isset($userPoints->points)) {
                         <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
                         <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>
                         <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $_SESSION["userID"] : "edit_my_profil" ?>" class="button is-primary mt-4">Modifier</a>
+                        <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?><button class="button is-danger mt-4" id="suppressButton">Supprimer</button><?php endif;?>
                     </div>
                 </div>
             </div>
@@ -97,6 +107,83 @@ if(isset($userPoints->points)) {
         <?php }?>
     </div>
 </div>
+
+<?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?>
+
+<div class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Êtes-vous sûr(e) ?</p>
+            <button class="delete cancel" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body unselectable">
+            <div class="content">
+                <p>La suppression de ce compte entraînera l'anonymisation des données personnelles de l'utilisateur :</p>
+                <ul>
+                    <li>Nom et prénom</li>
+                    <li>Téléphone et adresse e-mail</li>
+                    <li>Classe, date d'entrée, promotion et spécialité</li>
+                </ul>
+                <p>L'utilisateur perdra également l'accès à son compte et à toutes ses fonctionnalités associées.</p>
+                <p>Veuillez confirmer votre choix en écrivant son nom et prénom :<br>
+                <b><?= $Profil->nom?> <?= $Profil->prenom?></b></p>
+
+                <input type="text" id="confirmName" class="input" placeholder="Nom et prénom" required>
+                <p>Une fois cette action réalisée, vous ne pourrez plus revenir en arrière !</p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="buttons">
+                <button class="button cancel">Annuler</button>
+                <button class="button is-danger" id="accept" disabled>Confirmer la suppression</button>
+            </div>
+        </footer>
+    </div>
+</div>
+<script>
+    document.getElementById("suppressButton").addEventListener("click", function() {
+        document.querySelector(".modal").classList.add("is-active");
+    });
+
+    document.querySelectorAll(".cancel").forEach(function(element) {
+        element.addEventListener("click", function() {
+            document.querySelector(".modal").classList.remove("is-active");
+        });
+    });
+
+    document.getElementById("accept").addEventListener("click", function() {
+        var form = document.createElement("form");
+        form.method = "post";
+        form.action = "../controller/delete_user.php";
+        
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "userId";
+        input.value = <?= $Profil->id ?>;
+        
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    });
+
+    document.getElementById("confirmName").addEventListener("input", function() {
+        var confirmName = this.value.trim();
+        var acceptButton = document.getElementById("accept");
+        
+        if (confirmName === "<?= $Profil->nom ?> <?= $Profil->prenom ?>") {
+            acceptButton.disabled = false;
+        } else {
+            acceptButton.disabled = true;
+        }
+    });
+</script>
+
+<?php endif;?>
+
+
+
+
 <?php }else {
    // Si aucun profil n'a été trouvée, afficher un message d'erreur
    echo "<p>Aucun profil trouvé avec ce lien.</p>";
@@ -105,5 +192,4 @@ if(isset($userPoints->points)) {
 }else{
    header("Location: ../router.php?page=profil");
 }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
-
 ?>
