@@ -143,12 +143,21 @@ function router($page, $conn) {
 
     case 'profil':
       include_once 'model/Profil.php';
+      include_once 'model/Stage.php';
+
+      $idProfil = isset($_SESSION['userID']) ? $_SESSION['userID'] : null;
+
       $profilModel = new Profil($conn);
       $Profil = $profilModel->read_my_profil();
+
+      $stageModel = new Stage($conn);
+      $stages = $stageModel->readFromEtudiantId($idProfil);
+
       include 'vues/vue_profil_user.php';
       break;
 
     case 'view_profil':
+      route_protect('Professeur');
       include_once 'model/Profil.php';
       include_once 'model/Stage.php';
 
