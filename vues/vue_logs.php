@@ -23,15 +23,14 @@ if(isset($logs)): ?>
       <?php
       // Fetch user logs from the database
       // Loop through the logs and display them in the table
-      var_dump($logs);
       foreach ($logs as $log):
         ?>
         <tr>
-          <td><a href="router.php?page=view_profil&id=<?=$log->idUser?>" target="_blank"><?=$log->nomEtu?> <?=$log->prenomEtu?></a></td>
+          <td><a href="router.php?page=view_profil&id=<?=$log->idUser?>" target="_blank"><?=$log->nomUser?> <?=$log->prenomUser?></a></td>
           <td><?=$log->logType?></td>
           <td><?= date('d/m/Y H:i:s', strtotime($log->date)) ?></td>
           <td><?=$log->pointGagne?></td>
-          <td><a href="router.php?page=view_logs_details&id=<?=$log->idActivite?>" class="button is-small">Détail</a></td>
+          <td><a href="router.php?page=view_logs_details&id=<?=$log->idLog?>" class="button is-small">Détail</a></td>
         </tr>
       <?php endforeach;?>
     </tbody>
