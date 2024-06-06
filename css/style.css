@@ -58,3 +58,57 @@ tbody tr:hover {
 .container {
   max-width: 98%;
 }
+
+.sequence-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .step {
+            flex: 1;
+            margin: 0 10px;
+            background-color: #f0f0f0;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            text-align: center;
+            height: 150px;
+        }
+
+        .arrow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .arrow {
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 15px solid #000;
+        }
+
+        @media (max-width: 768px) {
+            .sequence-container {
+                flex-direction: column;
+            }
+
+            .arrow-container {
+                transform: rotate(90deg);
+                margin: 20px 0;
+            }
+
+            .arrow {
+                border-top: 15px solid transparent;
+                border-bottom: 15px solid transparent;
+                border-left: 15px solid transparent;
+                border-right: 15px solid #000;
+            }
+        }
