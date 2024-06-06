@@ -42,6 +42,7 @@ if($Profil) {
                     <p class="card-text">Statut: <strong><?= $Profil->statut ? $Profil->statut : "Non défini"  ?></strong> </p>
                     <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo : "Non défini"  ?></strong> </p>
                     <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
+                    <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $_SESSION["userID"] : "edit_my_profil" ?>" class="button is-primary mt-4">Modifier</a>
                     </div>
                 </div>
             </div>
@@ -70,10 +71,6 @@ if (isset($stages[0])) {
             </tr>
         </thead>
         <tbody>
-            <?php
-
-
-                ?>
                 <tr>
                     <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></td>
                     <td><?= $stage->classe ? $stage->classe : "-" ?></td>
