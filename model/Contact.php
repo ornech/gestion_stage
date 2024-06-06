@@ -38,7 +38,7 @@ class Contact {
     }
 
     public function read_list($idEntreprise){
-        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise AND contact_valide = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
         $stmt->execute();
@@ -46,7 +46,7 @@ class Contact {
     }
 
     public function read_list_siret($siret){
-        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = (SELECT id from entreprise WHERE siret =:siret)";
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = (SELECT id from entreprise WHERE siret =:siret) AND contact_valide = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':siret', $siret, PDO::PARAM_INT);
         $stmt->execute();
@@ -63,7 +63,7 @@ class Contact {
       fonction=:fonction ,
       service=:service ,
       created_userid=:created_userid
-      WHERE id = :id";
+      WHERE id = :id AND contact_valide = 1";
 
       $stmt = $this->conn->prepare($query);
 
@@ -94,7 +94,7 @@ class Contact {
     }
 
     public function read_fiche($idContact) {
-        $query = "SELECT * FROM ". $this->vue_name . " WHERE EmployeID = :idContact";
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE EmployeID = :idContact AND contact_valide = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idContact', $idContact, PDO::PARAM_INT);
         $stmt->execute();
