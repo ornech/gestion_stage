@@ -23,7 +23,7 @@ if($Profil):?>
           <div class="field" style="width: 100%;">
           <label class="label" for="email">Téléphone</label>
             <div class="control">
-              <input type="text" class="input" placeholder="06 00 00 00 00" name="telephone" id="telephone" value=<?= $Profil->telephone?>>
+              <input type="text" class="input" placeholder="06 00 00 00 00" name="telephone" id="telephone" value="<?= $Profil->telephone?>">
             </div>
           </div>
         </div>
