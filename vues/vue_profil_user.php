@@ -9,7 +9,7 @@ if($Profil) {
 
 $userPoints = $profilModel->getPointByUser($Profil->id);
 $tuteurs = $profilModel->list_by_professeur();
-// $table_name = 'user';
+$table_name = 'user';
 // $id=$Profil->id;
 // $idTuteur=$Profil->idTuteur;
 // function modif_tuteur($id, $idTuteur){
@@ -89,8 +89,23 @@ if(isset($userPoints->points)) {
 
 
                       
-                            <?php if ($_SESSION['statut'] == "Professeur") { ?>
-<form id="tuteurForm" method="post">
+<?php if ($_SESSION['statut'] == "Professeur") { 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"]) && isset($_POST["idTuteur"])) {
+    
+    $profilId = $_POST["id"];
+    $idTuteur = $_POST["idTuteur"];
+
+    $sql = "UPDATE " . $table_name . " SET idTuteur = :idTuteur WHERE id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(":id", $profilId);
+    $stmt->bindParam(":idTuteur", $idTuteur);
+    $stmt->execute();
+    //echo '<script>window.location.reload();</script>';
+}
+    
+    ?>
+
+                                <form id="tuteurForm" method="post">
     <p class="card-text">
         <div class="is-grouped">
             Tuteur:
@@ -121,7 +136,7 @@ if(isset($userPoints->points)) {
         document.getElementById('tuteurForm').submit();
     });
 </script>
-<?php } 
+<?php }
 
 //---------------------- la partie si le session c'est un etudiant --> //echo '<script>window.location.reload();</script>';
 else {  ?>
