@@ -8,6 +8,8 @@ if($Profil) {
 // Afficher les détails du profi
 
 $userPoints = $profilModel->getPointByUser($Profil->id);
+$tuteurs = $profilModel->list_by_professeur();
+
 if(isset($userPoints->points)) {
     $userPoints = $userPoints->points;
 }else{
@@ -54,10 +56,70 @@ if(isset($userPoints->points)) {
                         <p class="card-text">Prénom: <strong><?= $Profil->prenom ?></strong> </p>
                         <p class="card-text">Mail: <strong><?= $Profil->email ? $Profil->email : "Non défini" ?></strong> </p>
                         <p class="card-text">Login: <strong><?= $Profil->login ? $Profil->login : "Non défini" ?></strong> </p>
-                        <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
                         <p class="card-text">Statut: <strong><?= $Profil->statut ? $Profil->statut : "Non défini"  ?></strong> </p>
-                        <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo : "Non défini"  ?></strong> </p>
-                        <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
+                        
+ <!-- ---------------QUE POUR LES PROFILS DES ETUDIANTS-----------------  -->
+                        <?php if($Profil->statut=='Etudiant'){?>
+
+                            <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
+                            <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo : "Non défini"  ?></strong> </p>
+                            <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
+
+
+
+                      
+                        <?php if ($_SESSION['statut'] == "Professeur") { ?>
+    <p class="card-text">
+        <div class = "is-grouped">
+    Tuteur:
+        <input type="hidden" name="tuteur" class="id" value="<?= isset($Profil->id) ? $Profil->id : "" ?>">
+        <div class="select is-small ">
+            <select name="Tuteur">
+                <?php if (isset($Profil->idTuteur)) { ?>
+                    <?php foreach ($tuteurs as $tuteur) : ?>
+                        <option value="<?= $tuteur->id ?>" <?= isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id ? "selected" : "" ?>>
+                            <?= "$tuteur->nom $tuteur->prenom" ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php }
+                
+                else { ?>
+                    <option value="">Aucun professeur assigné</option>
+                    <?php foreach ($tuteurs as $tuteur) : ?>
+                        <option value="<?= $tuteur->id ?>">
+                            <?= "$tuteur->nom $tuteur->prenom" ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php }  ?>
+                
+       </select>
+     </div>  </div> 
+ </form>
+<!-- //---------------------- la partie si le session c'est un etudiant -->
+                   <strong><?php }
+else {  ?>
+    <div class = "is-grouped">
+    Tuteur:
+<?php    if (!isset ($Profil->idTuteur)){
+        echo '<strong> Aucun professeur assigné</strong>'; 
+    }
+    elseif (isset ($Profil->idTuteur)){
+     foreach ($tuteurs as $tuteur) { 
+        if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) { 
+        echo "<strong> $tuteur->nom $tuteur->prenom<strong>";
+                           }} 
+                         } 
+    else {
+    echo '';
+                           } 
+                        
+                   }}
+                   ?>
+                   
+     </p>
+
+
+
                         <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>
                         <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $_SESSION["userID"] : "edit_my_profil" ?>" class="button is-primary mt-4">Modifier</a>
                         <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?><button class="button is-danger mt-4" id="suppressButton">Supprimer</button><?php endif;?>
