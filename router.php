@@ -193,13 +193,13 @@ function router($page, $conn) {
       if($idProfil == null){
         header("Location: router.php?page=erreur&title=Erreur&message=Une erreur est survenue lors de l'accès à la page.");
       }
-      
+
       $Profil = $profilModel->read_profil($idProfil);
 
       if($Profil->statut == "Professeur" && $idProfil != $_SESSION["userID"]){
         header("Location: router.php?page=erreur&title=Erreur&message=Vous ne pouvez pas modifier un profil de type professeur.");
       }
-      
+
       include 'vues/vue_profil_edit.php';
       break;
 

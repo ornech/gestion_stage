@@ -210,7 +210,7 @@ class Entreprise {
     $this->codePostal = htmlspecialchars(strip_tags($entrepriseData['etablissement']['adresseEtablissement']['codePostalEtablissement'] ?? 'Non défini'));
     $this->siret = htmlspecialchars(strip_tags($siret ?? 'Non défini'));
     $this->naf = htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['activitePrincipaleUniteLegale'] ?? 'Non défini'));
-    $this->type = htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['categorieEntreprise'] ?? 'Non défini'));
+    $this->type = htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['categorieJuridiqueUniteLegale'] ?? 'Non défini'));
     $this->effectif = htmlspecialchars(strip_tags($entrepriseData['etablissement']['trancheEffectifsEtablissement'] ?? 'Non défini'));
     $this->Created_UserID = htmlspecialchars(strip_tags($_SESSION['userID']));
 

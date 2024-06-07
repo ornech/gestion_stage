@@ -4,6 +4,7 @@ require_once 'config/auth.php';
 
 <?php
 // Vérifier si les détails de l'entreprise sont disponibles
+
 if ($ficheEntreprise) {
   // Afficher les détails de l'entreprise
 ?>
@@ -43,11 +44,11 @@ if ($ficheEntreprise) {
               <?= $ficheEntreprise->adresse ?><br>
               <?= $ficheEntreprise->codePostal ?> <?= $ficheEntreprise->ville ?>
             </p>
-            <p><strong>Activité</strong> <?= $ficheEntreprise->naf ?></p>
+            <br>
+            <p><strong>Activité</strong> (<?= $ficheEntreprise->naf ?>) <?= $ficheEntreprise->naf_libelle ?></p>
             <p><strong>type: </strong> <?= $ficheEntreprise->type ?></p>
             <p><strong>Effectif: </strong> <?= $ficheEntreprise->effectif ?></p>
             <p><strong>Siret: </strong><?= $ficheEntreprise->siret ?></p>
-            <p><strong>Ajouté par: </strong> <?= $ficheEntreprise->Created_User ?></p>
           </div>
         </div>
 
@@ -71,6 +72,7 @@ if ($ficheEntreprise) {
         <button type='button' class='button'>Ajouter un contact</button>
       </a></p>
   </div>
+  <p><strong>Ajouté par: </strong> <?= $ficheEntreprise->Created_User ?></p>
 
   <!-- -------------------------------------------------------------------------------- -->
 
@@ -109,8 +111,7 @@ if ($ficheEntreprise) {
         <tbody>
           <?php foreach ($stages as $stage) : ?>
             <tr>
-              <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?=
-                                                                                        $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
+              <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
               <td><?= $stage->classe ? $stage->classe : "-" ?></td>
               <td><?= $stage->dateDebut ? $stage->dateDebut : "-" ?></td>
               <td><?= $stage->dateFin ? $stage->dateFin : "-" ?></td>
@@ -123,7 +124,7 @@ if ($ficheEntreprise) {
       </table>
     </div>
   <?php endif; ?>
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       if (window.location.hash.endsWith("contactSuccess")) {
@@ -131,9 +132,9 @@ if ($ficheEntreprise) {
       }
     });
   </script>
-  
 
-  <?php 
+
+  <?php
 } else {
   // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
   echo "<p>Aucune entreprise trouvée avec cet identifiant.</p>";
