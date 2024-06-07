@@ -1,5 +1,8 @@
 <?php
-$error_message = "Message d'erreur toujours pas fait";
+$error_message = "";
+if(isset($_GET['erreur'])){
+    $error_message = $_GET['erreur'];
+}
 ?>
 
 <style>

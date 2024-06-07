@@ -31,7 +31,6 @@ if(!str_starts_with($page, "vue_popup") && $page != "login"){
   }
 }
 
-
 // Fonction de routage
 function router($page, $conn) {
   switch ($page) {

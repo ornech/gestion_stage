@@ -14,6 +14,8 @@ class Login {
 
             if ($user) {
                 if (password_verify($password, $user['password']) && $login == $user['login'] && $user['inactif'] == 0) {
+                    session_start();
+                    
                     $_SESSION['username'] = $user['login']; // Stocker le nom d'utilisateur dans la session
                     $_SESSION['statut'] = $user['statut']; // Stocker le statut dans la session
                     $_SESSION['utilisateur'] = $user['nom'] . " " . $user['prenom']; // Stocker le nom et prenom dans la session
@@ -27,17 +29,18 @@ class Login {
                         $this->firstConn($user['id']);
                         header("Location: index.php");
                     }
-                    return true;
+
+                    return array("statut" => "success");
                 }else if ($user['inactif'] == 1) {
-                    return "Ce compte est désactivé, veuillez compter un administrateur pour dévérrouiller ce compte.";
+                    return array("statut" => "failed", "message" => "Votre compte est inactif. Veuillez contacter l'administrateur.");
                 } else {
-                return "Nom d'utilisateur ou mot de passe incorrect.";
+                return array("statut" => "failed", "message" => "Nom d'utilisateur ou mot de passe incorrect.");
                 }
             }else{
-                return "Nom d'utilisateur ou mot de passe incorrect.";
+                return array("statut" => "failed", "message" => "Nom d'utilisateur ou mot de passe incorrect.");
             }
         } catch (PDOException $e) {
-            return "Erreur de connexion à la base de données: " . $e->getMessage();
+            return array("statut" => "failed", "message" => "Erreur de connexion à la base de données: " . $e->getMessage());
         }
     }
 
@@ -51,7 +54,7 @@ class Login {
     public function logout(){
         session_start();
         session_destroy();
-        header("Location: router.php?page=login");
+        header("Location: /router.php?page=login");
         exit;
     }
 
