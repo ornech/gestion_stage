@@ -9,6 +9,27 @@ if($Profil) {
 
 $userPoints = $profilModel->getPointByUser($Profil->id);
 $tuteurs = $profilModel->list_by_professeur();
+// $table_name = 'user';
+// $id=$Profil->id;
+// $idTuteur=$Profil->idTuteur;
+// function modif_tuteur($id, $idTuteur){
+//     $sql = "UPDATE " . $this->table_name . " SET idTuteur = :idTuteur WHERE id = :id";
+//     $stmt = $this->conn->prepare($sql);
+    
+//     $idTuteur = htmlspecialchars(strip_tags($idTuteur));
+//     $id = htmlspecialchars(strip_tags($id));
+
+//     $stmt->bindParam(":id", $id);
+//     $stmt->bindParam(":idTuteur", $idTuteur);
+
+//     if ($stmt->execute()) {
+//         return true;
+//     } else {
+//         echo "SQL Error: " . implode(", ", $stmt->errorInfo());
+//         return false; 
+//     }
+// }
+
 
 if(isset($userPoints->points)) {
     $userPoints = $userPoints->points;
@@ -68,35 +89,41 @@ if(isset($userPoints->points)) {
 
 
                       
-                        <?php if ($_SESSION['statut'] == "Professeur") { ?>
+                            <?php if ($_SESSION['statut'] == "Professeur") { ?>
+<form id="tuteurForm" method="post">
     <p class="card-text">
-        <div class = "is-grouped">
-    Tuteur:
-        <input type="hidden" name="tuteur" class="id" value="<?= isset($Profil->id) ? $Profil->id : "" ?>">
-        <div class="select is-small ">
-            <select name="Tuteur">
-                <?php if (isset($Profil->idTuteur)) { ?>
-                    <?php foreach ($tuteurs as $tuteur) : ?>
-                        <option value="<?= $tuteur->id ?>" <?= isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id ? "selected" : "" ?>>
-                            <?= "$tuteur->nom $tuteur->prenom" ?>
-                        </option>
-                    <?php endforeach; ?>
-                <?php }
-                
-                else { ?>
-                    <option value="">Aucun professeur assigné</option>
-                    <?php foreach ($tuteurs as $tuteur) : ?>
-                        <option value="<?= $tuteur->id ?>">
-                            <?= "$tuteur->nom $tuteur->prenom" ?>
-                        </option>
-                    <?php endforeach; ?>
-                <?php }  ?>
-                
-       </select>
-     </div>  </div> 
- </form>
-<!-- //---------------------- la partie si le session c'est un etudiant -->
-                   <strong><?php }
+        <div class="is-grouped">
+            Tuteur:
+            <input type="hidden" name="id" class="id" value="<?= isset($Profil->id) ? $Profil->id : "" ?>">
+            <div class="select is-small" id="selectTuteur">
+                <select name="idTuteur">
+                    <?php if (isset($Profil->idTuteur)) { ?>
+                        <?php foreach ($tuteurs as $tuteur) : ?>
+                            <option value="<?= $tuteur->id ?>" <?= isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id ? "selected" : "" ?>>
+                                <?= "$tuteur->nom $tuteur->prenom" ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php } else { ?>
+                        <option value="">Aucun professeur assigné</option>
+                        <?php foreach ($tuteurs as $tuteur) : ?>
+                            <option value="<?= $tuteur->id ?>">
+                                <?= "$tuteur->nom $tuteur->prenom" ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+    </p>
+</form>
+<script>
+    document.getElementById('selectTuteur').addEventListener('change', function() {
+        document.getElementById('tuteurForm').submit();
+    });
+</script>
+<?php } 
+
+//---------------------- la partie si le session c'est un etudiant --> //echo '<script>window.location.reload();</script>';
 else {  ?>
     <div class = "is-grouped">
     Tuteur:
@@ -106,7 +133,7 @@ else {  ?>
     elseif (isset ($Profil->idTuteur)){
      foreach ($tuteurs as $tuteur) { 
         if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) { 
-        echo "<strong> $tuteur->nom $tuteur->prenom<strong>";
+        echo "<strong> $tuteur->nom $tuteur->prenom</strong>";
                            }} 
                          } 
     else {
