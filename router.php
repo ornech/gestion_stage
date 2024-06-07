@@ -481,10 +481,10 @@ function router($page, $conn) {
 
     case 'valider_operation':
       route_protect('Professeur');
-      include_once 'model/Contact.php';
+      include_once 'model/Operations.php';
 
-      $contactModel = new Contact($conn);
-      $contacts = $contactModel->list_need_validation();
+      $opertationModel = new Operations($conn);
+      $operations = $opertationModel->list();
 
       include 'vues/vue_operation_valider.php';
       break;

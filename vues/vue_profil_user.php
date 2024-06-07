@@ -110,7 +110,7 @@ if(isset($userPoints->points)) {
 
 <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?>
 
-<div class="modal is-active">
+<div class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">

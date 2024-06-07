@@ -8,6 +8,13 @@ if ($ficheEntreprise) {
   // Afficher les détails de l'entreprise
 ?>
   <p class="title is-2"><?= $ficheEntreprise->nomEntreprise ?></p>
+
+  <div class="notification is-primary" id="ContactSuccess" style="display: none;">
+    <p class="title is-4">Contact créé avec succès</p>
+    <p>La création du contact a été effectuée avec succès et il est actuellement en attente de validation.</p>
+    <p>Le contact sera visible dès sa validation.</p>
+  </div>
+
   <div>
     <div class="field is-grouped is-grouped-multiline is-flex ">
 
@@ -84,8 +91,7 @@ if ($ficheEntreprise) {
     endif;
   endif;
 
-  if (isset($stages[0])) {
-    ?>
+  if (isset($stages[0])):?>
 
     <div class="box">
       <p class="title is-6">Stages</p>
@@ -115,17 +121,20 @@ if ($ficheEntreprise) {
           <?php endforeach; ?>
         </tbody>
       </table>
+    </div>
+  <?php endif; ?>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.location.hash.endsWith("contactSuccess")) {
+        document.getElementById('ContactSuccess').style.display = 'block';
+      }
+    });
+  </script>
+  
 
-  <?php
-
-  }
+  <?php 
 } else {
   // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
   echo "<p>Aucune entreprise trouvée avec cet identifiant.</p>";
-}
-  ?>
-
-
-
-    </div>
-    </div>
+}?>
