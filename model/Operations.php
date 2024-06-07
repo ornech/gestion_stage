@@ -16,7 +16,7 @@ class Operations {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
-  public function list_by_tuteur($idTuteur){
+  public function list_from_tuteur($idTuteur){
     $query = "SELECT * FROM ". $this->vue_name . " WHERE idTuteur=:idTuteur ORDER BY dateCreation DESC"; // " . $this->table_name;
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idTuteur', $idTuteur, PDO::PARAM_INT);

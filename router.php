@@ -39,6 +39,7 @@ function router($page, $conn) {
       include_once 'model/Stage.php'; // Inclure le modèle Stage
       include_once 'model/Entreprise.php'; // Inclure le modèle Entreprise
       include_once 'model/Contact.php'; // Inclure le modèle Contact
+      include_once 'model/Operations.php'; // Inclure le modèle Operations
 
       $stageModel = new Stage($conn); // Instancier le modèle
       $stages = $stageModel->list();
@@ -48,6 +49,11 @@ function router($page, $conn) {
 
       $contactModel = new Contact($conn); // Instancier le modèle
       $contacts = $contactModel->list();
+
+      $operationsModel = new Operations($conn); // Instancier le modèle
+      $operations = $_SESSION['statut'] === 'Professeur' ? $operationsModel->list() : null;
+      $operationsTuteur = $operations && $operations != null ? $operationsModel->list_from_tuteur($_SESSION['userID']) : null;
+
       include 'vues/accueil.php';
       break;
 
