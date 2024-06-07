@@ -4,9 +4,9 @@
 session_start();
 
 // Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username']) && $page != 'login') {
     // Rediriger vers la page de connexion
-    header("Location: login.php");
+    header("Location: /router.php?page=login");
     exit;
 }
 

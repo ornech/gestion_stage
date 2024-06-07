@@ -9,17 +9,17 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
-require_once 'config/auth.php';
-require_once 'config/db_connection.php';
-
 // Récupérer la page demandée depuis l'URL ou d'autres paramètres de requête
 $page = isset($_GET['page']) ? $_GET['page'] : 'accueil';
+
+require_once 'config/auth.php';
+require_once 'config/db_connection.php';
 
 // Inclure les en-têtes HTML
 include 'vues/headers.php';
 
 // Affichez le contenu de la page en fonction du statut de l'utilisateur connecté
-if(!str_starts_with($page, "vue_popup")){
+if(!str_starts_with($page, "vue_popup") && $page != "login"){
   if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
     // Affichez le menu pour les professeurs
     include 'vues/navbar_prof.php';
@@ -31,10 +31,13 @@ if(!str_starts_with($page, "vue_popup")){
   }
 }
 
-
 // Fonction de routage
 function router($page, $conn) {
   switch ($page) {
+    case 'login':
+      include 'vues/login.php'; // Page de connexion
+      break;
+
     case 'accueil':
       include_once 'model/Stage.php'; // Inclure le modèle Stage
       include_once 'model/Entreprise.php'; // Inclure le modèle Entreprise
@@ -521,7 +524,7 @@ function router($page, $conn) {
 
 
   router($page, $conn); // Passer $conn en paramètre
-  if(!str_starts_with($page, "vue_popup")){
+  if(!str_starts_with($page, "vue_popup") && $page != "login"){
     include 'vues/footer.php';
   }
 
