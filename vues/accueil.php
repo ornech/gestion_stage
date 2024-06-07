@@ -64,7 +64,10 @@ require_once 'config/auth.php';
   <?php if(($operations && $operations != null)):?>
     <div class="box">
       <p class="subtitle is-3">Opérations à valider</p>
-      <p><?= $operationsTuteur && $operationsTuteur != null ? count($operations) : " " ?></p>
+      <p class="is-size-4"><?= $operationsTuteur && $operationsTuteur != null ? "<b><span class='is-size-4'>" . count($operationsTuteur) . "</span></b> opérations réalisées par les étudiants que vous suivez sont en attente de validation." : "" ?></p>
+      <p class="is-size-5"><?= $operations && $operations != null ? "<b><span class='is-size-4'>" . count($operations) - ($operationsTuteur && $operationsTuteur != null ? count($operationsTuteur) : 0) . "</span></b> opérations réalisées par les étudiants que vous ne suivez pas sont en attente de validation." : "" ?></p>
+      <br>
+      <a class="button is-info" href="/router.php?page=valider_operation">Valider les opérations</a>
     </div>
   <?php endif; ?>
 

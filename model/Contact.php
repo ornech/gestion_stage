@@ -31,7 +31,7 @@ class Contact {
 
     // Liste des entreprises
     public function list(){
-        $query = "SELECT * FROM ". $this->vue_name;
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE contact_valide = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
