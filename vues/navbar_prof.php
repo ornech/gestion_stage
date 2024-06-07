@@ -39,6 +39,7 @@ require_once 'config/auth.php';
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link"> <i class="fas fa-users"></i>&nbsp; Administration </a>
         <div class="navbar-dropdown">
+          <a class="navbar-item" href="router.php?page=valider_operation"><i class="fa fa-check"></i> &nbsp;Opérations à valider</a>
           <a class="navbar-item" href="router.php?page=logs"><i class="fa fa-newspaper"></i> &nbsp;Journalisation</a>
           <hr class="navbar-divider">
           <a class="navbar-item" href="router.php?page=prof_stage_create"><i class="fa fa-briefcase"></i> &nbsp; Créer un stage</a>

@@ -94,12 +94,38 @@ class Contact {
     }
 
     public function read_fiche($idContact) {
-        $query = "SELECT * FROM ". $this->vue_name . " WHERE EmployeID = :idContact AND contact_valide = 1";
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE EmployeID = :idContact";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idContact', $idContact, PDO::PARAM_INT);
         $stmt->execute();
         // Retournez directement le résultat
         return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function list_need_validation() {
+      $query = "SELECT * FROM ". $this->vue_name . " WHERE contact_valide = 0";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      // Retournez directement le résultat
+      return $stmt->fetchAll(PDO::FETCH_OBJ);
+    } 
+
+    public function valider_contact($id){
+      $query = "UPDATE " . $this->table_name . " SET contact_valide = 1 WHERE id = :id";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+      try {
+        if($stmt->execute()){
+            return true;
+        } else {
+            throw new Exception("Erreur lors de l'exécution de la requête.");
+        }
+      } catch (Exception $e) {
+          //echo "Erreur : " . $e->getMessage();
+          $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+          header("Location: ../router.php?page=erreur&title=Validation contact&message=$message");
+          return false;
+      }
     }
 
     public function create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID){
@@ -153,6 +179,24 @@ class Contact {
           return false;
       }
     }
+
+    public function deleteContact($id) {
+      $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+      try {
+        if($stmt->execute()){
+            return true;
+        } else {
+            throw new Exception("Erreur lors de l'exécution de la requête.");
+        }
+      } catch (Exception $e) {
+          //echo "Erreur : " . $e->getMessage();
+          $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+          header("Location: ../router.php?page=erreur&title=Suppression contact&message=$message");
+          return false;
+      }
+    } 
 
 }
 ?>

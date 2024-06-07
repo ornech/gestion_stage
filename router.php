@@ -470,6 +470,16 @@ function router($page, $conn) {
       include 'vues/vue_stage_convention.php';
       break;
 
+    case 'valider_operation':
+      route_protect('Professeur');
+      include_once 'model/Contact.php';
+
+      $contactModel = new Contact($conn);
+      $contacts = $contactModel->list_need_validation();
+
+      include 'vues/vue_operation_valider.php';
+      break;
+
     case 'logs':
       route_protect('Professeur');
 
