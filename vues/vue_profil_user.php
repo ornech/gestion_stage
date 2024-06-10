@@ -91,12 +91,12 @@ else {
                 <select name="spe">
     <?php 
      ?>
-                        <option value="<?= $Profil->spe ?>"><?= $Profil->spe ? $Profil->spe : 'Pas de spécialité' ?></option>
-                        <option value="SLAM">SLAM</option>
-                        <option value="SISR">SISR</option>
-                        <option value=""> Pas de spécialité</option>
+                        <option value="SLAM" <?= $Profil->spe == "SLAM" ? "selected" : "" ?>>SLAM</option>
+                        <option value="SISR" <?= $Profil->spe == "SISR" ? "selected" : "" ?>>SISR</option>
+                        <option value=""<?= $Profil->spe == "" || $Profil->spe == NULL ? "selected" : ""?>> Pas de spécialité</option>
                     </select>
                 
+
             </div>
         </form>
             <?php
@@ -128,7 +128,7 @@ else {
       <div class="buttons">
         <button class="button is-success" id="saveSpe">Enregistrer</button>
 
-        <button class="button" id="cancelModal" for="modalTuteur">Annuler</button>
+        <button class="button" id="closeModal" for="modalSpe">Annuler</button>
 
         <script>
    document.getElementById('saveSpe').addEventListener('click', function() {
@@ -245,7 +245,7 @@ if (isset($_POST["id"]) && isset($_POST["idTuteur"])) {
 });
 
 </script>
-        
+</strong>
       </div>
     </footer>
   </div>
@@ -253,7 +253,7 @@ if (isset($_POST["id"]) && isset($_POST["idTuteur"])) {
 
 <?php 
                         
-                    }
+                    
                    ?></p></p>
                         <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>     
   </span>
@@ -265,7 +265,7 @@ if (isset($_POST["id"]) && isset($_POST["idTuteur"])) {
         </div>
 
         <?php
-            
+            }
             // ------------------------------------LA PARTIE DE BOX DE STAGE--------------------------------------
             
             $statut=$Profil->statut;
