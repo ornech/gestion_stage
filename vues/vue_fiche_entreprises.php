@@ -4,6 +4,7 @@ require_once 'config/auth.php';
 
 <?php
 // Vérifier si les détails de l'entreprise sont disponibles
+
 if ($ficheEntreprise) {
   // Afficher les détails de l'entreprise
 ?>
@@ -17,7 +18,6 @@ if ($ficheEntreprise) {
 
   <div>
     <div class="field is-grouped is-grouped-multiline is-flex ">
-
       <div class="control">
         <div class="tags has-addons is-medium">
           <span class="tag is-dark">Contacts</span>
@@ -33,6 +33,8 @@ if ($ficheEntreprise) {
     </div>
   </div>
 
+
+
   <div class="container">
     <div class="fixed-grid">
       <div class="grid">
@@ -43,12 +45,38 @@ if ($ficheEntreprise) {
               <?= $ficheEntreprise->adresse ?><br>
               <?= $ficheEntreprise->codePostal ?> <?= $ficheEntreprise->ville ?>
             </p>
-            <p><strong>Activité</strong> <?= $ficheEntreprise->naf ?></p>
+            <br>
+            <p><strong>Activité</strong> (<?= $ficheEntreprise->naf ?>) <?= $ficheEntreprise->naf_libelle ?></p>
             <p><strong>type: </strong> <?= $ficheEntreprise->type ?></p>
             <p><strong>Effectif: </strong> <?= $ficheEntreprise->effectif ?></p>
             <p><strong>Siret: </strong><?= $ficheEntreprise->siret ?></p>
-            <p><strong>Ajouté par: </strong> <?= $ficheEntreprise->Created_User ?></p>
+            <?php if ($_SESSION["statut"] == "Professeur") { ?>
+            <HR>
+              <p></p>La mise à jour via l'API fonctionne uniquement si un N° de Siret est renseigné dans la base de données</p>
+
+              <div class="field is-grouped">
+                <div class="control">
+                  <?php if($ficheEntreprise->siret):?>
+
+                    <form action="../controller/api_update.php" method="POST">
+                      <input type="hidden" NAME="EntrepriseID" VALUE="<?=$ficheEntreprise->EntrepriseID?>">
+                      <input class="button is-link is-light" type="submit" NAME="submit" Value="Mettre à jour (API)">
+                    </form>   
+                  
+                  <?php else:?>
+
+                    <button class="button is-link is-light" id="openModal" for="updateModal">Mettre à jour (API)</button>
+
+                  <?php endif;?>
+                </div>
+                <div class="control">
+                    <INPUT class="button is-link is-light" type="SUBMIT" NAME="SUBMIT" Value="Modifier">
+                </div>
+              </div>
+            <?PHP } ?>
+
           </div>
+
         </div>
 
 
@@ -71,6 +99,9 @@ if ($ficheEntreprise) {
         <button type='button' class='button'>Ajouter un contact</button>
       </a></p>
   </div>
+  <p>
+
+    <strong>Ajouté par: </strong> <?= $ficheEntreprise->Created_User ?></p>
 
   <!-- -------------------------------------------------------------------------------- -->
 
@@ -109,8 +140,7 @@ if ($ficheEntreprise) {
         <tbody>
           <?php foreach ($stages as $stage) : ?>
             <tr>
-              <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?=
-                                                                                        $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
+              <td><a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= $stage->EtudiantNom  ?> <?= $stage->EtudiantPrenom ?> </a></td>
               <td><?= $stage->classe ? $stage->classe : "-" ?></td>
               <td><?= $stage->dateDebut ? $stage->dateDebut : "-" ?></td>
               <td><?= $stage->dateFin ? $stage->dateFin : "-" ?></td>
@@ -123,7 +153,7 @@ if ($ficheEntreprise) {
       </table>
     </div>
   <?php endif; ?>
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       if (window.location.hash.endsWith("contactSuccess")) {
@@ -131,10 +161,58 @@ if ($ficheEntreprise) {
       }
     });
   </script>
-  
 
-  <?php 
+
+  <?php
 } else {
   // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
   echo "<p>Aucune entreprise trouvée avec cet identifiant.</p>";
 }?>
+
+<div class="modal" id="updateModal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title is-size-4">Mise à jour (API)</p>
+      <button class="delete" aria-label="close" id="closeModal" for="updateModal"></button>
+    </header>
+    <section class="modal-card-body">
+      <p>La mise à jour via l'API fonctionne uniquement si un siret est renseigné.</p>
+      <form id="updateForm" action="../controller/api_update.php" method="POST">
+        <input type="hidden" name="EntrepriseID" value="<?=$ficheEntreprise->EntrepriseID?>">
+        <div class="field">
+          <label class="label" id="siret">Merci de renseigner un N° de Siret</label>
+          <div class="control">
+            <input class="input" type="text" name="siret" id="siretInput" maxlength="14" placeholder="Siret">
+          </div>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success" id="submitModal" disabled>Mettre à jour</button>
+        <button class="button" id="closeModal" for="updateModal">Annuler</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('siretInput').addEventListener('input', function() {
+      var siretInput = document.getElementById('siretInput');
+      var submitModal = document.getElementById('submitModal');
+      
+      if (siretInput.value.length === 14) {
+        submitModal.disabled = false;
+      } else {
+        submitModal.disabled = true;
+      }
+    });
+
+    document.getElementById('submitModal').addEventListener('click', function() {
+      document.getElementById('updateForm').submit();
+    });
+
+  });
+</script>

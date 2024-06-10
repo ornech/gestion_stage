@@ -5,6 +5,6 @@ session_start();
 session_destroy();
 
 // Rediriger l'utilisateur vers la page de connexion
-header("Location: login.php");
+header("Location: /router.php?page=login");
 exit;
 ?>
