@@ -18,7 +18,6 @@ if ($ficheEntreprise) {
 
   <div>
     <div class="field is-grouped is-grouped-multiline is-flex ">
-
       <div class="control">
         <div class="tags has-addons is-medium">
           <span class="tag is-dark">Contacts</span>
@@ -33,6 +32,8 @@ if ($ficheEntreprise) {
       </div>
     </div>
   </div>
+
+
 
   <div class="container">
     <div class="fixed-grid">
@@ -49,7 +50,24 @@ if ($ficheEntreprise) {
             <p><strong>type: </strong> <?= $ficheEntreprise->type ?></p>
             <p><strong>Effectif: </strong> <?= $ficheEntreprise->effectif ?></p>
             <p><strong>Siret: </strong><?= $ficheEntreprise->siret ?></p>
+            <?php if ($_SESSION["statut"] == "Professeur") { ?>
+            <HR>
+              <p></p>La mise à jour via l'API fonctionne uniquement si un N° de Siret est renseigné dans la base de données</p>
+
+              <div class="field is-grouped">
+                <div class="control">
+                  <FORM action="../controller/api_update.php" method="POST">
+                    <INPUT type="HIDDEN" NAME="EntrepriseID" VALUE="<?=$ficheEntreprise->EntrepriseID?>">
+                    <INPUT class="button is-link is-light" type="SUBMIT" NAME="SUBMIT" Value="Mettre à jour (API)">
+                  </FORM>                </div>
+                <div class="control">
+                    <INPUT class="button is-link is-light" type="SUBMIT" NAME="SUBMIT" Value="Modifier">
+                </div>
+              </div>
+            <?PHP } ?>
+
           </div>
+
         </div>
 
 
@@ -73,10 +91,7 @@ if ($ficheEntreprise) {
       </a></p>
   </div>
   <p>
-    <FORM action="../controller/api_update.php" method="POST">
-      <INPUT type="HIDDEN" NAME="EntrepriseID" VALUE="<?=$ficheEntreprise->EntrepriseID?>">
-      <INPUT type="SUBMIT" NAME="SUBMIT">
-    </FORM>
+
     <strong>Ajouté par: </strong> <?= $ficheEntreprise->Created_User ?></p>
 
   <!-- -------------------------------------------------------------------------------- -->

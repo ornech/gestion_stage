@@ -413,50 +413,50 @@ class Entreprise {
         $this->effectif = htmlspecialchars(strip_tags($entreprise['trancheEffectifsEtablissement'] ?? '-'));
         $this->Created_UserID = htmlspecialchars(strip_tags($_SESSION['userID']));
 
-        // Prépare la requête SQL
         $query = "UPDATE " . $this->table_name . " SET
-        nomEntreprise = :nomEntreprise,
-        adresse = :adresse,
-        ville = :ville,
-        codePostal = :codePostal,
-        siret = :siret,
-        naf = :naf,
-        effectif = :effectif,
-        type = :type,
-        Created_Date = NOW(),
-        Created_UserID = :Created_UserID
-        WHERE id=id:";
+          nomEntreprise = :nomEntreprise,
+          adresse = :adresse,
+          ville = :ville,
+          codePostal = :codePostal,
+          siret = :siret,
+          naf = :naf,
+          effectif = :effectif,
+          type = :type,
+          Created_Date = NOW(),
+          Created_UserID = :Created_UserID
+          WHERE id = :id";
 
-        $stmt = $this->conn->prepare($query);
+      $stmt = $this->conn->prepare($query);
 
-        // Lie les paramètres
-        $stmt->bindParam(":nomEntreprise", $this->nomEntreprise);
-        $stmt->bindParam(":adresse", $this->adresse);
-        $stmt->bindParam(":ville", $this->ville);
-        $stmt->bindParam(":codePostal", $this->codePostal);
-        $stmt->bindParam(":siret", $this->siret);
-        $stmt->bindParam(":naf", $this->naf);
-        $stmt->bindParam(":type", $this->type);
-        $stmt->bindParam(":effectif", $this->effectif);
-        $stmt->bindParam(":Created_UserID", $this->Created_UserID);
-        $stmt->bindParam(":id", $id);
+      // Lie les paramètres
+      $stmt->bindParam(":nomEntreprise", $this->nomEntreprise);
+      $stmt->bindParam(":adresse", $this->adresse);
+      $stmt->bindParam(":ville", $this->ville);
+      $stmt->bindParam(":codePostal", $this->codePostal);
+      $stmt->bindParam(":siret", $this->siret);
+      $stmt->bindParam(":naf", $this->naf);
+      $stmt->bindParam(":type", $this->type);
+      $stmt->bindParam(":effectif", $this->effectif);
+      $stmt->bindParam(":Created_UserID", $this->Created_UserID);
+      $stmt->bindParam(":id", $id);
 
         try {
-          if($stmt->execute()){
-            //Obtenir les données que l'on vient de créer dans la table
-            return true;
-
-          } else {
-            throw new Exception("Erreur lors de l'exécution de la requête.");
-            return false;
-
-          }
+            if ($stmt->execute()) {
+                // Obtenir les données que l'on vient de créer dans la table
+                return true;
+            } else {
+                $query = $stmt->queryString;
+                $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo()) . " | Requête : " . $query;
+                header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+                return false;
+            }
         } catch (Exception $e) {
-          //echo "Erreur : " . $e->getMessage();
-          $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
-          header("Location: ../router.php?page=erreur&message=$message");
-          return false;
+            $query = $stmt->queryString;
+            $message = "Erreur SQL: " . $e->getMessage() . " <HR> Requête : " . $query ;
+            header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+            return false;
         }
+
 
 
       } else {
