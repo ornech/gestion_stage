@@ -121,7 +121,7 @@ require_once 'config/auth.php';
                     // Affichage des résultats
                     echo "<i class='fa fa-circle' style='color:$couleur'></i> "; // . ceil($pourcentage_vide * 100) . "%" ;
 
-                    ?> &nbsp; <a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->id ?>"><?= htmlspecialchars($entreprise->nomEntreprise) ?></a></td>
+                    ?> &nbsp; <a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->EntrepriseID ?>"><?= htmlspecialchars($entreprise->nomEntreprise) ?></a></td>
                     <td><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
                     <td><?= $entreprise->ville != null ? htmlspecialchars($entreprise->ville) : "Non défini" ?></td>
                     <td>(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?></td>
