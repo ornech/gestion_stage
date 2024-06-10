@@ -60,7 +60,7 @@ if(isset($userPoints->points)) {
                         <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
                         <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>
                         <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $_SESSION["userID"] : "edit_my_profil" ?>" class="button is-primary mt-4">Modifier</a>
-                        <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?><button class="button is-danger mt-4" id="suppressButton">Supprimer</button><?php endif;?>
+                        <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?><button class="button is-danger mt-4" id="openModal" for="modalDelete">Supprimer</button><?php endif;?>
                     </div>
                 </div>
             </div>
@@ -110,12 +110,12 @@ if(isset($userPoints->points)) {
 
 <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?>
 
-<div class="modal">
+<div class="modal" id="modalDelete">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">Êtes-vous sûr(e) ?</p>
-            <button class="delete cancel" aria-label="close"></button>
+            <button class="delete cancel" id="closeModal" for="modalDelete" aria-label="close"></button>
         </header>
         <section class="modal-card-body unselectable">
             <div class="content">
@@ -135,23 +135,13 @@ if(isset($userPoints->points)) {
         </section>
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button class="button cancel">Annuler</button>
+                <button class="button cancel" id="closeModal" for="modalDelete">Annuler</button>
                 <button class="button is-danger" id="accept" disabled>Confirmer la suppression</button>
             </div>
         </footer>
     </div>
 </div>
 <script>
-    document.getElementById("suppressButton").addEventListener("click", function() {
-        document.querySelector(".modal").classList.add("is-active");
-    });
-
-    document.querySelectorAll(".cancel").forEach(function(element) {
-        element.addEventListener("click", function() {
-            document.querySelector(".modal").classList.remove("is-active");
-        });
-    });
-
     document.getElementById("accept").addEventListener("click", function() {
         var form = document.createElement("form");
         form.method = "post";
