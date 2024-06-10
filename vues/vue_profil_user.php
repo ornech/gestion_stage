@@ -65,7 +65,94 @@ if(isset($userPoints->points)) {
 
                             <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
                             <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo : "Non défini"  ?></strong> </p>
-                            <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
+                            <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong>
+                            <?php if ($_SESSION['statut'] == "Professeur") { ?>
+                            <button id="openModal" for="modalSpe" class="button is-small">
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+</button> <?php }
+else {     
+    echo '';           
+                   }
+                   ?>
+
+<div class="modal" id="modalSpe">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Modification de spécialité</p>
+    </header>
+    <section class="modal-card-body">
+
+               
+    <form id="speForm" method="post">
+    <p class="card-text">
+        <div class="is-grouped">
+            Spécialité:
+            <input type="hidden" name="id" class="id" value="<?= isset($Profil->id) ? $Profil->id : "" ?>">
+            <div class="select is-small" id="selectSpe">
+                <select name="spe">
+    <?php 
+     ?>
+                        <option value="<?= $Profil->spe ?>"><?= $Profil->spe ? $Profil->spe : 'Pas de spécialité' ?></option>
+                        <option value="SLAM">SLAM</option>
+                        <option value="SISR">SISR</option>
+                        <option value=""> Pas de spécialité</option>
+                    </select>
+                
+            </div>
+        </form>
+            <?php
+          if (isset($_POST["id"]) && isset($_POST["spe"])) {
+    
+            $profilId = $_POST["id"];
+            $spe = $_POST["spe"];
+        
+            $sql = "UPDATE " . $table_name . " SET spe = :spe WHERE id = :id";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(":id", $profilId);
+            $stmt->bindParam(":spe", $spe);
+            $stmt->execute();
+            echo "<script type='text/javascript'>
+            window.location.href = window.location.href;
+          </script>";    
+          exit;
+            }
+        
+            
+            ?>
+        
+        <?php  } ?>
+
+
+
+</section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success" id="saveSpe">Enregistrer</button>
+
+        <button class="button" id="cancelModal">Annuler</button>
+
+        <script>
+   document.getElementById('saveSpe').addEventListener('click', function() {
+    document.getElementById('speForm').submit();
+});
+document.getElementById('cancelModal').addEventListener('click', function() {
+        var modal = document.getElementById('modalSpe');
+        modal.classList.remove('is-active');
+    });
+</script>
+        
+      </div>
+    </footer>
+  </div>
+</div>  
+
+
+
+
+                        </p>
                             <p class="card-text">Tuteur: <strong><?php if (isset ($Profil->idTuteur)){
      foreach ($tuteurs as $tuteur) { 
         if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) { 
@@ -75,13 +162,16 @@ if(isset($userPoints->points)) {
     else {
     echo '';
                            } 
-                        ?>
-                        <button id="openModal" for="modalTuteur" class="button is-small">
-  <span class="icon">
-    <i class="fas fa-pencil-alt"></i>
-  </span>
-</button></strong> 
-
+                        ?> <?php if ($_SESSION['statut'] == "Professeur") { ?>
+                            <button id="openModal" for="modalTuteur" class="button is-small">
+                                <span class="icon">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </span>
+                            </button>
+                        <?php } else {     
+                            echo '';           
+                        }?>
+                        
 <!-- -------------------------------DEBUT DE MODAL---------------------------------------- -->
 
 <div class="modal" id="modalTuteur">
@@ -103,8 +193,8 @@ if(isset($userPoints->points)) {
     echo '';
                            } 
                         ?>
-<?php if ($_SESSION['statut'] == "Professeur") { 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"]) && isset($_POST["idTuteur"])) {
+<?php 
+if (isset($_POST["id"]) && isset($_POST["idTuteur"])) {
     
     $profilId = $_POST["id"];
     $idTuteur = $_POST["idTuteur"];
@@ -122,7 +212,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"]) && isset($_POST[
     
     ?>
 
-                                <form id="tuteurForm" method="post">
+    <form id="tuteurForm" method="post">
     <p class="card-text">
         <div class="is-grouped">
             Nouveau tuteur:
@@ -148,15 +238,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"]) && isset($_POST[
         </div>
     </p>
 </form>
-
-<?php }
-
-else {     
-    echo '';           
-                   }}
-                   ?>
-                   
-     </p></p>
+     </p>
      </section>
     <footer class="modal-card-foot">
       <div class="buttons">
@@ -179,7 +261,10 @@ document.getElementById('cancelModal').addEventListener('click', function() {
   </div>
 </div>
 
+<?php 
+                        
 
+                   ?></p>
                         <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>
                         <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $_SESSION["userID"] : "edit_my_profil" ?>" class="button is-primary mt-4">Modifier</a>
                         <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?><button class="button is-danger mt-4" id="openModal" for="modalDelete">Supprimer</button><?php endif;?>
