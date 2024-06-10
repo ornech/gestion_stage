@@ -27,39 +27,60 @@ require_once 'config/auth.php';
 </div>
 
 <br>
-<?php if ($_SESSION['statut'] == "Etudiant") { ?>
+<?php
+// +------------------------------------+
+// |           Page etudiant            |
+// +------------------------------------+
+
+if ($_SESSION['statut'] == "Etudiant") { ?>
 <div class="box">
 <p class="subtitle is-3">Fonctionnement</p>
 
-<div class="container">
-     <div class="sequence-container">
-         <div class="step">
-           <p class="subtitle is-5">Étape 1 - Entreprise</p><BR>
-           <p> - Rechercher une entreprise</p><BR>
-           <p> - Insérer une entreprise</p><BR>
-         </div>
-         <div class="arrow-container">
-             <div class="arrow"></div>
-         </div>
-         <div class="step">
-           <p class="subtitle is-5">Étape 2 - Contact</p><BR>
-           <p> - Ajouter un contat</p><BR>
-           <p> - Renseignez les informations du contact</p><BR>
-         </div>
-         <div class="arrow-container">
-             <div class="arrow"></div>
-         </div>
-         <div class="step">
-           <p class="subtitle is-5">Étape 3 - Stage</p><BR>
-           <p> - Créez votre stage</p><BR>
-           <p> - Renseignez les informations</p><BR>
-         </div>
-     </div>
- </div>
+<nav class="columns is-mobile is-vcentered">
+  <div class="column">
+    <div>
+      <p class="heading">Trouver une entreprise</p>
+      <p class="title">Étape 1</p>
+      <p>Depuis l'annuaire des entreprises, identifiez une entreprise qui vous conviendrait.</p>
+    </div>
+  </div>
+  <div class="column">
+    <div>
+      <i class='fas fa-chevron-right' style='font-size:48px'></i>
+    </div>
+  </div>
+  <div class="column">
+    <div>
+      <p class="heading">Ajouter un contact</p>
+      <p class="title">Étape 2</p>
+      <p>Depuis une fiche entreprise, ajoutez le contact que vous avez démarché.</p>
 
+    </div>
+  </div>
+  <div class="column">
+    <div>
+      <i class='fas fa-chevron-right' style='font-size:48px'></i>
+    </div>
+  </div>
+  <div class="column">
+    <div>
+      <p class="heading">Ajouter votre stage</p>
+      <p class="title">Étape 3</p>
+      <p>Créer votre stage et récupérez votre convention de stage automatiquement générée.
+      </p>
+
+    </div>
+  </div>
+</nav>
 </div>
+
 <?php } ?>
-<?php if ($_SESSION['statut'] == "Professeur") { ?>
+<?php
+// +------------------------------------+
+// |           Page professeur          |
+// +------------------------------------+
+
+if ($_SESSION['statut'] == "Professeur") { ?>
 
   <?php if(($operations && $operations != null)):?>
     <div class="box">
@@ -75,10 +96,3 @@ require_once 'config/auth.php';
     <p class="subtitle is-3">Stages à suivre</p>
   </div>
 <?php } ?>
-
-<br>
-<div class="box">
-  <p class="subtitle is-3">Dates de stages</p>
-  <p><b>SIO 1</b> : <?= "Du <b>13 mai 2024</b> au <b>21 juin 2024</b> (Texte brut)" ?></p>
-  <p><b>SIO 2</b> : <?= "Du <b>10 novembre 2023</b> au <b>16 decembre 2023</b> (Texte brut)" ?></p>
-</div>
