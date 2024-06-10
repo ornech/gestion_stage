@@ -10,25 +10,6 @@ if($Profil) {
 $userPoints = $profilModel->getPointByUser($Profil->id);
 $tuteurs = $profilModel->list_by_professeur();
 $table_name = 'user';
-// $id=$Profil->id;
-// $idTuteur=$Profil->idTuteur;
-// function modif_tuteur($id, $idTuteur){
-//     $sql = "UPDATE " . $this->table_name . " SET idTuteur = :idTuteur WHERE id = :id";
-//     $stmt = $this->conn->prepare($sql);
-    
-//     $idTuteur = htmlspecialchars(strip_tags($idTuteur));
-//     $id = htmlspecialchars(strip_tags($id));
-
-//     $stmt->bindParam(":id", $id);
-//     $stmt->bindParam(":idTuteur", $idTuteur);
-
-//     if ($stmt->execute()) {
-//         return true;
-//     } else {
-//         echo "SQL Error: " . implode(", ", $stmt->errorInfo());
-//         return false; 
-//     }
-// }
 
 
 if(isset($userPoints->points)) {
@@ -85,10 +66,43 @@ if(isset($userPoints->points)) {
                             <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
                             <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo : "Non défini"  ?></strong> </p>
                             <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong> </p>
+                            <p class="card-text">Tuteur: <strong><?php if (isset ($Profil->idTuteur)){
+     foreach ($tuteurs as $tuteur) { 
+        if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) { 
+        echo "<strong> $tuteur->nom $tuteur->prenom</strong>";
+                           }} 
+                         } 
+    else {
+    echo '';
+                           } 
+                        ?>
+                        <button id="openModal" for="modalTuteur" class="button is-small">
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+</button></strong> 
+
+<!-- -------------------------------DEBUT DE MODAL---------------------------------------- -->
+
+<div class="modal" id="modalTuteur">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Modification de tuteur</p>
+    </header>
+    <section class="modal-card-body">
 
 
-
-                      
+<p class="card-text">Tuteur actuel: <?php if (isset ($Profil->idTuteur)){
+     foreach ($tuteurs as $tuteur) { 
+        if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) { 
+        echo "<strong> $tuteur->nom $tuteur->prenom</strong>";
+                           }} 
+                         } 
+    else {
+    echo '';
+                           } 
+                        ?>
 <?php if ($_SESSION['statut'] == "Professeur") { 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"]) && isset($_POST["idTuteur"])) {
     
@@ -111,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"]) && isset($_POST[
                                 <form id="tuteurForm" method="post">
     <p class="card-text">
         <div class="is-grouped">
-            Tuteur:
+            Nouveau tuteur:
             <input type="hidden" name="id" class="id" value="<?= isset($Profil->id) ? $Profil->id : "" ?>">
             <div class="select is-small" id="selectTuteur">
                 <select name="idTuteur">
@@ -134,35 +148,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"]) && isset($_POST[
         </div>
     </p>
 </form>
-<script>
-    document.getElementById('selectTuteur').addEventListener('change', function() {
-        document.getElementById('tuteurForm').submit();
-    });
-</script>
+
 <?php }
 
-//---------------------- la partie si le session c'est un etudiant --> //echo '<script>window.location.reload();</script>';
-else {  ?>
-    <div class = "is-grouped">
-    Tuteur:
-<?php    if (!isset ($Profil->idTuteur)){
-        echo '<strong> Aucun professeur assigné</strong>'; 
-    }
-    elseif (isset ($Profil->idTuteur)){
-     foreach ($tuteurs as $tuteur) { 
-        if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) { 
-        echo "<strong> $tuteur->nom $tuteur->prenom</strong>";
-                           }} 
-                         } 
-    else {
-    echo '';
-                           } 
-                        
+else {     
+    echo '';           
                    }}
                    ?>
                    
-     </p>
+     </p></p>
+     </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success" id="saveTuteur">Enregistrer</button>
 
+        <button class="button" id="cancelModal">Annuler</button>
+
+        <script>
+   document.getElementById('saveTuteur').addEventListener('click', function() {
+    document.getElementById('tuteurForm').submit();
+});
+document.getElementById('cancelModal').addEventListener('click', function() {
+        var modal = document.getElementById('modalTuteur');
+        modal.classList.remove('is-active');
+    });
+</script>
+        
+      </div>
+    </footer>
+  </div>
+</div>
 
 
                         <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>
