@@ -19,7 +19,7 @@ require_once 'config/db_connection.php';
 include 'vues/headers.php';
 
 // Affichez le contenu de la page en fonction du statut de l'utilisateur connecté
-if(!str_starts_with($page, "vue_popup") && $page != "login"){
+if(!str_starts_with($page, "vue_popup") && $page != "login" && $page != "password_reset"){
   if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
     // Affichez le menu pour les professeurs
     include 'vues/navbar_prof.php';
@@ -36,6 +36,10 @@ function router($page, $conn) {
   switch ($page) {
     case 'login':
       include 'vues/login.php'; // Page de connexion
+      break;
+
+    case 'password_reset':
+      include 'vues/password_reset.php'; // Page de connexion
       break;
 
     case 'accueil':
@@ -524,7 +528,7 @@ function router($page, $conn) {
 
 
   router($page, $conn); // Passer $conn en paramètre
-  if(!str_starts_with($page, "vue_popup") && $page != "login"){
+  if(!str_starts_with($page, "vue_popup") && $page != "login" && $page != "password_reset"){
     include 'vues/footer.php';
   }
 

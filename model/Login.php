@@ -22,7 +22,8 @@ class Login {
                     $_SESSION['userID'] = $user['id']; // Stocker l'id nom et prenom dans la session
 
                     if ($user['password_reset'] == 1) {
-                        header("Location: password_reset.php?login=" . $user['id'] . "");
+                        header("Location: /router.php?page=password_reset");
+                        exit(); 
                     }
 
                     if($user["dateFirstConn"] == NULL) {
@@ -64,6 +65,18 @@ class Login {
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user;
+    }
+
+    public function password_reset($userId, $newPassword){
+        try{
+            $stmt = $this->conn->prepare("UPDATE $this->table_name SET password = :password, password_reset = 0 WHERE password_reset = 1 AND id = :id AND isDeleted = 0");
+            $stmt->bindParam(':password', password_hash($newPassword, PASSWORD_DEFAULT));
+            $stmt->bindParam(':id', $userId);
+            $stmt->execute();
+            return array("statut" => "success");
+        } catch (PDOException $e) {
+            return array("statut" => "failed", "message" => "Erreur de connexion à la base de données: " . $e->getMessage());
+        }
     }
 
 }
