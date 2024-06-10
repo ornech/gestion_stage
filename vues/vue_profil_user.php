@@ -48,7 +48,7 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
       <div class="column is-one-third">
         <div class="box">
           <div class="content">
-            <h3 class="title is-4 has-text-centered blue-line-bottom mb-4">Le profil de <?= $Profil->nom ?></h3>
+            <h3 class="title is-4 has-text-centered blue-line-bottom mb-4"><?= $Profil->nom ?> <?= $Profil->prenom ?></strong></h3>
             <p class="card-text">Nom: <strong><?= $Profil->nom ?></strong> </p>
             <p class="card-text">Prénom: <strong><?= $Profil->prenom ?></strong> </p>
             <p class="card-text">Mail: <strong><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
