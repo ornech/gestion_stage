@@ -7,6 +7,7 @@ class Profil {
   public $idEtudiant;
   public $nom;
   public $prenom;
+  public $idTuteur;
   public $email;
   public $telephone;
   public $promo;
