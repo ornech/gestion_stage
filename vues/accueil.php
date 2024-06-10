@@ -61,10 +61,11 @@ require_once 'config/auth.php';
 <?php } ?>
 <?php if ($_SESSION['statut'] == "Professeur") { ?>
 
-  <?php if(($operationsTuteur && $operationsTuteur != null)):?>
+  <?php if(($operations && $operations != null)):?>
     <div class="box">
       <p class="subtitle is-3">Opérations en attente de validation</p>
       <p class="is-size-4"><?= $operationsTuteur && $operationsTuteur != null ? "<b><span class='is-size-4'>" . count($operationsTuteur) . "</span></b> opérations réalisées par les étudiants que vous suivez." : "" ?></p>
+      <p class="is-size-5"><?= $operations && $operations != null ? "<b><span class='is-size-4'>" . count($operations) - ($operationsTuteur && $operationsTuteur != null ? count($operationsTuteur) : 0) . "</span></b> opérations réalisées par les étudiants que vous ne suivez pas." : "" ?></p>
       <br>
       <a class="button is-info" href="/router.php?page=valider_operation">Valider les opérations</a>
     </div>
