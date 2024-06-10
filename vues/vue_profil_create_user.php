@@ -113,20 +113,16 @@ require_once 'config/auth.php';
                 </div>
               </div>
 
+              <div class="field">
+              <label class="label" for="redoublant">Élève redoublant</label>
+              <div class="control">
+                <input type="checkbox" class="checkbox" id="redoublant" name="redoublant">
+              </div>
+              </div>
+
             </div>
           </div>
           <!-- //// -->
-
-            <div class="field is-horizontal">
-            <div class="field-body">
-              <div class="field">
-              <label class="label" for="checkboxMDP">Mot de passe par défaut</label>
-              <div class="control">
-                <input type="checkbox" class="checkbox" id="checkboxMDP" name="checkboxMDP">
-              </div>
-              </div>
-            </div>
-            </div>
 
           <div class="field is-horizontal">
             <div class="field-body">
