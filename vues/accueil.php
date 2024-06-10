@@ -96,10 +96,3 @@ if ($_SESSION['statut'] == "Professeur") { ?>
     <p class="subtitle is-3">Stages à suivre</p>
   </div>
 <?php } ?>
-
-<br>
-<div class="box">
-  <p class="subtitle is-3">Dates de stages</p>
-  <p><b>SIO 1</b> : <?= "Du <b>13 mai 2024</b> au <b>21 juin 2024</b> (Texte brut)" ?></p>
-  <p><b>SIO 2</b> : <?= "Du <b>10 novembre 2023</b> au <b>16 decembre 2023</b> (Texte brut)" ?></p>
-</div>
