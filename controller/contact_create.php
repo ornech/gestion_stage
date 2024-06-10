@@ -26,7 +26,7 @@ if(isset($_POST["submit"]) && !isset($_POST["isPopup"])){
     $contact = new Contact($conn);
 
     if($contact->create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID)){
-        header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $idEntreprise);
+        header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $idEntreprise . "#contactSuccess");
         exit();
     } else {
         // Afficher un message d'erreur en cas d'échec de la mise à jour

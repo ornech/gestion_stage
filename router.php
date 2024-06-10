@@ -9,17 +9,17 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
-require_once 'config/auth.php';
-require_once 'config/db_connection.php';
-
 // Récupérer la page demandée depuis l'URL ou d'autres paramètres de requête
 $page = isset($_GET['page']) ? $_GET['page'] : 'accueil';
+
+require_once 'config/auth.php';
+require_once 'config/db_connection.php';
 
 // Inclure les en-têtes HTML
 include 'vues/headers.php';
 
 // Affichez le contenu de la page en fonction du statut de l'utilisateur connecté
-if(!str_starts_with($page, "vue_popup")){
+if(!str_starts_with($page, "vue_popup") && $page != "login" && $page != "password_reset"){
   if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
     // Affichez le menu pour les professeurs
     include 'vues/navbar_prof.php';
@@ -31,14 +31,22 @@ if(!str_starts_with($page, "vue_popup")){
   }
 }
 
-
 // Fonction de routage
 function router($page, $conn) {
   switch ($page) {
+    case 'login':
+      include 'vues/login.php'; // Page de connexion
+      break;
+
+    case 'password_reset':
+      include 'vues/password_reset.php'; // Page de connexion
+      break;
+
     case 'accueil':
       include_once 'model/Stage.php'; // Inclure le modèle Stage
       include_once 'model/Entreprise.php'; // Inclure le modèle Entreprise
       include_once 'model/Contact.php'; // Inclure le modèle Contact
+      include_once 'model/Operations.php'; // Inclure le modèle Operations
 
       $stageModel = new Stage($conn); // Instancier le modèle
       $stages = $stageModel->list();
@@ -48,6 +56,11 @@ function router($page, $conn) {
 
       $contactModel = new Contact($conn); // Instancier le modèle
       $contacts = $contactModel->list();
+
+      $operationsModel = new Operations($conn); // Instancier le modèle
+      $operations = $_SESSION['statut'] === 'Professeur' ? $operationsModel->list() : null;
+      $operationsTuteur = $operations && $operations != null ? $operationsModel->list_from_tuteur($_SESSION['userID']) : null;
+
       include 'vues/accueil.php';
       break;
 
@@ -479,6 +492,16 @@ function router($page, $conn) {
       include 'vues/vue_stage_convention.php';
       break;
 
+    case 'valider_operation':
+      route_protect('Professeur');
+      include_once 'model/Operations.php';
+
+      $opertationModel = new Operations($conn);
+      $operations = $opertationModel->list();
+
+      include 'vues/vue_operation_valider.php';
+      break;
+
     case 'logs':
       route_protect('Professeur');
 
@@ -505,7 +528,7 @@ function router($page, $conn) {
 
 
   router($page, $conn); // Passer $conn en paramètre
-  if(!str_starts_with($page, "vue_popup")){
+  if(!str_starts_with($page, "vue_popup") && $page != "login" && $page != "password_reset"){
     include 'vues/footer.php';
   }
 

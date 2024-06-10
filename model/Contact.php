@@ -31,14 +31,14 @@ class Contact {
 
     // Liste des entreprises
     public function list(){
-        $query = "SELECT * FROM ". $this->vue_name;
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE contact_valide = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function read_list($idEntreprise){
-        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise AND contact_valide = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
         $stmt->execute();
@@ -46,7 +46,7 @@ class Contact {
     }
 
     public function read_list_siret($siret){
-        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = (SELECT id from entreprise WHERE siret =:siret)";
+        $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = (SELECT id from entreprise WHERE siret =:siret) AND contact_valide = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':siret', $siret, PDO::PARAM_INT);
         $stmt->execute();
@@ -63,7 +63,7 @@ class Contact {
       fonction=:fonction ,
       service=:service ,
       created_userid=:created_userid
-      WHERE id = :id";
+      WHERE id = :id AND contact_valide = 1";
 
       $stmt = $this->conn->prepare($query);
 
@@ -100,6 +100,32 @@ class Contact {
         $stmt->execute();
         // Retournez directement le résultat
         return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function list_need_validation() {
+      $query = "SELECT * FROM ". $this->vue_name . " WHERE contact_valide = 0";
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      // Retournez directement le résultat
+      return $stmt->fetchAll(PDO::FETCH_OBJ);
+    } 
+
+    public function valider_contact($id){
+      $query = "UPDATE " . $this->table_name . " SET contact_valide = 1 WHERE id = :id";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+      try {
+        if($stmt->execute()){
+            return true;
+        } else {
+            throw new Exception("Erreur lors de l'exécution de la requête.");
+        }
+      } catch (Exception $e) {
+          //echo "Erreur : " . $e->getMessage();
+          $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+          header("Location: ../router.php?page=erreur&title=Validation contact&message=$message");
+          return false;
+      }
     }
 
     public function create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID){
@@ -153,6 +179,24 @@ class Contact {
           return false;
       }
     }
+
+    public function deleteContact($id) {
+      $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+      try {
+        if($stmt->execute()){
+            return true;
+        } else {
+            throw new Exception("Erreur lors de l'exécution de la requête.");
+        }
+      } catch (Exception $e) {
+          //echo "Erreur : " . $e->getMessage();
+          $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+          header("Location: ../router.php?page=erreur&title=Suppression contact&message=$message");
+          return false;
+      }
+    } 
 
 }
 ?>
