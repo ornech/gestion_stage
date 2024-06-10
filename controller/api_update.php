@@ -28,47 +28,15 @@ $entrepriseData = array(
 );
 
 // Vérifie si le formulaire a été soumis
-if(isset($_POST['submit'])) {
+if(isset($_POST['EntrepriseID'])) {
     // Récupération des données du formulaire
-    $nomEntreprise = $_POST['nomEntreprise'];
-    $adresse = $_POST['adresse'];
-    $adresse2 = empty($_POST['adresse2']) ? $_POST['adresse2'] : NULL;
-    $ville = $_POST['ville'];
-    $tel = empty($_POST['tel']) ? $_POST['tel'] : NULL;
-    $codePostal = $_POST['codePostal'];
-    $dep_geo = substr($_POST['codePostal'], 0, 2);
-    $siret =  $_POST['siret'];
-    $naf = substr($_POST['naf'], 0 , 6);
-    $effectif = $_POST['effectif'];
-    $type = $_POST['type'];
+    $EntrepriseID = $_POST['EntrepriseID'];
 
-
-    // Création d'un objet DateTime pour l'instant présent
-    $date = new DateTime();
-
-    // Mettre à jour les valeurs de $entrepriseData avec les données du formulaire
-    $entrepriseData = array(
-        'nomEntreprise' => $nomEntreprise,
-        'adresse' => $adresse,
-        'adresse2' => $adresse2,
-        'ville' => $ville,
-        'tel' => $tel,
-        'codePostal' => $codePostal,
-        'dep_geo' => $dep_geo,
-        'siret' => $siret,
-        'naf' => $naf,
-        'effectif' => $effectif,
-        'type' => $type,
-        'Created_UserID' => $_SESSION['userID'],
-        'Created_Date'=> $date->format('Y-m-d H:i:s')
-    );
-
-    // var_dump($entrepriseData);
     // Création d'une instance
     $entreprise = new Entreprise($conn);
 
     // Appel de la méthode ajouter de l'objet entreprise
-    if ($entreprise->api_update($entrepriseData)) {
+    if ($entreprise->update_api($EntrepriseID)) {
         //echo var_dump($entrepriseData);
         header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $_POST['EntrepriseID']);
         exit();
@@ -80,8 +48,8 @@ if(isset($_POST['submit'])) {
 } else {
     // Rediriger vers une page d'erreur si le formulaire n'a pas été soumis
     // header("Location: vue_erreur.php");
-    echo "<BR>Erreur ... ";
-    echo var_dump($entrepriseData);
+    //echo "<BR>Erreur ... ";
+    header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $_POST['EntrepriseID']);
     exit();
 }
 ?>
