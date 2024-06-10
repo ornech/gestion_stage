@@ -6,18 +6,21 @@ function verifgroupe($Profil, $conn, $dateActuelle){
   
   $needSetPromo = false;
   $promo = $Profil->promo;
-  $classe = "";
+  $classe = $Profil->classe;
+  $newClasse = null;
 
   if($Profil->statut == "Etudiant"){
     if(($promo == null || $promo == "") && $Profil->statut == "Etudiant"){
       $needSetPromo = true;
       $promo = assignPromo($Profil->date_entree);
     }
-
-    $classe = assignClasseByPromo($promo);
+    $newClasse = assignClasseByPromo($promo);
   }else{
-    $classe = "Enseignant";
+    $newClasse = "Enseignant";
   }
+
+  if($classe != $newClasse || $needSetPromo == true){
+    $classe = $newClasse;
 
     $sql = "UPDATE $table_name SET " . ($needSetPromo == true ? "promo=:promo, classe=:classe" : "classe=:classe") . " WHERE id = :id";
 
@@ -28,7 +31,7 @@ function verifgroupe($Profil, $conn, $dateActuelle){
       $stmt->bindParam(":promo", $promo, PDO::PARAM_STR);
     }
     $stmt->execute();
-
+  }
     return $classe;
 }
 
