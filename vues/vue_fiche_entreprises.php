@@ -56,10 +56,19 @@ if ($ficheEntreprise) {
 
               <div class="field is-grouped">
                 <div class="control">
-                  <FORM action="../controller/api_update.php" method="POST">
-                    <INPUT type="HIDDEN" NAME="EntrepriseID" VALUE="<?=$ficheEntreprise->EntrepriseID?>">
-                    <INPUT class="button is-link is-light" type="SUBMIT" NAME="SUBMIT" Value="Mettre à jour (API)">
-                  </FORM>                </div>
+                  <?php if($ficheEntreprise->siret):?>
+
+                    <form action="../controller/api_update.php" method="POST">
+                      <input type="hidden" NAME="EntrepriseID" VALUE="<?=$ficheEntreprise->EntrepriseID?>">
+                      <input class="button is-link is-light" type="submit" NAME="submit" Value="Mettre à jour (API)">
+                    </form>   
+                  
+                  <?php else:?>
+
+                    <button class="button is-link is-light" id="openModal" for="updateModal">Mettre à jour (API)</button>
+
+                  <?php endif;?>
+                </div>
                 <div class="control">
                     <INPUT class="button is-link is-light" type="SUBMIT" NAME="SUBMIT" Value="Modifier">
                 </div>
@@ -159,3 +168,51 @@ if ($ficheEntreprise) {
   // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
   echo "<p>Aucune entreprise trouvée avec cet identifiant.</p>";
 }?>
+
+<div class="modal" id="updateModal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title is-size-4">Mise à jour (API)</p>
+      <button class="delete" aria-label="close" id="closeModal" for="updateModal"></button>
+    </header>
+    <section class="modal-card-body">
+      <p>La mise à jour via l'API fonctionne uniquement si un siret est renseigné.</p>
+      <form id="updateForm" action="../controller/api_update.php" method="POST">
+        <input type="hidden" name="EntrepriseID" value="<?=$ficheEntreprise->EntrepriseID?>">
+        <div class="field">
+          <label class="label" id="siret">Merci de renseigner un N° de Siret</label>
+          <div class="control">
+            <input class="input" type="text" name="siret" id="siretInput" maxlength="14" placeholder="Siret">
+          </div>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success" id="submitModal" disabled>Mettre à jour</button>
+        <button class="button" id="closeModal" for="updateModal">Annuler</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('siretInput').addEventListener('input', function() {
+      var siretInput = document.getElementById('siretInput');
+      var submitModal = document.getElementById('submitModal');
+      
+      if (siretInput.value.length === 14) {
+        submitModal.disabled = false;
+      } else {
+        submitModal.disabled = true;
+      }
+    });
+
+    document.getElementById('submitModal').addEventListener('click', function() {
+      document.getElementById('updateForm').submit();
+    });
+
+  });
+</script>

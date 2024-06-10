@@ -328,7 +328,7 @@ class Entreprise {
     }
   }
 
-  public function update_api($id){
+  public function update_api($id, $siret){
 
     $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
     $stmt = $this->conn->prepare($query);
@@ -357,8 +357,9 @@ class Entreprise {
     // $q = implode(' AND ', $query_parts);
     if (isset($data_entreprise->siret)) {
       $q = "siret:" . $data_entreprise->siret;
-    }
-    else {
+    }else if($siret){
+      $q = "siret:" . $siret;
+    }else {
       echo "Ajouter d'abord un N° de Siret à votre entreprise";
       exit;
     }
