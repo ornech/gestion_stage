@@ -72,7 +72,12 @@ if ($ficheEntreprise) {
         <button type='button' class='button'>Ajouter un contact</button>
       </a></p>
   </div>
-  <p><strong>Ajouté par: </strong> <?= $ficheEntreprise->Created_User ?></p>
+  <p>
+    <FORM action="../controller/api_update.php" method="POST">
+      <INPUT type="HIDDEN" NAME="EntrepriseID" VALUE="<?=$ficheEntreprise->EntrepriseID?>">
+      <INPUT type="SUBMIT" NAME="SUBMIT">
+    </FORM>
+    <strong>Ajouté par: </strong> <?= $ficheEntreprise->Created_User ?></p>
 
   <!-- -------------------------------------------------------------------------------- -->
 
