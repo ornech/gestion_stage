@@ -100,7 +100,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"]) && isset($_POST[
     $stmt->bindParam(":id", $profilId);
     $stmt->bindParam(":idTuteur", $idTuteur);
     $stmt->execute();
-    //echo '<script>window.location.reload();</script>';
+    echo "<script type='text/javascript'>
+    window.location.href = window.location.href;
+  </script>";    
+  exit;
 }
     
     ?>
