@@ -10,7 +10,7 @@ if($Profil) {
 $userPoints = $profilModel->getPointByUser($Profil->id);
 $tuteurs = $profilModel->list_by_professeur();
 $table_name = 'user';
-
+$id = $Profil -> id;
 
 if(isset($userPoints->points)) {
     $userPoints = $userPoints->points;
@@ -20,11 +20,7 @@ if(isset($userPoints->points)) {
 ?>
 
 <style>
-    .card {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+
 
     .card-content {
         text-align: center;
@@ -56,16 +52,16 @@ if(isset($userPoints->points)) {
                         <h3 class="title is-4 has-text-centered blue-line-bottom mb-4">Le profil de <?= $Profil->nom ?></h3>
                         <p class="card-text">Nom: <strong><?= $Profil->nom ?></strong> </p>
                         <p class="card-text">Prénom: <strong><?= $Profil->prenom ?></strong> </p>
-                        <p class="card-text">Mail: <strong><?= $Profil->email ? $Profil->email : "Non défini" ?></strong> </p>
-                        <p class="card-text">Login: <strong><?= $Profil->login ? $Profil->login : "Non défini" ?></strong> </p>
-                        <p class="card-text">Statut: <strong><?= $Profil->statut ? $Profil->statut : "Non défini"  ?></strong> </p>
+                        <p class="card-text">Mail: <strong><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
+                        <p class="card-text">Login: <strong><?= $Profil->login ? $Profil->login : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
+                        <p class="card-text">Statut: <strong><?= $Profil->statut ? $Profil->statut : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>'  ?></strong> </p>
                         
- <!-- ---------------QUE POUR LES PROFILS DES ETUDIANTS-----------------  -->
+ <!-- ------------------------------------------QUE POUR LES PROFILS DES ETUDIANTS-----------------------------  -->
                         <?php if($Profil->statut=='Etudiant'){?>
 
                             <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
-                            <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo : "Non défini"  ?></strong> </p>
-                            <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : "Non défini"  ?></strong>
+                            <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo :  '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
+                            <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>'  ?></strong>
                             <?php if ($_SESSION['statut'] == "Professeur") { ?>
                             <button id="openModal" for="modalSpe" class="button is-small">
   <span class="icon">
@@ -95,12 +91,12 @@ else {
                 <select name="spe">
     <?php 
      ?>
-                        <option value="<?= $Profil->spe ?>"><?= $Profil->spe ? $Profil->spe : 'Pas de spécialité' ?></option>
-                        <option value="SLAM">SLAM</option>
-                        <option value="SISR">SISR</option>
-                        <option value=""> Pas de spécialité</option>
+                        <option value="SLAM" <?= $Profil->spe == "SLAM" ? "selected" : "" ?>>SLAM</option>
+                        <option value="SISR" <?= $Profil->spe == "SISR" ? "selected" : "" ?>>SISR</option>
+                        <option value=""<?= $Profil->spe == "" || $Profil->spe == NULL ? "selected" : ""?>> Pas de spécialité</option>
                     </select>
                 
+
             </div>
         </form>
             <?php
@@ -123,7 +119,7 @@ else {
             
             ?>
         
-        <?php  } ?>
+        <?php   ?>
 
 
 
@@ -132,16 +128,13 @@ else {
       <div class="buttons">
         <button class="button is-success" id="saveSpe">Enregistrer</button>
 
-        <button class="button" id="cancelModal">Annuler</button>
+        <button class="button" id="closeModal" for="modalSpe">Annuler</button>
 
         <script>
    document.getElementById('saveSpe').addEventListener('click', function() {
     document.getElementById('speForm').submit();
 });
-document.getElementById('cancelModal').addEventListener('click', function() {
-        var modal = document.getElementById('modalSpe');
-        modal.classList.remove('is-active');
-    });
+
 </script>
         
       </div>
@@ -160,7 +153,7 @@ document.getElementById('cancelModal').addEventListener('click', function() {
                            }} 
                          } 
     else {
-    echo '';
+    echo '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>';
                            } 
                         ?> <?php if ($_SESSION['statut'] == "Professeur") { ?>
                             <button id="openModal" for="modalTuteur" class="button is-small">
@@ -244,18 +237,15 @@ if (isset($_POST["id"]) && isset($_POST["idTuteur"])) {
       <div class="buttons">
         <button class="button is-success" id="saveTuteur">Enregistrer</button>
 
-        <button class="button" id="cancelModal">Annuler</button>
+        <button class="button" id="closeModal" for="modalTuteur">Annuler</button>
 
         <script>
    document.getElementById('saveTuteur').addEventListener('click', function() {
     document.getElementById('tuteurForm').submit();
 });
-document.getElementById('cancelModal').addEventListener('click', function() {
-        var modal = document.getElementById('modalTuteur');
-        modal.classList.remove('is-active');
-    });
+
 </script>
-        
+</strong>
       </div>
     </footer>
   </div>
@@ -263,29 +253,34 @@ document.getElementById('cancelModal').addEventListener('click', function() {
 
 <?php 
                         
-
-                   ?></p>
-                        <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>
-                        <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $_SESSION["userID"] : "edit_my_profil" ?>" class="button is-primary mt-4">Modifier</a>
-                        <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?><button class="button is-danger mt-4" id="openModal" for="modalDelete">Supprimer</button><?php endif;?>
+                    
+                   ?></p></p>
+                        <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>     
+  </span>
+                        <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $Profil->id : "edit_my_profil" ?>"  class="button is-primary mt-4">Modifier &nbsp;<span class="icon"><i class="fas fa-pencil-alt"></i></a>
+                        <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?><button class="button is-danger mt-4" id="openModal" for="modalDelete">Supprimer &nbsp;<p class="icon"><i class="fas fa-trash-alt"></i></button><?php endif;?>
                     </div>
                 </div>
             </div>
         </div>
 
         <?php
+            }
+            // ------------------------------------LA PARTIE DE BOX DE STAGE--------------------------------------
+            
             $statut=$Profil->statut;
             if ($statut=='Etudiant'){
         ?>
 
-        <div class="column is-two-third">
-            <div class="box"  style="display: flex; flex-direction: column; height: 100%;">
-                <h3 class="title is-4 has-text-centered orange-line-bottom">Stages effectuées</h3>
+<div class="column is-two-third">
+    <div class="box">
+        <div style="display: flex; flex-direction: column; height: 100%;">
+            <h3 class="title is-4 has-text-centered orange-line-bottom">Stages effectués</h3>
                 <?php if (isset($stages[0])) {
                     foreach ($stages as $stage) {?>
 
-                <table class="table is-fullwidth tableFilter" id="maTable">
-                    <thead>
+<table class="table table-striped table-hover tableFilter" id="maTable">
+<thead>
                         <tr>
                             <th>Entreprise</th>
                             <th>Classe</th>
@@ -314,7 +309,7 @@ document.getElementById('cancelModal').addEventListener('click', function() {
         <?php }?>
     </div>
 </div>
-
+</div></div>
 <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?>
 
 <div class="modal" id="modalDelete">
@@ -381,12 +376,12 @@ document.getElementById('cancelModal').addEventListener('click', function() {
 
 
 
-<?php }else {
+<?php } else {
    // Si aucun profil n'a été trouvée, afficher un message d'erreur
    echo "<p>Aucun profil trouvé avec ce lien.</p>";
 }
 
-}else{
+} else{
    header("Location: ../router.php?page=profil");
 }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
 ?>
