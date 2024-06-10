@@ -155,7 +155,7 @@ class Entreprise {
     }
 
     // Clé d'API
-    $api_key = '94bcc60b-d0b4-3b55-8f7c-a1e5156a760b';
+    $api_key = '01702018-fa7f-34df-8354-a841f68f821b';
 
     // Configuration de la requête cURL
     $ch = curl_init($url);
@@ -336,25 +336,32 @@ class Entreprise {
     $stmt->execute();
     $data_entreprise = $stmt->fetch(PDO::FETCH_OBJ);
 
-    var_dump($data_entreprise);
+    //var_dump($data_entreprise);
 
     // Token d'accès
-    $token = '94bcc60b-d0b4-3b55-8f7c-a1e5156a760b';
+    $token = '01702018-fa7f-34df-8354-a841f68f821b';
 
 
     // Paramètres de recherche
-    $search_params = [
-        'denominationUniteLegale' => $data_entreprise->nomEntreprise,
-        'codePostalEtablissement' => $data_entreprise->codePostal,
-        'libelleCommuneEtablissement' => $data_entreprise->ville
-    ];
+    // $search_params = [
+    //     'denominationUniteLegale' => $data_entreprise->nomEntreprise,
+    //     //'codePostalEtablissement' => $data_entreprise->codePostal,
+    //     'libelleCommuneEtablissement' => $data_entreprise->ville
+    // ];
 
     // Construire le paramètre `q`
-    $query_parts = [];
-    foreach ($search_params as $key => $value) {
-      $query_parts[] = "$key:$value";
+    // $query_parts = [];
+    // foreach ($search_params as $key => $value) {
+    //   $query_parts[] = "$key:$value";
+    // }
+    // $q = implode(' AND ', $query_parts);
+    if (isset($data_entreprise->siret)) {
+      $q = "siret:" . $data_entreprise->siret;
     }
-    $q = implode(' AND ', $query_parts);
+    else {
+      echo "Ajouter d'abord un N° de Siret à votre entreprise";
+      exit;
+    }
 
     // Paramètres de la requête
     $params = [
@@ -365,9 +372,6 @@ class Entreprise {
     // Construire l'URL de requête
     $query = http_build_query($params);
     $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret?$query";
-
-    echo $url;
-    echo "<ht>";
 
     // Initialiser cURL
     $ch = curl_init();
@@ -391,19 +395,13 @@ class Entreprise {
       if ($http_code === 200) {
         // Réponse réussie
         $entrepriseData = json_decode($response, true);
-        //$entrepriseData = $data["etablissements"];
         // Prépare les données pour l'insertion
 
         $entreprise = $entrepriseData['etablissements'][0];
 
-
         $addr = $entreprise['adresseEtablissement']['numeroVoieEtablissement'] . " "
         . $entreprise['adresseEtablissement']['typeVoieEtablissement'] . " "
         . $entreprise['adresseEtablissement']['libelleVoieEtablissement'];
-
-        //var_dump($addr);
-
-
 
         $this->nomEntreprise = htmlspecialchars(strip_tags($entreprise['uniteLegale']['denominationUniteLegale'] ?? '-'));
         $this->adresse = htmlspecialchars(strip_tags($addr ?? '-'));
@@ -443,8 +441,22 @@ class Entreprise {
         $stmt->bindParam(":Created_UserID", $this->Created_UserID);
         $stmt->bindParam(":id", $id);
 
-        $stmt->debugDumpParams();
+        try {
+          if($stmt->execute()){
+            //Obtenir les données que l'on vient de créer dans la table
+            return true;
 
+          } else {
+            throw new Exception("Erreur lors de l'exécution de la requête.");
+            return false;
+
+          }
+        } catch (Exception $e) {
+          //echo "Erreur : " . $e->getMessage();
+          $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+          header("Location: ../router.php?page=erreur&message=$message");
+          return false;
+        }
 
 
       } else {

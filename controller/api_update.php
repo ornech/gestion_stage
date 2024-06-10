@@ -34,17 +34,17 @@ if(isset($_POST['EntrepriseID'])) {
 
     // Création d'une instance
     $entreprise = new Entreprise($conn);
-
+    $entreprise->update_api($EntrepriseID);
     // Appel de la méthode ajouter de l'objet entreprise
-    if ($entreprise->update_api($EntrepriseID)) {
-        //echo var_dump($entrepriseData);
-        header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $_POST['EntrepriseID']);
-        exit();
-
-    } else {
-        // Afficher un message d'erreur en cas d'échec de la mise à jour
-        echo "Une erreur s'est produite avec le model: "  . $_SERVER['SCRIPT_NAME'];
-    }
+    // if ($entreprise->update_api($EntrepriseID)) {
+    //     //echo var_dump($entrepriseData);
+    //     header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $_POST['EntrepriseID']);
+    //     exit();
+    //
+    // } else {
+    //     // Afficher un message d'erreur en cas d'échec de la mise à jour
+    //     echo "Une erreur s'est produite avec le model: "  . $_SERVER['SCRIPT_NAME'];
+    // }
 } else {
     // Rediriger vers une page d'erreur si le formulaire n'a pas été soumis
     // header("Location: vue_erreur.php");

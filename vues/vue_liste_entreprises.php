@@ -25,7 +25,7 @@ require_once 'config/auth.php';
   <p class="title is-2">Annuaire entreprises</p>
   <p class="subtitle is-4">Entreprises qui ont été démarchées ou qui ont acceuillies des stagiaires.</p>
   <div class="field is-grouped is-grouped-multiline is-flex ">
- 
+
     <div class="control">
   <div class="tags has-addons is-large">
     <span class="tag is-dark">Entreprises</span>
@@ -36,6 +36,7 @@ require_once 'config/auth.php';
   <table class="table tableFilter" id="maTable">
         <thead>
             <tr>
+              <td></td>
                 <?php
                 // Liste des colonnes du tableau
                 $entreprise_tableau = [
@@ -55,6 +56,24 @@ require_once 'config/auth.php';
                         }
                     }
                     return array_unique($values);
+                }
+
+                // Détermination de la couleur RGB
+                function couleurDegrade($pourcentage) {
+                    if ($pourcentage <= 0.5) {
+                        // Transition du vert à l'orange
+                        $r = (int)(255 * ($pourcentage / 0.5));
+                        $g = 255;
+                        $b = 0;
+                    } else {
+                        // Transition de l'orange au rouge
+                        $r = 255;
+                        $g = (int)(255 * ((1 - $pourcentage) / 0.5));
+                        $b = 0;
+                    }
+
+                    // Conversion en hexadécimal
+                    return sprintf("#%02x%02x%02x", $r, $g, $b);
                 }
 
                 // Générer les filtres personnalisés pour chaque colonne
@@ -78,6 +97,32 @@ require_once 'config/auth.php';
         <tbody>
             <?php foreach ($entreprises as $entreprise): ?>
                 <tr>
+                    <td> <?php
+                    // Comptage du nombre total de champs
+
+                    $tableau = (array)$entreprise;
+                    // Comptage du nombre total de champs
+                    $nombre_champs_total = count($tableau);
+
+                    // Utilisation de array_filter pour filtrer les champs vides
+                    $champs_vides = array_filter($tableau, function($valeur) {
+                        return $valeur === '' || $valeur === null;
+                    });
+
+                    // Comptage des champs vides
+                    $nombre_champs_vides = count($champs_vides);
+
+                    // Calcul du pourcentage de champs vides
+                    $pourcentage_vide = $nombre_champs_vides / $nombre_champs_total;
+
+                    // Calcul de la couleur en fonction du pourcentage de champs vides
+                    $couleur = couleurDegrade($pourcentage_vide);
+
+
+                    // Affichage des résultats
+                    echo "<i class='fa fa-circle' style='color:$couleur'></i> "; // . ceil($pourcentage_vide * 100) . "%" ;
+
+                    ?> </td>
                     <td><a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->id ?>"><?= htmlspecialchars($entreprise->nomEntreprise) ?></a></td>
                     <td><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
                     <td><?= $entreprise->ville != null ? htmlspecialchars($entreprise->ville) : "Non défini" ?></td>
