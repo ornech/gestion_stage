@@ -4,7 +4,7 @@ require_once 'config/auth.php';
 ?>
 
 <p class="title is-1">Application Gestage BTS SIO</p>
-<p class="subtitle is-3">Récherche et gestion de stages</p>
+<p class="subtitle is-3">Recherche et gestion de stages</p>
 <div class="field is-grouped is-grouped-multiline">
   <div class="control">
     <div class="tags has-addons is-small">

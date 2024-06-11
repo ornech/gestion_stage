@@ -9,7 +9,7 @@ require_once 'config/auth.php';
 </div>
 
 <p class="title is-2">Annuaire entreprises</p>
-<p class="subtitle is-4">Entreprises qui ont été démarchées ou qui ont acceuillies des stagiaires.</p>
+<p class="subtitle is-4">Entreprises qui ont été démarchées ou qui ont accueilli des stagiaires.</p>
 <div class="field is-grouped is-grouped-multiline is-flex ">
 
 <div class="control">

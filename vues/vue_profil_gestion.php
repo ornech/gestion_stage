@@ -36,7 +36,7 @@ if ($_SESSION['statut'] == "Professeur") {
   <div class="field is-grouped" style="align-items: center;">
     <div>
       <p class="title is-2">Gestion utilisateurs</p>
-      <p class="subtitle is-4">Admimistration des comptes</p>
+      <p class="subtitle is-4">Administration des comptes</p>
     </div>
     <a class='button is-success' href='router.php?page=create_user' role='button' style="height: 100%; margin-left: 3%;">Créer un compte</a>
   </div>
