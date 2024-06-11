@@ -271,7 +271,7 @@ class Profil {
   }
 
   public function getPointByUser($id){
-    $query = "SELECT count(pointGagne) as `points` FROM $this->vue_logs INNER JOIN $this->table_name ON idUser=id WHERE idUser=:id AND isDeleted = 0 GROUP BY idUser;";
+    $query = "SELECT SUM(pointGagne) as `points` FROM $this->vue_logs INNER JOIN $this->table_name ON idUser=id WHERE idUser=:id AND isDeleted = 0 GROUP BY idUser;";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
