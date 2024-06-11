@@ -22,9 +22,6 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
     <style>
 
 
-    .card-content {
-      text-align: center;
-    }
 
     .blue-line-bottom {
       border-bottom: 2px solid #00d1b2;
@@ -41,120 +38,61 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
       cursor: default;            /* Non-essential, but cursor should not change when selecting text */
     }
 
-  </style>
+    </style>
 
-  <div class="container">
-    <div class="columns">
-      <div class="column is-one-third">
-        <div class="box">
-          <div class="content">
-            <h3 class="title is-4 has-text-centered blue-line-bottom mb-4"><?= $Profil->nom ?> <?= $Profil->prenom ?></strong></h3>
-            <p class="card-text">Nom: <strong><?= $Profil->nom ?></strong> </p>
-            <p class="card-text">Prénom: <strong><?= $Profil->prenom ?></strong> </p>
-            <p class="card-text">Mail: <strong><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
-            <p class="card-text">Login: <strong><?= $Profil->login ? $Profil->login : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
-            <p class="card-text">Statut: <strong><?= $Profil->statut ? $Profil->statut : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>'  ?></strong> </p>
+    <div class="container">
+      <div class="columns">
+        <div class="column is-one-third">
+          <div class="box">
+            <div class="content">
+              <h3 class="title is-4 has-text-centered blue-line-bottom mb-4"><?= $Profil->nom ?> <?= $Profil->prenom ?></strong></h3>
+              <table  class="table is-fullwidth">
+                <!--
 
-            <!-- ------------------------------------------QUE POUR LES PROFILS DES ETUDIANTS-----------------------------  -->
-            <?php if($Profil->statut=='Etudiant'){?>
-
-              <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
-              <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo :  '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
-              <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>'  ?></strong>
-                <?php if ($_SESSION['statut'] == "Professeur") { ?>
-                  <button id="openModal" for="modalSpe" class="button is-small">
-                    <span class="icon">
-                      <i class="fas fa-pencil-alt"></i>
-                    </span>
-                  </button> <?php }
-                  else {
-                    echo '';
-                  }
-                  ?>
-
-                  <div class="modal" id="modalSpe">
-                    <div class="modal-background"></div>
-                    <div class="modal-card">
-                      <header class="modal-card-head">
-                        <p class="modal-card-title">Modification de spécialité</p>
-                      </header>
-                      <section class="modal-card-body">
+                <tr><th>Nom</th><td><strong><?= $Profil->nom ?></strong> </td></tr>
+                <tr><th>Prénom</th><td><strong><?= $Profil->prenom ?></strong> </td></tr>
+              -->
+              <tr><th>Statut</th><td><?= $Profil->statut ? $Profil->statut : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>'  ?></td><td></td></tr>
+              <tr><th>Login</th><td><?= $Profil->login ? $Profil->login : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
+              <tr><th>Mail</th><td><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
 
 
-                        <form id="speForm" method="post">
-                          <p class="card-text">
-                            <div class="is-grouped">
-                              Spécialité:
-                              <input type="hidden" name="id" class="id" value="<?= isset($Profil->id) ? $Profil->id : "" ?>">
-                              <div class="select is-small" id="selectSpe">
-                                <select name="spe">
-                                  <?php
-                                  ?>
-                                  <option value="SLAM" <?= $Profil->spe == "SLAM" ? "selected" : "" ?>>SLAM</option>
-                                  <option value="SISR" <?= $Profil->spe == "SISR" ? "selected" : "" ?>>SISR</option>
-                                  <option value=""<?= $Profil->spe == "" || $Profil->spe == NULL ? "selected" : ""?>> Pas de spécialité</option>
-                                </select>
+              <!-- ------------------------------------------QUE POUR LES PROFILS DES ETUDIANTS-----------------------------  -->
+              <?php if($Profil->statut=='Etudiant'){?>
+
+                <tr><th>Groupe</th><td><?= $Profil->classe ?></td><td></td></tr>
+                <tr><th >Promotion</th><td><?= $Profil->promo ? $Profil->promo :  '-' ?></td><td></td></tr>
+                <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '-'  ?></td><td>
+                  <?php if ($_SESSION['statut'] == "Professeur") { ?>
+                    <button id="openModal" for="modalSpe" class="button is-small">
+                      <span class="icon">
+                        <i class="fas fa-pencil-alt"></i>
+                      </span>
+                    </button> <?php }
+                    else {
+                      echo '';
+                    }
+                    ?>
+
+                  </td></tr>
 
 
-                              </div>
-                            </form>
-                            <?php
-                            if (isset($_POST["id"]) && isset($_POST["spe"])) {
+                </tr>
 
-                              $profilId = $_POST["id"];
-                              $spe = $_POST["spe"];
-
-                              $sql = "UPDATE " . $table_name . " SET spe = :spe WHERE id = :id";
-                              $stmt = $conn->prepare($sql);
-                              $stmt->bindParam(":id", $profilId);
-                              $stmt->bindParam(":spe", $spe);
-                              $stmt->execute();
-                              echo "<script type='text/javascript'>
-                              window.location.href = window.location.href;
-                              </script>";
-                              exit;
-                            }
-
-
-                            ?>
-
-                            <?php   ?>
-
-
-
-                          </section>
-                          <footer class="modal-card-foot">
-                            <div class="buttons">
-                              <button class="button is-success" id="saveSpe">Enregistrer</button>
-
-                              <button class="button" id="closeModal" for="modalSpe">Annuler</button>
-
-                              <script>
-                              document.getElementById('saveSpe').addEventListener('click', function() {
-                                document.getElementById('speForm').submit();
-                              });
-
-                            </script>
-
-                          </div>
-                        </footer>
-                      </div>
-                    </div>
-
-
-
-
-                  </p>
-                  <p class="card-text">Tuteur: <strong><?php if (isset ($Profil->idTuteur)){
+                <tr><th>Tuteur</th><td>
+                  <?php if (isset ($Profil->idTuteur)){
                     foreach ($tuteurs as $tuteur) {
                       if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) {
                         echo "<strong> $tuteur->nom $tuteur->prenom</strong>";
                       }}
                     }
                     else {
-                      echo '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>';
+                      echo '-';
                     }
-                    ?> <?php if ($_SESSION['statut'] == "Professeur") { ?>
+                    ?>
+                  </td><td>
+
+                    <?php if ($_SESSION['statut'] == "Professeur") { ?>
                       <button id="openModal" for="modalTuteur" class="button is-small">
                         <span class="icon">
                           <i class="fas fa-pencil-alt"></i>
@@ -163,97 +101,9 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
                     <?php } else {
                       echo '';
                     }?>
+                  </td></tr>
+                </table>
 
-                    <!-- -------------------------------DEBUT DE MODAL---------------------------------------- -->
-
-                    <div class="modal" id="modalTuteur">
-                      <div class="modal-background"></div>
-                      <div class="modal-card">
-                        <header class="modal-card-head">
-                          <p class="modal-card-title">Modification de tuteur</p>
-                        </header>
-                        <section class="modal-card-body">
-
-
-                          <p class="card-text">Tuteur actuel: <?php if (isset ($Profil->idTuteur)){
-                            foreach ($tuteurs as $tuteur) {
-                              if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) {
-                                echo "<strong> $tuteur->nom $tuteur->prenom</strong>";
-                              }}
-                            }
-                            else {
-                              echo '';
-                            }
-                            ?>
-                            <?php
-                            if (isset($_POST["id"]) && isset($_POST["idTuteur"])) {
-
-                              $profilId = $_POST["id"];
-                              $idTuteur = $_POST["idTuteur"];
-
-                              $sql = "UPDATE " . $table_name . " SET idTuteur = :idTuteur WHERE id = :id";
-                              $stmt = $conn->prepare($sql);
-                              $stmt->bindParam(":id", $profilId);
-                              $stmt->bindParam(":idTuteur", $idTuteur);
-                              $stmt->execute();
-                              echo "<script type='text/javascript'>
-                              window.location.href = window.location.href;
-                              </script>";
-                              exit;
-                            }
-
-                            ?>
-
-                            <form id="tuteurForm" method="post">
-                              <p class="card-text">
-                                <div class="is-grouped">
-                                  Nouveau tuteur:
-                                  <input type="hidden" name="id" class="id" value="<?= isset($Profil->id) ? $Profil->id : "" ?>">
-                                  <div class="select is-small" id="selectTuteur">
-                                    <select name="idTuteur">
-                                      <?php if (isset($Profil->idTuteur)) { ?>
-                                        <?php foreach ($tuteurs as $tuteur) : ?>
-                                          <option value="<?= $tuteur->id ?>" <?= isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id ? "selected" : "" ?>>
-                                            <?= "$tuteur->nom $tuteur->prenom" ?>
-                                          </option>
-                                        <?php endforeach; ?>
-                                      <?php } else { ?>
-                                        <option value="">Aucun professeur assigné</option>
-                                        <?php foreach ($tuteurs as $tuteur) : ?>
-                                          <option value="<?= $tuteur->id ?>">
-                                            <?= "$tuteur->nom $tuteur->prenom" ?>
-                                          </option>
-                                        <?php endforeach; ?>
-                                      <?php } ?>
-                                    </select>
-                                  </div>
-                                </div>
-                              </p>
-                            </form>
-                          </p>
-                        </section>
-                        <footer class="modal-card-foot">
-                          <div class="buttons">
-                            <button class="button is-success" id="saveTuteur">Enregistrer</button>
-
-                            <button class="button" id="closeModal" for="modalTuteur">Annuler</button>
-
-                            <script>
-                            document.getElementById('saveTuteur').addEventListener('click', function() {
-                              document.getElementById('tuteurForm').submit();
-                            });
-
-                          </script>
-                        </strong>
-                      </div>
-                    </footer>
-                  </div>
-                </div>
-
-                <?php
-
-
-                ?></p></p>
                 <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>
               </span>
               <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $Profil->id : "edit_my_profil" ?>"  class="button is-primary mt-4">Modifier &nbsp;<span class="icon"><i class="fas fa-pencil-alt"></i></a>
@@ -262,7 +112,7 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
               </div>
             </div>
 
-            <?php
+          <?php
           }
           // ------------------------------------LA PARTIE DE BOX DE STAGE--------------------------------------
 
@@ -307,40 +157,194 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
             <?php }?>
           </div>
         </div>
-      </div></div>
-      <?php if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?>
 
-        <div class="modal" id="modalDelete">
+
+        <?php // -------------- MODALS --------------------
+        if($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur"):?>
+
+        <div class="modal" id="modalSpe">
           <div class="modal-background"></div>
           <div class="modal-card">
             <header class="modal-card-head">
-              <p class="modal-card-title">Êtes-vous sûr(e) ?</p>
-              <button class="delete cancel" id="closeModal" for="modalDelete" aria-label="close"></button>
+              <p class="modal-card-title">Modification de spécialité</p>
             </header>
-            <section class="modal-card-body unselectable">
-              <div class="content">
-                <p>La suppression de ce compte entraînera l'anonymisation des données personnelles de l'utilisateur :</p>
-                <ul>
-                  <li>Nom et prénom</li>
-                  <li>Téléphone et adresse e-mail</li>
-                  <li>Classe, date d'entrée, promotion et spécialité</li>
-                </ul>
-                <p>L'utilisateur perdra également l'accès à son compte et à toutes ses fonctionnalités associées.</p>
-                <p>Veuillez confirmer votre choix en écrivant son nom et prénom :<br>
-                  <b><?= $Profil->nom?> <?= $Profil->prenom?></b></p>
+            <section class="modal-card-body">
+              <form id="speForm" method="post">
+                <p class="card-text">
+                  <div class="is-grouped">
+                    Spécialité:
+                    <input type="hidden" name="id" class="id" value="<?= isset($Profil->id) ? $Profil->id : "" ?>">
+                    <div class="select is-small" id="selectSpe">
+                      <select name="spe">
+                        <?php
+                        ?>
+                        <option value="SLAM" <?= $Profil->spe == "SLAM" ? "selected" : "" ?>>SLAM</option>
+                        <option value="SISR" <?= $Profil->spe == "SISR" ? "selected" : "" ?>>SISR</option>
+                        <option value=""<?= $Profil->spe == "" || $Profil->spe == NULL ? "selected" : ""?>> Pas de spécialité</option>
+                      </select>
+                    </div>
+                  </form>
+                  <?php
+                  if (isset($_POST["id"]) && isset($_POST["spe"])) {
 
-                  <input type="text" id="confirmName" class="input" placeholder="Nom et prénom" required>
-                  <p>Une fois cette action réalisée, vous ne pourrez plus revenir en arrière !</p>
-                </div>
-              </section>
-              <footer class="modal-card-foot">
-                <div class="buttons">
-                  <button class="button cancel" id="closeModal" for="modalDelete">Annuler</button>
-                  <button class="button is-danger" id="accept" disabled>Confirmer la suppression</button>
-                </div>
-              </footer>
+                    $profilId = $_POST["id"];
+                    $spe = $_POST["spe"];
+
+                    $sql = "UPDATE " . $table_name . " SET spe = :spe WHERE id = :id";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindParam(":id", $profilId);
+                    $stmt->bindParam(":spe", $spe);
+                    $stmt->execute();
+                    echo "<script type='text/javascript'>
+                    window.location.href = window.location.href;
+                    </script>";
+                    exit;
+                  }
+                  ?>
+                </section>
+
+                <footer class="modal-card-foot">
+                  <div class="buttons">
+                    <button class="button is-success" id="saveSpe">Enregistrer</button>
+
+                    <button class="button" id="closeModal" for="modalSpe">Annuler</button>
+
+                    <script>
+                    document.getElementById('saveSpe').addEventListener('click', function() {
+                      document.getElementById('speForm').submit();
+                    });
+                    </script>
+                  </div>
+                </footer>
+              </div>
             </div>
+
+          </p>
+
+
+
+        </div>
+      </div>
+
+
+
+
+      <div class="modal" id="modalDelete">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Êtes-vous sûr(e) ?</p>
+            <button class="delete cancel" id="closeModal" for="modalDelete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body unselectable">
+            <div class="content">
+              <p>La suppression de ce compte entraînera l'anonymisation des données personnelles de l'utilisateur :</p>
+              <ul>
+                <li>Nom et prénom</li>
+                <li>Téléphone et adresse e-mail</li>
+                <li>Classe, date d'entrée, promotion et spécialité</li>
+              </ul>
+              <p>L'utilisateur perdra également l'accès à son compte et à toutes ses fonctionnalités associées.</p>
+              <p>Veuillez confirmer votre choix en écrivant son nom et prénom :<br>
+                <b><?= $Profil->nom?> <?= $Profil->prenom?></b></p>
+
+                <input type="text" id="confirmName" class="input" placeholder="Nom et prénom" required>
+                <p>Une fois cette action réalisée, vous ne pourrez plus revenir en arrière !</p>
+              </div>
+            </section>
+            <footer class="modal-card-foot">
+              <div class="buttons">
+                <button class="button cancel" id="closeModal" for="modalDelete">Annuler</button>
+                <button class="button is-danger" id="accept" disabled>Confirmer la suppression</button>
+              </div>
+            </footer>
           </div>
+        </div>
+
+
+        <!-- -------------------------------DEBUT DE MODAL---------------------------------------- -->
+
+        <div class="modal" id="modalTuteur">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Modification de tuteur</p>
+            </header>
+            <section class="modal-card-body">
+
+
+              <p class="card-text">Tuteur actuel: <?php if (isset ($Profil->idTuteur)){
+                foreach ($tuteurs as $tuteur) {
+                  if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) {
+                    echo "$tuteur->nom $tuteur->prenom";
+                  }}
+                }
+                else {
+                  echo '';
+                }
+
+                if (isset($_POST["id"]) && isset($_POST["idTuteur"])) {
+
+                  $profilId = $_POST["id"];
+                  $idTuteur = $_POST["idTuteur"];
+
+                  $sql = "UPDATE " . $table_name . " SET idTuteur = :idTuteur WHERE id = :id";
+                  $stmt = $conn->prepare($sql);
+                  $stmt->bindParam(":id", $profilId);
+                  $stmt->bindParam(":idTuteur", $idTuteur);
+                  $stmt->execute();
+                  echo "<script type='text/javascript'>
+                  window.location.href = window.location.href;
+                  </script>";
+                  exit;
+                }
+
+                ?>
+
+                <form id="tuteurForm" method="post">
+                  <p class="card-text">
+                    <div class="is-grouped">
+                      Nouveau tuteur:
+                      <input type="hidden" name="id" class="id" value="<?= isset($Profil->id) ? $Profil->id : "" ?>">
+                      <div class="select is-small" id="selectTuteur">
+                        <select name="idTuteur">
+                          <?php if (isset($Profil->idTuteur)) { ?>
+                            <?php foreach ($tuteurs as $tuteur) : ?>
+                              <option value="<?= $tuteur->id ?>" <?= isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id ? "selected" : "" ?>>
+                                <?= "$tuteur->nom $tuteur->prenom" ?>
+                              </option>
+                            <?php endforeach; ?>
+                          <?php } else { ?>
+                            <option value="">Aucun professeur assigné</option>
+                            <?php foreach ($tuteurs as $tuteur) : ?>
+                              <option value="<?= $tuteur->id ?>">
+                                <?= "$tuteur->nom $tuteur->prenom" ?>
+                              </option>
+                            <?php endforeach; ?>
+                          <?php } ?>
+                        </select>
+                      </div>
+                    </div>
+                  </p>
+                </form>
+              </p>
+            </section>
+            <footer class="modal-card-foot">
+              <div class="buttons">
+                <button class="button is-success" id="saveTuteur">Enregistrer</button>
+
+                <button class="button" id="closeModal" for="modalTuteur">Annuler</button>
+
+                <script>
+                document.getElementById('saveTuteur').addEventListener('click', function() {
+                  document.getElementById('tuteurForm').submit();
+                });
+
+                </script>
+              </strong>
+            </div>
+          </footer>
+
           <script>
           document.getElementById("accept").addEventListener("click", function() {
             var form = document.createElement("form");
@@ -367,19 +371,19 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
               acceptButton.disabled = true;
             }
           });
-        </script>
+          </script>
 
-      <?php endif;?>
-
-
+        <?php endif;?>
 
 
-    <?php } else {
-      // Si aucun profil n'a été trouvée, afficher un message d'erreur
-      echo "<p>Aucun profil trouvé avec ce lien.</p>";
-    }
 
-  } else{
-    header("Location: ../router.php?page=profil");
-  }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
-  ?>
+
+      <?php } else {
+        // Si aucun profil n'a été trouvée, afficher un message d'erreur
+        echo "<p>Aucun profil trouvé avec ce lien.</p>";
+      }
+
+    } else{
+      header("Location: ../router.php?page=profil");
+    }//Fin de la vérification de si l'utilisateur est connecté en tant que prof
+    ?>
