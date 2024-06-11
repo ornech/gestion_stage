@@ -42,8 +42,8 @@ class Entreprise {
     type=:type,
     effectif=:effectif,
     Created_UserID=:Created_UserID,
-    Created_Date=:Created_Date
-    ";
+    Created_Date=:Created_Date,
+    entreprise_valide=1";
 
     $stmt = $this->conn->prepare($query);
 
@@ -97,7 +97,7 @@ class Entreprise {
   }
 
   // Créer une nouvelle entreprise
-  public function create($entrepriseData){
+  public function create($entrepriseData, $statut){
     $query = "INSERT INTO " . $this->table_name . " SET
     nomEntreprise=:nomEntreprise,
     adresse=:adresse, ville=:ville,
@@ -108,6 +108,10 @@ class Entreprise {
     dep_geo=:dep_geo,
     naf=:naf,
     effectif=:effectif";
+
+    if($statut == "Professeur"){
+      $query .= ", entreprise_valide=1";
+    }
 
     $stmt = $this->conn->prepare($query);
 
@@ -225,7 +229,8 @@ class Entreprise {
     effectif = :effectif,
     type = :type,
     Created_Date = NOW(),
-    Created_UserID = :Created_UserID";
+    Created_UserID = :Created_UserID,
+    entreprise_valide=1";
 
     $stmt = $this->conn->prepare($query);
 
@@ -270,7 +275,7 @@ class Entreprise {
 
   // Liste des entreprises
   public function read(){
-    $query = "SELECT * FROM " . $this->vue_name;
+    $query = "SELECT * FROM " . $this->vue_name . " WHERE entreprise_valide = 1";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -471,12 +476,30 @@ class Entreprise {
     curl_close($ch);
   }
 
-  // Supprimer une entreprise
-  public function delete(){
-    $query = "DELETE FROM " . $this->table_name . " WHERE idEntreprise = ?";
+  public function valider_entreprise($id){
+    $query = "UPDATE " . $this->table_name . " SET entreprise_valide = 1 WHERE id = :id";
     $stmt = $this->conn->prepare($query);
-    $this->idEntreprise=htmlspecialchars(strip_tags($this->idEntreprise));
-    $stmt->bindParam(1, $this->idEntreprise);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    try {
+      if($stmt->execute()){
+          return true;
+      } else {
+          throw new Exception("Erreur lors de l'exécution de la requête.");
+      }
+    } catch (Exception $e) {
+        //echo "Erreur : " . $e->getMessage();
+        $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+        header("Location: ../router.php?page=erreur&title=Validation Entreprise&message=$message");
+        return false;
+    }
+  }
+
+  // Supprimer une entreprise
+  public function delete($id){
+    $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+    $this->idEntreprise=htmlspecialchars(strip_tags($id));
+    $stmt->bindParam(":id", $this->idEntreprise);
     if($stmt->execute()){
       return true;
     }
