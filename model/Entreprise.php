@@ -4,6 +4,7 @@ class Entreprise {
   private $conn;
   private $table_name = "entreprise";
   private $vue_name = "vue_entreprise";
+  private $anomymousId = -1;
   public $idEntreprise;
   public $nomEntreprise;
   public $adresse;
@@ -505,5 +506,24 @@ class Entreprise {
     }
     return false;
   }
+
+  public function anonymizeCreatedId($userId){
+    $query = "UPDATE " . $this->table_name . " SET Created_UserID = " . $this->anomymousId . " WHERE Created_UserID = :Created_UserID";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':Created_UserID', $userId, PDO::PARAM_INT);
+    try {
+      if($stmt->execute()){
+          return true;
+      } else {
+          throw new Exception("Erreur lors de l'exécution de la requête.");
+      }
+    } catch (Exception $e) {
+        //echo "Erreur : " . $e->getMessage();
+        $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+        header("Location: ../router.php?page=erreur&title=Anonymisation Entreprise&message=$message");
+        return false;
+    }
+  }
+
 }
 ?>

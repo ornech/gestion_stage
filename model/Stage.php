@@ -4,6 +4,7 @@ class Stage {
     private $conn;
     private $table_name = "stage";
     private $vue_name = "vue_stage";
+    private $anomymousId = -1;
     public $idEntreprise;
     public $idMaitreDeStage;
     public $idEtudiant;
@@ -204,6 +205,24 @@ class Stage {
         return false;
     }
 
+  }
+
+  public function anonymizeIdEtudiant($userId){
+    $query = "UPDATE " . $this->table_name . " SET idEtudiant = " . $this->anomymousId . " WHERE idEtudiant = :idEtudiant";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':idEtudiant', $userId, PDO::PARAM_INT);
+    try {
+      if($stmt->execute()){
+          return true;
+      } else {
+          throw new Exception("Erreur lors de l'exécution de la requête.");
+      }
+    } catch (Exception $e) {
+        //echo "Erreur : " . $e->getMessage();
+        $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+        header("Location: ../router.php?page=erreur&title=Anonymisation stage&message=$message");
+        return false;
+    }
   }
 }
 
