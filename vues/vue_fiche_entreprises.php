@@ -12,8 +12,8 @@ if ($ficheEntreprise) {
 
   <div class="notification is-primary" id="ContactSuccess" style="display: none;">
     <p class="title is-4">Contact créé avec succès</p>
-    <p>La création du contact a été effectuée avec succès et il est actuellement en attente de validation.</p>
-    <p>Le contact sera visible dès sa validation.</p>
+    <p>Le contact a été créé avec succès et est actuellement en attente de validation.</p>
+    <p>Il sera visible dès sa validation.</p>
   </div>
 
   <div>
