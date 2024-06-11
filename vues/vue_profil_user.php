@@ -49,18 +49,24 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
         <div class="box">
           <div class="content">
             <h3 class="title is-4 has-text-centered blue-line-bottom mb-4"><?= $Profil->nom ?> <?= $Profil->prenom ?></strong></h3>
-            <p class="card-text">Nom: <strong><?= $Profil->nom ?></strong> </p>
-            <p class="card-text">Prénom: <strong><?= $Profil->prenom ?></strong> </p>
-            <p class="card-text">Mail: <strong><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
-            <p class="card-text">Login: <strong><?= $Profil->login ? $Profil->login : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
-            <p class="card-text">Statut: <strong><?= $Profil->statut ? $Profil->statut : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>'  ?></strong> </p>
+            <table  class="table is-fullwidth">
+              <!--
+
+              <tr><th>Nom</th><td><strong><?= $Profil->nom ?></strong> </td></tr>
+              <tr><th>Prénom</th><td><strong><?= $Profil->prenom ?></strong> </td></tr>
+            -->
+            <tr><th>Statut</th><td><?= $Profil->statut ? $Profil->statut : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>'  ?></td><td></td></tr>
+            <tr><th>Login</th><td><?= $Profil->login ? $Profil->login : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
+            <tr><th>Mail</th><td><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
+
 
             <!-- ------------------------------------------QUE POUR LES PROFILS DES ETUDIANTS-----------------------------  -->
             <?php if($Profil->statut=='Etudiant'){?>
 
-              <p class="card-text">Groupe: <strong><?= $Profil->classe ?></strong> </p>
-              <p class="card-text">Promotion: <strong><?= $Profil->promo ? $Profil->promo :  '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></strong> </p>
-              <p class="card-text">Spécialité: <strong><?= $Profil->spe ? $Profil->spe : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>'  ?></strong>
+              <tr><th>Groupe</th><td><?= $Profil->classe ?></td><td></td></tr>
+              <tr><th >Promotion</th><td><?= $Profil->promo ? $Profil->promo :  '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
+              <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>'  ?></td><td></td></tr>
+
                 <?php if ($_SESSION['statut'] == "Professeur") { ?>
                   <button id="openModal" for="modalSpe" class="button is-small">
                     <span class="icon">
@@ -79,8 +85,6 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
                         <p class="modal-card-title">Modification de spécialité</p>
                       </header>
                       <section class="modal-card-body">
-
-
                         <form id="speForm" method="post">
                           <p class="card-text">
                             <div class="is-grouped">
@@ -94,8 +98,6 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
                                   <option value="SISR" <?= $Profil->spe == "SISR" ? "selected" : "" ?>>SISR</option>
                                   <option value=""<?= $Profil->spe == "" || $Profil->spe == NULL ? "selected" : ""?>> Pas de spécialité</option>
                                 </select>
-
-
                               </div>
                             </form>
                             <?php
@@ -114,15 +116,9 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
                               </script>";
                               exit;
                             }
-
-
                             ?>
-
-                            <?php   ?>
-
-
-
                           </section>
+
                           <footer class="modal-card-foot">
                             <div class="buttons">
                               <button class="button is-success" id="saveSpe">Enregistrer</button>
@@ -133,16 +129,11 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
                               document.getElementById('saveSpe').addEventListener('click', function() {
                                 document.getElementById('speForm').submit();
                               });
-
                             </script>
-
                           </div>
                         </footer>
                       </div>
                     </div>
-
-
-
 
                   </p>
                   <p class="card-text">Tuteur: <strong><?php if (isset ($Profil->idTuteur)){
@@ -178,7 +169,7 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
                           <p class="card-text">Tuteur actuel: <?php if (isset ($Profil->idTuteur)){
                             foreach ($tuteurs as $tuteur) {
                               if (isset($Profil->idTuteur) && $Profil->idTuteur == $tuteur->id) {
-                                echo "<strong> $tuteur->nom $tuteur->prenom</strong>";
+                                echo "$tuteur->nom $tuteur->prenom";
                               }}
                             }
                             else {
@@ -250,10 +241,9 @@ if(($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $_
                   </div>
                 </div>
 
-                <?php
-
-
-                ?></p></p>
+              </tr>
+            </table>
+          </p></p>
                 <p class="card-text">Points d'activité obtenu : <strong><?= $userPoints ?></strong> </p>
               </span>
               <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $Profil->id : "edit_my_profil" ?>"  class="button is-primary mt-4">Modifier &nbsp;<span class="icon"><i class="fas fa-pencil-alt"></i></a>
