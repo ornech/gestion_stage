@@ -105,7 +105,7 @@ require_once 'config/auth.php';
                 <div class="control">
                   <div class="select max-width">
                     <select class="max-width" id="spe" name="spe">
-                      <option value="Aucune">Aucune</option>
+                      <option value="">Aucune</option>
                       <option value="SLAM">SLAM</option>
                       <option value="SISR">SISR</option>
                     </select>

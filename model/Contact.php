@@ -4,6 +4,7 @@ class Contact {
     private $conn;
     private $table_name = "employe";
     private $vue_name = "contact_employe";
+    private $anomymousId = -1;
     private $nom;
     private $prenom;
     private $email;
@@ -201,7 +202,25 @@ class Contact {
           header("Location: ../router.php?page=erreur&title=Suppression contact&message=$message");
           return false;
       }
-    } 
+    }
+    
+    public function anonymizeCreatedId($userId){
+      $query = "UPDATE " . $this->table_name . " SET created_userid = " . $this->anomymousId . " WHERE created_userid = :created_userid";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':created_userid', $userId, PDO::PARAM_INT);
+      try {
+        if($stmt->execute()){
+            return true;
+        } else {
+            throw new Exception("Erreur lors de l'exécution de la requête.");
+        }
+      } catch (Exception $e) {
+          //echo "Erreur : " . $e->getMessage();
+          $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+          header("Location: ../router.php?page=erreur&title=Anonymisation contact&message=$message");
+          return false;
+      }
+    }
 
 }
 ?>

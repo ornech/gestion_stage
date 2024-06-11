@@ -271,7 +271,7 @@ class Profil {
   }
 
   public function getPointByUser($id){
-    $query = "SELECT count(pointGagne) as `points` FROM $this->vue_logs INNER JOIN $this->table_name ON idUser=id WHERE idUser=:id AND isDeleted = 0 GROUP BY idUser;";
+    $query = "SELECT SUM(pointGagne) as `points` FROM $this->vue_logs INNER JOIN $this->table_name ON idUser=id WHERE idUser=:id AND isDeleted = 0 GROUP BY idUser;";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
@@ -279,22 +279,7 @@ class Profil {
   }
 
   public function deleteUser($id){
-    $query = "UPDATE " . $this->table_name . " SET nom = 'ANONYMOUS',
-    prenom = 'Anonymous',
-    email = NULL,
-    date_entree = NULL,
-    telephone = NULL,
-    spe = NULL,
-    classe = NULL,
-    promo = NULL,
-    login = NULL,
-    password = NULL,
-    password_reset = 0,
-    statut = NULL,
-    inactif = 1,
-    dateFirstConn = NULL,    
-    isDeleted = 1 
-    WHERE id=:id";
+    $query = "DELETE FROM " . $this->table_name . " WHERE id=:id";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     if($stmt->execute()){
