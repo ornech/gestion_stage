@@ -128,7 +128,7 @@ class Contact {
       }
     }
 
-    public function create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID){
+    public function create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID, $statut){
       require_once '../controller/controller_log.php';
       
       echo $nom . " " . $prenom . " " . $email . " " . $telephone . " " . $fonction . " " . $idEntreprise . " " . $Created_UserID;
@@ -140,6 +140,11 @@ class Contact {
           fonction=:fonction ,
           Created_UserID=:Created_UserID,
           Created_date=NOW()";
+
+      if($statut == "Professeur"){
+        $query .= ",
+        contact_valide=1";
+      }
 
       $stmt = $this->conn->prepare($query);
 
