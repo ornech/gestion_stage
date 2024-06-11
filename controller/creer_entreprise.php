@@ -58,9 +58,11 @@ if(isset($_POST['submit'])) {
 
     // Création d'une instance de l'objet Entreprise
     $entreprise = new Entreprise($conn);
+    $statut = $_SESSION['statut'];
 
     // Appel de la méthode update de l'objet Entreprise pour mettre à jour les informations
-    if ($entreprise->create($entrepriseData)) {
+    if ($entreprise->create($entrepriseData, $statut)) {
+      
         // Redirection vers la page de détails de l'entreprise après la mise à jour
 
         $newEntrepriseId = $conn->lastInsertId();
@@ -68,7 +70,12 @@ if(isset($_POST['submit'])) {
 
         addLog($conn, 2, $_SESSION['userID'], "entreprise", $newEntrepriseId, null, $newValue);
         
-        header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $newEntrepriseId);
+        if($statut == "Professeur"){
+          header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $newEntrepriseId);
+        }else{
+          header("Location: ../router.php?page=listerEntreprises#entrepriseSuccess");
+        }
+        
         exit();
     } else {
         // Afficher un message d'erreur en cas d'échec de la mise à jour
