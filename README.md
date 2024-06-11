@@ -36,7 +36,7 @@ Cette application permet:
 12) Suivre des étudiants au cours de leur stage
 
 # Autres points
-* Respect des réglementation et spécifications RGPD
+* Respect des réglementation et spécifications RGPD, notamment l'anonymisation des contacts entreprise après 5 ans.
 * Protection des routes
 * Chiffrage des mots de passe
 * Gestion des erreurs, notamment des erreurs SQL
