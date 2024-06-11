@@ -4,6 +4,13 @@ Cette application permet:
  * de rechercher une entreprise afin de proposer sa candidature 
  * de suivre les stages et de récupérer sa convention de stage pré-remplie
 
+# Spécifications 
+* Mariadb
+* PHP8, architecture MVC
+* Javascript
+* HTML/CSS
+* Framework Bulma.io
+
 # Fonctionnalités 
 ## Pour les Etudiants
 1) Consulter l'annuaire
@@ -27,3 +34,9 @@ Cette application permet:
 10) Changer la spécialité d'un étudiant
 11) Attribuer un tuteur a un étudiant
 12) Suivre des étudiants au cours de leur stage
+
+# Autres points
+* Respect des réglementation et spécifications RGPD
+* Protection des routes
+* Chiffrage des mots de passe
+* Gestion des erreurs, notamment des erreurs SQL
