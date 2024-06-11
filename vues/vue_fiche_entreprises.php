@@ -5,9 +5,17 @@ require_once 'config/auth.php';
 <?php
 // Vérifier si les détails de l'entreprise sont disponibles
 
+  $table_name = "entreprise";
+
+// Vérifier si les détails de l'entreprise sont disponibles
+
 if ($ficheEntreprise) {
+  $idEntreprise=$ficheEntreprise-> EntrepriseID;
   // Afficher les détails de l'entreprise
-  ?>
+?>
+ <form method="POST">
+
+
   <p class="title is-2"><?= $ficheEntreprise->nomEntreprise ?></p>
 
   <div class="notification is-primary" id="ContactSuccess" style="display: none;">
@@ -63,9 +71,19 @@ if ($ficheEntreprise) {
                       <button class="button is-link is-light" id="openModal" for="updateModal">Mettre à jour (API)</button>
 
                     <?php endif;?>
+                    <?PHP  
+             if ( isset ($stages[0]) || isset($contacts[0])){ 
+              echo '';?>
+             <?php } else { ?>
+              <button id="openModal" for="modalSupprimer" type="button" class="button is-danger">Supprimer&nbsp;<p class="icon"><i class="fas fa-trash-alt"></i></button>
+
+              <?php
+             } ?>
+
                   </div>
                   </div>
-                  <?PHP } ?>
+
+          <?php    }?>
                 </div>
               </div>
               <div class="cell">
@@ -180,8 +198,58 @@ if ($ficheEntreprise) {
         </footer>
       </div>
     </div>
+    </form>
+<!-- -----------------------------MODAL DE SUPPRESSION DE L'ENTREPRISE--------------------------------- -->
+<div class="modal" id="modalSupprimer">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Êtes-vous sûr(e) de vouloir supprimer cette entreprise ?</p>
+    </header>
+    <section class="modal-card-body unselectable">
+      <form id="delForm" method="post">
+            <p>La suppression de cette entreprise entraînera la suppression des données suivantes :</p>
+               Nom et adresse de l'entreprise, coordonnées téléphoniques, adresse e-mail, secteur d'activité etc
+               
+               <?php  
+      if (isset($_POST["EntrepriseID"])) {
+        $idEntreprise = $_POST["EntrepriseID"];
+      
+        $sql = "DELETE FROM " . $table_name . " WHERE id = :EntrepriseID";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":EntrepriseID", $idEntreprise);
+        $stmt->execute();
+        echo "<script type='text/javascript'>
+                window.location.href = window.location.href;
+              </script>";
+        exit;
+      }
+      ?>
+              
+              
+               <P> <span class="icon has-text-warning">
+  <i class="fas fa-exclamation-triangle"></i>
+</span> <strong> Attention, en appuyant sur le bouton "Supprimer" pour supprimer ces données, vous acceptez que toutes les informations soient irrémédiablement effacées et ne pourront jamais être récupérées.
+ </strong>
+ 
+ <input type="hidden" name="EntrepriseID" value="<?php echo $idEntreprise; ?>">
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-danger" id="confirmDelete" type="button">Supprimer&nbsp;<p class="icon"><i class="fas fa-trash-alt"></i></p></button>
+        <button class="button" id="closeModal" type="button">Annuler</button>
+      </div>
+    </footer>
+  </div>
+</div>
 
-    <script>
+
+<script>
+document.getElementById('confirmDelete').addEventListener('click', function(event) {
+    document.getElementById('delForm').submit();
+});
+
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('siretInput').addEventListener('input', function() {
         var siretInput = document.getElementById('siretInput');
