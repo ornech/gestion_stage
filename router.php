@@ -65,10 +65,20 @@ function router($page, $conn) {
       break;
 
     case 'listerEntreprises':
-      include 'model/Entreprise.php'; // Inclure le modèle Entreprise
-      include 'model/Contact.php'; // Inclure le modèle Contact
+      include_once 'model/Stage.php'; // Inclure le modèle Stage
+      include_once 'model/Entreprise.php'; // Inclure le modèle Entreprise
+      include_once 'model/Contact.php'; // Inclure le modèle Contact
+      include_once 'model/Operations.php'; // Inclure le modèle Operations
+
+      $stageModel = new Stage($conn); // Instancier le modèle
+      $stages = $stageModel->list();
+
       $entrepriseModel = new Entreprise($conn); // Instancier le modèle
-      $entreprises = $entrepriseModel->read(); // Lire les entreprises
+      $entreprises = $entrepriseModel->read();
+
+      $contactModel = new Contact($conn); // Instancier le modèle
+      $contacts = $contactModel->list();
+    
       include 'vues/vue_liste_entreprises.php'; // Inclure la vue pour afficher la liste des entreprises
       break;
 
