@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procédures
 --
-CREATE DEFINER=`admin`@`%` PROCEDURE `anonymize_employes` ()  BEGIN
+CREATE PROCEDURE `anonymize_employes` ()  BEGIN
     DECLARE done INT DEFAULT FALSE;
     DECLARE employee_id INT;
     DECLARE anonymous_id INT;
@@ -1639,7 +1639,7 @@ CREATE TABLE `vue_stage` (
 --
 DROP TABLE IF EXISTS `contact_employe`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contact_employe`  AS SELECT `employe`.`id` AS `EmployeID`, `employe`.`nom` AS `nom`, `employe`.`prenom` AS `prenom`, `employe`.`email` AS `email`, `employe`.`telephone` AS `telephone`, `employe`.`fonction` AS `fonction`, `employe`.`service` AS `service`, `entreprise`.`id` AS `EntrepriseID`, `entreprise`.`nomEntreprise` AS `entreprise`, `entreprise`.`adresse` AS `Entreprise_adresse`, `entreprise`.`codePostal` AS `Entreprise_codePostal`, `entreprise`.`ville` AS `Entreprise_ville`, `user`.`id` AS `UserID`, concat(`user`.`nom`,' ',`user`.`prenom`) AS `Created_User`, `employe`.`created_date` AS `Created_date`, `employe`.`contact_valide` AS `contact_valide` FROM ((`employe` join `entreprise` on(`employe`.`idEntreprise` = `entreprise`.`id`)) join `user` on(`employe`.`created_userid` = `user`.`id`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `contact_employe`  AS SELECT `employe`.`id` AS `EmployeID`, `employe`.`nom` AS `nom`, `employe`.`prenom` AS `prenom`, `employe`.`email` AS `email`, `employe`.`telephone` AS `telephone`, `employe`.`fonction` AS `fonction`, `employe`.`service` AS `service`, `entreprise`.`id` AS `EntrepriseID`, `entreprise`.`nomEntreprise` AS `entreprise`, `entreprise`.`adresse` AS `Entreprise_adresse`, `entreprise`.`codePostal` AS `Entreprise_codePostal`, `entreprise`.`ville` AS `Entreprise_ville`, `user`.`id` AS `UserID`, concat(`user`.`nom`,' ',`user`.`prenom`) AS `Created_User`, `employe`.`created_date` AS `Created_date`, `employe`.`contact_valide` AS `contact_valide` FROM ((`employe` join `entreprise` on(`employe`.`idEntreprise` = `entreprise`.`id`)) join `user` on(`employe`.`created_userid` = `user`.`id`)) ;
 
 -- --------------------------------------------------------
 
@@ -1648,7 +1648,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vue_entreprise`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vue_entreprise`  AS SELECT `e`.`id` AS `EntrepriseID`, `e`.`siret` AS `siret`, `e`.`nomEntreprise` AS `nomEntreprise`, `e`.`adresse` AS `adresse`, `e`.`ville` AS `ville`, `e`.`codePostal` AS `codePostal`, `n`.`id` AS `naf`, `n`.`libelle` AS `naf_libelle`, `c`.`Libelle` AS `type`, `ef`.`libelle` AS `effectif`, `e`.`Created_Date` AS `Created_Date`, concat(`u`.`nom`,' ',`u`.`prenom`) AS `Created_User`, `e`.`entreprise_valide` AS `entreprise_valide` FROM ((((`entreprise` `e` left join `user` `u` on(`e`.`Created_UserID` = `u`.`id`)) left join `categoriejuridique` `c` on(`e`.`type` = `c`.`id` collate utf8mb4_general_ci)) left join `naf` `n` on(`e`.`naf` = `n`.`id` collate utf8mb4_general_ci)) left join `effectif` `ef` on(`e`.`effectif` = `ef`.`code` collate utf8mb4_general_ci)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vue_entreprise`  AS SELECT `e`.`id` AS `EntrepriseID`, `e`.`siret` AS `siret`, `e`.`nomEntreprise` AS `nomEntreprise`, `e`.`adresse` AS `adresse`, `e`.`ville` AS `ville`, `e`.`codePostal` AS `codePostal`, `n`.`id` AS `naf`, `n`.`libelle` AS `naf_libelle`, `c`.`Libelle` AS `type`, `ef`.`libelle` AS `effectif`, `e`.`Created_Date` AS `Created_Date`, concat(`u`.`nom`,' ',`u`.`prenom`) AS `Created_User`, `e`.`entreprise_valide` AS `entreprise_valide` FROM ((((`entreprise` `e` left join `user` `u` on(`e`.`Created_UserID` = `u`.`id`)) left join `categoriejuridique` `c` on(`e`.`type` = `c`.`id` collate utf8mb4_general_ci)) left join `naf` `n` on(`e`.`naf` = `n`.`id` collate utf8mb4_general_ci)) left join `effectif` `ef` on(`e`.`effectif` = `ef`.`code` collate utf8mb4_general_ci)) ;
 
 -- --------------------------------------------------------
 
@@ -1657,7 +1657,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vue_logs`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vue_logs`  AS SELECT `l`.`id` AS `idLog`, `l`.`idLogType` AS `idLogType`, `l`.`idUser` AS `idUser`, `t`.`type` AS `logType`, `t`.`points` AS `pointGagne`, `l`.`entite_type` AS `entite_type`, `l`.`entite_id` AS `entite_id`, `u`.`nom` AS `nomUser`, `u`.`prenom` AS `prenomUser`, `u`.`classe` AS `classeUser`, `l`.`old_values` AS `old_values`, `l`.`new_values` AS `new_values`, `l`.`date` AS `date` FROM ((`logs` `l` join `user` `u` on(`l`.`idUser` = `u`.`id`)) join `log_type` `t` on(`l`.`idLogType` = `t`.`id`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vue_logs`  AS SELECT `l`.`id` AS `idLog`, `l`.`idLogType` AS `idLogType`, `l`.`idUser` AS `idUser`, `t`.`type` AS `logType`, `t`.`points` AS `pointGagne`, `l`.`entite_type` AS `entite_type`, `l`.`entite_id` AS `entite_id`, `u`.`nom` AS `nomUser`, `u`.`prenom` AS `prenomUser`, `u`.`classe` AS `classeUser`, `l`.`old_values` AS `old_values`, `l`.`new_values` AS `new_values`, `l`.`date` AS `date` FROM ((`logs` `l` join `user` `u` on(`l`.`idUser` = `u`.`id`)) join `log_type` `t` on(`l`.`idLogType` = `t`.`id`)) ;
 
 -- --------------------------------------------------------
 
@@ -1666,7 +1666,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vue_operations`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vue_operations`  AS SELECT `e`.`created_userid` AS `idUser`, `u`.`idTuteur` AS `idTuteur`, concat(`u`.`nom`,' ',`u`.`prenom`) AS `nomUser`, 'contact' AS `type`, `e`.`id` AS `idEntite`, concat(`e`.`nom`,' ',`e`.`prenom`) AS `nomEntite`, `e`.`created_date` AS `dateCreation` FROM (`employe` `e` join `user` `u` on(`e`.`created_userid` = `u`.`id`)) WHERE `e`.`created_userid` is not null AND `e`.`contact_valide` = 0 ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vue_operations`  AS SELECT `e`.`created_userid` AS `idUser`, `u`.`idTuteur` AS `idTuteur`, concat(`u`.`nom`,' ',`u`.`prenom`) AS `nomUser`, 'contact' AS `type`, `e`.`id` AS `idEntite`, concat(`e`.`nom`,' ',`e`.`prenom`) AS `nomEntite`, `e`.`created_date` AS `dateCreation` FROM (`employe` `e` join `user` `u` on(`e`.`created_userid` = `u`.`id`)) WHERE `e`.`created_userid` is not null AND `e`.`contact_valide` = 0 ;
 
 -- --------------------------------------------------------
 
@@ -1675,7 +1675,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vue_stage`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vue_stage`  AS SELECT `s`.`id` AS `idStage`, `s`.`idEntreprise` AS `idEntreprise`, `s`.`idMaitreDeStage` AS `idMaitreDeStage`, `s`.`idEtudiant` AS `idEtudiant`, `u`.`idTuteur` AS `idTuteur`, `s`.`classe` AS `classe`, `u`.`statut` AS `Statut`, `s`.`description` AS `description`, `s`.`dateDebut` AS `dateDebut`, `s`.`dateFin` AS `dateFin`, `u`.`nom` AS `EtudiantNom`, `u`.`prenom` AS `EtudiantPrenom`, `u`.`email` AS `EtudiantEmail`, `u`.`email` AS `EtudiantTel`, `u`.`spe` AS `EtudiantSpe`, `u`.`promo` AS `EtudiantPromo`, `e`.`siret` AS `siret`, `e`.`nomEntreprise` AS `Entreprise`, `e`.`adresse` AS `Entreprise_adresse`, `e`.`codePostal` AS `Entreprise_codePostal`, `e`.`ville` AS `Entreprise_ville`, `e`.`effectif` AS `Entreprise_effectif`, `e`.`naf` AS `Entreprise_naf`, `m`.`nom` AS `employe_nom`, `m`.`prenom` AS `employe_prenom`, `m`.`fonction` AS `employe_fonction`, `m`.`email` AS `employe_mail`, `m`.`telephone` AS `employe_telephone` FROM (((`stage` `s` join `user` `u` on(`s`.`idEtudiant` = `u`.`id`)) join `entreprise` `e` on(`s`.`idEntreprise` = `e`.`id`)) join `employe` `m` on(`s`.`idMaitreDeStage` = `m`.`id`)) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vue_stage`  AS SELECT `s`.`id` AS `idStage`, `s`.`idEntreprise` AS `idEntreprise`, `s`.`idMaitreDeStage` AS `idMaitreDeStage`, `s`.`idEtudiant` AS `idEtudiant`, `u`.`idTuteur` AS `idTuteur`, `s`.`classe` AS `classe`, `u`.`statut` AS `Statut`, `s`.`description` AS `description`, `s`.`dateDebut` AS `dateDebut`, `s`.`dateFin` AS `dateFin`, `u`.`nom` AS `EtudiantNom`, `u`.`prenom` AS `EtudiantPrenom`, `u`.`email` AS `EtudiantEmail`, `u`.`email` AS `EtudiantTel`, `u`.`spe` AS `EtudiantSpe`, `u`.`promo` AS `EtudiantPromo`, `e`.`siret` AS `siret`, `e`.`nomEntreprise` AS `Entreprise`, `e`.`adresse` AS `Entreprise_adresse`, `e`.`codePostal` AS `Entreprise_codePostal`, `e`.`ville` AS `Entreprise_ville`, `e`.`effectif` AS `Entreprise_effectif`, `e`.`naf` AS `Entreprise_naf`, `m`.`nom` AS `employe_nom`, `m`.`prenom` AS `employe_prenom`, `m`.`fonction` AS `employe_fonction`, `m`.`email` AS `employe_mail`, `m`.`telephone` AS `employe_telephone` FROM (((`stage` `s` join `user` `u` on(`s`.`idEtudiant` = `u`.`id`)) join `entreprise` `e` on(`s`.`idEntreprise` = `e`.`id`)) join `employe` `m` on(`s`.`idMaitreDeStage` = `m`.`id`)) ;
 
 --
 -- Index pour les tables déchargées
@@ -1819,7 +1819,7 @@ DELIMITER $$
 --
 -- Évènements
 --
-CREATE DEFINER=`admin`@`%` EVENT `anonymize_employes_event` ON SCHEDULE EVERY 1 MONTH STARTS '2024-06-12 18:06:36' ON COMPLETION NOT PRESERVE ENABLE DO CALL anonymize_employes()$$
+CREATE EVENT `anonymize_employes_event` ON SCHEDULE EVERY 1 MONTH STARTS '2024-06-12 18:06:36' ON COMPLETION NOT PRESERVE ENABLE DO CALL anonymize_employes()$$
 
 DELIMITER ;
 COMMIT;
