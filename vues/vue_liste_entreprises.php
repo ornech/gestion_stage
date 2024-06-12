@@ -1,5 +1,7 @@
 <?php
 require_once 'config/auth.php';
+include_once 'model/Stage.php'; // Inclure le modèle Stage
+$stageModel = new Stage($conn);
 ?>
 
 <div class="notification is-primary" id="EntrepriseSuccess" style="display: none;">
@@ -12,10 +14,24 @@ require_once 'config/auth.php';
 <p class="subtitle is-4">Entreprises qui ont été démarchées ou qui ont accueilli des stagiaires.</p>
 <div class="field is-grouped is-grouped-multiline is-flex ">
 
-<div class="control">
-  <div class="tags has-addons is-large">
-    <span class="tag is-dark">Entreprises</span>
-    <span class="tag is-link"><?= "<b>" . count((array)$entreprises) . "</b>" ?></span>
+<div class="field is-grouped is-grouped-multiline">
+  <div class="control">
+    <div class="tags has-addons is-small">
+      <span class="tag is-dark">Entreprises:</span>
+      <span class="tag is-link"><?= "<b>" . count($entreprises) . "</b>" ?></span>
+    </div>
+  </div>
+  <div class="control">
+    <div class="tags has-addons is-small">
+      <span class="tag is-dark">Stages :</span>
+      <span class="tag is-success"><?= "<b>" . count($stages) . "</b>" ?></span>
+    </div>
+  </div>
+  <div class="control">
+    <div class="tags has-addons is-small">
+      <span class="tag is-dark">Contacts :</span>
+      <span class="tag is-warning"><?= "<b>" . count($contacts) . "</b>" ?></span>
+    </div>
   </div>
 </div>
 
@@ -76,13 +92,14 @@ require_once 'config/auth.php';
           $n++;
       }
       ?>
+      <td>Stage</td>
 
     </tr>
   </thead>
   <tbody>
     <?php foreach ($entreprises as $entreprise): ?>
     <tr>
-      <td> 
+      <td>
         <?php
         // Comptage du nombre total de champs
 
@@ -106,13 +123,37 @@ require_once 'config/auth.php';
 
 
         // Affichage des résultats
-        echo "<i class='fa fa-circle' style='color:$couleur'></i> "; // . ceil($pourcentage_vide * 100) . "%" ;?> 
+        echo "<i class='fa fa-circle' style='color:$couleur'></i> "; // . ceil($pourcentage_vide * 100) . "%" ;?>
         &nbsp;<a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->EntrepriseID ?>"><?= htmlspecialchars($entreprise->nomEntreprise) ?></a>
       </td>
       <td><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
       <td><?= $entreprise->ville != null ? htmlspecialchars($entreprise->ville) : "Non défini" ?></td>
       <td>(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?></td>
       <td><?= $entreprise->codePostal != null ? htmlspecialchars($entreprise->codePostal) : "Non défini"?></td>
+      <td>
+        <?php
+        // Instancier le modèle
+        $stages = $stageModel->count_by_entreprise($entreprise->EntrepriseID);
+
+        // Vérifier si le tableau n'est pas vide et contient un objet avec la propriété 'nbr'
+        if (isset($stages[0]) && is_object($stages[0]) && property_exists($stages[0], 'nbr')) {
+          if ($stages[0]->nbr == "0") {
+            echo "-";
+          } else {
+            ?>
+            <div class="control">
+              <div class="tags has-addons is-small">
+                <span class="tag is-success"><?php echo "<b>" . $stages[0]->nbr . "</b>"; ?></span>
+              </div>
+            </div>
+            <?php
+          }
+        } else {
+          echo "Aucun stage trouvé";
+        }
+        ?>
+      </td>
+
 
     </tr>
     <?php endforeach; ?>

@@ -1,7 +1,7 @@
 <?php
-require_once 'config/auth.php';
+require_once '../config/auth.php';
 
-function verifgroupe($Profil, $conn, $dateActuelle){
+function verifEtu($Profil, $conn){
   $table_name = "user";
   
   $needSetPromo = false;

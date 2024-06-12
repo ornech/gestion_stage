@@ -1,6 +1,5 @@
 <?php
 require_once 'config/auth.php';
-include 'test_groupe.php';
 ?>
 
 <?php
@@ -115,7 +114,7 @@ if ($_SESSION['statut'] == "Professeur") {
         <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
           <td><?= $profil->nom ?> <?= $profil->prenom ?></td>
           <td><?= isset($profil->date_entree) ? convertDateFormat($profil->date_entree) : "Non défini"; ?></td>
-          <td><?= $test = verifgroupe($profil, $conn, $dateActuelle) ?></td>
+          <td><?= isset($profil->classe) ? $profil->classe : "Non défini" ?></td>
           <td><?= $profil->login ?></td>
           <td><?= $profil->spe ?></td>
           <td><?= $profil->statut ?></td>

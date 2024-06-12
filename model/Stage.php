@@ -29,6 +29,14 @@ class Stage {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
+  public function count_by_entreprise($idEntreprise) {
+    $sql = "SELECT COUNT(*) AS nbr FROM " . $this->vue_name . " WHERE idEntreprise = :idEntreprise";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':idEntreprise', $idEntreprise);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+  }
+
   public function stage_by_id($idStage) {
     $sql = "SELECT * FROM " . $this->vue_name . " WHERE idStage = :idStage";
     $stmt = $this->conn->prepare($sql);
