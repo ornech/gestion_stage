@@ -523,6 +523,24 @@ function router($page, $conn) {
       include 'vues/vue_logs.php';
       break;
 
+    case 'logs_details':
+      route_protect('Professeur');
+
+      include_once 'model/Log.php';
+
+      $idLog = isset($_GET['id']) ? $_GET['id'] : null;
+
+      if($idLog == null){
+        header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès au détail du log, veuillez réessayer.");
+        exit();
+      }
+
+      $logModel = new Log($conn);
+      $log = $logModel->getById($idLog);
+
+      include 'vues/vue_logs_detail.php';
+      break;
+
    case 'erreur':
       $message = isset($_GET['messge']) ? $_GET['message'] : null;
       include 'vues/vue_erreur.php'; // Page d'accueil par défaut
