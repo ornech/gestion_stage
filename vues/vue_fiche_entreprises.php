@@ -238,7 +238,7 @@ if ($ficheEntreprise) {
     <footer class="modal-card-foot">
       <div class="buttons">
         <button class="button is-danger" id="confirmDelete" type="button">Supprimer&nbsp;<p class="icon"><i class="fas fa-trash-alt"></i></p></button>
-        <button class="button" id="closeModal" type="button">Annuler</button>
+        <button class="button cancel" id="closeModal" for="modalSupprimer">Annuler</button>
       </div>
     </footer>
   </div>
