@@ -1,1 +1,8 @@
+RewriteEngine On
 
+# Réécrire /router.php?page=NomDeLaPage en /NomDeLaPage (avec ou sans autres paramètres GET)
+RewriteCond %{THE_REQUEST} \s/router\.php\?page=([^\s&]+)&?(.*)\s [NC]
+RewriteRule ^ /%1?%2 [L,R=301]
+
+# Réécriture interne pour garder le fonctionnement des liens (sans redirection)
+RewriteRule ^([^/]+)$ router.php?page=$1 [L,QSA,NC]
