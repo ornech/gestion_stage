@@ -4,5 +4,7 @@ RewriteEngine On
 RewriteCond %{THE_REQUEST} \s/router\.php\?page=([^\s&]+)&?(.*)\s [NC]
 RewriteRule ^ /%1?%2 [L,R=301]
 
-# Réécriture interne pour garder le fonctionnement des liens (sans redirection)
+# Si le fichier ou le répertoire n'existe pas, appliquer la réécriture interne
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([^/]+)$ router.php?page=$1 [L,QSA,NC]
