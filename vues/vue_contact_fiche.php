@@ -43,11 +43,7 @@ require_once 'config/auth.php';
         </tr>
       </tbody>
        </table>
-
-
               <?php
-              var_dump($ContactFiche);
-
               //seul le créateur du contact ou un professeur peut modifier le contact
               if($ContactFiche->UserID === $_SESSION["userID"] || $_SESSION["statut"]=="Professeur" ){
                 ?>
