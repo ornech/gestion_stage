@@ -438,6 +438,25 @@ function router($page, $conn) {
       include 'vues/vue_prof_create_stage.php';
       break;
 
+
+      case 'stage_create_etu':
+        include_once 'model/Profil.php';
+        include_once 'model/Stage.php';
+        include_once 'model/Contact.php';
+  
+        $profilModel = new Profil($conn);
+        $profils = $profilModel->list_profil();
+  
+        $stageModel = new Stage($conn);
+        $stages = $stageModel->list();
+  
+        $contacteModel = new Contact($conn);
+        $contacts = $contacteModel->list();
+  
+        include 'vues/vue_stage_create_etu.php';
+
+        break;
+  
     case 'stage_suivi_prof':
       route_protect('Professeur');
       include 'vues/vue_stage_suivi_create.php';

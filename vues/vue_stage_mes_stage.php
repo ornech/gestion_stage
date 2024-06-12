@@ -14,7 +14,7 @@ if (isset($stage)) {
   </div>
   <div class="column is-narrow">
     <?php if (!isset($stage[0]) && !isset($stage[1]) || !isset($stage[1])) { ?>
-      <a href="../router.php?page=stage_create" class="button"> 
+      <a href="../router.php?page=stage_create_etu" class="button"> 
   <span class="icon has-text-primary">
     <i class="fas fa-plus-circle"></i>
   </span>
