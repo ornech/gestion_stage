@@ -20,9 +20,9 @@ function placeFilter(baliseHeader, nameColonne, valueColonnes, numColonne){
         <div class="dropdown-item">
           <span class="label is-small">Filtrer</span>
           <input id="Input_${nomAttachColonne}_filtre" value="" onkeyup="searchInColumn(this, '${numColonne}')" class="input is-small">
-          <select id="Select_${nomAttachColonne}_filtre" onchange="applyFilter(this.value, '${nomAttachColonne}')" class="select is-small">
+          <select id="Select_${nomAttachColonne}_filtre" onchange="applyFilter(this.value, '${nomAttachColonne}')" class="select is-small" style="margin-top: 10px">
             <option value="">Tout afficher</option>
-            ${Array.from(new Set(valueColonnes)).map(value => `<option value="${htmlspecialchars(value)}">${htmlspecialchars(value)}</option>`).join('')}
+            ${Array.from(new Set(valueColonnes)).map(value => `<option value="${htmlspecialchars(value)}">${htmlspecialchars(value).substring(0, 30)}${htmlspecialchars(value).length > 30 ? "..." : ""}</option>`).join('')}
           </select>
 
           <hr class="dropdown-divider" />
