@@ -65,6 +65,14 @@ class Log {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
+  public function getById($idLog){
+    $query = "SELECT * FROM ". $this->vue_name . " WHERE idLog=:idLog"; // " . $this->table_name;
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':idLog', $idLog);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+
   // Détails d'une activité pour un étudiant donné
   public function detail_activite_etu() {
 
