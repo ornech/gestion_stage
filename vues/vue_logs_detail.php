@@ -1,7 +1,5 @@
 <?php
 require_once 'config/auth.php';
-
-
 ?>
 
 <?php
@@ -20,20 +18,22 @@ var_dump($log);
         <p><b>Type de journalisation :</b> <?= $log->logType ?></p>
         <p><b>Effectué par :</b> <a href="/router.php?page=view_profil&id=<?= $log->idUser?>"><?= $log->nomUser . " " . $log->prenomUser?></a></p>
         <p><b>Classe : </b> <?= $log->classeUser?></p>
-        <p><b>Point obtenu : </b> <?= $log->pointGagne?></p><br>
+        <p><b>Point obtenu : </b> <?= $log->pointGagne?></p>
 
         <?php if($log->entite_type == "contact" && $log->idLogType != 15):?> 
           <?php
             include_once 'model/Contact.php';
             $contactModel = new Contact($conn);
             $contact = $contactModel->read_fiche($log->entite_id);
-            var_dump($contact);
           ?>
-          <p><b>Nom du contact : </b> <?= $contact->nom . " " . $contact->prenom?></p><br>
+          <p><b>Nom du contact : </b> <?= $contact->nom . " " . $contact->prenom?></p>
+          <p><b>Entreprise : </b> <?= $contact->entreprise . " à " . $contact->Entreprise_ville?></p>
           <button class="button is-info" onclick="window.location = '/router.php?page=Contact_fiche&idContact=<?=$log->entite_id?>'">Aller sur le contact</button>
-        <?php elseif ($log->entite_type == "entreprise" && $log->idLogType != 17):?>
+       
+          <?php elseif ($log->entite_type == "entreprise" && $log->idLogType != 17):?>
           <button class="button is-info" onclick="window.location = '/router.php?page=fiche_entreprise&idEntreprise=<?=$log->entite_id?>'">Aller sur l'entreprise</button>
-        <?php endif; ?>
+        
+          <?php endif; ?>
       </div>
 
       <?php if($log->old_values != 'null' || $log->new_values != 'null'): ?>
