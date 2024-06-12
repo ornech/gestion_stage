@@ -48,7 +48,7 @@
   <tbody>
     <?php foreach($entreprises as $entreprise):?>
 
-      <tr class="content" style="cursor: pointer;" id="<?= $entreprise->id ?>">
+      <tr class="content" style="cursor: pointer;" id="<?= $entreprise->EntrepriseID ?>">
         <td id="nom"><?=$entreprise->nomEntreprise?></td>
         <td><?=$entreprise->adresse?></td>
         <td><?=$entreprise->ville?></td>
