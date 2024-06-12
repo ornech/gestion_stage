@@ -122,7 +122,11 @@ if ($ficheEntreprise) {
             <?php foreach ($stages as $stage) : ?>
               <tr>
                 <td>
-                  <a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= $stage->EtudiantNom . " " . $stage->EtudiantPrenom?></a>
+                  <?php if($_SESSION["statut"] == "Professeur"):?>
+                    <a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= $stage->EtudiantNom . " " . $stage->EtudiantPrenom?></a>
+                  <?php else:?>
+                    <p><?= $stage->EtudiantNom . " " . $stage->EtudiantPrenom?></p>
+                  <?php endif;?>
                 </td>
                 <td><?= $stage->classe ? $stage->classe : "-" ?></td>
                 <td><?= $stage->dateDebut ? $stage->dateDebut : "-" ?></td>
