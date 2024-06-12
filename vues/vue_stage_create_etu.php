@@ -11,6 +11,7 @@ require_once 'config/auth.php';
       'prenom' => $contact->prenom
     ];
   }, $contacts));
+  //var_dump($profil);
 
   //impression de la variable $maitreDeStages dans une variable javascript
   echo "<script> var maitreDeStages = ".json_encode($maitreDeStages)."; </script>";
@@ -27,11 +28,11 @@ require_once 'config/auth.php';
         <input type="hidden" id="idEntreprise" name="idEntreprise" value="">
         <input type="hidden" id="idMaitreDeStage" name="idMaitreDeStage" value="">
         <input type="hidden" id="classe" name="classe" value="">
-
+        <input type="hidden"  value="<?= $_SESSION["userID"] ?>" name="idEtudiant">
         <label class="label" for="nameEtudiant">Étudiant</label>
         <div class="field has-addons">
           <div class="control is-expanded">
-            <input type="text" class="input" value="NOM PRENOM a changer" id="nameEtudiant" readonly>
+            <input type="text" class="input" value="<?= $profil -> nom ?> <?= $profil -> prenom?> " id="nameEtudiant" readonly>
           </div>
 
         </div>

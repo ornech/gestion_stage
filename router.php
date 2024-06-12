@@ -445,7 +445,7 @@ function router($page, $conn) {
         include_once 'model/Contact.php';
   
         $profilModel = new Profil($conn);
-        $profils = $profilModel->list_profil();
+        $profil = $profilModel->read_my_profil();
   
         $stageModel = new Stage($conn);
         $stages = $stageModel->list();
