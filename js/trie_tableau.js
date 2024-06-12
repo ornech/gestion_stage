@@ -22,7 +22,7 @@ function placeFilter(baliseHeader, nameColonne, valueColonnes, numColonne){
           <input id="Input_${nomAttachColonne}_filtre" value="" onkeyup="searchInColumn(this, '${numColonne}')" class="input is-small">
           <select id="Select_${nomAttachColonne}_filtre" onchange="applyFilter(this.value, '${nomAttachColonne}')" class="select is-small" style="margin-top: 10px">
             <option value="">Tout afficher</option>
-            ${Array.from(new Set(valueColonnes)).map(value => `<option value="${htmlspecialchars(value)}">${htmlspecialchars(value).substring(0, 30)}${htmlspecialchars(value).length > 30 ? "..." : ""}</option>`).join('')}
+            ${Array.from(new Set(valueColonnes)).map(value => `<option value="${htmlspecialchars(value)}">${value.substring(0, 45)}${value.length > 45 ? "..." : ""}</option>`).join('')}
           </select>
 
           <hr class="dropdown-divider" />
