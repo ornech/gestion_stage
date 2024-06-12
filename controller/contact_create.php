@@ -42,10 +42,11 @@ if(isset($_POST["submit"]) && !isset($_POST["isPopup"])){
 
     $idEntreprise = $_POST["idEntreprise"];
     $Created_UserID = $_SESSION["userID"];
+    $statut = $_SESSION["statut"];
 
     $contact = new Contact($conn);
 
-    if($contact->create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID)){
+    if($contact->create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID, $statut)){
       ?>
       <script src="/js/popup.js"></script>
       <script>
