@@ -67,6 +67,18 @@ function assignClasseByPromo($promo){
   }
 }
 
+function assignPromoByClasse($classe){
+  $date = getAnneeScolaire();
+
+  $finAnneeScolaire = $date["fin"];
+
+  if ($classe == "SIO1") {
+    return $finAnneeScolaire->format('Y')+1;
+  } else if ($classe == "SIO2") {
+    return $finAnneeScolaire->format('Y');
+  }
+}
+
 function assignPromo($dateArrivee) {
   $dateArrivee = new DateTime($dateArrivee);
   $arriveeYear = $dateArrivee->format('Y');
