@@ -20,13 +20,13 @@ if(isset($_POST['idEntreprise'])) {
   $idEtudiant = $_POST['idEtudiant'];
   $classe = $_POST['classe'];
   $dateDebut = $_POST['dateDebut'];
-  $duree = $_POST['duree'];
+  $dateFin = $_POST['dateFin'];
 
   // Création d'une instance de l'objet Stage
   $stage = new Stage($conn);
 
   // Appel de la méthode  de l'objet Stage
-  if ($stage->create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$duree)) {
+  if ($stage->create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$dateFin)) {
 
     $newStageId = $conn->lastInsertId();
     $newValues = $stage->stage_by_id($newStageId)[0];

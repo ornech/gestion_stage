@@ -12,7 +12,7 @@ class Stage {
     public $titreStage;
     public $description;
     public $dateDebut;
-    public $duree;
+    public $dateFin;
 
 
     public function __construct($db){
@@ -84,13 +84,13 @@ class Stage {
     }
   }
 
-  public function create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$duree){
+  public function create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$dateFin){
     $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
     idMaitreDeStage=:idMaitreDeStage ,
     idEtudiant=:idEtudiant ,
     classe=:classe ,
     dateDebut=:dateDebut ,
-    dateFin=DATE_ADD(:dateDebut, INTERVAL :duree WEEK)";
+    dateFin=:dateFin";
 
     $stmt = $this->conn->prepare($query);
     $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
@@ -98,14 +98,14 @@ class Stage {
     $this->idEtudiant=htmlspecialchars(strip_tags($idEtudiant));
     $this->classe=htmlspecialchars(strip_tags($classe));
     $this->dateDebut=htmlspecialchars(strip_tags($dateDebut));
-    $this->duree=htmlspecialchars(strip_tags($duree));
+    $this->dateFin=htmlspecialchars(strip_tags($dateFin));
 
     $stmt->bindParam(":idEntreprise", $this->idEntreprise);
     $stmt->bindParam(":idMaitreDeStage", $this->idMaitreDeStage);
     $stmt->bindParam(":idEtudiant", $this->idEtudiant);
     $stmt->bindParam(":classe", $this->classe);
     $stmt->bindParam(":dateDebut", $this->dateDebut);
-    $stmt->bindParam(":duree", $this->duree);
+    $stmt->bindParam(":dateFin", $this->dateFin);
 
     try {
       if($stmt->execute()){
@@ -121,23 +121,23 @@ class Stage {
     }
   }
 
-  public function edit_stage($idStage, $idEntreprise, $idMaitreDeStage, $dateDebut, $duree){
+  public function edit_stage($idStage, $idEntreprise, $idMaitreDeStage, $dateDebut, $dateFin){
     $query = "UPDATE " . $this->table_name . " SET idEntreprise=:idEntreprise ,
     idMaitreDeStage=:idMaitreDeStage ,
     dateDebut=:dateDebut ,
-    dateFin=DATE_ADD(:dateDebut, INTERVAL :duree WEEK)
+    dateFin=:dateFin
     WHERE id=:idStage";
 
     $stmt = $this->conn->prepare($query);
     $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
     $this->idMaitreDeStage=htmlspecialchars(strip_tags($idMaitreDeStage));
     $this->dateDebut=htmlspecialchars(strip_tags($dateDebut));
-    $this->duree=htmlspecialchars(strip_tags($duree));
+    $this->dateFin=htmlspecialchars(strip_tags($dateFin));
 
     $stmt->bindParam(":idEntreprise", $this->idEntreprise);
     $stmt->bindParam(":idMaitreDeStage", $this->idMaitreDeStage);
     $stmt->bindParam(":dateDebut", $this->dateDebut);
-    $stmt->bindParam(":duree", $this->duree);
+    $stmt->bindParam(":dateFin", $this->dateFin);
     $stmt->bindParam(":idStage", $idStage);
 
     try {
