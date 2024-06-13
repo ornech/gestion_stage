@@ -11,10 +11,14 @@ require_once '../config/auth.php';
 require_once '../config/db_connection.php';
 
 if(isset($_POST["submit"])){
+    include_once "../controller/controller_log.php";
+
     $idStage = $_POST["Stage"];
     $idProfesseur = $_POST["Professeur"];
 
     $stage = new Stage($conn);
+
+    $oldValues = $stage->stage_by_id($idStage);
     if($stage->assignation_suivi($idStage, $idProfesseur)){
         header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $idEntreprise);
         exit();
