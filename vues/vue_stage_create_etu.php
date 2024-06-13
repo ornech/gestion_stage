@@ -112,6 +112,7 @@ json_encode(array_map(function($contact) use (&$maitreDeStages) {
 
 <?php
 
+
     $dateDebut = $_POST['dateDebut'] ?? null;
     $duree = $_POST['duree'] ?? null;
 
@@ -192,15 +193,16 @@ json_encode(array_map(function($contact) use (&$maitreDeStages) {
 
       document.getElementById("btnCreateMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_create_maitredestage&idEntreprise=" + response.id + "')");
     } else if (response.type === "contact") {
-      document.getElementById("idMaitreDeStage").value = response.id;
-      document.getElementById("nameMaitreDeStage").value = response.nom + " " + response.prenom;
+  document.getElementById("idMaitreDeStage").value = response.id;
+  document.getElementById("nameMaitreDeStage").value = response.nom + " " + response.prenom;
 
-      maitreDeStages[response.id] = {
-        id: document.getElementById("idEntreprise").value,
-        nom: response.nom,
-        prenom: response.prenom
-      };
-
+  // Mise à jour de maitreDeStages avec l'ID de l'entreprise correct
+  maitreDeStages[response.id] = {
+    id: response.idEntreprise,  // Utiliser response.idEntreprise ici
+    nom: response.nom,
+    prenom: response.prenom
+  };
+ 
       printMaitreDeStage(document.getElementById("idEntreprise").value);
     }
 
@@ -225,8 +227,11 @@ json_encode(array_map(function($contact) use (&$maitreDeStages) {
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+
     document.getElementById("nameEntreprise").addEventListener('change', checkForm);
     document.getElementById("dateDebut").addEventListener('change', checkForm);
-    document.getElementById("dateFin").addEventListener('change', checkForm);
-  });
+    if (document.getElementById("dateFin")) {
+        document.getElementById("dateFin").addEventListener('change', checkForm);
+    }
+});
 </script>
