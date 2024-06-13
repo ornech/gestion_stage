@@ -46,10 +46,20 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                 <tr><th>Mail</th><td><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
 
                 <!-- ------------------------------------------QUE POUR LES PROFILS DES ETUDIANTS-----------------------------  -->
-                <?php if ($Profil->statut == 'Etudiant') { ?>
-                  <tr><th>Groupe</th><td><?= $Profil->classe ?></td><td></td></tr>
-                  <tr><th>Promotion</th><td><?= $Profil->promo ? $Profil->promo : '-' ?></td><td></td></tr>
-                  <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '-' ?>
+                <?php if ($Profil->statut == 'Etudiant') { ?> <!-- Statut-->
+
+                  <tr><th>Groupe</th><td><?= $Profil->classe ?></td></td><td><!-- Classe -->
+                    <?php if ($_SESSION['statut'] == "Professeur") { ?>
+                      <button id="openModal" for="modalClasse" class="button is-small">
+                        <span class="icon">
+                          <i class="fas fa-pencil-alt"></i>
+                        </span>
+                      </button>
+                    <?php } ?>
+                  </td></tr>
+
+                  <tr><th>Promotion</th><td><?= $Profil->promo ? $Profil->promo : '-' ?></td><td></td></tr><!-- Promotion -->
+                  <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '-' ?><!-- Spécialité -->
                   </td><td>
                     <?php if ($_SESSION['statut'] == "Professeur") { ?>
                       <button id="openModal" for="modalSpe" class="button is-small">
@@ -59,7 +69,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                       </button>
                     <?php } ?>
                   </td></tr>
-                  <tr><th>Tuteur</th><td>
+                  <tr><th>Tuteur</th><td><!-- Tuteur -->
                     <?php
                     if (isset($Profil->idTuteur)) {
                       foreach ($tuteurs as $tuteur) {
@@ -271,6 +281,36 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
         </div>
       </div>
 
+      <div class="modal" id="modalClasse">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Modification de la classe</p>
+            <button class="delete cancel" id="closeModal" for="modalClasse" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <form id="classeForm" action="../controller/entreprise_update_classe.php" method="post">
+              <div class="is-grouped">
+                <p class="is-size-5" style="display: inline;">Choississez une classe :</p>
+                <input type="hidden" name="id" value="<?= $Profil->id ?>">
+                <div class="select is-small">
+                  <select name="classe">
+                    <option value="SIO1" <?= $Profil->classe == "SIO1" ? "selected" : "" ?>>SIO1</option>
+                    <option value="SIO2" <?= $Profil->classe == "SIO2" ? "selected" : "" ?>>SIO2</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </section>
+          <footer class="modal-card-foot">
+            <div class="buttons">
+              <button class="button is-success" id="saveClasse">Enregistrer</button>
+              <button class="button" id="closeModal" for="modalClasse">Annuler</button>
+            </div>
+          </footer>
+        </div>
+      </div>
+
       <script>
         document.getElementById("accept").addEventListener("click", function() {
           var form = document.createElement("form");
@@ -300,6 +340,10 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
 
         document.getElementById('saveTuteur').addEventListener('click', function() {
           document.getElementById('tuteurForm').submit();
+        });
+
+        document.getElementById('saveClasse').addEventListener('click', function() {
+          document.getElementById('classeForm').submit();
         });
 
         document.getElementById('saveSpe').addEventListener('click', function() {

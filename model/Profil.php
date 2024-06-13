@@ -12,6 +12,7 @@ class Profil {
   public $telephone;
   public $promo;
   public $spe;
+  public $classe;
   public $login;
   public $password;
   public $password_reset;
@@ -212,6 +213,19 @@ class Profil {
       // Afficher les erreurs SQL en cas d'échec de l'exécution
       echo "Erreur SQL : " . implode(", ", $stmt->errorInfo());
       return false; // Échec de la mise à jour
+    }
+  }
+
+  public function update_promo($id, $promo) {
+    $query = "UPDATE " . $this->table_name . " SET promo=:promo WHERE id=:id";
+    $stmt = $this->conn->prepare($query);
+    $this->promo = htmlspecialchars(strip_tags($promo));
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':promo', $this->promo, PDO::PARAM_STR);
+    if($stmt->execute()){
+      return true;
+    } else {
+      return false;
     }
   }
 
