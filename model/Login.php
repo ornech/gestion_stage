@@ -73,6 +73,7 @@ class Login {
             $stmt->bindParam(':password', password_hash($newPassword, PASSWORD_DEFAULT));
             $stmt->bindParam(':id', $userId);
             $stmt->execute();
+            exit;
             return array("statut" => "success");
         } catch (PDOException $e) {
             return array("statut" => "failed", "message" => "Erreur de connexion à la base de données: " . $e->getMessage());

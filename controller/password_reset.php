@@ -26,6 +26,8 @@ if(isset($_POST["userId"]) && isset($_POST["new_password"]) && isset($_POST["con
         header("Location: /router.php?page=password_reset&erreur=" . $connexion['message']);
         exit;
     }else{
+        addLog($conn, 19, $_SESSION['userID'], $_SESSION['userID'], "Profil", null, null);
+        exit;
         header("Location: /router.php?page=accueil");
         exit;
     }
