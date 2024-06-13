@@ -3,6 +3,8 @@ require_once '../config/db_connection.php';
 include_once '../model/Login.php';
 
 if(isset($_POST["userId"]) && isset($_POST["new_password"]) && isset($_POST["confirm_password"])){ 
+  require_once '../controller/controller_log.php';
+  
     $userId = $_POST['userId'];
     $newPassword = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];

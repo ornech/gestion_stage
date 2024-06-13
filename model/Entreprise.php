@@ -28,7 +28,6 @@ class Entreprise {
 
   // Créer une nouvelle entreprise
   public function importer($entrepriseData){
-    require_once '../controller/controller_log.php';
 
     $query = "INSERT INTO " . $this->table_name . " SET
     nomEntreprise=:nomEntreprise,
@@ -80,12 +79,7 @@ class Entreprise {
 
     try {
       if($stmt->execute()){
-        //Obtenir les données que l'on vient de créer dans la table
-        $newValue = $this->read_fiche($this->conn->lastInsertId());
-        if(addLog($this->conn, 1, $this->Created_UserID, "entrerprise", $newValue->EntrepriseID, null, $newValue)){
-          return true;
-        }
-        return false;
+        return true;
       } else {
         throw new Exception("Erreur lors de l'exécution de la requête.");
       }
@@ -441,7 +435,6 @@ class Entreprise {
           naf = :naf,
           effectif = :effectif,
           type = :type,
-          Created_Date = NOW(),
           Created_UserID = :Created_UserID
           WHERE id = :id";
 

@@ -12,6 +12,7 @@ require_once '../config/db_connection.php';
 
 // Vérifie si le formulaire a été soumis
 if(isset($_POST['idEntreprise'])) {
+    require_once '../controller/controller_log.php';
     // Récupération des données du formulaire
     $idEntreprise = $_POST['idEntreprise'];
     $nom = $_POST['nom'];
@@ -34,8 +35,14 @@ if(isset($_POST['idEntreprise'])) {
         //'indice_fiabilite' => $indice_fiabilite
     );
 
+    $oldValue = $entreprise->read_fiche($idEntreprise);
+
     // Appel de la méthode update de l'objet Entreprise pour mettre à jour les informations
     if ($entreprise->update($idEntreprise, $nouvelles_infos)) {
+        $newValue = $entreprise->read_fiche($idEntreprise);
+
+        addLog($conn, 4, $_SESSION["userID"], 'entreprise', $idEntreprise, $oldValue, $newValue);
+        
         // Redirection vers la page de détails de l'entreprise après la mise à jour
         header("Location: ../router.php?page=fiche_entreprise&idEntreprise=$idEntreprise");
         exit();
