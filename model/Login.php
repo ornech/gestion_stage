@@ -70,7 +70,7 @@ class Login {
     public function password_reset($userId, $newPassword){
         try{
             $stmt = $this->conn->prepare("UPDATE $this->table_name SET password = :password, password_reset = 0 WHERE password_reset = 1 AND id = :id AND isDeleted = 0");
-            $stmt->bindParam(':password', password_hash($newPassword, PASSWORD_DEFAULT));
+            $stmt->bindParam(':password', $newPassword);
             $stmt->bindParam(':id', $userId);
             $stmt->execute();
             return array("statut" => "success");
