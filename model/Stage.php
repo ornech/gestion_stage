@@ -12,7 +12,7 @@ class Stage {
     public $titreStage;
     public $description;
     public $dateDebut;
-    public $dateFin;
+    public $duree;
 
 
     public function __construct($db){
@@ -83,14 +83,13 @@ class Stage {
         return false;
     }
   }
-
-  public function create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$dateFin){
-    $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
+  public function create_mystage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$duree){
+    $query = "INSERT INTO " . $this->table_name . " SET idEtudiant=:idEtudiant ,
     idMaitreDeStage=:idMaitreDeStage ,
-    idEtudiant=:idEtudiant ,
+    idEntreprise=:idEntreprise ,
     classe=:classe ,
     dateDebut=:dateDebut ,
-    dateFin=:dateFin";
+    dateFin=DATE_ADD(:dateDebut, INTERVAL :duree WEEK)";
 
     $stmt = $this->conn->prepare($query);
     $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
@@ -98,14 +97,50 @@ class Stage {
     $this->idEtudiant=htmlspecialchars(strip_tags($idEtudiant));
     $this->classe=htmlspecialchars(strip_tags($classe));
     $this->dateDebut=htmlspecialchars(strip_tags($dateDebut));
-    $this->dateFin=htmlspecialchars(strip_tags($dateFin));
+    $this->duree=htmlspecialchars(strip_tags($duree));
 
     $stmt->bindParam(":idEntreprise", $this->idEntreprise);
     $stmt->bindParam(":idMaitreDeStage", $this->idMaitreDeStage);
     $stmt->bindParam(":idEtudiant", $this->idEtudiant);
     $stmt->bindParam(":classe", $this->classe);
     $stmt->bindParam(":dateDebut", $this->dateDebut);
-    $stmt->bindParam(":dateFin", $this->dateFin);
+    $stmt->bindParam(":duree", $this->duree);
+
+    try {
+      if($stmt->execute()){
+        return true;
+      } else {
+        throw new Exception("Erreur lors de l'exécution de la requête.");
+      }
+    } catch (Exception $e) {
+      //echo "Erreur : " . $e->getMessage();
+      $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+      header("Location: ../router.php?page=erreur&message=$message");
+      return false;
+    }
+  }
+  public function create_stage($idEntreprise,$idMaitreDeStage,$idEtudiant,$classe,$dateDebut,$duree){
+    $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
+    idMaitreDeStage=:idMaitreDeStage ,
+    idEtudiant=:idEtudiant ,
+    classe=:classe ,
+    dateDebut=:dateDebut ,
+    dateFin=DATE_ADD(:dateDebut, INTERVAL :duree WEEK)";
+
+    $stmt = $this->conn->prepare($query);
+    $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
+    $this->idMaitreDeStage=htmlspecialchars(strip_tags($idMaitreDeStage));
+    $this->idEtudiant=htmlspecialchars(strip_tags($idEtudiant));
+    $this->classe=htmlspecialchars(strip_tags($classe));
+    $this->dateDebut=htmlspecialchars(strip_tags($dateDebut));
+    $this->duree=htmlspecialchars(strip_tags($duree));
+
+    $stmt->bindParam(":idEntreprise", $this->idEntreprise);
+    $stmt->bindParam(":idMaitreDeStage", $this->idMaitreDeStage);
+    $stmt->bindParam(":idEtudiant", $this->idEtudiant);
+    $stmt->bindParam(":classe", $this->classe);
+    $stmt->bindParam(":dateDebut", $this->dateDebut);
+    $stmt->bindParam(":duree", $this->duree);
 
     try {
       if($stmt->execute()){
@@ -121,23 +156,23 @@ class Stage {
     }
   }
 
-  public function edit_stage($idStage, $idEntreprise, $idMaitreDeStage, $dateDebut, $dateFin){
+  public function edit_stage($idStage, $idEntreprise, $idMaitreDeStage, $dateDebut, $duree){
     $query = "UPDATE " . $this->table_name . " SET idEntreprise=:idEntreprise ,
     idMaitreDeStage=:idMaitreDeStage ,
     dateDebut=:dateDebut ,
-    dateFin=:dateFin
+    dateFin=DATE_ADD(:dateDebut, INTERVAL :duree WEEK)
     WHERE id=:idStage";
 
     $stmt = $this->conn->prepare($query);
     $this->idEntreprise=htmlspecialchars(strip_tags($idEntreprise));
     $this->idMaitreDeStage=htmlspecialchars(strip_tags($idMaitreDeStage));
     $this->dateDebut=htmlspecialchars(strip_tags($dateDebut));
-    $this->dateFin=htmlspecialchars(strip_tags($dateFin));
+    $this->duree=htmlspecialchars(strip_tags($duree));
 
     $stmt->bindParam(":idEntreprise", $this->idEntreprise);
     $stmt->bindParam(":idMaitreDeStage", $this->idMaitreDeStage);
     $stmt->bindParam(":dateDebut", $this->dateDebut);
-    $stmt->bindParam(":dateFin", $this->dateFin);
+    $stmt->bindParam(":duree", $this->duree);
     $stmt->bindParam(":idStage", $idStage);
 
     try {
