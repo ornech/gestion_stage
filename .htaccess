@@ -1,1 +1,10 @@
+RewriteEngine On
 
+# Réécrire /router.php?page=NomDeLaPage en /NomDeLaPage (avec ou sans autres paramètres GET)
+RewriteCond %{THE_REQUEST} \s/router\.php\?page=([^\s&]+)&?(.*)\s [NC]
+RewriteRule ^ /%1?%2 [L,R=301]
+
+# Si le fichier ou le répertoire n'existe pas, appliquer la réécriture interne
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)$ router.php?page=$1 [L,QSA,NC]

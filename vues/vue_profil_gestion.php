@@ -1,6 +1,5 @@
 <?php
 require_once 'config/auth.php';
-include 'test_groupe.php';
 ?>
 
 <?php
@@ -36,7 +35,7 @@ if ($_SESSION['statut'] == "Professeur") {
   <div class="field is-grouped" style="align-items: center;">
     <div>
       <p class="title is-2">Gestion utilisateurs</p>
-      <p class="subtitle is-4">Admimistration des comptes</p>
+      <p class="subtitle is-4">Administration des comptes</p>
     </div>
     <a class='button is-success' href='router.php?page=create_user' role='button' style="height: 100%; margin-left: 3%;">Créer un compte</a>
   </div>
@@ -115,7 +114,7 @@ if ($_SESSION['statut'] == "Professeur") {
         <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
           <td><?= $profil->nom ?> <?= $profil->prenom ?></td>
           <td><?= isset($profil->date_entree) ? convertDateFormat($profil->date_entree) : "Non défini"; ?></td>
-          <td><?= $test = verifgroupe($profil, $conn, $dateActuelle) ?></td>
+          <td><?= isset($profil->classe) ? $profil->classe : "Non défini" ?></td>
           <td><?= $profil->login ?></td>
           <td><?= $profil->spe ?></td>
           <td><?= $profil->statut ?></td>

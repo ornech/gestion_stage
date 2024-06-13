@@ -1,92 +1,169 @@
 <?php
 require_once 'config/auth.php';
+include_once 'model/Stage.php'; // Inclure le modèle Stage
+$stageModel = new Stage($conn);
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des entreprises</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
-  <p class="title is-2">Annuaire entreprises</p>
-  <p class="subtitle is-4">Entreprises qui ont été démarchées ou qui ont acceuillies des stagiaires.</p>
-  <div class="field is-grouped is-grouped-multiline is-flex ">
- 
-    <div class="control">
-  <div class="tags has-addons is-large">
-    <span class="tag is-dark">Entreprises</span>
-    <span class="tag is-link"><?= "<b>" . count((array)$entreprises) . "</b>" ?></span>
+
+<div class="notification is-primary" id="EntrepriseSuccess" style="display: none;">
+  <p class="title is-4">Entreprise créé avec succès</p>
+  <p>L'entreprise a été créée avec succès et est actuellement en cours de validation.</p>
+  <p>Elle sera visible dès sa validation.</p>
+</div>
+
+<p class="title is-2">Annuaire entreprises</p>
+<p class="subtitle is-4">Entreprises qui ont été démarchées ou qui ont accueilli des stagiaires.</p>
+<div class="field is-grouped is-grouped-multiline is-flex ">
+
+<div class="field is-grouped is-grouped-multiline">
+  <div class="control">
+    <div class="tags has-addons is-small">
+      <span class="tag is-dark">Entreprises:</span>
+      <span class="tag is-link"><?= "<b>" . count($entreprises) . "</b>" ?></span>
+    </div>
+  </div>
+  <div class="control">
+    <div class="tags has-addons is-small">
+      <span class="tag is-dark">Stages :</span>
+      <span class="tag is-success"><?= "<b>" . count($stages) . "</b>" ?></span>
+    </div>
+  </div>
+  <div class="control">
+    <div class="tags has-addons is-small">
+      <span class="tag is-dark">Contacts :</span>
+      <span class="tag is-warning"><?= "<b>" . count($contacts) . "</b>" ?></span>
+    </div>
   </div>
 </div>
 
-  <table class="table tableFilter" id="maTable">
-        <thead>
-            <tr>
-                <?php
-                // Liste des colonnes du tableau
-                $entreprise_tableau = [
-                    "Nom entreprise" => "nomEntreprise",
-                    "Adresse" => "adresse",
-                    'Ville' => "ville",
-                    'Type' => "type",
-                    'Code postal' => "codePostal"
-                ];
+<table class="table tableFilter" id="maTable">
+  <thead>
+    <tr>
+      <?php
+      // Liste des colonnes du tableau
+      $entreprise_tableau = [
+          "Nom entreprise" => "nomEntreprise",
+          "Adresse" => "adresse",
+          'Ville' => "ville",
+          'naf' => "naf",
+          'Code postal' => "codePostal"
+      ];
 
-                // Fonction pour récupérer les valeurs uniques d'une colonne
-                function uniqueValues($entreprises, $column) {
-                    $values = [];
-                    foreach ($entreprises as $entreprise) {
-                        if (isset($entreprise->$column)) {
-                            $values[] = $entreprise->$column;
-                        }
-                    }
-                    return array_unique($values);
-                }
+      // Fonction pour récupérer les valeurs uniques d'une colonne
+      function uniqueValues($entreprises, $column) {
+          $values = [];
+          foreach ($entreprises as $entreprise) {
+              if (isset($entreprise->$column)) {
+                  $values[] = $entreprise->$column;
+              }
+          }
+          return array_unique($values);
+      }
 
-                // Générer les filtres personnalisés pour chaque colonne
-                $filters = [];
-                foreach ($entreprise_tableau as $column) {
-                    $filters[$column] = uniqueValues($entreprises, $column);
-                }
+      // Détermination de la couleur RGB
+      function couleurDegrade($pourcentage) {
+          if ($pourcentage <= 0.5) {
+              // Transition du vert à l'orange
+              $r = (int)(255 * ($pourcentage / 0.5));
+              $g = 255;
+              $b = 0;
+          } else {
+              // Transition de l'orange au rouge
+              $r = 255;
+              $g = (int)(255 * ((1 - $pourcentage) / 0.5));
+              $b = 0;
+          }
 
-                // Affichage des filtres et des options de tri
-                $n = 0;
-                foreach ($entreprise_tableau as $column => $value) {
-                    echo '<td class="lineFilter" name="'. $column .'">';
+          // Conversion en hexadécimal
+          return sprintf("#%02x%02x%02x", $r, $g, $b);
+      }
 
-                    echo '</td>';
-                    $n++;
-                }
-                ?>
+      // Générer les filtres personnalisés pour chaque colonne
+      $filters = [];
+      foreach ($entreprise_tableau as $column) {
+          $filters[$column] = uniqueValues($entreprises, $column);
+      }
 
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($entreprises as $entreprise): ?>
-                <tr>
-                    <td><a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->id ?>"><?= htmlspecialchars($entreprise->nomEntreprise) ?></a></td>
-                    <td><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
-                    <td><?= $entreprise->ville != null ? htmlspecialchars($entreprise->ville) : "Non défini" ?></td>
-                    <td><?= $entreprise->type != null ? htmlspecialchars($entreprise->type) : "Non défini" ?></td>
-                    <td><?= $entreprise->codePostal != null ? htmlspecialchars($entreprise->codePostal) : "Non défini"?></td>
+      // Affichage des filtres et des options de tri
+      $n = 0;
+      foreach ($entreprise_tableau as $column => $value) {
+          echo '<td class="lineFilter" name="'. $column .'">';
 
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</body>
-</html>
+          echo '</td>';
+          $n++;
+      }
+      ?>
+      <td>Stage</td>
+
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach ($entreprises as $entreprise): ?>
+    <tr>
+      <td>
+        <?php
+        // Comptage du nombre total de champs
+
+        $tableau = (array)$entreprise;
+        // Comptage du nombre total de champs
+        $nombre_champs_total = count($tableau);
+
+        // Utilisation de array_filter pour filtrer les champs vides
+        $champs_vides = array_filter($tableau, function($valeur) {
+            return $valeur === '' || $valeur === null;
+        });
+
+        // Comptage des champs vides
+        $nombre_champs_vides = count($champs_vides);
+
+        // Calcul du pourcentage de champs vides
+        $pourcentage_vide = $nombre_champs_vides / $nombre_champs_total;
+
+        // Calcul de la couleur en fonction du pourcentage de champs vides
+        $couleur = couleurDegrade($pourcentage_vide);
+
+
+        // Affichage des résultats
+        echo "<i class='fa fa-circle' style='color:$couleur'></i> "; // . ceil($pourcentage_vide * 100) . "%" ;?>
+        &nbsp;<a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->EntrepriseID ?>"><?= htmlspecialchars($entreprise->nomEntreprise) ?></a>
+      </td>
+      <td><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
+      <td><?= $entreprise->ville != null ? htmlspecialchars($entreprise->ville) : "Non défini" ?></td>
+      <td>(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?></td>
+      <td><?= $entreprise->codePostal != null ? htmlspecialchars($entreprise->codePostal) : "Non défini"?></td>
+      <td>
+        <?php
+        // Instancier le modèle
+        $stages = $stageModel->count_by_entreprise($entreprise->EntrepriseID);
+
+        // Vérifier si le tableau n'est pas vide et contient un objet avec la propriété 'nbr'
+        if (isset($stages[0]) && is_object($stages[0]) && property_exists($stages[0], 'nbr')) {
+          if ($stages[0]->nbr == "0") {
+            echo "-";
+          } else {
+            ?>
+            <div class="control">
+              <div class="tags has-addons is-small">
+                <span class="tag is-success"><?php echo "<b>" . $stages[0]->nbr . "</b>"; ?></span>
+              </div>
+            </div>
+            <?php
+          }
+        } else {
+          echo "Aucun stage trouvé";
+        }
+        ?>
+      </td>
+
+
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.hash.endsWith("entrepriseSuccess")) {
+      document.getElementById('EntrepriseSuccess').style.display = 'block';
+    }
+  });
+</script>

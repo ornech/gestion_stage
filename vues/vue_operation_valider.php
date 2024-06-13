@@ -14,11 +14,11 @@ function getLink($type, $id){
 
 <p class="title has-text-centered">Opérations à valider</p>
 
-<table class="table is-fullwidth is-fluid tableFilter" id="maTable">
+<table class="table is-fullwidth tableFilter" id="maTable">
   <thead>
     <th>Utilisateur</th>
     <th>Type</th>
-    <th>Nom</th>
+    <th style="width: 50%;">Nom</th>
     <th>Date</th>
     <th>Actions</th>
   </thead>

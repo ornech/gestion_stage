@@ -65,10 +65,20 @@ function router($page, $conn) {
       break;
 
     case 'listerEntreprises':
-      include 'model/Entreprise.php'; // Inclure le modèle Entreprise
-      include 'model/Contact.php'; // Inclure le modèle Contact
+      include_once 'model/Stage.php'; // Inclure le modèle Stage
+      include_once 'model/Entreprise.php'; // Inclure le modèle Entreprise
+      include_once 'model/Contact.php'; // Inclure le modèle Contact
+      include_once 'model/Operations.php'; // Inclure le modèle Operations
+
+      $stageModel = new Stage($conn); // Instancier le modèle
+      $stages = $stageModel->list();
+
       $entrepriseModel = new Entreprise($conn); // Instancier le modèle
-      $entreprises = $entrepriseModel->read(); // Lire les entreprises
+      $entreprises = $entrepriseModel->read();
+
+      $contactModel = new Contact($conn); // Instancier le modèle
+      $contacts = $contactModel->list();
+    
       include 'vues/vue_liste_entreprises.php'; // Inclure la vue pour afficher la liste des entreprises
       break;
 
@@ -197,13 +207,13 @@ function router($page, $conn) {
       if($idProfil == null){
         header("Location: router.php?page=erreur&title=Erreur&message=Une erreur est survenue lors de l'accès à la page.");
       }
-      
+
       $Profil = $profilModel->read_profil($idProfil);
 
       if($Profil->statut == "Professeur" && $idProfil != $_SESSION["userID"]){
         header("Location: router.php?page=erreur&title=Erreur&message=Vous ne pouvez pas modifier un profil de type professeur.");
       }
-      
+
       include 'vues/vue_profil_edit.php';
       break;
 
@@ -511,6 +521,24 @@ function router($page, $conn) {
       $logs = $logModel->list();
 
       include 'vues/vue_logs.php';
+      break;
+
+    case 'logs_details':
+      route_protect('Professeur');
+
+      include_once 'model/Log.php';
+
+      $idLog = isset($_GET['id']) ? $_GET['id'] : null;
+
+      if($idLog == null){
+        header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès au détail du log, veuillez réessayer.");
+        exit();
+      }
+
+      $logModel = new Log($conn);
+      $log = $logModel->getById($idLog);
+
+      include 'vues/vue_logs_detail.php';
       break;
 
    case 'erreur':
