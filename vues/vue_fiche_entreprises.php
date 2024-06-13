@@ -11,7 +11,14 @@ if ($ficheEntreprise) {
   $idEntreprise=$ficheEntreprise-> EntrepriseID;
 ?>
 
-<p class="title is-2"><?= $ficheEntreprise->nomEntreprise ?></p>
+<div class="is-flex is-align-items-center">
+  <p class="title is-2 nomEntreprise"><?= $ficheEntreprise->nomEntreprise ?></p>
+  <button style="margin-left: 15px; top: -8px;" id="openModal" for="nomEntreprise" class="button">
+    <span class="icon">
+      <i class="fas fa-pencil-alt"></i>
+    </span>
+  </button>
+</div>
 
 <div class="notification is-primary" id="ContactSuccess" style="display: none;">
   <p class="title is-4">Contact créé avec succès</p>
@@ -231,6 +238,33 @@ if ($ficheEntreprise) {
   </div>
 </div>
 
+<div class="modal" id="nomEntreprise">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Changement de nom d'entreprise</p>
+      <button id="closeModal" class="delete" for="nomEntreprise" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form id="changerNom" action="../controller/entreprise_update_nom.php" method="POST">
+        <div class="field">
+          <label class="label">Nouveau nom de l'entreprise :</label>
+          <div class="control">
+        <input class="input" type="text" id="nouveauNom" name="nomEntreprise" placeholder="Entrez le nouveau nom de l'entreprise" value="<?= $ficheEntreprise->nomEntreprise?>" required>
+          </div>
+        </div>
+        <input type="hidden" id="entrepriseID" name="entrepriseID" value="<?= $ficheEntreprise->EntrepriseID ?>">
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success" id="changerNomBtn">Changer</button>
+        <button id="closeModal" class="button" for="nomEntreprise">Annuler</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
 
 <script>
   document.getElementById('confirmDelete').addEventListener('click', function(event) {
@@ -253,5 +287,10 @@ if ($ficheEntreprise) {
       document.getElementById('updateForm').submit();
     });
 
+    document.getElementById('changerNomBtn').addEventListener('click', function() {
+      document.getElementById('changerNom').submit();
+    });
+
   });
+
 </script>
