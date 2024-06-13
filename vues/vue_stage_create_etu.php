@@ -1,17 +1,17 @@
 <?php
 require_once 'config/auth.php';
+?>
 
-$maitreDeStages = [];
-json_encode(array_map(function($contact) use (&$maitreDeStages) {
-    // Le & est comme dans le langage C, il permet de pouvoir modifier la variable dans la fonction
+<?php
+if (($profil -> statut) == "Etudiant"){
+  $maitreDeStages = [];
+  json_encode(array_map(function($contact) use (&$maitreDeStages) { // Le & est comme dans le langage C, il permet de pouvoir modifier la variable dans la fonction
     $maitreDeStages[$contact->EmployeID] = [
       'id' => $contact->EntrepriseID,
       'nom' => $contact->nom,
       'prenom' => $contact->prenom
     ];
   }, $contacts));
-
-  //var_dump($profil);
 
   //impression de la variable $maitreDeStages dans une variable javascript
   echo "<script> var maitreDeStages = ".json_encode($maitreDeStages)."; </script>";
@@ -28,7 +28,8 @@ json_encode(array_map(function($contact) use (&$maitreDeStages) {
         <input type="hidden" id="idEtudiant" name="idEtudiant" value="<?= $_SESSION["userID"] ?>"/>
         <input type="hidden" id="idEntreprise" name="idEntreprise" value="">
         <input type="hidden" id="idMaitreDeStage" name="idMaitreDeStage" value="">
-        <input type="hidden" id="classe" name="classe" value="<?= $profil->classe ?>">
+        <input type="hidden" id="classe" name="classe" value="<?= $profil->classe ?>"/>
+
 
         <label class="label" for="nameEtudiant"><span class="icon">
   <i class="fas fa-graduation-cap"></i>
@@ -94,7 +95,7 @@ json_encode(array_map(function($contact) use (&$maitreDeStages) {
           </div>  </div> 
           <div class="field">
   <div class="control"> 
-    <button class="button is-primary" type="submit" id="submitForm" disabled>Enregistrer</button>
+  <button class="button is-primary" id="submitForm" disabled>Enregistrer</button>
   </div>
 </div>
            
@@ -110,24 +111,9 @@ json_encode(array_map(function($contact) use (&$maitreDeStages) {
   </div>
 </div></div>
 
-<?php
-
-
-    $dateDebut = $_POST['dateDebut'] ?? null;
-    $duree = $_POST['duree'] ?? null;
-
-    // Convertir la durée en jours
-    $dureeEnJours = $duree * 7;
-    $dateFin = date('Y-m-d', strtotime($dateDebut . ' +' . $dureeEnJours . ' days'));
-
-
-?>
-
-
-
-
 <script type="text/javascript">
   var popupAlreadyOpened = false;
+  var countIsNotDetectable = 0;
 
   function openPopup(route) {
     if(popupAlreadyOpened == true) return;
@@ -143,95 +129,96 @@ json_encode(array_map(function($contact) use (&$maitreDeStages) {
       }
     }, 500);
 
-    window.addEventListener("message", handleMessage);
+    // Attendre la réponse de la popup
+    window.addEventListener("message", function(event) {
+      if (event.origin === window.location.origin) {
+      var response = event.data;
+
+      if(response.statut == "success"){
+        processResponse(response.contents);
+      }else if(response.statut == "cancel"){
+        console.log("Opération annulée");
+      }else{
+        console.log("Erreur lors de la récupération des données");
+      }
+
+      window.removeEventListener("message", arguments.callee);
+      popupAlreadyOpened = false;
+      }
+    });
   }
 
-  function handleMessage(event) {
-    if (event.origin !== window.location.origin) return;
-    var response = event.data;
-
-    if (response.statut === "success") {
-      processResponse(response.contents);
-    } else if (response.statut === "cancel") {
-      console.log("Opération annulée");
-    } else {
-      console.log("Erreur lors de la récupération des données");
-    }
-
-    window.removeEventListener("message", handleMessage);
-    popupAlreadyOpened = false;
-  }
-
+  //Vérifie si tout est rempli, si oui activé le bouton Créer
   function checkForm() {
+    var idEtudiant = document.getElementById("idEtudiant").value;
     var idEntreprise = document.getElementById("idEntreprise").value;
     var idMaitreDeStage = document.getElementById("idMaitreDeStage").value;
     var start_date = document.getElementById("dateDebut").value;
     var duree = document.getElementById("duree").value;
 
-    var isFormValid = idEntreprise && idMaitreDeStage && start_date && duree;
-    document.getElementById("submitForm").disabled = !isFormValid;
+    if (idEntreprise != "" && idMaitreDeStage != "" && start_date != "" && duree != "") {
+      document.getElementById("submitForm").disabled = false;
+    } else {
+      document.getElementById("submitForm").disabled = true;
+    }
 
-    if (idEntreprise) {
+    if(idEntreprise != ""){
       console.log("idEntreprise: " + idEntreprise);
       printMaitreDeStage(idEntreprise);
       document.getElementById("nameMaitreDeStage").disabled = false;
       document.getElementById("btnCreateMaitreDeStage").disabled = false;
-    } else {
+    }
+    else{
       document.getElementById("nameMaitreDeStage").disabled = true;
       document.getElementById("btnCreateMaitreDeStage").disabled = true;
     }
+
   }
 
-  function processResponse(response) {
-    if (response.type === "profil") {
-      document.getElementById("idEtudiant").value = response.idEtudiant;
-      document.getElementById("nameEtudiant").value = response.nameEtudiant;
-      document.getElementById("classe").value = response.classe;
-    } else if (response.type === "entreprise") {
-      document.getElementById("idEntreprise").value = response.id;
-      document.getElementById("nameEntreprise").value = response.nom;
+  function processResponse(response){
+    if(response["type"] == "profil"){
+      document.getElementById("idEtudiant").value = response["id"];
+      document.getElementById("nameEtudiant").value = response["nom"] + " " + response["prenom"];
+      document.getElementById("classe").value = response["classe"];
+    }else if(response["type"] == "entreprise"){
+      document.getElementById("idEntreprise").value = response["id"];
+      document.getElementById("nameEntreprise").value = response["nom"];
 
-      document.getElementById("btnCreateMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_create_maitredestage&idEntreprise=" + response.id + "')");
-    } else if (response.type === "contact") {
-  document.getElementById("idMaitreDeStage").value = response.id;
-  document.getElementById("nameMaitreDeStage").value = response.nom + " " + response.prenom;
+      document.getElementById("btnCreateMaitreDeStage").setAttribute("onclick", "openPopup('vue_popup_create_maitredestage&idEntreprise=" + response["id"] + "')");
 
-  // Mise à jour de maitreDeStages avec l'ID de l'entreprise correct
-  maitreDeStages[response.id] = {
-    id: response.idEntreprise,  // Utiliser response.idEntreprise ici
-    nom: response.nom,
-    prenom: response.prenom
-  };
- 
-      printMaitreDeStage(document.getElementById("idEntreprise").value);
+    }else if(response["type"] == "contact"){
+      document.getElementById("idMaitreDeStage").value = response["id"];
+      document.getElementById("nameMaitreDeStage").value = response["nom"] + " " + response["prenom"];
+      var idEntreprise = document.getElementById("idEntreprise").value;
+
+      maitreDeStages[response["id"]] = {
+        id: idEntreprise,
+        nom: response["nom"],
+        prenom: response["prenom"]
+      };
+
+      printMaitreDeStage(idEntreprise);
     }
 
     checkForm();
   }
 
-  function printMaitreDeStage(entrepriseId) {
-    var select = document.getElementById("nameMaitreDeStage");
-    select.innerHTML = "";
-    var idMaitreDeStage = document.getElementById("idMaitreDeStage").value;
-
-    for (const [key, value] of Object.entries(maitreDeStages)) {
-      if (value.id === entrepriseId) {
-        select.innerHTML += `<option value="${key}" ${key === idMaitreDeStage ? "selected" : ""}>${value.nom} ${value.prenom}</option>`;
-      }
-    }
-    idMDSchange(select);
-  }
-
-  function idMDSchange(select) {
+  function idMDSchange(select){
     document.getElementById("idMaitreDeStage").value = select.value;
   }
+  function printMaitreDeStage(idEntreprise) {
+    var select = document.getElementById("nameMaitreDeStage");
+    select.innerHTML = ""; // Clear existing options
 
-  document.addEventListener('DOMContentLoaded', function() {
-
-    document.getElementById("nameEntreprise").addEventListener('change', checkForm);
-    document.getElementById("dateDebut").addEventListener('change', checkForm);
-    if (document.getElementById("dateFin")) {
-        document.getElementById("dateFin").addEventListener('change', checkForm);
+    for (var key in maitreDeStages) {
+      if (maitreDeStages[key].id == idEntreprise) {
+        var option = document.createElement("option");
+        option.value = key;
+        option.text = maitreDeStages[key].nom + " " + maitreDeStages[key].prenom;
+        select.appendChild(option);
+      }
     }
-});
+  }
 </script>
+
+<?php } ?>
