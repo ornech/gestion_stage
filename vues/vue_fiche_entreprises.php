@@ -10,6 +10,36 @@ require_once 'config/auth.php';
 if ($ficheEntreprise) {
   $idEntreprise=$ficheEntreprise-> EntrepriseID;
 ?>
+<style>
+.containerr {
+  position: fixed;
+  top: 12%; 
+  left: 2%; 
+  z-index: 1;
+}
+
+.fixed-button {
+  cursor: pointer; 
+  background-color: rgba(50, 115, 220, 0.3); /* Fond bleu transparent */
+}
+
+.fixed-button .hover-text {
+  display: none; /* le texte "Retour" est cachée */
+}
+
+.fixed-button:hover .hover-text {
+  display: inline-block; 
+}
+</style>
+
+<div class="containerr">
+<button class="button fixed-button" id="buttonRetour" onclick="redirectPageRetour()">
+  <span class="icon">
+    <i class="fas fa-caret-left"></i>
+  </span>
+  <span class="hover-text">Retour</span>
+</button>
+  </div>
 
 <div class="is-flex is-align-items-center">
   <p class="title is-2 nomEntreprise"><?= $ficheEntreprise->nomEntreprise ?></p>
@@ -264,6 +294,9 @@ if ($ficheEntreprise) {
 
 
 <script>
+   function redirectPageRetour() {
+    window.location.href = 'router.php?page=listerEntreprises';
+  }
 document.getElementById('confirmDelete').addEventListener('click', function(event) {
     var form = document.getElementById('delForm');
     form.submit();
