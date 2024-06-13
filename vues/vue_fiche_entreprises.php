@@ -214,10 +214,7 @@ if ($ficheEntreprise) {
           $stmt = $conn->prepare($sql);
           $stmt->bindParam(":EntrepriseID", $idEntreprise);
           $stmt->execute();
-          echo "<script type='text/javascript'>
-                  window.location.reload();
-                </script>";
-          exit;
+          header("Location: router.php?page=listerEntreprises");
         }?>
         
         <br>
@@ -267,10 +264,14 @@ if ($ficheEntreprise) {
 
 
 <script>
-  document.getElementById('confirmDelete').addEventListener('click', function(event) {
-      document.getElementById('delForm').submit();
-  });
+document.getElementById('confirmDelete').addEventListener('click', function(event) {
+    var form = document.getElementById('delForm');
+    form.submit();
 
+    setTimeout(function() {
+        window.location.href = 'router.php?page=listerEntreprises';
+    }, 1000); 
+});
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('siretInput').addEventListener('input', function() {
       var siretInput = document.getElementById('siretInput');
