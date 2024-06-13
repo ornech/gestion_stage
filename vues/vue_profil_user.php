@@ -36,22 +36,23 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
 
     <div class="container">
       <div class="columns">
-        <div class="column is-one-third">
+        <div class="column">
           <div class="box">
             <div class="content">
               <h3 class="title is-4 has-text-centered blue-line-bottom mb-4"><?= $Profil->nom ?> <?= $Profil->prenom ?></h3>
               <table class="table is-fullwidth">
-                <tr><th>Statut</th><td><?= $Profil->statut ? $Profil->statut : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td></tr>
-                <tr><th>Login</th><td><?= $Profil->login ? $Profil->login : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td></tr>
-                <tr><th>Mail</th><td><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td></tr>
+                <tr><th>Statut</th><td><?= $Profil->statut ? $Profil->statut : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
+                <tr><th>Login</th><td><?= $Profil->login ? $Profil->login : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
+                <tr><th>Mail</th><td><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
 
                 <!-- ------------------------------------------QUE POUR LES PROFILS DES ETUDIANTS-----------------------------  -->
                 <?php if ($Profil->statut == 'Etudiant') { ?>
-                  <tr><th>Groupe</th><td><?= $Profil->classe ?></td></tr>
-                  <tr><th>Promotion</th><td><?= $Profil->promo ? $Profil->promo : '-' ?></td></tr>
-                  <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '-' ?></td><td>
+                  <tr><th>Groupe</th><td><?= $Profil->classe ?></td><td></td></tr>
+                  <tr><th>Promotion</th><td><?= $Profil->promo ? $Profil->promo : '-' ?></td><td></td></tr>
+                  <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '-' ?>
+                  </td><td>
                     <?php if ($_SESSION['statut'] == "Professeur") { ?>
-                      <button id="openModal" class="button is-small">
+                      <button id="openModal" for="modalSpe" class="button is-small">
                         <span class="icon">
                           <i class="fas fa-pencil-alt"></i>
                         </span>
@@ -63,16 +64,16 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                     if (isset($Profil->idTuteur)) {
                       foreach ($tuteurs as $tuteur) {
                         if ($Profil->idTuteur == $tuteur->id) {
-                          echo "<strong>$tuteur->nom $tuteur->prenom</strong>";
+                          echo "$tuteur->nom $tuteur->prenom";
                         }
                       }
                     } else {
                       echo '-';
                     }
                     ?>
-                  </td><td>
+                    </td><td>
                     <?php if ($_SESSION['statut'] == "Professeur") { ?>
-                      <button id="openModal" class="button is-small">
+                      <button id="openModal" for="modalTuteur" class="button is-small">
                         <span class="icon">
                           <i class="fas fa-pencil-alt"></i>
                         </span>
@@ -83,9 +84,9 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
               </table>
 
               <p class="card-text">Points d'activité obtenus : <strong><?= $userPoints ?></strong></p>
-              <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $Profil->id : "edit_my_profil" ?>" class="button is-primary mt-4">Modifier <span class="icon"><i class="fas fa-pencil-alt"></i></span></a>
+              <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $Profil->id : "edit_my_profil" ?>" class="button is-primary mt-4">Modifier &nbsp;<span class="icon"><i class="fas fa-pencil-alt"></i></span></a>
               <?php if ($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur") { ?>
-                <button class="button is-danger mt-4" id="openModal" for="modalDelete">Supprimer <span class="icon"><i class="fas fa-trash-alt"></i></span></button>
+                <button class="button is-danger mt-4" id="openModal" for="modalDelete">Supprimer &nbsp;<span class="icon"><i class="fas fa-trash-alt"></i></span></button>
               <?php } ?>
             </div>
           </div>
@@ -140,6 +141,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">Modification de spécialité</p>
+            <button class="delete cancel" id="closeModal" for="modalSpe" aria-label="close"></button>
           </header>
           <section class="modal-card-body">
             <form id="speForm" method="post">
@@ -170,8 +172,10 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
             ?>
           </section>
           <footer class="modal-card-foot">
-            <button class="button is-success" id="saveSpe">Enregistrer</button>
-            <button class="button" id="closeModal" for="modalSpe">Annuler</button>
+            <div class="buttons">
+              <button class="button is-success" id="saveSpe">Enregistrer</button>
+              <button class="button" id="closeModal" for="modalSpe">Annuler</button>
+            </div>
           </footer>
         </div>
       </div>
@@ -180,7 +184,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Êtes-vous sûr(e) ?</p>
+            <p class="modal-card-title">Suppression de l'utilisateur</p>
             <button class="delete cancel" id="closeModal" for="modalDelete" aria-label="close"></button>
           </header>
           <section class="modal-card-body unselectable">
@@ -199,8 +203,10 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
             </div>
           </section>
           <footer class="modal-card-foot">
-            <button class="button cancel" id="closeModal" for="modalDelete">Annuler</button>
-            <button class="button is-danger" id="accept" disabled>Confirmer la suppression</button>
+            <div class="buttons">
+              <button class="button cancel" id="closeModal" for="modalDelete">Annuler</button>
+              <button class="button is-danger" id="accept" disabled>Confirmer la suppression</button>
+            </div>
           </footer>
         </div>
       </div>
@@ -210,6 +216,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">Modification de tuteur</p>
+            <button class="delete cancel" id="closeModal" for="modalTuteur" aria-label="close"></button>
           </header>
           <section class="modal-card-body">
             <p class="card-text">Tuteur actuel:
@@ -256,8 +263,10 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
             ?>
           </section>
           <footer class="modal-card-foot">
-            <button class="button is-success" id="saveTuteur">Enregistrer</button>
-            <button class="button" id="closeModal" for="modalTuteur">Annuler</button>
+            <div class="buttons">
+              <button class="button is-success" id="saveTuteur">Enregistrer</button>
+              <button class="button" id="closeModal" for="modalTuteur">Annuler</button>
+            </div>
           </footer>
         </div>
       </div>
