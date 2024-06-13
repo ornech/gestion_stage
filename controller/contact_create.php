@@ -14,6 +14,8 @@ var_dump($_SESSION);
 var_dump($_POST);
 
 if(isset($_POST["submit"]) && !isset($_POST["isPopup"])){
+  require_once '../controller/controller_log.php';
+
     $nom = $_POST["nom"];
     $prenom = $_POST["prenom"];
     $email = $_POST["email"];
@@ -27,8 +29,11 @@ if(isset($_POST["submit"]) && !isset($_POST["isPopup"])){
     $contact = new Contact($conn);
 
     if($contact->create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID, $statut)){
-        header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $idEntreprise . "#contactSuccess");
-        exit();
+      $newValue = $contact->read_fiche($conn->lastInsertId());
+      addLog($conn, 9, $Created_UserID, "contact", $newValue->EmployeID, null, $newValue);
+      
+      header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $idEntreprise . "#contactSuccess");
+      exit();
     } else {
         // Afficher un message d'erreur en cas d'échec de la mise à jour
         echo "Une erreur s'est produite.";

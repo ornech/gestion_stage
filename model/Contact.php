@@ -55,8 +55,6 @@ class Contact {
     }
 
     public function contact_update($idContact, $email, $telephone, $fonction, $service, $Created_UserID) {
-      require_once '../controller/controller_log.php';
-      $oldValue = $this->read_fiche($idContact);
       
       $query = "UPDATE " . $this->table_name . "  SET
       email=:email ,
@@ -77,12 +75,7 @@ class Contact {
 
       try {
         if($stmt->execute()){
-          //Obtenir les données que l'on vient de créer dans la table
-          $newValue = $this->read_fiche($idContact);
-          if(addLog($this->conn, 10, $Created_UserID, "contact", $idContact, $oldValue, $newValue)){
             return true;
-          }
-            return false;
         } else {
             throw new Exception("Erreur lors de l'exécution de la requête.");
         }
@@ -129,9 +122,7 @@ class Contact {
       }
     }
 
-    public function create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID, $statut){
-      require_once '../controller/controller_log.php';
-      
+    public function create_contact($nom, $prenom, $email, $telephone, $fonction, $idEntreprise, $Created_UserID, $statut){    
       echo $nom . " " . $prenom . " " . $email . " " . $telephone . " " . $fonction . " " . $idEntreprise . " " . $Created_UserID;
       $query = "INSERT INTO " . $this->table_name . " SET idEntreprise=:idEntreprise ,
           nom=:nom ,
@@ -167,14 +158,7 @@ class Contact {
 
       try {
           if($stmt->execute()){
-            //Obtenir les données que l'on vient de créer dans la table
-            $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE id = LAST_INSERT_ID();");
-            $stmt->execute();
-            $newValue = $stmt->fetch(PDO::FETCH_OBJ);
-            if(addLog($this->conn, 9, $Created_UserID, "contact", $newValue->id, null, $newValue)){
               return true;
-            }
-              return false;
           } else {
               throw new Exception("Erreur lors de l'exécution de la requête.");
           }
