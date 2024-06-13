@@ -334,6 +334,18 @@ class Entreprise {
     }
   }
 
+  public function updateNom($idEntreprise, $nomEntreprise){
+    $query = "UPDATE " . $this->table_name . " SET nomEntreprise = :nomEntreprise WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+    $this->nomEntreprise = htmlspecialchars(strip_tags($nomEntreprise));
+    $stmt->bindParam(':nomEntreprise', $this->nomEntreprise);
+    $stmt->bindParam(':id', $idEntreprise);
+    if($stmt->execute()){
+      return true;
+    }
+    return false;
+  }
+
   public function update_api($id, $siret){
 
     $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
