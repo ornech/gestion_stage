@@ -207,18 +207,32 @@ if (($profil -> statut) == "Etudiant"){
     document.getElementById("idMaitreDeStage").value = select.value;
   }
   function printMaitreDeStage(idEntreprise) {
-    var select = document.getElementById("nameMaitreDeStage");
-    select.innerHTML = ""; // Clear existing options
+  var select = document.getElementById("nameMaitreDeStage");
+  select.innerHTML = ""; // Clear existing options
 
-    for (var key in maitreDeStages) {
-      if (maitreDeStages[key].id == idEntreprise) {
-        var option = document.createElement("option");
-        option.value = key;
-        option.text = maitreDeStages[key].nom + " " + maitreDeStages[key].prenom;
-        select.appendChild(option);
+  var selectedContactId = document.getElementById("idMaitreDeStage").value; // Current selected contact ID
+
+  for (var key in maitreDeStages) {
+    if (maitreDeStages[key].id == idEntreprise) {
+      var option = document.createElement("option");
+      option.value = key;
+      option.text = maitreDeStages[key].nom + " " + maitreDeStages[key].prenom;
+      select.appendChild(option);
+
+      // Automatically select the existing contact if it belongs to the selected company
+      if (selectedContactId && key == selectedContactId) {
+        option.selected = true;
       }
     }
   }
+
+  // Update idMaitreDeStage based on the selected option
+  if (select.value) {
+    document.getElementById("idMaitreDeStage").value = select.value;
+  }
+
+  checkForm(); // Check the form after updating the options
+}
 </script>
 
 <?php } ?>
