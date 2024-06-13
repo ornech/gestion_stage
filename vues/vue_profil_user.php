@@ -48,7 +48,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                 <!-- ------------------------------------------QUE POUR LES PROFILS DES ETUDIANTS-----------------------------  -->
                 <?php if ($Profil->statut == 'Etudiant') { ?> <!-- Statut-->
 
-                  <tr><th>Groupe</th><td><?= $Profil->classe ?></td></td><td><!-- Classe -->
+                  <tr><th>Classe</th><td><?= $Profil->classe ?></td></td><td><!-- Classe -->
                     <?php if ($_SESSION['statut'] == "Professeur") { ?>
                       <button id="openModal" for="modalClasse" class="button is-small">
                         <span class="icon">
@@ -58,7 +58,6 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                     <?php } ?>
                   </td></tr>
 
-                  <tr><th>Promotion</th><td><?= $Profil->promo ? $Profil->promo : '-' ?></td><td></td></tr><!-- Promotion -->
                   <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '-' ?><!-- Spécialité -->
                   </td><td>
                     <?php if ($_SESSION['statut'] == "Professeur") { ?>
@@ -69,6 +68,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                       </button>
                     <?php } ?>
                   </td></tr>
+                  <tr><th>Promotion</th><td><?= $Profil->promo ? $Profil->promo : '-' ?></td><td></td></tr><!-- Promotion -->
                   <tr><th>Tuteur</th><td><!-- Tuteur -->
                     <?php
                     if (isset($Profil->idTuteur)) {
