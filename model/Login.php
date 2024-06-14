@@ -27,8 +27,7 @@ class Login {
                     }
 
                     if($user["dateFirstConn"] == NULL) {
-                        $this->firstConn($user['id']);
-                        header("Location: index.php");
+                        return array("statut" => "CGU", "message" => "Merci de consulter les Conditions Générales d'Utilisation et de les accepter pour continuer.");
                     }
 
                     return array("statut" => "success");
@@ -45,7 +44,7 @@ class Login {
         }
     }
 
-    public function firstConn($id){
+    public function accepte_cgu($id){
         $stmt = $this->conn->prepare("UPDATE $this->table_name SET dateFirstConn = NOW() WHERE id=:id and dateFirstConn IS NULL");
         $stmt->bindParam(':id', $id);
         $stmt->execute();

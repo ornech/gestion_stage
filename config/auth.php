@@ -5,7 +5,7 @@
 
 
 // Vérifie si l'utilisateur n'est pas connecté
-if (!isset($_SESSION['username']) && $page != 'login') {
+if (!isset($_SESSION['username']) && $page != 'login' && $page != "cgu") {
   // Redirige vers la page de connexion
   header("Location: /router.php?page=login");
   exit();
@@ -13,7 +13,7 @@ if (!isset($_SESSION['username']) && $page != 'login') {
 
 // Limitez la durée de validité de la session
 $session_duration = 86400; // Durée de validité de la session en secondes (ici, 1 jour)
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $session_duration && $page != 'login') {
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $session_duration && $page != 'login' && $page != "cgu") {
   // Déconnectez l'utilisateur si la session a expiré
   session_unset();
   session_destroy();
