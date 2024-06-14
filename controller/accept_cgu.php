@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../config/db_connection.php';
 
 include_once '../model/Login.php';
@@ -10,7 +11,11 @@ if(isset($_POST["id"]) && isset($_POST["cgu_accepte"])){
   $modelLogin = new Login($conn);
 
   if($modelLogin->accepte_cgu($id)){
-    header("Location: /");
+    unset($_SESSION["CGU"]);
+    header("Location: /router.php?page=accueil");
+    exit;
+  }else{
+    header("Location: /router.php?page=login&erreur=Erreur lors de l'acceptation des CGU");
     exit;
   }
 
