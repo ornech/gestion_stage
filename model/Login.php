@@ -23,11 +23,15 @@ class Login {
 
                     if ($user['password_reset'] == 1) {
                       $_SESSION['password_reset'] = true;
+                    }else if(isset($_SESSION['password_reset'])){
+                      unset($_SESSION['password_reset']);
                     }
 
                     if($user["dateFirstConn"] == NULL) {
                         $_SESSION['CGU'] = true;
                         return array("statut" => "CGU", "message" => "Merci de consulter les Conditions Générales d'Utilisation et de les accepter pour continuer.");
+                    }else if(isset($_SESSION['CGU'])){
+                        unset($_SESSION['CGU']);
                     }
 
                     return array("statut" => "success");
