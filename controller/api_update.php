@@ -28,6 +28,7 @@ $entrepriseData = array(
 
 // Vérifie si le formulaire a été soumis
 if (isset($_POST['EntrepriseID'])) {
+  require_once '../controller/controller_log.php';
   // Récupération des données du formulaire
   $EntrepriseID = $_POST['EntrepriseID'];
   var_dump($EntrepriseID);
@@ -37,8 +38,14 @@ if (isset($_POST['EntrepriseID'])) {
   // Création d'une instance
   $entreprise = new Entreprise($conn);
 
+  $oldValue = $entreprise->read_fiche($EntrepriseID);
+
   // Appel de la méthode ajouter de l'objet entreprise
   if ($entreprise->update_api($EntrepriseID, $siret)) { // Ajout de la parenthèse fermante manquante
+      $newValue = $entreprise->read_fiche($EntrepriseID);
+
+      addLog($conn, 4, $_SESSION["userID"], 'entreprise', $EntrepriseID, $oldValue, $newValue);
+      
       header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $EntrepriseID);
       exit();
   } else {

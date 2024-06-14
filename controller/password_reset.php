@@ -1,8 +1,11 @@
 <?php
+session_start();
 require_once '../config/db_connection.php';
 include_once '../model/Login.php';
 
 if(isset($_POST["userId"]) && isset($_POST["new_password"]) && isset($_POST["confirm_password"])){ 
+  require_once '../controller/controller_log.php';
+  
     $userId = $_POST['userId'];
     $newPassword = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];
@@ -18,12 +21,13 @@ if(isset($_POST["userId"]) && isset($_POST["new_password"]) && isset($_POST["con
     }
 
     $modelLogin = new Login($conn);
-    $connexion = $modelLogin->password_reset($userId, $newPassword);
+    $connexion = $modelLogin->password_reset($userId, password_hash($newPassword, PASSWORD_DEFAULT));
 
     if($connexion["statut"] == "failed"){
         header("Location: /router.php?page=password_reset&erreur=" . $connexion['message']);
         exit;
     }else{
+        addLog($conn, 19, $_SESSION['userID'], $_SESSION['userID'], "Profil", null, null);
         header("Location: /router.php?page=accueil");
         exit;
     }

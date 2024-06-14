@@ -14,6 +14,8 @@ require_once '../config/db_connection.php';
 var_dump($_POST);
 // Vérifie si le formulaire a été soumis
 if(isset($_POST['nom'])) {
+  require_once '../controller/controller_log.php';
+
   // Récupération des données du formulaire
   $nom = strtoupper($_POST['nom']);
   $prenom = ucfirst(strtolower($_POST['prenom']));
@@ -30,9 +32,10 @@ if(isset($_POST['nom'])) {
   $profil = new Profil($conn);
 
   // Appel de la méthode  de l'objet Profil
-
-  
   if ($profil->create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut,$dateEntree)) {
+    $newValue = $profil->read_profil($conn->lastInsertId());
+
+    addLog($conn, 1, $_SESSION["userID"], 'profil', $newValue->id, null, $newValue);
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     header("Location: ../router.php?page=gestion_etu");
     exit();
