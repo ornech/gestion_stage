@@ -11,13 +11,17 @@ if ($ficheEntreprise) {
   $idEntreprise=$ficheEntreprise-> EntrepriseID;
 ?>
 
+
 <div class="is-flex is-align-items-center">
   <p class="title is-2 nomEntreprise"><?= $ficheEntreprise->nomEntreprise ?></p>
+  <?php if ($_SESSION["statut"] == "Professeur"): ?>
   <button style="margin-left: 15px; top: -8px;" id="openModal" for="nomEntreprise" class="button">
     <span class="icon">
       <i class="fas fa-pencil-alt"></i>
     </span>
   </button>
+<?php endif; ?>
+
 </div>
 
 <div class="notification is-primary" id="ContactSuccess" style="display: none;">
@@ -94,7 +98,7 @@ if ($ficheEntreprise) {
       </p>
     </div>
   </div>
- 
+
   <?php if ($_SESSION["statut"] != "Professeur") :
     if (isset($contact)):?>
       <a href='router.php?page=stage_create&idEntreprise=<?=$ficheEntreprise->EntrepriseID?>'>
@@ -110,7 +114,7 @@ if ($ficheEntreprise) {
     <?php endif;
   endif;?>
 
-   
+
   <div class="column is-full">
     <?php if (isset($stages[0])):?>
       <div class="box is-full">
@@ -206,10 +210,10 @@ if ($ficheEntreprise) {
       <form id="delForm" method="post">
         <p>La suppression de cette entreprise entraînera la suppression des données suivantes :</p>
         <p>Nom et adresse de l'entreprise, coordonnées téléphoniques, adresse e-mail, secteur d'activité etc</p>
-               
+
         <?php if (isset($_POST["EntrepriseID"])) {
           $idEntreprise = $_POST["EntrepriseID"];
-        
+
           $sql = "DELETE FROM " . $table_name . " WHERE id = :EntrepriseID";
           $stmt = $conn->prepare($sql);
           $stmt->bindParam(":EntrepriseID", $idEntreprise);
@@ -219,13 +223,13 @@ if ($ficheEntreprise) {
                 </script>";
           exit;
         }?>
-        
+
         <br>
         <span class="icon has-text-warning">
           <i class="fas fa-exclamation-triangle"></i>
-        </span> 
+        </span>
         <strong>Attention, en appuyant sur le bouton "Supprimer" pour supprimer ces données, vous acceptez que toutes les informations soient irrémédiablement effacées et ne pourront jamais être récupérées.</strong>
- 
+
         <input type="hidden" name="EntrepriseID" value="<?php echo $idEntreprise; ?>">
       </form>
     </section>
