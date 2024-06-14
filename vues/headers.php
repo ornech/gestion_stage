@@ -19,6 +19,7 @@ require_once 'config/auth.php';
 
   <script src="/js/trie_tableau.js"></script>
   <script src="/js/modal.js"></script>
+  <script src="/js/table_responsiveness.js"></script>
 
   <?php if(isset($page) && $page != "stage_convention"):?><script src="/js/theme.js"></script><?php endif;?>
 

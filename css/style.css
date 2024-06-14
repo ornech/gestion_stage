@@ -57,6 +57,7 @@ tbody tr:hover {
 
 .container {
   max-width: 98%;
+  overflow: hidden;
 }
 
 .sequence-container {
@@ -112,7 +113,6 @@ tbody tr:hover {
         border-right: 15px solid #000;
     }
 }
-
 
 
 .switch {
