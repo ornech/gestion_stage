@@ -34,10 +34,39 @@ $selected_cp = isset($_POST['cp']) ? $_POST['cp'] : null;
         <input id="cp" type="text" class="input" name="cp" placeholder="Code postal" pattern="\d*" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
     </div>
     <div class="control">
-        <button class="button" type="submit">Rechercher</button>
+        <button class="button is-link" type="submit">  <span class="icon is-small">
+                    <i class="fas fa-search"></i>
+                </span>&nbsp;&nbsp;Rechercher</button>
     </div>
 </div>
         </div>
     </form>
+<HR>
+<p class="subtitle is-4">
+Effectuer des recherches pour des stages de 
+<button class="button" type="submit" onclick="openSLAM()">
+    <span class="icon">
+        <i class="fas fa-laptop"></i>
+    </span>&nbsp;&nbsp;SLAM
+</button>
+ et <button id="sisrButton" class="button" type="submit">
+    <span class="icon">
+        <i class="fas fa-microchip"></i>
+    </span>&nbsp;&nbsp;SISR
+</button>
+ en dehors de notre site.
+</p>
 </div>
+
 <?php echo $resultat; ?>
+
+
+<script>
+document.getElementById('sisrButton').addEventListener('click', function() {
+    window.open('https://annuaire-entreprises.data.gouv.fr/rechercher?terme=&cp_dep_label=Charente-Maritime+%2817%29&cp_dep_type=dep&cp_dep=17&fn=&n=&dmin=&dmax=&type=&label=&etat=&sap=&naf=62.02A&nature_juridique=&tranche_effectif_salarie=&categorie_entreprise=', '_blank');
+});
+function openSLAM() {
+    window.open('https://annuaire-entreprises.data.gouv.fr/rechercher?terme=&cp_dep_label=Charente-Maritime+%2817%29&cp_dep_type=dep&cp_dep=17&fn=&n=&dmin=&dmax=&type=&label=&etat=&sap=&naf=62.01Z&nature_juridique=&tranche_effectif_salarie=&categorie_entreprise=', '_blank');
+}
+
+</script>
