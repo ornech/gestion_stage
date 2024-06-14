@@ -3,6 +3,10 @@
 
 // Vérifie si aucune session n'est démarrée
 
+if(!isset($page)){
+  $page = "";
+}
+
 
 // Vérifie si l'utilisateur n'est pas connecté
 if (!isset($_SESSION['username']) && $page != 'login' && $page != "cgu") {

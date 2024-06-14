@@ -40,6 +40,8 @@ if(isset($_POST["login"]) && isset($_POST["password"])){
               if(!anonymizeUser($etudiant->id)){
                 echo "error";
               }
+            }else{
+              header("Location: /router.php?page=accueil");
             }
           }
         }
