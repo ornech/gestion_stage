@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../config/auth.php';
 
 function verifEtu($Profil, $conn){
