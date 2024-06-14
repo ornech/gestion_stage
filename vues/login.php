@@ -99,3 +99,57 @@ if(isset($_GET['erreur'])){
     </form>
     </div>
 </div>
+
+<?php if(isset($_GET['cgu']) && isset($_SESSION["userID"]) && isset($_SESSION["CGU"])): ?>
+<div class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="width: 45%;">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Conditions Générales d'Utilisation</p>
+    </header>
+    <section class="modal-card-body">
+      <p>Avant d'avoir accès au site, merci de <b>lire les conditions générales d'utilisation :</b></p>
+      <hr>
+      <?php include 'vue_cgu.php'; ?>
+      <hr>
+      <a href="/router.php?page=cgu" class="is-size-7" target="_blank">Afficher la page HTML</a>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success" id="accepter">J'ai lu et j'accepte</button>
+        <button class="button is-danger" id="refuser">Ne pas accepter</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('accepter').addEventListener('click', () => {
+      //Créer un formulaire pour envoyer l'acceptation des CGU
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/controller/accept_cgu.php';
+
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id';
+      input.value = <?php echo $_SESSION["userID"]; ?>;
+      form.appendChild(input);
+
+      const input2 = document.createElement('input');
+      input2.type = 'hidden';
+      input2.name = 'cgu_accepte';
+      input2.value = 'true';
+      form.appendChild(input2);
+
+      document.body.appendChild(form);
+      form.submit();
+    });
+
+    document.getElementById('refuser').addEventListener('click', () => {
+      window.location.href = '/logout.php';
+    });
+  });
+</script>
+<?php endif; ?>

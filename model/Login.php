@@ -22,13 +22,16 @@ class Login {
                     $_SESSION['userID'] = $user['id']; // Stocker l'id nom et prenom dans la session
 
                     if ($user['password_reset'] == 1) {
-                        header("Location: /router.php?page=password_reset");
-                        exit(); 
+                      $_SESSION['password_reset'] = true;
+                    }else if(isset($_SESSION['password_reset'])){
+                      unset($_SESSION['password_reset']);
                     }
 
                     if($user["dateFirstConn"] == NULL) {
-                        $this->firstConn($user['id']);
-                        header("Location: index.php");
+                        $_SESSION['CGU'] = true;
+                        return array("statut" => "CGU", "message" => "Merci de consulter les Conditions Générales d'Utilisation et de les accepter pour continuer.");
+                    }else if(isset($_SESSION['CGU'])){
+                        unset($_SESSION['CGU']);
                     }
 
                     return array("statut" => "success");
@@ -45,11 +48,15 @@ class Login {
         }
     }
 
-    public function firstConn($id){
+    public function accepte_cgu($id){
+      try{
         $stmt = $this->conn->prepare("UPDATE $this->table_name SET dateFirstConn = NOW() WHERE id=:id and dateFirstConn IS NULL");
         $stmt->bindParam(':id', $id);
         $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return true;
+      } catch (PDOException $e) { 
+        return false;
+      }
     }
 
     public function logout(){
