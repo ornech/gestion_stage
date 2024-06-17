@@ -23,7 +23,7 @@ if(isset($_POST['id']) && isset($_POST['classe'])) {
 
         $newValues = $profil->read_profil($id);
         addLog($conn, 12, $_SESSION['userID'], "profil", $id, $oldValues, $newValues);
-        header("Location: /router.php?page=view_profil?id=".$id);
+        header("Location: /router.php?page=view_profil&id=".$id);
     } else {
         echo "Erreur lors de la mise à jour de la classe";
     }
