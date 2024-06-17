@@ -4,6 +4,9 @@ setlocale(LC_TIME, 'fr_FR.UTF-8');
 $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
 ?>
 
+<p class="title is-2">Gestion des classes</p>
+<p class="subtitle is-4">Administration des classes</p>
+
 <?php $i = 0;
 foreach ($classes as $classe): ?>
 
