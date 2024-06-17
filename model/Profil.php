@@ -229,6 +229,35 @@ class Profil {
     }
   }
 
+  public function update_mail($id, $mail)
+  {
+    $query = "UPDATE " . $this->table_name . " SET email=:email WHERE id=:id";
+    $stmt = $this->conn->prepare($query);
+    $this->email = htmlspecialchars(strip_tags($mail));
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function update_phone($id, $telephone)
+  {
+    $query = "UPDATE " . $this->table_name . " SET telephone=:telephone WHERE id=:id";
+    $stmt = $this->conn->prepare($query);
+    $this->telephone = htmlspecialchars(strip_tags($telephone));
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':telephone', $this->telephone, PDO::PARAM_STR);
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
   public function import($nom, $prenom, $spe, $date_entree, $promo, $login, $password, $statut, $inactif, $password_reset) {
     $query = "INSERT INTO " . $this->table_name . "
     SET nom = :nom,
