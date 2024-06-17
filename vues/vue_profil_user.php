@@ -45,12 +45,32 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
               <table class="table is-fullwidth">
                 <tr><th>Statut</th><td><?= $Profil->statut ? $Profil->statut : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
                 <tr><th>Login</th><td><?= $Profil->login ? $Profil->login : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
-                <tr><th>Mail</th><td><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
+                <tr><th>Mail</th><td><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td><!-- Classe -->
+                  <?php if ($_SESSION['statut'] == "Professeur") { ?>
+                    <button id="openModal" for="modalMail" class="button is-small">
+                      <span class="icon">
+                        <i class="fas fa-pencil-alt"></i>
+                      </span>
+                    </button>
+                  <?php } ?>
+                </td>
+                </tr>
+                <tr><th>Téléphone</th><td><?= $Profil->telephone ? $Profil->telephone : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td><!-- Classe -->
+                  <?php if ($_SESSION['statut'] == "Professeur") { ?>
+                    <button id="openModal" for="modalPhone" class="button is-small">
+                      <span class="icon">
+                        <i class="fas fa-pencil-alt"></i>
+                      </span>
+                    </button>
+                  <?php } ?>
+                </td>
+                </tr>
+
 
                 <!-- ------------------------------------------QUE POUR LES PROFILS DES ETUDIANTS-----------------------------  -->
                 <?php if ($Profil->statut == 'Etudiant') { ?> <!-- Statut-->
 
-                  <tr><th>Classe</th><td><?= $Profil->classe ?></td></td><td><!-- Classe -->
+                  <tr><th>Classe</th><td><?= $Profil->classe ?></td><td><!-- Classe -->
                     <?php if ($_SESSION['statut'] == "Professeur") { ?>
                       <button id="openModal" for="modalClasse" class="button is-small">
                         <span class="icon">
@@ -59,8 +79,6 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                       </button>
                     <?php } ?>
                   </td></tr>
-
-                  <tr><th>Professeur principal</th><td><?= $ppName ?></td><td></td></tr><!-- Professeur principal -->
 
                   <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '-' ?><!-- Spécialité -->
                   </td><td>
@@ -73,6 +91,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                     <?php } ?>
                   </td></tr>
                   <tr><th>Promotion</th><td><?= $Profil->promo ? $Profil->promo : '-' ?></td><td></td></tr><!-- Promotion -->
+                  <tr><th>Professeur principal</th><td><?= $ppName ?></td><td></td></tr><!-- Professeur principal -->
                   <tr><th>Tuteur</th><td><!-- Tuteur -->
                     <?php
                     if (isset($Profil->idTuteur)) {
@@ -98,7 +117,6 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
               </table>
 
               <p class="card-text">Points d'activité obtenus : <strong><?= $userPoints ?></strong></p>
-              <a href="../router.php?page=<?= $Profil->id != $_SESSION["userID"] ? "edit_profil&id=" . $Profil->id : "edit_my_profil" ?>" class="button is-primary mt-4">Modifier &nbsp;<span class="icon"><i class="fas fa-pencil-alt"></i></span></a>
               <?php if ($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur") { ?>
                 <button class="button is-danger mt-4" id="openModal" for="modalDelete">Supprimer &nbsp;<span class="icon"><i class="fas fa-trash-alt"></i></span></button>
               <?php } ?>
@@ -293,7 +311,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
             <button class="delete cancel" id="closeModal" for="modalClasse" aria-label="close"></button>
           </header>
           <section class="modal-card-body">
-            <form id="classeForm" action="../controller/entreprise_update_classe.php" method="post">
+            <form id="classeForm" action="../controller/profil_update_classe.php" method="post">
               <div class="is-grouped">
                 <p class="is-size-5" style="display: inline;">Choississez une classe :</p>
                 <input type="hidden" name="id" value="<?= $Profil->id ?>">
@@ -355,14 +373,70 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
         });
       </script>
 
-    <?php } else {
-      // Si aucun profil n'a été trouvé, afficher un message d'erreur
-      echo "<p>Aucun profil trouvé avec ce lien.</p>";
-    }
-
+    <?php }
   } else {
     header("Location: ../router.php?page=profil");
   }
   // Fin de la vérification de si l'utilisateur est connecté en tant que prof
 }
 ?>
+
+<div class="modal" id="modalMail">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Modification de l'email</p>
+      <button class="delete cancel" id="closeModal" for="modalMail" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form id="mailForm" action="../controller/profil_update_mail.php" method="post">
+        <div class="is-grouped">
+          <p class="is-size-5" style="display: inline;">Entrez votre adresse mail :</p>
+          <input type="hidden" name="id" value="<?= $Profil->id ?>">
+          <input type="email" class="input" name="mail" value="<?= $Profil->email ?>">
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success" id="saveMail">Enregistrer</button>
+        <button class="button" id="closeModal" for="modalMail">Annuler</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="modal" id="modalPhone">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Modification du téléphone</p>
+      <button class="delete cancel" id="closeModal" for="modalPhone" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form id="phoneForm" action="../controller/profil_update_phone.php" method="post">
+        <div class="is-grouped">
+          <p class="is-size-5" style="display: inline;">Entrez votre numéro de téléphone :</p>
+          <input type="hidden" name="id" value="<?= $Profil->id ?>">
+          <input type="tel" class="input" name="telephone" value="<?= $Profil->telephone ?>">
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success" id="savePhone">Enregistrer</button>
+        <button class="button" id="closeModal" for="modalPhone">Annuler</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+document.getElementById('saveMail').addEventListener('click', function() {
+  document.getElementById('mailForm').submit();
+});
+
+document.getElementById('savePhone').addEventListener('click', function() {
+  document.getElementById('phoneForm').submit();
+});
+</script>
