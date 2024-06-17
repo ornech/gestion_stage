@@ -58,6 +58,8 @@ tbody tr:hover {
 .container {
   max-width: 98%;
   overflow: hidden;
+  height: auto;
+  min-height: 62vh;
 }
 
 .sequence-container {
