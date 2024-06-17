@@ -1,5 +1,9 @@
 <?php
-session_start();
+
+if (session_status() != PHP_SESSION_ACTIVE) {
+  session_start();
+}
+
 require_once '../config/auth.php';
 
 function verifEtu($Profil, $conn){
@@ -20,16 +24,36 @@ function verifEtu($Profil, $conn){
     $newClasse = "Enseignant";
   }
 
-  if($classe != $newClasse || $needSetPromo == true){
+  if($classe != $newClasse || $needSetPromo == true || $Profil->idClasse == null){
     $classe = $newClasse;
 
-    $sql = "UPDATE $table_name SET " . ($needSetPromo == true ? "promo=:promo, classe=:classe" : "classe=:classe") . " WHERE id = :id";
+    $idClasse = null;
+    if($classe == "SIO1"){
+      $idClasse = 1;
+    }else if($classe == "SIO2"){
+      $idClasse = 2;
+    }
+
+    $sql = "UPDATE $table_name SET " . "classe=:classe";
+    
+    if($needSetPromo == true){
+      $sql .= ", promo=:promo";
+    }
+    
+    if($idClasse != null){
+      $sql .= ", idClasse=:idClasse";
+    }
+    
+    $sql = $sql . " WHERE id = :id";
 
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(":classe", $classe, PDO::PARAM_STR);
     $stmt->bindParam(":id", $Profil->id, PDO::PARAM_INT);
     if($needSetPromo == true){
       $stmt->bindParam(":promo", $promo, PDO::PARAM_STR);
+    }
+    if($idClasse != null){
+      $stmt->bindParam(":idClasse", $idClasse, PDO::PARAM_INT);
     }
     $stmt->execute();
   }
