@@ -10,6 +10,36 @@ require_once 'config/auth.php';
 if ($ficheEntreprise) {
   $idEntreprise=$ficheEntreprise-> EntrepriseID;
 ?>
+<style>
+.containerr {
+  position: fixed;
+  top: 12%; 
+  left: 2%; 
+  z-index: 1;
+}
+
+.fixed-button {
+  cursor: pointer; 
+  background-color: rgba(50, 115, 220, 0.3); /* Fond bleu transparent */
+}
+
+.fixed-button .hover-text {
+  display: none; /* le texte "Retour" est cachée */
+}
+
+.fixed-button:hover .hover-text {
+  display: inline-block; 
+}
+</style>
+
+<div class="containerr">
+<button class="button fixed-button" id="buttonRetour" onclick="redirectPageRetour()">
+  <span class="icon">
+    <i class="fas fa-caret-left"></i>
+  </span>
+  <span class="hover-text">Retour</span>
+</button>
+  </div>
 
 
 <div class="is-flex is-align-items-center">
@@ -218,10 +248,7 @@ if ($ficheEntreprise) {
           $stmt = $conn->prepare($sql);
           $stmt->bindParam(":EntrepriseID", $idEntreprise);
           $stmt->execute();
-          echo "<script type='text/javascript'>
-                  window.location.reload();
-                </script>";
-          exit;
+          header("Location: router.php?page=listerEntreprises");
         }?>
 
         <br>
@@ -271,10 +298,17 @@ if ($ficheEntreprise) {
 
 
 <script>
-  document.getElementById('confirmDelete').addEventListener('click', function(event) {
-      document.getElementById('delForm').submit();
-  });
+   function redirectPageRetour() {
+    window.location.href = 'router.php?page=listerEntreprises';
+  }
+document.getElementById('confirmDelete').addEventListener('click', function(event) {
+    var form = document.getElementById('delForm');
+    form.submit();
 
+    setTimeout(function() {
+        window.location.href = 'router.php?page=listerEntreprises';
+    }, 1000); 
+});
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('siretInput').addEventListener('input', function() {
       var siretInput = document.getElementById('siretInput');
