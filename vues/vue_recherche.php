@@ -43,41 +43,50 @@ $nafTable = [
   <p>Pour sélectionner les éléments pertinents à la spécialité SLAM ou SISR, cliquez sur les boutons correspondants en haut, puis appuyez sur le bouton Rechercher pour procéder.
   Assurez-vous de vérifier la localisation sélectionnée sur leur site, qui est par défaut en Charente-Maritime.
   </p>
-</div></div>
-    <hr>
-    <div class="fixed-grid">
-        <div class="column">
-        <table class="table table-striped table-hover is-fullwidth tableFilter">
-        <thead>
-                    <tr>
-                        <th>Sélectionner</th>
-                        <th>Code</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($nafTable as $naf) { ?>
-                        <tr onclick="toggleCheckbox(this)">
-                            <td>
-                                <input type="checkbox" class="naf-checkbox" value="<?php echo $naf['code']; ?>">
-                            </td>
-                            <td><?php echo $naf['code']; ?></td>
-                            <td><?php echo $naf['label']; ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-            <br>
-    
-            <button id="generateLink" class="button is-link" onclick="generateLink()">
-                <span class="icon">
-                    <i class="fas fa-search"></i>
-                </span>&nbsp;&nbsp;Recherche
-            </button>
+</div></div><hr>
+    <div class="columns">
+        <div class="column is-half">
+            <?php
+            // Calculer la moitié de la taille du tableau pour la première colonne
+            $halfCount = ceil(count($nafTable) / 2);
+            
+            // Afficher les éléments de la première moitié du tableau
+            for ($i = 0; $i < $halfCount; $i++) {
+                $naf = $nafTable[$i];
+            ?>
+                <div class="field">
+                    <input id="<?php echo $naf['code']; ?>" type="checkbox" class="naf-checkbox" value="<?php echo $naf['code']; ?>">
+                    <label for="<?php echo $naf['code']; ?>"><?php echo $naf['code']; ?> - <?php echo $naf['label']; ?></label>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="column is-half">
+            <?php
+            // Afficher les éléments de la deuxième moitié du tableau
+            for ($i = $halfCount; $i < count($nafTable); $i++) {
+                $naf = $nafTable[$i];
+            ?>
+                <div class="field">
+                    <input id="<?php echo $naf['code']; ?>" type="checkbox" class="naf-checkbox" value="<?php echo $naf['code']; ?>">
+                    <label for="<?php echo $naf['code']; ?>"><?php echo $naf['code']; ?> - <?php echo $naf['label']; ?></label>
+                </div>
+            <?php } ?>
         </div>
     </div>
-</div>
-
+    <div class="columns">
+        <div class="column is-full">
+            <div class="field is-grouped is-grouped-centered">
+                <div class="control">
+                    <button id="generateLink" class="button is-link" onclick="generateLink()">
+                        <span class="icon">
+                            <i class="fas fa-search"></i>
+                        </span>&nbsp;&nbsp;Recherche
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> </div>
 <script>
     function toggleCheckbox(row) {
         const checkbox = row.querySelector('input[type="checkbox"]');
