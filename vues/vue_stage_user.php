@@ -33,11 +33,11 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
         <div style="display: flex; align-items: center;">
           <p class="card-text" style="margin-right: 10px;">Professeur assigné: </p>
           <?php if ($_SESSION['statut'] == "Professeur") : ?>
-            <form method="post" action="">
-              <input type="hidden" name="Stage" class="stageId" value="<?= isset($stage->idStage) ? $stage->idStage : "" ?>">
+            <form method="POST" action="">
+              <input type="hidden" name="stageId" class="stageId" value="<?= isset($stage->idStage) ? $stage->idStage : "" ?>">
 
               <div class="select is-small">
-                <select name="Professeur">
+                <select name="Professeur" onchange="this.form.submit()">
                   <?php if (isset($stage->idProfesseur)) : ?>
                     <?php foreach ($professeurs as $professeur) : ?>
                       <option value="<?= $professeur->id ?>" <?= isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id ? "selected" : "" ?>>
@@ -54,6 +54,19 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
                   <?php endif; ?>
                 </select>
               </div>
+              <?php
+              if (isset($_POST["stageId"]) && isset($_POST["Professeur"])) {
+                $stageId = $_POST["stageId"];
+                $Professeur = $_POST["Professeur"];
+                $sql = "UPDATE stage SET idProfesseur = :Professeur WHERE id = :id";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(":id", $stageId);
+                $stmt->bindParam(":Professeur", $Professeur);
+                $stmt->execute();
+                echo "<script type='text/javascript'>window.location.href = window.location.href;</script>";
+                exit;
+              }
+              ?>
             </form>
           <?php else : ?>
             <?php foreach ($professeurs as $professeur) {
@@ -125,47 +138,47 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
 
         <div class="modal" id="modalDesc">
           <div class="modal-background"></div>
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title"> Ajoutez ou modifiez la note</p>
-                <button class="delete cancel" id="closeModal" for="modalDesc" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <form id="DescForm" method="post">
-                  <div class="is-grouped">
-                    <input type="hidden" name="id" value="<?= $stage->idStage ?>">
-                    <label for="Desc">Notes:</label>
-                    <textarea class="textarea" id="Desc" name="Desc"><?PHP
-                      $sql = "SELECT description FROM stage WHERE id = $stage->idStage";
-                      $stmt = $conn->prepare($sql);
-                      $stmt->execute();
-                      $result = $stmt->fetch();
-                      echo $result["description"];
-                    ?></textarea>
-                  </div>
-                  <?php
-                  if (isset($_POST["id"]) && isset($_POST["Desc"])) {
-                    $stageId = $_POST["id"];
-                    $Desc = $_POST["Desc"];
-                    $sql = "UPDATE stage SET description = :description WHERE id = :id";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bindParam(":id", $stageId);
-                    $stmt->bindParam(":description", $Desc);
-                    $stmt->execute();
-                    echo "<script type='text/javascript'>window.location.href = window.location.href;</script>";
-                    exit;
-                  }
-                  ?>
-                </form>
-              </section>
-              <footer class="modal-card-foot">
-                <div class="buttons">
-                  <button class="button is-success" id="saveDesc">Enregistrer</button>
-                  <button class="button" id="closeModal" for="modalDesc">Annuler</button>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title"> Ajoutez ou modifiez la note</p>
+              <button class="delete cancel" id="closeModal" for="modalDesc" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+              <form id="DescForm" method="post">
+                <div class="is-grouped">
+                  <input type="hidden" name="id" value="<?= $stage->idStage ?>">
+                  <label for="Desc">Notes:</label>
+                  <textarea class="textarea" id="Desc" name="Desc"><?PHP
+                   $sql = "SELECT description FROM stage WHERE id = $stage->idStage";
+                   $stmt = $conn->prepare($sql);
+                   $stmt->execute();
+                   $result = $stmt->fetch();
+                   echo $result["description"];
+                   ?></textarea>
                 </div>
-              </footer>
-            </div>
+                <?php
+                if (isset($_POST["id"]) && isset($_POST["Desc"])) {
+                  $stageId = $_POST["id"];
+                  $Desc = $_POST["Desc"];
+                  $sql = "UPDATE stage SET description = :description WHERE id = :id";
+                  $stmt = $conn->prepare($sql);
+                  $stmt->bindParam(":id", $stageId);
+                  $stmt->bindParam(":description", $Desc);
+                  $stmt->execute();
+                  echo "<script type='text/javascript'>window.location.href = window.location.href;</script>";
+                  exit;
+                }
+                ?>
+              </form>
+            </section>
+            <footer class="modal-card-foot">
+              <div class="buttons">
+                <button class="button is-success" id="saveDesc">Enregistrer</button>
+                <button class="button" id="closeModal" for="modalDesc">Annuler</button>
+              </div>
+            </footer>
           </div>
+        </div>
         <script>
           document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('openModal').addEventListener('click', function() {
@@ -180,15 +193,15 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
           });
         </script>
 
-          <?php
-        }
-      } else {
-        // Si aucun profil n'a été trouvée, afficher un message d'erreur
-        echo "<p>Aucun profil trouvé avec ce lien.</p>";
+<?php
       }
     } else {
-      header("Location: ../router.php?page=profil");
+      // Si aucun profil n'a été trouvée, afficher un message d'erreur
+      echo "<p>Aucun profil trouvé avec ce lien.</p>";
     }
-  } //Fin de la vérification de si l'utilisateur est connecté en tant que prof
-  //
-          ?>
+  } else {
+    header("Location: ../router.php?page=profil");
+  }
+} //Fin de la vérification de si l'utilisateur est connecté en tant que prof
+//
+?>
