@@ -33,7 +33,7 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
         <div style="display: flex; align-items: center;">
           <p class="card-text" style="margin-right: 10px;">Professeur assigné: </p>
           <?php if ($_SESSION['statut'] == "Professeur") : ?>
-            <form method="post" action="">
+            <form method="POST" action="">
               <input type="hidden" name="stageId" class="stageId" value="<?= isset($stage->idStage) ? $stage->idStage : "" ?>">
 
               <div class="select is-small">
@@ -55,10 +55,10 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
                 </select>
               </div>
               <?php
-              if (isset($_POST["id"]) && isset($_POST["Professeur"])) {
+              if (isset($_POST["stageId"]) && isset($_POST["Professeur"])) {
                 $stageId = $_POST["stageId"];
                 $Professeur = $_POST["Professeur"];
-                $sql = "UPDATE stage SET idTuteur = :Professeur WHERE id = :id";
+                $sql = "UPDATE stage SET idProfesseur = :Professeur WHERE id = :id";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(":id", $stageId);
                 $stmt->bindParam(":Professeur", $Professeur);
@@ -149,12 +149,12 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
                   <input type="hidden" name="id" value="<?= $stage->idStage ?>">
                   <label for="Desc">Notes:</label>
                   <textarea class="textarea" id="Desc" name="Desc"><?PHP
-                                                                    $sql = "SELECT description FROM stage WHERE id = $stage->idStage";
-                                                                    $stmt = $conn->prepare($sql);
-                                                                    $stmt->execute();
-                                                                    $result = $stmt->fetch();
-                                                                    echo $result["description"];
-                                                                    ?></textarea>
+                   $sql = "SELECT description FROM stage WHERE id = $stage->idStage";
+                   $stmt = $conn->prepare($sql);
+                   $stmt->execute();
+                   $result = $stmt->fetch();
+                   echo $result["description"];
+                   ?></textarea>
                 </div>
                 <?php
                 if (isset($_POST["id"]) && isset($_POST["Desc"])) {
