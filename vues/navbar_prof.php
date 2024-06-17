@@ -24,13 +24,13 @@ require_once 'config/auth.php';
       </div>
 
     <div class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link"> <i class="fa fa-institution"></i>  &nbsp; Entreprises </a>
+      <a class="navbar-link"> <i class="fa fa-institution"></i> &nbsp; Entreprises </a>
         <div class="navbar-dropdown">
           <a class="navbar-item" href="router.php?page=recherche"><i class='fa fa-search'></i> &nbsp; Recherche</a>
-          <a class="navbar-item" href="router.php?page=listerEntreprises"><i class="fa-regular fa-address-card"></i>&nbsp; Annuaire</a>
+          <a class="navbar-item" href="router.php?page=listerEntreprises"><i class="fa-regular fa-address-card"></i> &nbsp; Annuaire</a>
 
           <hr class="navbar-divider">
-          <a class="navbar-item" href="router.php?page=ajouter_entreprise"><i class="fa-regular fa-address-card"></i>&nbsp; Ajout manuellement</a>
+          <a class="navbar-item" href="router.php?page=ajouter_entreprise"><i class="fa-regular fa-address-card"></i> &nbsp; Ajout manuellement</a>
 
           <a class="navbar-item" href="router.php?page=import_entreprise"><i class="fa fa-download"></i> &nbsp; Importer entreprise</a>
         </div>
@@ -39,14 +39,15 @@ require_once 'config/auth.php';
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link"> <i class="fas fa-users"></i>&nbsp; Administration </a>
         <div class="navbar-dropdown">
-          <a class="navbar-item" href="router.php?page=valider_operation"><i class="fa fa-check"></i> &nbsp;Opérations à valider</a>
-          <a class="navbar-item" href="router.php?page=logs"><i class="fa fa-newspaper"></i> &nbsp;Journalisation</a>
+          <a class="navbar-item" href="router.php?page=valider_operation"><i class="fa fa-check"></i> &nbsp; Opérations à valider</a>
+          <a class="navbar-item" href="router.php?page=logs"><i class="fa fa-newspaper"></i> &nbsp; Journalisation</a>
           <hr class="navbar-divider">
           <a class="navbar-item" href="router.php?page=prof_stage_create"><i class="fa fa-briefcase"></i> &nbsp; Créer un stage</a>
           <a class="navbar-item" href="router.php?page=gestion_etu"><i class="fa fa-users"></i> &nbsp; Gestion utilisateurs</a>
+          <a class="navbar-item" href="router.php?page=gestion_classes"><i class="fa-solid fa-chalkboard-user"></i> &nbsp; Gestion classes</a>
           <hr class="navbar-divider">
-          <a class="navbar-item" href="router.php?page=create_user"> <i class="fa fa-user-plus"></i>&nbsp; Ajouter utilisateur</a>
-          <a class="navbar-item" href="router.php?page=import_pronote"> <i class="fa fa-download"></i>&nbsp;  Importation CSV pronote</a>
+          <a class="navbar-item" href="router.php?page=create_user"><i class="fa fa-user-plus"></i> &nbsp; Ajouter utilisateur</a>
+          <a class="navbar-item" href="router.php?page=import_pronote"><i class="fa fa-download"></i> &nbsp;  Importation CSV pronote</a>        
         </div>
       </div>
 

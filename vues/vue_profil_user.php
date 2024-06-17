@@ -10,6 +10,8 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
     $tuteurs = $profilModel->list_by_professeur();
     $table_name = 'user';
     $id = $Profil->id;
+    
+    $ppName = $classe != false ? $classe->nomProf : "Aucun";
 
     if (isset($userPoints->points)) {
       $userPoints = $userPoints->points;
@@ -57,6 +59,8 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                       </button>
                     <?php } ?>
                   </td></tr>
+
+                  <tr><th>Professeur principal</th><td><?= $ppName ?></td><td></td></tr><!-- Professeur principal -->
 
                   <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '-' ?><!-- Spécialité -->
                   </td><td>

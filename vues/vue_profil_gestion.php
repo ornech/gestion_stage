@@ -15,6 +15,7 @@ function convertDateFormat($date)
     return false;
   }
 }
+
 // Vérifier si les détails du profil sont disponibles
 if ($_SESSION['statut'] == "Professeur") {
   $dateActuelle = new DateTime();
@@ -85,26 +86,70 @@ if ($_SESSION['statut'] == "Professeur") {
     </div>
   </div>
 
+  <div class="radioGrouped">
 
-  <table class="table table-striped table-hover tableFilter" id="maTable">
+    <div class="radio">
+      <label for="classeSelect"><b>Tous :</b></label>
+      <label class="switch">
+        <input type="radio" class="classeSelect" name="classeSelect" id="All" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="radio">
+      <label for="classeSelect"><b>SIO 1 :</b></label>
+      <label class="switch">
+        <input type="radio" class="classeSelect" name="classeSelect" id="SIO1">
+        <span class="slider"></span>
+      </la>
+    </div>
+
+    <div class="radio">
+      <label for="classeSelect"><b>SIO 2 :</b></label>
+      <label class="switch">
+        <input type="radio" class="classeSelect" name="classeSelect" id="SIO2">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="radio">
+      <label for="classeSelect"><b>Ancien étudiant :</b></label>
+      <label class="switch">
+        <input type="radio" class="classeSelect" name="classeSelect" id="Ancien étudiant">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="radio">
+      <label for="classeSelect"><b>Enseignant :</b></label>
+      <label class="switch">
+        <input type="radio" class="classeSelect" name="classeSelect" id="Enseignant">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+  </div>
+
+
+  <table class="table table-striped table-hover is-fullwidth tableFilter">
     <thead>
       <tr class="table-secondary">
-        <th class="lineFilter" name="Utilisateur"></th>
-        <th class="lineFilter" name="Date d'entrée"></th>
-        <th class="lineFilter" name="Classe"></th>
-        <th class="lineFilter" name="Login"></th>
-        <th class="lineFilter" name="Spécialité"></th>
-        <th class="lineFilter" name="Statut"></th>
+        <th class="is-size-5">Utilisateur</th>
+        <th class="is-size-5">Date d'entrée</th>
+        <th class="is-size-5">Classe</th>
+        <th class="is-size-5">Login</th>
+        <th class="is-size-5">Spécialité</th>
+        <th class="is-size-5">Statut</th>
         <th>
-          <div class="tooltip">
+          <div class="tooltip is-size-5">
             <span>Reset password &#9432;</span>
-            <span class="tooltiptext">Mot de passe : <u>achanger</u></span>
+            <span class="tooltiptext is-size-6">Mot de passe : <u>achanger</u></span>
           </div>
         </th>
         <th>
-          <div class="tooltip">
+          <div class="tooltip is-size-5">
             <span>Désactivé &#9432;</span>
-            <span class="tooltiptext">Le compte deviendra inactif</span>
+            <span class="tooltiptext is-size-6">Le compte deviendra inactif</span>
           </div>
         </th>
       </tr>
@@ -114,7 +159,7 @@ if ($_SESSION['statut'] == "Professeur") {
         <tr style="cursor: pointer;" onclick="window.location.href = 'router.php?page=view_profil&id=<?= $profil->id ?>'">
           <td><?= $profil->nom ?> <?= $profil->prenom ?></td>
           <td><?= isset($profil->date_entree) ? convertDateFormat($profil->date_entree) : "Non défini"; ?></td>
-          <td><?= isset($profil->classe) ? $profil->classe : "Non défini" ?></td>
+          <td id="classe"><?= isset($profil->classe) ? $profil->classe : "Non défini" ?></td>
           <td><?= $profil->login ?></td>
           <td><?= $profil->spe ?></td>
           <td><?= $profil->statut ?></td>
@@ -153,3 +198,31 @@ if ($_SESSION['statut'] == "Professeur") {
   // Si le statut de l'utilisateur connecté est n'est pas un professeur :
 }
 ?>
+
+<script>
+
+  var radiosSelectClass = document.querySelectorAll(".classeSelect");
+
+  radiosSelectClass.forEach(radio => {
+    radio.addEventListener("change", function(){
+      if(radio.checked == false) return;
+
+      var classe = radio.id; //On récupère la classe sélectionnée
+
+      var table = document.getElementsByTagName("table")[0]; //On récupère le tableau
+      var tr = table.getElementsByTagName("tr"); //On récupère les lignes du tableau
+      
+      for (var i = 1; i < tr.length; i++) {
+        var td = tr[i].querySelector("#classe"); //On récupère la colonne de la classe avec l'id "classe"
+        if (td) {
+          if (td.innerHTML == classe || classe == "All") {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+      
+    })
+  });
+</script>

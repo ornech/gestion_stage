@@ -11,6 +11,11 @@ if(isset($_POST["login"]) && isset($_POST["password"])){
     $modelLogin = new Login($conn);
     $connexion = $modelLogin->login($login, $password);
 
+    if($connexion["statut"] == "CGU"){
+        header("Location: /router.php?page=login&cgu");
+        exit;
+    }
+
     if($connexion["statut"] == "failed"){
         header("Location: /router.php?page=login&erreur=" . $connexion['message']);
         exit;
@@ -35,6 +40,8 @@ if(isset($_POST["login"]) && isset($_POST["password"])){
               if(!anonymizeUser($etudiant->id)){
                 echo "error";
               }
+            }else{
+              header("Location: /router.php?page=accueil");
             }
           }
         }

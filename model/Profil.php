@@ -34,7 +34,7 @@ class Profil {
   }
 
   public function list_by_classe($classe){
-    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe=:classe AND isDeleted = 0";
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe=:classe AND isDeleted = 0 ORDER BY nom ASC";
     $stmt = $this->conn->prepare($sql);
     $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
     $stmt->execute();
@@ -42,14 +42,14 @@ class Profil {
   }
 
   public function list_classes(){
-    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe='SIO1' OR classe='SIO2' AND isDeleted = 0";
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE classe='SIO1' OR classe='SIO2' AND isDeleted = 0 ORDER BY nom ASC";
     $stmt = $this->conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
  public function list_by_professeur() {
-    $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Professeur' AND isDeleted = 0";
+    $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Professeur' AND isDeleted = 0 ORDER BY nom ASC";
     $stmt = $this->conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -75,7 +75,7 @@ class Profil {
   }
 
   public function list_profil(){
-    $query = "SELECT * FROM " . $this->table_name  . " WHERE statut='Professeur' OR (statut='Etudiant' AND date_entree IS NOT NULL) AND isDeleted = 0";
+    $query = "SELECT * FROM " . $this->table_name  . " WHERE statut='Professeur' OR (statut='Etudiant' AND date_entree IS NOT NULL) AND isDeleted = 0 ORDER BY nom ASC";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -196,7 +196,7 @@ class Profil {
     WHERE id=:id AND isDeleted = 0";
     // Préparez la requête
     $stmt = $this->conn->prepare($query);
-    
+
     $this->email=htmlspecialchars(strip_tags($email));
     $this->telephone=htmlspecialchars(strip_tags($telephone));
     $id = htmlspecialchars(strip_tags($id));
@@ -301,6 +301,14 @@ class Profil {
     } else {
       return false;
     }
+  }
+
+  public function countByIdClasse($idClasse){
+    $query = "SELECT COUNT(*) as `count` FROM $this->table_name WHERE idClasse=:idClasse AND isDeleted = 0";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':idClasse', $idClasse, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
   }
 
   private function debugQuery($query, $params) {

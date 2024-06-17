@@ -19,7 +19,7 @@ require_once 'config/db_connection.php';
 include 'vues/headers.php';
 
 // Affichez le contenu de la page en fonction du statut de l'utilisateur connecté
-if(!str_starts_with($page, "vue_popup") && $page != "login" && $page != "password_reset"){
+if (!str_starts_with($page, "vue_popup") && $page != "login" && $page != "password_reset" && $page != "cgu") {
   if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
     // Affichez le menu pour les professeurs
     include 'vues/navbar_prof.php';
@@ -32,7 +32,8 @@ if(!str_starts_with($page, "vue_popup") && $page != "login" && $page != "passwor
 }
 
 // Fonction de routage
-function router($page, $conn) {
+function router($page, $conn)
+{
   switch ($page) {
     case 'login':
       include 'vues/login.php'; // Page de connexion
@@ -40,6 +41,10 @@ function router($page, $conn) {
 
     case 'password_reset':
       include 'vues/password_reset.php'; // Page de connexion
+      break;
+
+    case 'cgu':
+      include 'vues/vue_cgu.php'; // Page des conditions générales d'utilisation
       break;
 
     case 'accueil':
@@ -78,7 +83,7 @@ function router($page, $conn) {
 
       $contactModel = new Contact($conn); // Instancier le modèle
       $contacts = $contactModel->list();
-    
+
       include 'vues/vue_liste_entreprises.php'; // Inclure la vue pour afficher la liste des entreprises
       break;
 
@@ -107,7 +112,7 @@ function router($page, $conn) {
         // Charger les détails de l'entreprise en fonction du siret
         $ficheEntreprise = $entrepriseModel->read_fiche_siret($siret);
         $contacts = $contacteModel->read_list_siret($siret); // Lire les entreprises
-        }
+      }
       // Inclure la vue pour afficher les détails de l'entreprise
       include 'vues/vue_fiche_entreprises.php';
       // include 'vues/vue_contact_list.php';
@@ -167,14 +172,17 @@ function router($page, $conn) {
     case 'profil':
       include_once 'model/Profil.php';
       include_once 'model/Stage.php';
+      include_once 'model/Classe.php';
 
       $idProfil = isset($_SESSION['userID']) ? $_SESSION['userID'] : null;
 
       $profilModel = new Profil($conn);
-      $Profil = $profilModel->read_my_profil();
-
       $stageModel = new Stage($conn);
+      $classeModel = new Classe($conn);
+
+      $Profil = $profilModel->read_my_profil();
       $stages = $stageModel->readFromEtudiantId($idProfil);
+      $classe = $classeModel->getProfPrincipalByClasseId($Profil->idClasse);
 
       include 'vues/vue_profil_user.php';
       break;
@@ -183,12 +191,18 @@ function router($page, $conn) {
       route_protect('Professeur');
       include_once 'model/Profil.php';
       include_once 'model/Stage.php';
+      include_once 'model/Classe.php';
 
       $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
+
       $profilModel = new Profil($conn);
       $stageModel = new Stage($conn);
+      $classeModel = new Classe($conn);
+
+
       $Profil = $profilModel->read_profil($idProfil);
       $stages = $stageModel->readFromEtudiantId($idProfil);
+      $classe = $classeModel->getProfPrincipalByClasseId($Profil->idClasse);
 
       include 'vues/vue_profil_user.php';
       break;
@@ -204,13 +218,13 @@ function router($page, $conn) {
       $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
       $profilModel = new Profil($conn);
 
-      if($idProfil == null){
+      if ($idProfil == null) {
         header("Location: router.php?page=erreur&title=Erreur&message=Une erreur est survenue lors de l'accès à la page.");
       }
 
       $Profil = $profilModel->read_profil($idProfil);
 
-      if($Profil->statut == "Professeur" && $idProfil != $_SESSION["userID"]){
+      if ($Profil->statut == "Professeur" && $idProfil != $_SESSION["userID"]) {
         header("Location: router.php?page=erreur&title=Erreur&message=Vous ne pouvez pas modifier un profil de type professeur.");
       }
 
@@ -280,24 +294,24 @@ function router($page, $conn) {
       $contactModel = new Contact($conn);
       $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
 
-      if($idEntreprise == null){
-         header("Location: router.php?page=erreur&title=Erreur de création&message=Erreur lors de l'accès au formulaire de création du contact, veuillez réessayer.");
+      if ($idEntreprise == null) {
+        header("Location: router.php?page=erreur&title=Erreur de création&message=Erreur lors de l'accès au formulaire de création du contact, veuillez réessayer.");
       }
 
       include 'vues/vue_contact_create.php';
       break;
 
-  case 'Contact_fiche':
-        include_once 'model/Contact.php';
-        // Instancie le modèle
-        $contactModel = new Contact($conn);
-        // Récupérer l'ID du contact depuis l'URL
-        $idContact = isset($_GET['idContact']) ? $_GET['idContact'] : null;
-        // Charge les données
-        $ContactFiche = $contactModel->read_fiche($idContact);
-        // Inclure la vue
-        include 'vues/vue_contact_fiche.php';
-        break;
+    case 'Contact_fiche':
+      include_once 'model/Contact.php';
+      // Instancie le modèle
+      $contactModel = new Contact($conn);
+      // Récupérer l'ID du contact depuis l'URL
+      $idContact = isset($_GET['idContact']) ? $_GET['idContact'] : null;
+      // Charge les données
+      $ContactFiche = $contactModel->read_fiche($idContact);
+      // Inclure la vue
+      include 'vues/vue_contact_fiche.php';
+      break;
 
     case 'contact_update':
       include_once 'model/Contact.php';
@@ -340,14 +354,14 @@ function router($page, $conn) {
       include_once 'model/Contact.php';
       $idStage = isset($_GET['idStage']) ? $_GET['idStage'] : null;
 
-      if($idStage == null){
+      if ($idStage == null) {
         exit(header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès au formulaire de d'édition du stage, veuillez réessayer."));
       }
 
       $stageModel = new Stage($conn);
       $Stage = isset($stageModel->stage_by_id($idStage)[0]) ? $stageModel->stage_by_id($idStage) : null;
 
-      if($Stage == null){
+      if ($Stage == null) {
         exit(header("Location: router.php?page=erreur&title=Erreur d'accès&message=Impossible de trouver le stage demandé, veuillez réessayer."));
       }
 
@@ -410,7 +424,7 @@ function router($page, $conn) {
       $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
       $idUser = $_SESSION['userID'];
 
-      if($idEntreprise == null){
+      if ($idEntreprise == null) {
         header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès au formulaire de création de stage, veuillez réessayer.");
       }
 
@@ -439,24 +453,24 @@ function router($page, $conn) {
       break;
 
 
-      case 'stage_create_etu':
-        include_once 'model/Profil.php';
-        include_once 'model/Stage.php';
-        include_once 'model/Contact.php';
-  
-        $profilModel = new Profil($conn);
-        $profil = $profilModel->read_my_profil();
-  
-        $stageModel = new Stage($conn);
-        $stages = $stageModel->list();
-  
-        $contacteModel = new Contact($conn);
-        $contacts = $contacteModel->list();
-  
-        include 'vues/vue_stage_create_etu.php';
+    case 'stage_create_etu':
+      include_once 'model/Profil.php';
+      include_once 'model/Stage.php';
+      include_once 'model/Contact.php';
 
-        break;
-  
+      $profilModel = new Profil($conn);
+      $profil = $profilModel->read_my_profil();
+
+      $stageModel = new Stage($conn);
+      $stages = $stageModel->list();
+
+      $contacteModel = new Contact($conn);
+      $contacts = $contacteModel->list();
+
+      include 'vues/vue_stage_create_etu.php';
+
+      break;
+
     case 'stage_suivi_prof':
       route_protect('Professeur');
       include 'vues/vue_stage_suivi_create.php';
@@ -502,8 +516,8 @@ function router($page, $conn) {
       $contactModel = new Contact($conn);
       $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
 
-      if($idEntreprise == null){
-         header("Location: router.php?page=erreur&title=Erreur de création&message=Erreur lors de l'accès au formulaire de création du contact, veuillez réessayer.");
+      if ($idEntreprise == null) {
+        header("Location: router.php?page=erreur&title=Erreur de création&message=Erreur lors de l'accès au formulaire de création du contact, veuillez réessayer.");
       }
 
       include 'vues/vue_contact_create.php';
@@ -549,7 +563,7 @@ function router($page, $conn) {
 
       $idLog = isset($_GET['id']) ? $_GET['id'] : null;
 
-      if($idLog == null){
+      if ($idLog == null) {
         header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès au détail du log, veuillez réessayer.");
         exit();
       }
@@ -560,7 +574,29 @@ function router($page, $conn) {
       include 'vues/vue_logs_detail.php';
       break;
 
-   case 'erreur':
+    case 'gestion_classes':
+      route_protect('Professeur');
+
+      include_once 'model/Profil.php';
+      include_once 'model/Classe.php';
+
+      $id = isset($_SESSION['userID']) ? $_SESSION['userID'] : null;
+
+      if ($id == null) {
+        header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès à la vue.");
+        exit();
+      }
+
+      $classeModel = new Classe($conn);
+      $profilModel = new Profil($conn);
+
+      $profs = $profilModel->list_by_professeur();
+      $classes = $classeModel->list();
+
+      include 'vues/vue_classes_gestion.php';
+      break;
+
+    case 'erreur':
       $message = isset($_GET['messge']) ? $_GET['message'] : null;
       include 'vues/vue_erreur.php'; // Page d'accueil par défaut
       break;
@@ -571,13 +607,13 @@ function router($page, $conn) {
   }
 }
 
-  // Appeler la fonction de routage pour afficher la vue appropriée
+// Appeler la fonction de routage pour afficher la vue appropriée
 
 
-  router($page, $conn); // Passer $conn en paramètre
-  if(!str_starts_with($page, "vue_popup") && $page != "login" && $page != "password_reset"){
-    include 'vues/footer.php';
-  }
+router($page, $conn); // Passer $conn en paramètre
+if (!str_starts_with($page, "vue_popup") && $page != "login" && $page != "password_reset" && $page != "cgu") {
+  include 'vues/footer.php';
+}
 
 ob_end_flush();
 ?>
