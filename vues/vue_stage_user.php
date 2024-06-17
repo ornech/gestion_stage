@@ -9,8 +9,8 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
   if (isset($stage)) {
     if (isset($Profil)) {
 
-      if (($_SESSION['statut'] == "Professeur") || ($_SESSION['statut'] == "Etudiant") && $stage->idEtudiant == $_SESSION["userID"]){
-        ?>
+      if (($_SESSION['statut'] == "Professeur") || ($_SESSION['statut'] == "Etudiant") && $stage->idEtudiant == $_SESSION["userID"]) {
+?>
 
         <!-- --------------- DEBUT ANCIENNE VUE ----------------------  -->
 
@@ -29,94 +29,166 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
         ?>
         <!-- --------------- DEBUT NOUVELLE VUE ----------------------  -->
         <p class="title is-1">Stage <?= $stage->classe ?></p>
-        <p class="subtitle is-3"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></p>
-        <div class="box">
-          <p class="card-header-title" style="text-align: left;"> Nom de l'étudiant: &nbsp;<a href='../router.php?page=view_profil&id=<?=$stage->idEtudiant ?>'><?= $stage->EtudiantNom . " " . $stage->EtudiantPrenom ?></a></p>
-          <p>Entreprise: <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
-          <p>Position: A MODIFIER </p>
-          <p>Durée de stage: <strong><?= $semaines ?> semaines (<?= $debutFormat . " - " . $finFormat ?> )</strong></p>
-          <div style="display: flex; align-items: center;">
-            <p class="card-text" style="margin-right: 10px;">Professeur assigné: </p>
-            <?php if ($_SESSION['statut'] == "Professeur") : ?>
-              <form method="post" action="">
-                <input type="hidden" name="Stage" class="stageId" value="<?= isset($stage->idStage) ? $stage->idStage : "" ?>">
+        <p class="subtitle is-3"><a href='../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>'><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></a></p>
+        <div style="display: flex; align-items: center;">
+          <p class="card-text" style="margin-right: 10px;">Professeur assigné: </p>
+          <?php if ($_SESSION['statut'] == "Professeur") : ?>
+            <form method="post" action="">
+              <input type="hidden" name="Stage" class="stageId" value="<?= isset($stage->idStage) ? $stage->idStage : "" ?>">
 
-                <div class="select is-small">
-                  <select name="Professeur">
-                    <?php if (isset($stage->idProfesseur)) : ?>
-                      <?php foreach ($professeurs as $professeur) : ?>
-                        <option value="<?= $professeur->id ?>" <?= isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id ? "selected" : "" ?>>
-                          <?= "$professeur->nom $professeur->prenom" ?>
-                        </option>
-                      <?php endforeach; ?>
-                    <?php else : ?>
-                      <option value="">Aucun professeur assigné</option>
-                      <?php foreach ($professeurs as $professeur) : ?>
-                        <option value="<?= $professeur->id ?>">
-                          <?= "$professeur->nom $professeur->prenom" ?>
-                        </option>
-                      <?php endforeach; ?>
-                    <?php endif; ?>
-                  </select>
-                </div>
-              </form>
-            <?php else : ?>
-              <?php foreach ($professeurs as $professeur){
-                if (isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id){
-                  ?>
-                  <p> <?= "$professeur->nom $professeur->prenom" ?> </p>
+              <div class="select is-small">
+                <select name="Professeur">
+                  <?php if (isset($stage->idProfesseur)) : ?>
+                    <?php foreach ($professeurs as $professeur) : ?>
+                      <option value="<?= $professeur->id ?>" <?= isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id ? "selected" : "" ?>>
+                        <?= "$professeur->nom $professeur->prenom" ?>
+                      </option>
+                    <?php endforeach; ?>
+                  <?php else : ?>
+                    <option value="">Aucun professeur assigné</option>
+                    <?php foreach ($professeurs as $professeur) : ?>
+                      <option value="<?= $professeur->id ?>">
+                        <?= "$professeur->nom $professeur->prenom" ?>
+                      </option>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+                </select>
+              </div>
+            </form>
+          <?php else : ?>
+            <?php foreach ($professeurs as $professeur) {
+              if (isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id) {
+            ?>
+                <p> <?= "$professeur->nom $professeur->prenom" ?> </p>
 
 
-                <?php        }
-              }
-              ?>
-              <?= "$professeur->nom $professeur->prenom" ?>
-            <?php endif; ?>
+            <?php        }
+            }
+            ?>
+            <?= "$professeur->nom $professeur->prenom" ?>
+          <?php endif; ?>
+        </div>
+        <div class="fixed-grid">
+          <div class="grid">
+            <div class="cell">
+              <div class="box">
+                <p><strong>Durée de stage: </strong><?= $semaines ?> semaines (<?= $debutFormat . " - " . $finFormat ?> )</p>
+                <p><strong>Entreprise: </strong><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></p>
+                <p><strong>Adresse: </strong><?= $stage->Entreprise_adresse ?>, <?= $stage->Entreprise_codePostal ?> <?= $stage->Entreprise_ville ?></p>
+                <p><strong>Secteur: </strong><?= $stage->Entreprise_naf ?></p>
+
+              </div>
+            </div>
+            <div class="cell">
+              <div class="box">
+                <p class="card-text"><strong>Maître de stage: </strong><a href="../router.php?page=Contact_fiche&idContact=<?= $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></strong> </p>
+                <p class="card-text"><strong>Fonction: </strong><?= $stage->employe_fonction ?></p>
+                <p class="card-text"><strong>Mail: </strong><?= $stage->employe_mail ?></p>
+                <p class="card-text"><strong>Téléphone: </strong><?= $stage->employe_telephone ?> </p>
+              </div>
+            </div>
           </div>
         </div>
 
-          <div class="box">
-            <p class="card-text">Maître de stage: <strong><a href="../router.php?page=Contact_fiche&idContact=<?=$stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></strong> </p>
-            <p class="card-text">Fonction: <strong><?= $stage->employe_fonction ?></strong> </p>
-            <p class="card-text">Mail: <strong><?= $stage->employe_mail ?></strong> </p>
-            <p class="card-text">Téléphone: <strong><?= $stage->employe_telephone ?></strong> </p>
-          </div>
 
-          <div class="box">
-            <p>Description:</p>
-            <p><?= $stage->description ?></p>
-          </div>
+        <div class="box">
+          <p>Description: &nbsp;
+            <button id="openModal" for="modalDesc" class="button is-small">
+              <span class="icon">
+                <i class="fas fa-pencil-alt"></i>
+              </span>
+            </button>
+          </p>
+          <p><?= $stage->description ?></p>
+        </div>
 
-          <div class="column is-narrow">
-            <button class="button is-medium" onclick="window.open('router.php?page=stage_convention&idStage=<?= $stage->idStage ?>')">Récupérer la convention</button>
-            <button class="button is-medium" onclick="window.open('router.php?page=stage_edit&idStage=<?= $stage->idStage ?>')">Modifier les détails</button>
-          </div>
+        <div class="column is-narrow">
+          <button class="button is-medium" onclick="window.open('router.php?page=stage_convention&idStage=<?= $stage->idStage ?>')">Récupérer la convention</button>
+          <button class="button is-medium" onclick="window.open('router.php?page=stage_edit&idStage=<?= $stage->idStage ?>')">Modifier les détails</button>
+        </div>
         </div>
 
         <script>
-        document.querySelectorAll('div.changeProf').forEach(function(div) {
-          var select = div.querySelector('select');
-          select.addEventListener('change', function() {
-            if (div.querySelector('.stageId').value !== "") {
-              this.form.submit();
-            }
+          document.querySelectorAll('div.changeProf').forEach(function(div) {
+            var select = div.querySelector('select');
+            select.addEventListener('change', function() {
+              if (div.querySelector('.stageId').value !== "") {
+                this.form.submit();
+              }
+            });
           });
-        });
-      </script>
+        </script>
 
-      <td style="vertical-align: middle;"><?php if (isset($profilStage->idStage)) : ?><button class="button is-small" onclick="window.open('router.php?page=stage_convention&idStage=<?= $profilStage->idStage ?>')">Récupérer</button><?php endif; ?></td>
-      <td style="vertical-align: middle;"><?php if (isset($profilStage)) : ?><button class="button is-small is-primary" onclick="window.open('router.php?page=stage_edit&idStage=<?= $profilStage->idStage ?>')">Modifier</button><?php endif; ?></td>
-      <!-- --------------- FIN NOUVELLE VUE ----------------------  -->
+        <td style="vertical-align: middle;"><?php if (isset($profilStage->idStage)) : ?><button class="button is-small" onclick="window.open('router.php?page=stage_convention&idStage=<?= $profilStage->idStage ?>')">Récupérer</button><?php endif; ?></td>
+        <td style="vertical-align: middle;"><?php if (isset($profilStage)) : ?><button class="button is-small is-primary" onclick="window.open('router.php?page=stage_edit&idStage=<?= $profilStage->idStage ?>')">Modifier</button><?php endif; ?></td>
+        <!-- --------------- FIN NOUVELLE VUE ----------------------  -->
+
+        <div class="modal" id="modalDesc">
+          <form id="DescForm" method="post">
+
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title"> Ajoutez ou modifiez la note</p>
+                <button class="delete cancel" id="closeModal" for="modalDesc" aria-label="close"></button>
+              </header>
+              <section class="modal-card-body">
+                <div class="is-grouped">
+                  <input type="hidden" name="id" value="<?= $stage->idStage ?>">
+                  <label for="Desc">Notes:</label>
+                  <textarea class="textarea" id="Desc" name="Desc">
+                    <?PHP
+                    $sql = "SELECT description FROM stage WHERE id = $stage->idStage";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute();
+                    $result = $stmt->fetch();
+                    echo $result["description"];
+                    ?></textarea>
+                </div>
+                <?php
+                if (isset($_POST["id"]) && isset($_POST["Desc"])) {
+                  $stageId = $_POST["id"];
+                  $Desc = $_POST["Desc"];
+                  $sql = "UPDATE stage SET description = :description WHERE id = :id";
+                  $stmt = $conn->prepare($sql);
+                  $stmt->bindParam(":id", $stageId);
+                  $stmt->bindParam(":description", $Desc);
+                  $stmt->execute();
+                  echo "<script type='text/javascript'>window.location.href = window.location.href;</script>";
+                  exit;
+                }
+                ?>
+              </section>
+              <footer class="modal-card-foot">
+                <div class="buttons">
+                  <button class="button is-success" id="saveDesc">Enregistrer</button>
+                  <button class="button" id="closeModal" for="modalDesc">Annuler</button>
+                </div>
+              </footer>
+            </div>
+          </form>
+        </div>
+        <script>
+          document.getElementById('openModal').addEventListener('click', function() {
+            document.getElementById('modalDesc').classList.add('is-active');
+          });
+          document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('modalDesc').classList.remove('is-active');
+          });
+          document.getElementById('saveDesc').addEventListener('click', function() {
+            document.getElementById('DescForm').submit();
+          });
 
 
-      <?php
+          <?php
+        }
+      } else {
+        // Si aucun profil n'a été trouvée, afficher un message d'erreur
+        echo "<p>Aucun profil trouvé avec ce lien.</p>";
+      }
+    } else {
+      header("Location: ../router.php?page=profil");
     }
-  } else {
-    // Si aucun profil n'a été trouvée, afficher un message d'erreur
-    echo "<p>Aucun profil trouvé avec ce lien.</p>";
-  }
-} else {
-  header("Location: ../router.php?page=profil");
-}} //Fin de la vérification de si l'utilisateur est connecté en tant que prof
-//
-?>
+  } //Fin de la vérification de si l'utilisateur est connecté en tant que prof
+  //
+          ?>
