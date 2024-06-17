@@ -303,6 +303,14 @@ class Profil {
     }
   }
 
+  public function countByIdClasse($idClasse){
+    $query = "SELECT COUNT(*) as `count` FROM $this->table_name WHERE idClasse=:idClasse AND isDeleted = 0";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':idClasse', $idClasse, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+
   private function debugQuery($query, $params) {
       foreach ($params as $key => $value) {
           $query = str_replace($key, "'" . addslashes($value) . "'", $query);

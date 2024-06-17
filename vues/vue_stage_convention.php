@@ -5,9 +5,22 @@ require_once 'config/auth.php';
 if (isset($_GET["idStage"])){
 
   include_once 'model/Stage.php'; // Inclure le modèle Stage
+  include_once 'model/Classe.php'; // Inclure le modèle Classe
+  include_once 'model/Profil.php'; // Inclure le modèle Profil
+
   $stageModel = new Stage($conn); // Instancier le modèle
+  $classeModel = new Classe($conn); // Instancier le modèle
+  $profilModel = new Profil($conn); // Instancier le modèle
+  
   $stage = $stageModel->stage_by_id($_GET["idStage"]);
   $data = $stage[0];
+
+  $classe = $classeModel->getProfPrincipalByClasseName($data->classe);
+
+  $userPP = $profilModel->read_profil($classe->idProfPrincipal);
+
+  $profPrincipal = $userPP->nom . " " . $userPP->prenom;
+
   // Colonnes vue_stage
   // idStage
   // idEntreprise
@@ -116,7 +129,7 @@ if (isset($_GET["idStage"])){
           <strong>Adresse de l’établissement :</strong><br>
           3, Rue Raymonde Maous<br>BP 229<br>17304 ROCHEFORT CEDEX<br>Tél: 05 46 99 23 20<br>Mél: ce.0170022G@ac-poitiers.fr><br>
           <br><strong>Professeur responsable :</strong><br>
-          Nom : Jean-François ORNECH<br>Mél : jean-francois.ornech@ac-poitiers.fr
+          Nom : <?= $profPrincipal; ?><br>Mél : <?= $userPP->email; ?>
         </td>
         <td>
           <strong>Représenté par :</strong> <?= $data->employe_nom ?> <?= $data->employe_prenom ?><br><br>
