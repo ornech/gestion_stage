@@ -117,16 +117,7 @@ Effectuer des recherches pour des stages de
             nafTableBody.appendChild(row);
         });
 
-        function generateLink() {
-            const checkboxes = document.querySelectorAll('.naf-checkbox:checked');
-            const selectedNafs = Array.from(checkboxes).map(cb => cb.value);
-            const baseUrl = 'https://annuaire-entreprises.data.gouv.fr/rechercher?terme=&cp_dep_label=Charente-Maritime+%2817%29&cp_dep_type=dep&cp_dep=17&fn=&n=&dmin=&dmax=&type=&label=&etat=&sap=&naf=';
-            const additionalParams = '&nature_juridique=&tranche_effectif_salarie=&categorie_entreprise=';
-            const fullUrl = baseUrl + selectedNafs.join('&naf=') + additionalParams;
-            const linkElement = document.getElementById('generated-link');
-            linkElement.innerText = fullUrl;
-            linkElement.href = fullUrl;
-        }
+
 
         function generateLinkSLAM() {
             const checkboxes = document.querySelectorAll('.naf-checkbox:checked');
