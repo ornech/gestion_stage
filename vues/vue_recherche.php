@@ -30,7 +30,7 @@ $nafTable = [
 <p class="subtitle is-4">Base de données SIRENE</p>
 
 <div class="box">
-    <p class="title is-4">
+    <p class="subtitle is-4">
         Effectuer des recherches pour des stages de <button id="selectSLAM" class="button" onclick="selectNaf('slam')"><span class="icon">
                         <i class="fas fa-laptop"></i>
                     </span>&nbsp;&nbsp;SLAM</button> et  <button id="selectSISR" class="button" onclick="selectNaf('sisr')"><span class="icon">
@@ -40,7 +40,9 @@ $nafTable = [
     </p>
     <div class="message is-info">
     <div class="message-body">
-  <p>Pour sélectionner les éléments pertinents à la spécialité SLAM ou SISR, cliquez sur les boutons correspondants en haut, puis appuyez sur le bouton Rechercher pour procéder.</p>
+  <p>Pour sélectionner les éléments pertinents à la spécialité SLAM ou SISR, cliquez sur les boutons correspondants en haut, puis appuyez sur le bouton Rechercher pour procéder.
+  Assurez-vous de vérifier la localisation sélectionnée sur leur site, qui est par défaut en Charente-Maritime.
+  </p>
 </div></div>
     <hr>
     <div class="fixed-grid">
