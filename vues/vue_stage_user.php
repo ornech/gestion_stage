@@ -124,40 +124,39 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
         <!-- --------------- FIN NOUVELLE VUE ----------------------  -->
 
         <div class="modal" id="modalDesc">
-          <form id="DescForm" method="post">
-
-            <div class="modal-background"></div>
+          <div class="modal-background"></div>
             <div class="modal-card">
               <header class="modal-card-head">
                 <p class="modal-card-title"> Ajoutez ou modifiez la note</p>
                 <button class="delete cancel" id="closeModal" for="modalDesc" aria-label="close"></button>
               </header>
               <section class="modal-card-body">
-                <div class="is-grouped">
-                  <input type="hidden" name="id" value="<?= $stage->idStage ?>">
-                  <label for="Desc">Notes:</label>
-                  <textarea class="textarea" id="Desc" name="Desc">
-                    <?PHP
-                    $sql = "SELECT description FROM stage WHERE id = $stage->idStage";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->execute();
-                    $result = $stmt->fetch();
-                    echo $result["description"];
+                <form id="DescForm" method="post">
+                  <div class="is-grouped">
+                    <input type="hidden" name="id" value="<?= $stage->idStage ?>">
+                    <label for="Desc">Notes:</label>
+                    <textarea class="textarea" id="Desc" name="Desc"><?PHP
+                      $sql = "SELECT description FROM stage WHERE id = $stage->idStage";
+                      $stmt = $conn->prepare($sql);
+                      $stmt->execute();
+                      $result = $stmt->fetch();
+                      echo $result["description"];
                     ?></textarea>
-                </div>
-                <?php
-                if (isset($_POST["id"]) && isset($_POST["Desc"])) {
-                  $stageId = $_POST["id"];
-                  $Desc = $_POST["Desc"];
-                  $sql = "UPDATE stage SET description = :description WHERE id = :id";
-                  $stmt = $conn->prepare($sql);
-                  $stmt->bindParam(":id", $stageId);
-                  $stmt->bindParam(":description", $Desc);
-                  $stmt->execute();
-                  echo "<script type='text/javascript'>window.location.href = window.location.href;</script>";
-                  exit;
-                }
-                ?>
+                  </div>
+                  <?php
+                  if (isset($_POST["id"]) && isset($_POST["Desc"])) {
+                    $stageId = $_POST["id"];
+                    $Desc = $_POST["Desc"];
+                    $sql = "UPDATE stage SET description = :description WHERE id = :id";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindParam(":id", $stageId);
+                    $stmt->bindParam(":description", $Desc);
+                    $stmt->execute();
+                    echo "<script type='text/javascript'>window.location.href = window.location.href;</script>";
+                    exit;
+                  }
+                  ?>
+                </form>
               </section>
               <footer class="modal-card-foot">
                 <div class="buttons">
@@ -166,19 +165,20 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
                 </div>
               </footer>
             </div>
-          </form>
-        </div>
+          </div>
         <script>
-          document.getElementById('openModal').addEventListener('click', function() {
-            document.getElementById('modalDesc').classList.add('is-active');
+          document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('openModal').addEventListener('click', function() {
+              document.getElementById('modalDesc').classList.add('is-active');
+            });
+            document.getElementById('closeModal').addEventListener('click', function() {
+              document.getElementById('modalDesc').classList.remove('is-active');
+            });
+            document.getElementById('saveDesc').addEventListener('click', function() {
+              document.getElementById('DescForm').submit();
+            });
           });
-          document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('modalDesc').classList.remove('is-active');
-          });
-          document.getElementById('saveDesc').addEventListener('click', function() {
-            document.getElementById('DescForm').submit();
-          });
-
+        </script>
 
           <?php
         }
