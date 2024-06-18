@@ -326,6 +326,11 @@ document.getElementById('confirmDelete').addEventListener('click', function(even
     });
 
     document.getElementById('changerNomBtn').addEventListener('click', function() {
+      var nouveauNom = document.getElementById('nouveauNom').value;
+      if (nouveauNom.trim() === '') {
+      alert("Le nom de l'entreprise ne peut pas être vide");
+      return;
+      }
       document.getElementById('changerNom').submit();
     });
 
