@@ -46,23 +46,19 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                 <tr><th>Statut</th><td><?= $Profil->statut ? $Profil->statut : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
                 <tr><th>Login</th><td><?= $Profil->login ? $Profil->login : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td></td></tr>
                 <tr><th>Mail</th><td><?= $Profil->email ? $Profil->email : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td><!-- Classe -->
-                  <?php if ($_SESSION['statut'] == "Professeur") { ?>
-                    <button id="openModal" for="modalMail" class="button is-small">
-                      <span class="icon">
-                        <i class="fas fa-pencil-alt"></i>
-                      </span>
-                    </button>
-                  <?php } ?>
+                  <button id="openModal" for="modalMail" class="button is-small">
+                    <span class="icon">
+                      <i class="fas fa-pencil-alt"></i>
+                    </span>
+                  </button>
                 </td>
                 </tr>
                 <tr><th>Téléphone</th><td><?= $Profil->telephone ? $Profil->telephone : '<span class="icon"><i class="fas fa-magnifying-glass-minus"></i></span>' ?></td><td><!-- Classe -->
-                  <?php if ($_SESSION['statut'] == "Professeur") { ?>
-                    <button id="openModal" for="modalPhone" class="button is-small">
-                      <span class="icon">
-                        <i class="fas fa-pencil-alt"></i>
-                      </span>
-                    </button>
-                  <?php } ?>
+                  <button id="openModal" for="modalPhone" class="button is-small">
+                    <span class="icon">
+                      <i class="fas fa-pencil-alt"></i>
+                    </span>
+                  </button>
                 </td>
                 </tr>
 
