@@ -28,7 +28,7 @@ require_once 'config/auth.php';
       </label>
     </div>
 
-    <input type="submit" name="submit" value="Importer">
+    <input class="button is-primary" type="submit" name="submit" value="Importer">
 </form>
 </div>
 
