@@ -54,18 +54,6 @@ require_once 'config/auth.php';
           </div>
 
           <script>
-                 // Fonction de validation du numéro de téléphone français
-                 function validatePhoneNumber(phone) {
-                     const regex = /^(\+33\s?|0)[1-9]([.\s]?\d{2}){4}$/;
-                     return regex.test(phone);
-                 }
-
-                 // Fonction de validation de l'email
-                 function validateEmail(email) {
-                     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                     return regex.test(email);
-                 }
-
                  // Ajouter un écouteur d'événement pour le formulaire
                  document.getElementById('formulaire').addEventListener('submit', function(event) {
                      const phoneInput = document.getElementById('telephone').value.trim();

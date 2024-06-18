@@ -451,6 +451,10 @@ function validateEmail(email) {
 }
 
 document.getElementById('savePhone').addEventListener('click', function() {
+  if(!validatePhoneNumber(document.querySelector('input[name="telephone"]').value)) {
+    alert("Veuillez entrer un numéro de téléphone valide.");
+    return;
+  }
   document.getElementById('phoneForm').submit();
 });
 </script>
