@@ -18,7 +18,11 @@ if (isset($_POST['id']) && isset($_POST['telephone'])) {
   if ($profil->update_phone($id, $telephone)) {
     $newValues = $profil->read_profil($id);
     addLog($conn, 12, $_SESSION['userID'], "profil", $id, $oldValues, $newValues);
-    header("Location: /router.php?page=view_profil&id=" . $id);
+    if ($_SESSION['statut'] == "Etudiant") {
+      header("Location: /router.php?page=profil");
+    } else {
+      header("Location: /router.php?page=view_profil&id=" . $id);
+    }
   } else {
     echo "Erreur lors de la mise à jour du téléphone";
   }
