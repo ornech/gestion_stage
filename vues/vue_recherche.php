@@ -180,10 +180,8 @@ $nafTable = [
     <div class="columns">
         <div class="column is-half">
             <?php
-            // Calculer la moitié de la taille du tableau pour la première colonne
             $halfCount = ceil(count($nafTable) / 2);
             
-            // Afficher les éléments de la première moitié du tableau
             for ($i = 0; $i < $halfCount; $i++) {
                 $naf = $nafTable[$i];
             ?>
@@ -195,7 +193,6 @@ $nafTable = [
         </div>
         <div class="column is-half">
             <?php
-            // Afficher les éléments de la deuxième moitié du tableau
             for ($i = $halfCount; $i < count($nafTable); $i++) {
                 $naf = $nafTable[$i];
             ?>
