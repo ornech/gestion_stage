@@ -8,6 +8,33 @@
 ?>
 
 <p class="title is-3 has-text-centered">Cliquez sur un étudiant pour l'ajouter</p>
+
+<div class="radioGrouped" style="margin-bottom: 5px;">
+  <div class="radio">
+    <label for="classeSelect"><b>Tous :</b></label>
+    <label class="switch">
+      <input type="radio" class="classeSelect" name="classeSelect" id="All" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="radio">
+    <label for="classeSelect"><b>SIO 1 :</b></label>
+    <label class="switch">
+      <input type="radio" class="classeSelect" name="classeSelect" id="SIO1">
+      <span class="slider"></span>
+    </la>
+  </div>
+
+  <div class="radio">
+    <label for="classeSelect"><b>SIO 2 :</b></label>
+    <label class="switch">
+      <input type="radio" class="classeSelect" name="classeSelect" id="SIO2">
+      <span class="slider"></span>
+    </label>
+  </div>
+</div>
+
 <table class="table table-hover tableFilter is-fullwidth" id="maTable">
   <thead>
     <tr>
@@ -120,5 +147,31 @@
   window.addEventListener("unload", function() {
     sendResponse({statut: "cancel"}, "/");
     window.close();
+  });
+</script>
+
+<script>
+  var radiosSelectClass = document.querySelectorAll(".classeSelect");
+  radiosSelectClass.forEach(radio => {
+    radio.addEventListener("change", function(){
+      if(radio.checked == false) return;
+
+      var classe = radio.id; //On récupère la classe sélectionnée
+
+      var table = document.getElementsByTagName("table")[0]; //On récupère le tableau
+      var tr = table.getElementsByTagName("tr"); //On récupère les lignes du tableau
+      
+      for (var i = 1; i < tr.length; i++) {
+        var td = tr[i].querySelector("#classe"); //On récupère la colonne de la classe avec l'id "classe"
+        if (td) {
+          if (td.innerHTML == classe || classe == "All") {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+      
+    })
   });
 </script>
