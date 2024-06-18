@@ -40,41 +40,13 @@ $nafTable = [
     </p>
     <div class="message is-info">
     <div class="message-body">
-  <p>Pour sélectionner les éléments pertinents à la spécialité SLAM ou SISR, cliquez sur les boutons correspondants en haut, puis appuyez sur le bouton Rechercher pour procéder.
-  Assurez-vous de vérifier la localisation sélectionnée.
+  <p>
+  Pour sélectionner les éléments pertinents à la spécialité SLAM ou SISR,
+   cliquez sur les boutons correspondants en haut, puis appuyez sur le bouton "Rechercher"
+    pour continuer. Vous avez également la possibilité de modifier et d'ajouter d'autres options 
+    selon vos besoins. Assurez-vous de vérifier la localisation choisie avant de procéder.
   </p>
-</div></div><hr>
-    <div class="columns">
-        <div class="column is-half">
-            <?php
-            // Calculer la moitié de la taille du tableau pour la première colonne
-            $halfCount = ceil(count($nafTable) / 2);
-            
-            // Afficher les éléments de la première moitié du tableau
-            for ($i = 0; $i < $halfCount; $i++) {
-                $naf = $nafTable[$i];
-            ?>
-                <div class="field">
-                    <input id="<?php echo $naf['code']; ?>" type="checkbox" class="naf-checkbox" value="<?php echo $naf['code']; ?>">
-                    <label for="<?php echo $naf['code']; ?>"><?php echo $naf['code']; ?> - <?php echo $naf['label']; ?></label>
-                </div>
-            <?php } ?>
-        </div>
-        <div class="column is-half">
-            <?php
-            // Afficher les éléments de la deuxième moitié du tableau
-            for ($i = $halfCount; $i < count($nafTable); $i++) {
-                $naf = $nafTable[$i];
-            ?>
-                <div class="field">
-                    <input id="<?php echo $naf['code']; ?>" type="checkbox" class="naf-checkbox" value="<?php echo $naf['code']; ?>">
-                    <label for="<?php echo $naf['code']; ?>"><?php echo $naf['code']; ?> - <?php echo $naf['label']; ?></label>
-                </div>
-            <?php } ?>
-        </div>
-    </div>
-
-
+</div></div>
 <div class="columns">
     <div class="column is-full">
         <div class="field is-grouped">
@@ -193,7 +165,39 @@ $nafTable = [
                 </button>
             </div>
         </div>
+    <hr>
+    <div class="columns">
+        <div class="column is-half">
+            <?php
+            // Calculer la moitié de la taille du tableau pour la première colonne
+            $halfCount = ceil(count($nafTable) / 2);
+            
+            // Afficher les éléments de la première moitié du tableau
+            for ($i = 0; $i < $halfCount; $i++) {
+                $naf = $nafTable[$i];
+            ?>
+                <div class="field">
+                    <input id="<?php echo $naf['code']; ?>" type="checkbox" class="naf-checkbox" value="<?php echo $naf['code']; ?>">
+                    <label for="<?php echo $naf['code']; ?>"><?php echo $naf['code']; ?> - <?php echo $naf['label']; ?></label>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="column is-half">
+            <?php
+            // Afficher les éléments de la deuxième moitié du tableau
+            for ($i = $halfCount; $i < count($nafTable); $i++) {
+                $naf = $nafTable[$i];
+            ?>
+                <div class="field">
+                    <input id="<?php echo $naf['code']; ?>" type="checkbox" class="naf-checkbox" value="<?php echo $naf['code']; ?>">
+                    <label for="<?php echo $naf['code']; ?>"><?php echo $naf['code']; ?> - <?php echo $naf['label']; ?></label>
+                </div>
+            <?php } ?>
+        </div>
     </div>
+
+
+
 </div>
 
 <script>
