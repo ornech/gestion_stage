@@ -393,7 +393,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
         <div class="is-grouped">
           <p class="is-size-5" style="display: inline;">Entrez votre adresse mail :</p>
           <input type="hidden" name="id" value="<?= $Profil->id ?>">
-          <input type="email" class="input" name="mail" value="<?= $Profil->email ?>">
+          <input type="email" class="input" name="mail" value="<?= $Profil->email ?>" required>
         </div>
       </form>
     </section>
@@ -433,12 +433,22 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
 
 <script>
 document.getElementById('saveMail').addEventListener('click', function() {
-  if(!validateEmail(document.querySelector('input[name="mail"]').value)) {
-    alert("Veuillez entrer une adresse mail valide.");
-    return;
+  var emailInput = document.getElementById('mailForm').querySelector('input[name="mail"]');
+  var email = emailInput.value.trim();
+  
+  if (validateEmail(email)) {
+    document.getElementById('mailForm').submit();
+  } else {
+    // Display an error message or handle the invalid email address
+    alert('Entrez une adresse email valide !');
   }
-  document.getElementById('mailForm').submit();
 });
+
+function validateEmail(email) {
+  // Use a regular expression to validate the email address
+  var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
 
 document.getElementById('savePhone').addEventListener('click', function() {
   if(!validatePhoneNumber(document.querySelector('input[name="telephone"]').value)) {

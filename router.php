@@ -607,7 +607,7 @@ function router($page, $conn)
       break;
 
     default:
-      include 'vues/vue_erreur.php'; // Page d'accueil par défaut
+      header("Location: router.php?page=erreur&title=Erreur 404&message=La page demandée n'existe pas.");
       break;
   }
 }
