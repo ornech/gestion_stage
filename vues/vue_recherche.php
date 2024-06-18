@@ -223,15 +223,12 @@ function generateLink() {
     const selectedDepartement = departementSelect.value;
     const departementLabel = departementSelect.options[departementSelect.selectedIndex].text;
     
-    // Extraire les deux premiers chiffres du code postal du département
     const departementCode = selectedDepartement.substring(selectedDepartement.indexOf('(') + 1, selectedDepartement.indexOf(')')); 
     
     const baseUrl = 'https://annuaire-entreprises.data.gouv.fr/rechercher';
     
-    // Construire l'URL avec les paramètres corrects
     const fullUrl = `${baseUrl}?terme=&cp_dep_label=${encodeURIComponent(departementLabel)}%20${departementCode}&cp_dep_type=dep&cp_dep=${encodeURIComponent(departementCode)}&${selectedNafs.map(naf => `naf=${naf}`).join('&')}&fn=&n=&dmin=&dmax=&type=&label=&etat=&sap=`;
     
-    // Ouvrir l'URL dans un nouvel onglet
     window.open(fullUrl, '_blank');
 }
 
