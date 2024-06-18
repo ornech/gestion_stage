@@ -3,11 +3,9 @@ require_once 'config/auth.php';
 include 'vues/var_data.php';
 
 $nafTable = [
-    ['code' => '59.14Z', 'label' => 'Projection de films cinématographiques'],
-    ['code' => '59.20Z', 'label' => 'Enregistrement sonore et édition musicale'],
-    ['code' => '60.10Z', 'label' => 'Édition et diffusion de programmes radio'],
-    ['code' => '60.20A', 'label' => 'Édition de chaînes généralistes'],
-    ['code' => '60.20B', 'label' => 'Édition de chaînes thématiques'],
+
+    
+    ["code" => "77.33Z", "label" => "Location et location-bail de machines de bureau et de matériel informatique"],
     ['code' => '61.10Z', 'label' => 'Télécommunications filaires'],
     ['code' => '61.20Z', 'label' => 'Télécommunications sans fil'],
     ['code' => '61.30Z', 'label' => 'Télécommunications par satellite'],
@@ -22,7 +20,14 @@ $nafTable = [
     ['code' => '63.91Z', 'label' => 'Activités des agences de presse'],
     ['code' => '63.99Z', 'label' => 'Autres services d\'information n.c.a.'],
     ['code' => '64.11Z', 'label' => 'Activités de banque centrale'],
-    ['code' => '64.19Z', 'label' => 'Autres intermédiations monétaires']
+    ['code' => '64.19Z', 'label' => 'Autres intermédiations monétaires'],
+    ["code" => "58.21Z", "label" => "Édition de jeux électroniques"],
+    ["code" => "58.29A", "label" => "Édition de logiciels système et de réseau"],
+    ["code" => "58.29B", "label" => "Édition de logiciels outils de développement et de langages"],
+    ["code" => "58.29C", "label" => "Édition de logiciels applicatifs"],
+    ["code" => "47.41Z", "label" => "Commerce de détail d'ordinateurs, d'unités périphériques et de logiciels en magasin spécialisé"],
+    ["code" => "46.51Z", "label" => "Commerce de gros d'ordinateurs, d'équipements informatiques périphériques et de logiciels"],
+    ["code" => "95.11Z", "label" => "Réparation d'ordinateurs et d'équipements périphériques"]
 ];
 ?>
 
@@ -31,12 +36,12 @@ $nafTable = [
 
 <div class="box">
     <p class="subtitle is-4">
-        Effectuer des recherches pour des stages de <button id="selectSLAM" class="button" onclick="selectNaf('slam')"><span class="icon">
+    Pré-sélections pour <button id="selectSLAM" class="button" onclick="selectNaf('slam')"><span class="icon">
                         <i class="fas fa-laptop"></i>
                     </span>&nbsp;&nbsp;SLAM</button> et  <button id="selectSISR" class="button" onclick="selectNaf('sisr')"><span class="icon">
                         <i class="fas fa-microchip"></i>
                     </span>&nbsp;&nbsp;SISR
-                </button> en dehors de notre site:
+                </button>
     </p>
     <div class="message is-info">
     <div class="message-body">
