@@ -7,8 +7,6 @@ class Classe
   private $idProfPrincipal;
   private $nomProf;
   private $nomClasse;
-  private $dateDebutStage;
-  private $dateFinStage;
 
   public function __construct($db)
   {
