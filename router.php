@@ -579,6 +579,7 @@ function router($page, $conn)
 
       include_once 'model/Profil.php';
       include_once 'model/Classe.php';
+      include_once 'model/Stage_Dates.php';
 
       $id = isset($_SESSION['userID']) ? $_SESSION['userID'] : null;
 
@@ -589,6 +590,7 @@ function router($page, $conn)
 
       $classeModel = new Classe($conn);
       $profilModel = new Profil($conn);
+      $stageDatesModel = new Stage_Dates($conn);
 
       $profs = $profilModel->list_by_professeur();
       $classes = $classeModel->list();

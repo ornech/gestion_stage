@@ -48,6 +48,17 @@ class Profil {
     return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
+  public function countSpeByClasse($classe, $spe){
+    $sql = "SELECT COUNT(*) as `count` FROM " . $this->table_name . " WHERE spe=:spe AND classe=:classe AND isDeleted = 0 AND inactif = 0";
+    $stmt = $this->conn->prepare($sql);
+    $this->spe = htmlspecialchars(strip_tags($spe));
+    $this->classe = htmlspecialchars(strip_tags($classe));
+    $stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
+    $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+
  public function list_by_professeur() {
     $sql = "SELECT * FROM " . $this->table_name . " WHERE statut = 'Professeur' AND isDeleted = 0 ORDER BY nom ASC";
     $stmt = $this->conn->prepare($sql);
@@ -333,7 +344,7 @@ class Profil {
   }
 
   public function countByIdClasse($idClasse){
-    $query = "SELECT COUNT(*) as `count` FROM $this->table_name WHERE idClasse=:idClasse AND isDeleted = 0";
+    $query = "SELECT COUNT(*) as `count` FROM $this->table_name WHERE idClasse=:idClasse AND isDeleted = 0 AND inactif = 0";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idClasse', $idClasse, PDO::PARAM_INT);
     $stmt->execute();
