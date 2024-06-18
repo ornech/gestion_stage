@@ -1,6 +1,37 @@
 <?php
 // Votre code PHP pour récupérer et afficher les issues ici
 require_once 'config/auth.php';
+setlocale(LC_TIME, 'fr_FR.UTF-8');
+$fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
+
+function getFinDateScolaire()
+{
+  $currentYear = date('Y');
+  $today = new DateTime();
+  // Définir les dates de début et de fin de l'année scolaire
+  $finAnneeScolaire = new DateTime("$currentYear-06-30");
+  $debutAnneeScolaire = new DateTime("$currentYear-09-01");
+  // Si aujourd'hui est avant le 1er septembre, ajuster les années scolaires
+  if ($today < $debutAnneeScolaire) {
+    $debutAnneeScolaire->modify('-1 year');
+  } else {
+    $finAnneeScolaire->modify('+1 year');
+  }
+  return $finAnneeScolaire;
+}
+
+function getPromoByClasse($classe)
+{
+  $date = getFinDateScolaire();
+  if ($classe == "SIO1") {
+    return $date->format('Y') + 1;
+  } else if ($classe == "SIO2") {
+    return $date->format('Y');
+  }
+}
+
+$SIO1 = $stageDatesModel->getStageByClasseAndPromo("SIO1", getPromoByClasse("SIO1"));
+$SIO2 = $stageDatesModel->getStageByClasseAndPromo("SIO2", getPromoByClasse("SIO2"));
 ?>
 
 <p class="title is-1">Application Gestage BTS SIO</p>
@@ -27,11 +58,31 @@ require_once 'config/auth.php';
 </div>
 
 <br>
+
+<div class="box">
+  <p class="subtitle is-3">Dates de stages</p>
+
+  <span class="is-size-5">
+    <?php if($SIO1 != false):?>
+    <b>SIO 1</b> : Du <?= $fmt->format(strtotime($SIO1->dateDebut)) . " au " . $fmt->format(strtotime($SIO1->dateFin)) ?><br>
+    <?php else:?>
+    <b>SIO 1</b> : Les dates seront bientôt transmises<br>
+    <?php endif;?>
+
+    <?php if ($SIO2 != false): ?>
+      <b>SIO 2</b> : Du
+      <?= $fmt->format(strtotime($SIO2->dateDebut)) . " au " . $fmt->format(strtotime($SIO2->dateFin)) ?><br>
+    <?php else: ?>
+      <b>SIO 2</b> : Les dates seront bientôt transmises<br>
+    <?php endif; ?>
+  </span>
+</div>
+
+
 <?php
 // +------------------------------------+
 // |           Page etudiant            |
 // +------------------------------------+
-
 if ($_SESSION['statut'] == "Etudiant") { ?>
   <div class="box">
     <p class="subtitle is-3">Fonctionnement</p>
