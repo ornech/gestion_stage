@@ -433,10 +433,18 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
 
 <script>
 document.getElementById('saveMail').addEventListener('click', function() {
+  if(!validateEmail(document.querySelector('input[name="mail"]').value)) {
+    alert("Veuillez entrer une adresse mail valide.");
+    return;
+  }
   document.getElementById('mailForm').submit();
 });
 
 document.getElementById('savePhone').addEventListener('click', function() {
+  if(!validatePhoneNumber(document.querySelector('input[name="telephone"]').value)) {
+    alert("Veuillez entrer un numéro de téléphone valide.");
+    return;
+  }
   document.getElementById('phoneForm').submit();
 });
 </script>
