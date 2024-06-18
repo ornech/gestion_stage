@@ -227,7 +227,7 @@ function generateLink() {
     
     const baseUrl = 'https://annuaire-entreprises.data.gouv.fr/rechercher';
     
-    const fullUrl = `${baseUrl}?terme=&cp_dep_label=${encodeURIComponent(departementLabel)}%20${departementCode}&cp_dep_type=dep&cp_dep=${encodeURIComponent(departementCode)}&${selectedNafs.map(naf => `naf=${naf}`).join('&')}&fn=&n=&dmin=&dmax=&type=&label=&etat=&sap=`;
+    const fullUrl = `${baseUrl}?terme=&cp_dep_label=${encodeURIComponent(departementLabel)}%20&cp_dep_type=dep&cp_dep=${encodeURIComponent(departementCode)}&${selectedNafs.map(naf => `naf=${naf}`).join('&')}&fn=&n=&dmin=&dmax=&type=&label=&etat=&sap=`;
     
     window.open(fullUrl, '_blank');
 }
