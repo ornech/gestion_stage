@@ -33,46 +33,58 @@ require_once 'config/auth.php';
 // +------------------------------------+
 
 if ($_SESSION['statut'] == "Etudiant") { ?>
-<div class="box">
-<p class="subtitle is-3">Fonctionnement</p>
+  <div class="box">
+    <p class="subtitle is-3">Fonctionnement</p>
 
-<nav class="columns is-mobile is-vcentered">
-  <div class="column">
-    <div>
-      <p class="heading">Trouver une entreprise</p>
-      <p class="title">Étape 1</p>
-      <p>Depuis l'annuaire des entreprises, identifiez une entreprise qui vous conviendrait.</p>
-    </div>
-  </div>
-  <div class="column">
-    <div>
-      <i class='fas fa-chevron-right' style='font-size:48px'></i>
-    </div>
-  </div>
-  <div class="column">
-    <div>
-      <p class="heading">Ajouter un contact</p>
-      <p class="title">Étape 2</p>
-      <p>Depuis une fiche entreprise, ajoutez le contact que vous avez démarché.</p>
+    <nav class="columns is-mobile is-vcentered">
+      <div class="column">
+        <div>
+          <p class="heading">Trouver une entreprise</p>
+          <p class="title">Étape 1</p>
+          <p>Recherchez un entreprise ou consultez l'annuaire des entreprises.</p>
+        </div>
+      </div>
+      <div class="column">
+        <div>
+          <i class='fas fa-chevron-right' style='font-size:48px'></i>
+        </div>
+      </div>
+      <div class="column">
+        <div>
+          <p class="heading">Ajoutez votre entreprise</p>
+          <p class="title">Étape 2</p>
+          <p>Récupérez le numéro de SIRET, puis importez cette entreprise.</p>
+        </div>
+      </div>
+      <div class="column">
+        <div>
+          <i class='fas fa-chevron-right' style='font-size:48px'></i>
+        </div>
+      </div>
+      <div class="column">
+        <div>
+          <p class="heading">Ajouter un contact</p>
+          <p class="title">Étape 3</p>
+          <p>Depuis une fiche entreprise, ajoutez le contact que vous avez démarché.</p>
 
-    </div>
-  </div>
-  <div class="column">
-    <div>
-      <i class='fas fa-chevron-right' style='font-size:48px'></i>
-    </div>
-  </div>
-  <div class="column">
-    <div>
-      <p class="heading">Ajouter votre stage</p>
-      <p class="title">Étape 3</p>
-      <p>Créer votre stage et récupérez votre convention de stage automatiquement générée.
-      </p>
+        </div>
+      </div>
+      <div class="column">
+        <div>
+          <i class='fas fa-chevron-right' style='font-size:48px'></i>
+        </div>
+      </div>
+      <div class="column">
+        <div>
+          <p class="heading">Ajouter votre stage</p>
+          <p class="title">Étape 4</p>
+          <p>Créer votre stage et récupérez votre convention de stage automatiquement générée.
+          </p>
 
-    </div>
+        </div>
+      </div>
+    </nav>
   </div>
-</nav>
-</div>
 
 <?php } ?>
 <?php
@@ -82,7 +94,7 @@ if ($_SESSION['statut'] == "Etudiant") { ?>
 
 if ($_SESSION['statut'] == "Professeur") { ?>
 
-  <?php if(($operations && $operations != null)):?>
+  <?php if (($operations && $operations != null)) : ?>
     <div class="box">
       <p class="subtitle is-3">Opérations en attente de validation</p>
       <p class="is-size-4"><?= $operationsTuteur && $operationsTuteur != null ? "<b><span class='is-size-4'>" . count($operationsTuteur) . "</span></b> opérations réalisées par les étudiants que vous suivez." : "" ?></p>
@@ -94,5 +106,33 @@ if ($_SESSION['statut'] == "Professeur") { ?>
 
   <div class="box">
     <p class="subtitle is-3">Stages à suivre</p>
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>Étudiant</th>
+          <th>Classe</th>
+          <th>Spécialité</th>
+          <th>Entreprise</th>
+          <th>Adresse</th>
+          <th>Contact</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($stages as $stage) {
+          if ($stage->idProfesseur == $_SESSION['userID']) {
+            echo "<tr>";
+            echo "<td>" . $stage->EtudiantNom . " " . $stage->EtudiantPrenom . "</td>";
+            echo "<td>" . $stage->classe . "</td>";
+            echo "<td>" . $stage->EtudiantSpe . "</td>";
+            echo "<td>" . $stage->Entreprise . "</td>";
+            echo "<td>" . $stage->Entreprise_adresse . " " . $stage->Entreprise_codePostal . " " . $stage->Entreprise_ville . "</td>";
+            echo "<td><a href='/router.php?page=Contact_fiche&idContact=" . $stage->employe_id . "'>" . $stage->employe_nom . " " . $stage->employe_prenom . "</a></td>";
+            echo "<td><a class='button is-info' href='/router.php?page=stage_read&id=" . $stage->idStage . "'>Fiche</a></td>";
+            echo "</tr>";
+          }
+        } ?>
+      </tbody>
+    </table>
   </div>
 <?php } ?>
