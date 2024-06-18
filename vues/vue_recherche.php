@@ -41,7 +41,7 @@ $nafTable = [
     <div class="message is-info">
     <div class="message-body">
   <p>Pour sélectionner les éléments pertinents à la spécialité SLAM ou SISR, cliquez sur les boutons correspondants en haut, puis appuyez sur le bouton Rechercher pour procéder.
-  Assurez-vous de vérifier la localisation sélectionnée sur leur site, qui est par défaut en Charente-Maritime.
+  Assurez-vous de vérifier la localisation sélectionnée.
   </p>
 </div></div><hr>
     <div class="columns">
