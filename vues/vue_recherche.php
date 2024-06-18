@@ -17,7 +17,6 @@ $nafTable = [
     ['code' => '62.09Z', 'label' => 'Autres activités informatiques'],
     ['code' => '63.11Z', 'label' => 'Traitement de données, hébergement et activités connexes'],
     ['code' => '63.12Z', 'label' => 'Portails Internet'],
-    ['code' => '63.91Z', 'label' => 'Activités des agences de presse'],
     ['code' => '63.99Z', 'label' => 'Autres services d\'information n.c.a.'],
     ['code' => '64.11Z', 'label' => 'Activités de banque centrale'],
     ['code' => '64.19Z', 'label' => 'Autres intermédiations monétaires'],
@@ -38,24 +37,13 @@ $nafTable = [
     <p class="subtitle is-4">
     Pré-sélections pour <button id="selectSLAM" class="button" onclick="selectNaf('slam')"><span class="icon">
                         <i class="fas fa-laptop"></i>
-                    </span>&nbsp;&nbsp;SLAM</button> et  <button id="selectSISR" class="button" onclick="selectNaf('sisr')"><span class="icon">
+                    </span>&nbsp;&nbsp;SLAM</button> ou <button id="selectSISR" class="button" onclick="selectNaf('sisr')"><span class="icon">
                         <i class="fas fa-microchip"></i>
                     </span>&nbsp;&nbsp;SISR
-                </button>
-    </p>
-    <div class="message is-info">
-    <div class="message-body">
-  <p>
-  Pour sélectionner les éléments pertinents à la spécialité SLAM ou SISR,
-   cliquez sur les boutons correspondants en haut, puis appuyez sur le bouton "Rechercher"
-    pour continuer. Vous avez également la possibilité de modifier et d'ajouter d'autres options 
-    selon vos besoins. Assurez-vous de vérifier la localisation choisie avant de procéder.
-  </p>
-</div></div>
-<div class="columns">
-    <div class="column is-full">
+                </button> 
+    <div class="is-pulled-right">
         <div class="field is-grouped">
-            <div class="control">
+            
                 <div class="select">
 <select id="departements" name="departements">
   <option value="Ain+(01)">Ain (01)</option>
@@ -160,16 +148,28 @@ $nafTable = [
   <option value="Mayotte+(976)">Mayotte (976)</option>
 </select>
 
-                </div>
             </div>
-            <div class="control">
+
+
                 <button id="generateLink" class="button is-link" onclick="generateLink()">
                     <span class="icon">
                         <i class="fas fa-search"></i>
                     </span>&nbsp;&nbsp;Recherche
                 </button>
-            </div>
+         
         </div>
+    </div>
+</p>
+    <div class="message is-info">
+    <div class="message-body">
+  <p>
+  Pour sélectionner les éléments pertinents à la spécialité SLAM ou SISR,
+   cliquez sur les boutons correspondants en haut, puis appuyez sur le bouton "Rechercher"
+    pour continuer. Vous avez également la possibilité de modifier et d'ajouter d'autres options 
+    selon vos besoins. Assurez-vous de vérifier la localisation choisie avant de procéder.
+  </p>
+</div></div>
+
     <hr>
     <div class="columns">
         <div class="column is-half">
@@ -214,9 +214,18 @@ $nafTable = [
     function selectNaf(type) {
         const checkboxes = document.querySelectorAll('.naf-checkbox');
         checkboxes.forEach(checkbox => {
-            if (type === 'slam' && (checkbox.value === '62.01Z' || checkbox.value === '63.12Z' || checkbox.value === '61.10Z' || checkbox.value === '62.09Z')) {
+            if (type === 'slam' && (checkbox.value === '62.01Z' || checkbox.value === '63.12Z' || checkbox.value === '62.02A' || 
+            checkbox.value === '62.02B'  || checkbox.value === '62.09Z'  || checkbox.value === '63.11Z' || 
+            checkbox.value === '63.99Z' || checkbox.value === '58.21Z' || checkbox.value === '58.29A' || 
+            checkbox.value === '58.29B' || checkbox.value === '58.29C')) {
                 checkbox.checked = true;
-            } else if (type === 'sisr' && (checkbox.value === '62.02A' || checkbox.value === '62.02B' || checkbox.value === '62.03Z' || checkbox.value === '61.20Z')) {
+
+
+            } else if (type === 'sisr' && (checkbox.value === '77.33Z' || checkbox.value === '61.10Z' || 
+            checkbox.value === '61.20Z' || checkbox.value === '61.30Z'|| checkbox.value === '61.90Z' || 
+            checkbox.value === '62.02A' || checkbox.value === '62.02B' || checkbox.value === '62.03Z' || 
+            checkbox.value === '62.09Z' || checkbox.value === '63.99Z'|| checkbox.value === '64.11Z' || 
+            checkbox.value === '64.19Z' || checkbox.value === '47.41Z' || checkbox.value === '46.51Z'  || checkbox.value === '95.11Z')) {
                 checkbox.checked = true;
             } else {
                 checkbox.checked = false;
