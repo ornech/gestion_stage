@@ -205,9 +205,9 @@ $nafTable = [
     function selectNaf(type) {
         const checkboxes = document.querySelectorAll('.naf-checkbox');
         checkboxes.forEach(checkbox => {
-            if (type === 'slam' && (checkbox.value === '62.01Z' || checkbox.value === '63.12Z')) {
+            if (type === 'slam' && (checkbox.value === '62.01Z' || checkbox.value === '63.12Z' || checkbox.value === '61.10Z' || checkbox.value === '62.09Z')) {
                 checkbox.checked = true;
-            } else if (type === 'sisr' && (checkbox.value === '62.02A' || checkbox.value === '62.02B' || checkbox.value === '62.03Z')) {
+            } else if (type === 'sisr' && (checkbox.value === '62.02A' || checkbox.value === '62.02B' || checkbox.value === '62.03Z' || checkbox.value === '61.20Z')) {
                 checkbox.checked = true;
             } else {
                 checkbox.checked = false;
