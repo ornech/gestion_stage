@@ -34,17 +34,22 @@ $nafTable = [
 <p class="subtitle is-4">Base de données SIRENE</p>
 
 <div class="box">
-    <p class="subtitle is-4">
+<div class="container">
+        <div class="columns is-vcentered">
+            <div class="column is-half">
+                <p class="subtitle is-4">
     Pré-sélections pour <button id="selectSLAM" class="button" onclick="selectNaf('slam')"><span class="icon">
                         <i class="fas fa-laptop"></i>
                     </span>&nbsp;&nbsp;SLAM</button> ou <button id="selectSISR" class="button" onclick="selectNaf('sisr')"><span class="icon">
                         <i class="fas fa-microchip"></i>
                     </span>&nbsp;&nbsp;SISR
                 </button> 
-    <div class="is-pulled-right">
-        <div class="field is-grouped">
-            
-                <div class="select">
+                </p>
+            </div>
+            <div class="column is-half has-text-right">
+                <div class="field is-grouped">
+                    <div class="control">
+                        <div class="select">
 <select id="departements" name="departements">
   <option value="Ain+(01)">Ain (01)</option>
   <option value="Aisne+(02)">Aisne (02)</option>
@@ -147,19 +152,20 @@ $nafTable = [
   <option value="La Réunion+(974)">La Réunion (974)</option>
   <option value="Mayotte+(976)">Mayotte (976)</option>
 </select>
-
-            </div>
-
-
+</div>
+                    </div>
+                    <div class="control">
                 <button id="generateLink" class="button is-link" onclick="generateLink()">
                     <span class="icon">
                         <i class="fas fa-search"></i>
                     </span>&nbsp;&nbsp;Recherche
                 </button>
-         
+                </div>
+              
+            </div>
         </div>
     </div>
-</p>
+
     <div class="message is-info">
     <div class="message-body">
   <p>
@@ -170,7 +176,7 @@ $nafTable = [
   </p>
 </div></div>
 
-    <hr>
+
     <div class="columns">
         <div class="column is-half">
             <?php
