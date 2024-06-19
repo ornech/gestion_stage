@@ -57,3 +57,20 @@ require_once 'config/auth.php';
       margin-bottom: 20px;
    }
 </style>
+
+<script>
+
+  document.querySelector('form').addEventListener('submit', function(event) {
+    var email = document.getElementById('email').value;
+    var telephone = document.getElementById('telephone').value;
+
+    if ((!validateEmail(email) && email != "")) {
+      event.preventDefault();
+      alert("L'email n'est pas valide");
+    }else if((!validatePhoneNumber(telephone) && telephone != "") ){
+      event.preventDefault();
+      alert("Le numéro de téléphone n'est pas valide");
+    }
+  });
+
+</script>
