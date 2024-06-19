@@ -51,7 +51,7 @@ if ($_SESSION['statut'] == "Professeur") {
     <div class="control">
       <div class="tags has-addons is-medium">
         <span class="tag is-dark">Inactif</span>
-        <span class="tag is-danger"><?= "<b>" . count($profils) -  count($profilsActif) . "</b>" ?></span>
+        <span class="tag is-danger"><?= "<b>" . (count($profils) -  count($profilsActif)) . "</b>" ?></span>
       </div>
     </div>
     <div class="control">
