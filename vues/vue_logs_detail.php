@@ -67,6 +67,7 @@ if(isset($log)):
             <!-- AFFICHACHE SUPPLEMENTAIRE POUR LES PROFILS -->
             <?php elseif ($log->entite_type == "stage" && $log->idLogType != 18):?>
             <?php
+              var_dump($log);
               include_once 'model/Stage.php';
               $stageModel = new Stage($conn);
               $stage = isset($stageModel->stage_by_id($log->entite_id)[0]) ? $stageModel->stage_by_id($log->entite_id)[0] : null;
@@ -75,7 +76,7 @@ if(isset($log)):
               <p><b>Entreprise : </b> <?= $stage->Entreprise . " à " . $stage->Entreprise_ville?></p>
               <p><b>Date : </b> <?= date('d/m/Y', strtotime($stage->dateDebut)) . " au " . date('d/m/Y', strtotime($stage->dateFin))?></p><br>
               
-              <button class="button is-info" onclick="window.location = '/router.php?page=view_profil&id=<?=$log->entite_id?>'">Aller sur le stage</button>
+              <button class="button is-info" onclick="window.location = '/router.php?page=stage_read&id=<?=$log->entite_id?>'">Aller sur le stage</button>
             <?php } ?>
             
           <?php endif; ?>
