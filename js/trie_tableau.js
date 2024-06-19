@@ -5,9 +5,9 @@ function placeFilter(baliseHeader, nameColonne, valueColonnes, numColonne){
 
   baliseHeader.innerHTML += `
 
-  <div class="dropdown">
-    <div class="dropdown-trigger">
-      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu${numColonne}" >
+  <div class="dropdown" style="width: 100%;">
+    <div class="dropdown-trigger" style="width: 100%;">
+      <button style="width: 100%;" class="button" aria-haspopup="true" aria-controls="dropdown-menu${numColonne}" >
         <span>${nameColonne}</span>
         <span class="icon is-small">
           <i class="fas fa-angle-down" aria-hidden="true"></i>
