@@ -99,7 +99,7 @@ $stageModel = new Stage($conn);
   <tbody>
     <?php foreach ($entreprises as $entreprise): ?>
     <tr>
-      <td>
+      <td class="entreprise">
         <?php
         // Comptage du nombre total de champs
 
@@ -126,9 +126,9 @@ $stageModel = new Stage($conn);
         echo "<i class='fa fa-circle' style='color:$couleur'></i> "; // . ceil($pourcentage_vide * 100) . "%" ;?>
         &nbsp;<a href="router.php?page=fiche_entreprise&idEntreprise=<?= $entreprise->EntrepriseID ?>"><?= htmlspecialchars($entreprise->nomEntreprise) ?></a>
       </td>
-      <td><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
+      <td class="adresse"><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
       <td><?= $entreprise->ville != null ? htmlspecialchars($entreprise->ville) : "Non défini" ?></td>
-      <td>(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?></td>
+      <td class="naf">(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?></td>
       <td><?= $entreprise->codePostal != null ? htmlspecialchars($entreprise->codePostal) : "Non défini"?></td>
       <td>
         <?php
@@ -167,3 +167,28 @@ $stageModel = new Stage($conn);
     }
   });
 </script>
+
+<style>
+
+  .naf{
+    max-width: 40vh;
+  }
+
+  .entreprise{
+    max-width: 30vh;
+  }
+
+  .adresse{
+    max-width: 40vh;
+  }
+
+  .entreprise, .adresse, .naf{
+    text-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .entreprise:hover, .adresse:hover, .naf:hover{
+    text-wrap: wrap;
+  }
+
+</style>
