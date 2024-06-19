@@ -4,7 +4,8 @@ if (session_status() != PHP_SESSION_ACTIVE) {
   session_start();
 }
 
-require_once '../config/auth.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '../config/auth.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '../model/Classe.php';
 
 function verifEtu($Profil, $conn){
   $table_name = "user";
@@ -24,24 +25,13 @@ function verifEtu($Profil, $conn){
     $newClasse = "Enseignant";
   }
 
-  if($classe != $newClasse || $needSetPromo == true || $Profil->idClasse == null){
+  if($classe != $newClasse || $needSetPromo == true){
     $classe = $newClasse;
-
-    $idClasse = null;
-    if($classe == "SIO1"){
-      $idClasse = 1;
-    }else if($classe == "SIO2"){
-      $idClasse = 2;
-    }
 
     $sql = "UPDATE $table_name SET " . "classe=:classe";
     
     if($needSetPromo == true){
       $sql .= ", promo=:promo";
-    }
-    
-    if($idClasse != null){
-      $sql .= ", idClasse=:idClasse";
     }
     
     $sql = $sql . " WHERE id = :id";
@@ -52,12 +42,35 @@ function verifEtu($Profil, $conn){
     if($needSetPromo == true){
       $stmt->bindParam(":promo", $promo, PDO::PARAM_STR);
     }
-    if($idClasse != null){
-      $stmt->bindParam(":idClasse", $idClasse, PDO::PARAM_INT);
-    }
     $stmt->execute();
+  }  
+}
+
+function verifClasseCount($classe, $conn){
+  include_once '../model/Profil.php';
+  include_once '../model/Classe.php';
+
+  $profilModel = new Profil($conn);
+
+  $etus = $profilModel->list_by_classe($classe);
+  $nbrEtu = count($etus);
+
+  $promo = assignPromoByClasse($classe);
+
+  $SLAM = $profilModel->countSpeByClasse($classe, "SLAM")->count;
+  $SISR = $profilModel->countSpeByClasse($classe, "SISR")->count;
+  
+  $classeModel = new Classe($conn);
+
+  var_dump($classeModel->getByClasseAndPromo($classe, $promo));
+  if(!$classeModel->getByClasseAndPromo($classe, $promo)){
+    echo "create $classe";
+    $classeModel->create($classe, $promo);
   }
-    return $classe;
+  
+  $classeModel->updateNbrEtu($nbrEtu, $classe, $promo);
+  $classeModel->updateNbrSpe($SLAM, "slam",$classe, $promo);
+  $classeModel->updateNbrSpe($SISR, "sisr",$classe, $promo);
 }
 
 function getAnneeScolaire(){
