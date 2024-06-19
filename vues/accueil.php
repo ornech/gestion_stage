@@ -63,16 +63,16 @@ $SIO2 = $stageDatesModel->getStageByClasseAndPromo("SIO2", getPromoByClasse("SIO
   <p class="subtitle is-3">Dates de stages</p>
 
   <span class="is-size-5">
-    <?php if($SIO1 != false):?>
-    <b>SIO 1</b> : Du <?= $fmt->format(strtotime($SIO1->dateDebut)) . " au " . $fmt->format(strtotime($SIO1->dateFin)) ?><br>
-    <?php else:?>
-    <b>SIO 1</b> : Les dates seront bientôt transmises<br>
-    <?php endif;?>
+    <?php if ($SIO1 != false) : ?>
+      <b>SIO 1</b> : Du <?= $fmt->format(strtotime($SIO1->dateDebut)) . " au " . $fmt->format(strtotime($SIO1->dateFin)) ?><br>
+    <?php else : ?>
+      <b>SIO 1</b> : Les dates seront bientôt transmises<br>
+    <?php endif; ?>
 
-    <?php if ($SIO2 != false): ?>
+    <?php if ($SIO2 != false) : ?>
       <b>SIO 2</b> : Du
       <?= $fmt->format(strtotime($SIO2->dateDebut)) . " au " . $fmt->format(strtotime($SIO2->dateFin)) ?><br>
-    <?php else: ?>
+    <?php else : ?>
       <b>SIO 2</b> : Les dates seront bientôt transmises<br>
     <?php endif; ?>
   </span>
@@ -149,7 +149,8 @@ if ($_SESSION['statut'] == "Professeur") { ?>
     <div class="box">
       <p class="subtitle is-3">Opérations en attente de validation</p>
       <p class="is-size-4"><?= $operationsTuteur && $operationsTuteur != null ? "<b><span class='is-size-4'>" . count($operationsTuteur) . "</span></b> opérations réalisées par les étudiants que vous suivez." : "" ?></p>
-      <p class="is-size-5"><?= $operations && $operations != null ? "<b><span class='is-size-4'>" . count($operations) - ($operationsTuteur && $operationsTuteur != null ? count($operationsTuteur) : 0) . "</span></b> opérations réalisées par les étudiants que vous ne suivez pas." : "" ?></p>
+      <p class="is-size-5">
+        <?= $operations && $operations != null ? "<b><span class='is-size-4'>" . (count($operations) - ($operationsTuteur && $operationsTuteur != null ? count($operationsTuteur) : 0)) . "</span></b> opérations réalisées par les étudiants que vous ne suivez pas." : "" ?> </p>
       <br>
       <a class="button is-info" href="/router.php?page=valider_operation">Valider les opérations</a>
     </div>
