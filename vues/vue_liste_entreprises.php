@@ -128,7 +128,7 @@ $stageModel = new Stage($conn);
       </td>
       <td class="adresse"><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
       <td><?= $entreprise->ville != null ? htmlspecialchars($entreprise->ville) : "Non défini" ?></td>
-      <td class="naf">(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?></td>
+      <td class="naf"><abbr title="(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?>">(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?></abbr></td>
       <td><?= $entreprise->codePostal != null ? htmlspecialchars($entreprise->codePostal) : "Non défini"?></td>
       <td>
         <?php
@@ -172,23 +172,8 @@ $stageModel = new Stage($conn);
 
   .naf{
     max-width: 40vh;
-  }
-
-  .entreprise{
-    max-width: 30vh;
-  }
-
-  .adresse{
-    max-width: 40vh;
-  }
-
-  .entreprise, .adresse, .naf{
     text-wrap: nowrap;
     overflow: hidden;
-  }
-
-  .entreprise:hover, .adresse:hover, .naf:hover{
-    text-wrap: wrap;
   }
 
 </style>
