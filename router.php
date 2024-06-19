@@ -142,9 +142,9 @@ function router($page, $conn)
       include 'vues/vue_entreprise_import.php';
       break;
 
-    case 'ajouter_entreprise':
-      include 'vues/vue_entreprise_ajouter.php';
-      break;
+    // case 'ajouter_entreprise':
+    //   include 'vues/vue_entreprise_ajouter.php';
+    //   break;
 
     case 'activite_prof':
       route_protect('Professeur');
