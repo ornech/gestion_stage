@@ -128,8 +128,7 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
             <div class="box">
               <div style="display: flex; flex-direction: column; height: 100%;">
                 <h3 class="title is-4 has-text-centered orange-line-bottom">Stages effectués</h3>
-                <?php if (isset($stages[0])) {
-                  foreach ($stages as $stage) { ?>
+                <?php if (isset($stages[0])) {?>
                     <table class="table table-striped table-hover tableFilter" id="maTable">
                       <thead>
                         <tr>
@@ -141,19 +140,20 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></td>
-                          <td><?= $stage->classe ? $stage->classe : "-" ?></td>
-                          <td><?= $stage->dateDebut ? $stage->dateDebut : "-" ?></td>
-                          <td><?= $stage->dateFin ? $stage->dateFin : "-" ?></td>
-                          <td><a href="../router.php?page=Contact_fiche&idContact=<?= $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></td>
-                        </tr>
+                        <?php foreach ($stages as $stage) { ?>
+                          <tr>
+                            <td><a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $stage->idEntreprise ?>"><?= $stage->Entreprise ?></a></td>
+                            <td><?= $stage->classe ? $stage->classe : "-" ?></td>
+                            <td><?= $stage->dateDebut ? $stage->dateDebut : "-" ?></td>
+                            <td><?= $stage->dateFin ? $stage->dateFin : "-" ?></td>
+                            <td><a href="../router.php?page=Contact_fiche&idContact=<?= $stage->idMaitreDeStage ?>"><?= $stage->employe_nom . " " . $stage->employe_prenom ?></a></td>
+                          </tr>
+                        <?php } ?>
                       </tbody>
                     </table>
-                  <?php }
-                } else {
+                <?php } else {
                   echo "<br>L'étudiant n'a pas effectué de stage.";
-                } ?>
+                }?>
               </div>
             </div>
           </div>
