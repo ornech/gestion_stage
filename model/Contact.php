@@ -62,7 +62,7 @@ class Contact {
       fonction=:fonction ,
       service=:service ,
       created_userid=:created_userid
-      WHERE id = :id AND contact_valide = 1";
+      WHERE id = :id";
 
       $stmt = $this->conn->prepare($query);
 

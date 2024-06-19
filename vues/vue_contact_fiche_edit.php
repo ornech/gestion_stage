@@ -1,21 +1,17 @@
 <?php
 require_once 'config/auth.php';
-?>
-<BR>
-  <?php
-  // Vérifier si les données sont disponibles
-  if($ContactFiche) {
 
-    //seul le créateur du contact ou un professeur peut le modifier
-    if($ContactFiche->UserID === $_SESSION["userID"] || $_SESSION["statut"]=="Professeur" ){
-
-    ?>
+// Vérifier si les données sont disponibles
+if($ContactFiche) {
+  //seul le créateur du contact ou un professeur peut le modifier
+  if($ContactFiche->UserID === $_SESSION["userID"] || $_SESSION["statut"]=="Professeur" ){?>
+    
     <p class="title is-2">Annuaire entreprise</p>
 
     <div class="column is-three-fifths is-offset-one-fifth">
       <form id="formulaire" action="../controller/contact_update.php" method="POST">
         <div class="card">
-          <header class="card-header">
+          <header class="card-header" style="padding: 10px;">
             <p class="subtitle is-2"><i class="fa fa-address-book"></i> <?= $ContactFiche->nom ?> <?= $ContactFiche->prenom ?></p>
           </header>
           <div class="card-content">
@@ -33,62 +29,55 @@ require_once 'config/auth.php';
                 <a href="../router.php?page=fiche_entreprise&idEntreprise=<?= $ContactFiche->EntrepriseID ?>"><?= $ContactFiche->entreprise ?></a><BR>
                   <?= $ContactFiche->Entreprise_adresse ?><BR>
                     <?= $ContactFiche->Entreprise_codePostal ?> <?= $ContactFiche->Entreprise_ville ?><BR>
-                    </div>
-                  </div>
-                  <footer class="card-footer">
-                    <div class="field is-grouped">
-                      <input type="submit" value="submit" class="button is-link">
-
-                    </div>
-                    <div class="control">
-                      <button class="button is-link is-light">Cancel</button>
-                    </div>
-                  </div>
-                  <br>
-                </form>
-              </footer>
             </div>
-            <center>
-              <i>Crée par <a href="../router.php?page=view_profil&id=<?= $ContactFiche->UserID ?>"><?= $ContactFiche->Created_User ?></a> le <?= $ContactFiche->Created_date ?></i>
-            </center>
+            <div class="buttons">
+              <input type="submit" value="Enregistrer" class="button is-link">
+              <button id="cancel" class="button is-link is-light">Annuler</button>
+            </div>
+
           </div>
+          <div class="card-footer">
+            <div class="card-footer-item">
+              <i>Crée par <a href="../router.php?page=view_profil&id=<?= $ContactFiche->UserID ?>"><?= $ContactFiche->Created_User ?></a> le <?= $ContactFiche->Created_date ?></i>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+            
 
-          <script>
-                 // Ajouter un écouteur d'événement pour le formulaire
-                 document.getElementById('formulaire').addEventListener('submit', function(event) {
-                     const phoneInput = document.getElementById('telephone').value.trim();
-                     const emailInput = document.getElementById('email').value.trim();
+    <script>
+      // Ajouter un écouteur d'événement pour le formulaire
+      document.getElementById('formulaire').addEventListener('submit', function(event) {
+        const phoneInput = document.getElementById('telephone').value.trim();
+        const emailInput = document.getElementById('email').value.trim();
 
-                     // Si les deux champs sont vides, empêcher la soumission du formulaire
-                     if (phoneInput === '' && emailInput === '') {
-                         alert('Veuillez entrer un numéro de téléphone ou une adresse email.');
-                         event.preventDefault();
-                         return;
-                     }
-
-                     // Si le numéro de téléphone est rempli mais invalide, empêcher la soumission du formulaire
-                     if (phoneInput !== '' && !validatePhoneNumber(phoneInput)) {
-                         alert('Veuillez entrer un numéro de téléphone français valide.');
-                         event.preventDefault();
-                         return;
-                     }
-
-                     // Si l'email est rempli mais invalide, empêcher la soumission du formulaire
-                     if (emailInput !== '' && !validateEmail(emailInput)) {
-                         alert('Veuillez entrer une adresse email valide.');
-                         event.preventDefault();
-                         return;
-                     }
-                 });
-             </script>
-
-          <?php
+        // Si le numéro de téléphone est rempli mais invalide, empêcher la soumission du formulaire
+        if (phoneInput !== '' && !validatePhoneNumber(phoneInput)) {
+            alert('Veuillez entrer un numéro de téléphone français valide.');
+            event.preventDefault();
+            return;
         }
-          else {
-            echo "Utilisateur non autorisé à modifier ce contact";
-          }
-        } else {
-          // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
-          echo "<p>Aucune donnée reçue</p>";
+
+        // Si l'email est rempli mais invalide, empêcher la soumission du formulaire
+        if (emailInput !== '' && !validateEmail(emailInput)) {
+            alert('Veuillez entrer une adresse email valide.');
+            event.preventDefault();
+            return;
         }
-        ?>
+      });
+
+      document.getElementById('cancel').addEventListener('click', function(event) {
+        event.preventDefault();
+        history.back();
+      });
+    </script>
+
+<?php
+  }else {
+    echo "Utilisateur non autorisé à modifier ce contact";
+  }
+} else {
+  // Si aucune entreprise n'a été trouvée, afficher un message d'erreur
+  echo "<p>Aucune donnée reçue</p>";
+}?>
