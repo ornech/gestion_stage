@@ -29,7 +29,7 @@ require_once 'config/auth.php';
           <a class="navbar-item" href="router.php?page=listerEntreprises"><i class="fa-regular fa-address-card"></i>&nbsp; Annuaire</a>
 
           <hr class="navbar-divider">
-          <a class="navbar-item" href="router.php?page=ajouter_entreprise"><i class="fa-regular fa-address-card"></i>&nbsp; Ajout manuellement</a>
+          <!-- <a class="navbar-item" href="router.php?page=ajouter_entreprise"><i class="fa-regular fa-address-card"></i>&nbsp; Ajout manuellement</a> -->
 
           <a class="navbar-item" href="router.php?page=import_entreprise"><i class="fa fa-download"></i> &nbsp; Importer entreprise</a>
         </div>
