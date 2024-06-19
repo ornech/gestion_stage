@@ -1,5 +1,20 @@
 <?php
 require_once 'config/auth.php';
+
+// Test de compatibilité PHP 7.4 et PHP 8.0+
+  if (!function_exists('str_starts_with')) {
+    function str_starts_with($haystack, $needle)
+    {
+      return substr($haystack, 0, strlen($needle)) === $needle;
+    }
+  }
+
+  if (!function_exists('str_contains')) {
+    function str_contains($haystack, $needle)
+    {
+      return strpos($haystack, $needle) !== false;
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="fr" <?= $page == "stage_convention" ? "data-theme=\"light\"" : ""?>>
