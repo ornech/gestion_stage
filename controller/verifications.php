@@ -4,8 +4,8 @@ if (session_status() != PHP_SESSION_ACTIVE) {
   session_start();
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '../config/auth.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '../model/Classe.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config/auth.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/Classe.php';
 
 function verifEtu($Profil, $conn){
   $table_name = "user";
