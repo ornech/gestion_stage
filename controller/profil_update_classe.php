@@ -9,7 +9,7 @@ require_once '../model/Profil.php';
 
 if(isset($_POST['id']) && isset($_POST['classe'])) {
     include "../controller/controller_log.php";
-    include "../controller/verif_etudiant.php";
+    include "../controller/verifications.php";
     $profil = new Profil($conn);
 
     $id = $_POST['id'];
@@ -20,6 +20,7 @@ if(isset($_POST['id']) && isset($_POST['classe'])) {
 
     if($profil->update_promo($id, $promoSelected)) {
         verifEtu($profil->read_profil($id), $conn);
+        verifClasseCount($classe, $conn);
 
         $newValues = $profil->read_profil($id);
         addLog($conn, 12, $_SESSION['userID'], "profil", $id, $oldValues, $newValues);
@@ -29,6 +30,6 @@ if(isset($_POST['id']) && isset($_POST['classe'])) {
     }
 } else {
     echo "Erreur lors de la récupération des données";
-}
+}classe
 
 ?>

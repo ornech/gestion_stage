@@ -3,6 +3,7 @@ require_once '../config/db_connection.php';
 
 include_once '../model/Login.php';
 include_once '../model/Profil.php';
+include_once '../model/Classe.php';
 
 if(isset($_POST["login"]) && isset($_POST["password"])){ 
     $login = $_POST['login'];
@@ -20,14 +21,22 @@ if(isset($_POST["login"]) && isset($_POST["password"])){
         header("Location: /router.php?page=login&erreur=" . $connexion['message']);
         exit;
     }else{
+
+      include_once 'verifications.php';
+
+      $classe = new Classe($conn);
+      $classesName = $classe->getClassesNames();
+      foreach ($classesName as $classeName) {
+        verifClasseCount($classeName->nomClasse, $conn);
+      }
+      
       
       if($_SESSION['statut'] == "Professeur"){
-        include_once 'verif_etudiant.php';
         include_once 'delete_user.php';
         
         $profil = new Profil($conn);
         $etudiants = $profil->list_by_etudiant();
-
+    
         foreach($etudiants as $etudiant){
           verifEtu($etudiant, $conn);
 
@@ -46,7 +55,7 @@ if(isset($_POST["login"]) && isset($_POST["password"])){
           }
         }
       }
-
+      
       header("Location: /router.php?page=accueil");
       exit;
     }

@@ -9,6 +9,7 @@ session_start();
 //echo __DIR__;
 require_once '../config/auth.php';
 require_once '../config/db_connection.php';
+require_once '../controller/verifications.php';
 
 // ($nom,$prenom,$email,$telephone,$promo,$login,$password,$statut)
 var_dump($_POST);
@@ -34,6 +35,8 @@ if(isset($_POST['nom'])) {
   // Appel de la méthode  de l'objet Profil
   if ($profil->create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut,$dateEntree)) {
     $newValue = $profil->read_profil($conn->lastInsertId());
+    verifEtu($newValue, $conn);
+    verifClasseCount($newValue->classe, $conn);
 
     addLog($conn, 1, $_SESSION["userID"], 'profil', $newValue->id, null, $newValue);
     // Redirection vers la page de détails de l'entreprise après la mise à jour

@@ -15,7 +15,7 @@ if (isset($_GET["idStage"])){
   $stage = $stageModel->stage_by_id($_GET["idStage"]);
   $data = $stage[0];
 
-  $classe = $classeModel->getProfPrincipalByClasseName($data->classe);
+  $classe = $classeModel->getProfPrincipalByClasseAndPromo($data->classe, $data->EtudiantPromo);
 
   $userPP = $profilModel->read_profil($classe->idProfPrincipal);
 

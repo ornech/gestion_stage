@@ -36,6 +36,7 @@ class Profil {
   public function list_by_classe($classe){
     $sql = "SELECT * FROM " . $this->table_name . " WHERE classe=:classe AND isDeleted = 0 ORDER BY nom ASC";
     $stmt = $this->conn->prepare($sql);
+    $this->classe = htmlspecialchars(strip_tags($classe));
     $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -343,10 +344,11 @@ class Profil {
     }
   }
 
-  public function countByIdClasse($idClasse){
-    $query = "SELECT COUNT(*) as `count` FROM $this->table_name WHERE idClasse=:idClasse AND isDeleted = 0 AND inactif = 0";
+  public function countEtuByClasseAndPromo($classe, $promo){
+    $query = "SELECT COUNT(*) as `count` FROM $this->table_name WHERE classe=:classe AND promo=:promo AND isDeleted = 0 AND inactif = 0";
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':idClasse', $idClasse, PDO::PARAM_INT);
+    $stmt->bindParam(':classe', $classe, PDO::PARAM_STR);
+    $stmt->bindParam(':promo', $promo, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_OBJ);
   }
