@@ -98,74 +98,33 @@ foreach ($classes["actuelles"] as $classe): ?>
 <?php endforeach; ?>
 
 <p class="subtitle is-4">Anciennes classes :</p>
-<?php $i = 0;
+<table class="table is-fullwidth">
+  <thead>
+
+    <tr>
+      <th>Classe</th>
+      <th>Nombre d'étudiants</th>
+      <th>SLAM</th>
+      <th>SISR</th>
+      <th>Professeur principal</th>
+      <th>Dates de stages</th>
+    </tr>
+
+  </thead>
+  <tbody>
+<?php
 foreach ($classes["anciennes"] as $classe): ?>
-
-  <?php if ($i == 0):
-    $i = 2; ?>
-    <div class="columns">
-    <?php endif; ?>
-    <div class="column">
-      <div class="box">
-        <p class="title is-5"><?php echo $classe->nomClasse . " promotion " . $classe->promo ?></p>
-
-        <div class="field is-grouped is-grouped-multiline">
-          <div class="control">
-            <div class="tags has-addons is-small">
-              <span class="tag is-dark">SLAM:</span>
-              <span class="tag is-info"><b><?= $classe->slam ? $classe->slam : 0 ?></b></span>
-            </div>
-          </div>
-          <div class="control">
-            <div class="tags has-addons is-small">
-              <span class="tag is-dark">SISR :</span>
-              <span class="tag is-success"><b><?= $classe->sisr ? $classe->sisr : 0 ?></b></span>
-            </div>
-          </div>
-        </div>
-
-        <?php
-        $actualPP = $classe->nomProf;
-
-        $dateDebutStage = $classe->dateDebut;
-        $dateFinStage = $classe->dateFin;
-
-        $countStudents = $classe->nbrEtu ? $classe->nbrEtu : 0;
-        ?>
-
-        <p><b>Nombre d'étudiant</b> : <?= $countStudents ?></p>
-        <p><b>Professeur principal</b> : <span
-            id="nomProf"><?= $actualPP != null ? $actualPP : "Aucun professeur défini" ?> <button id="openModal"
-              for="modalPP" nomClasse="<?= $classe->nomClasse ?>" promo="<?= $classe->promo ?>"
-              class="button is-small"><span class="icon"><i class="fas fa-pencil-alt"></i></span></button></span></p>
-
-        <p><b>Date début de stage</b> : <span>
-            <?php if ($dateDebutStage != null): ?>    <?= $fmt->format(strtotime($dateDebutStage)) ?> <button id="openModal"
-                for="modalUpdateStage" nomClasse="<?= $classe->nomClasse ?>" promo="<?= $classe->promo ?>"
-                class="button is-small"><span class="icon"><i class="fas fa-pencil-alt"></i></span></button>
-            <?php elseif ($dateDebutStage == null): ?>    <?= "Aucun stage défini" ?> <button id="openModal"
-                for="modalUpdateStage" nomClasse="<?= $classe->nomClasse ?>" promo="<?= $classe->promo ?>"
-                class="button is-small"><span class="icon"><i class="fas fa-pencil-alt"></i></span></button>
-            <?php endif; ?>
-          </span>
-        </p>
-
-        <p><b>Date fin de stage</b> : <span>
-            <?php if ($dateFinStage != null): ?>    <?= $fmt->format(strtotime($dateFinStage)) ?> <button id="openModal"
-                for="modalUpdateStage" nomClasse="<?= $classe->nomClasse ?>" promo="<?= $classe->promo ?>"
-                class="button is-small"><span class="icon"><i class="fas fa-pencil-alt"></i></span></button>
-            <?php elseif ($dateFinStage == null): ?>    <?= "Aucun stage défini" ?> <button id="openModal" for="modalUpdateStage"
-                nomClasse="<?= $classe->nomClasse ?>" promo="<?= $classe->promo ?>" class="button is-small"><span
-                  class="icon"><i class="fas fa-pencil-alt"></i></span></button>
-            <?php endif; ?>
-          </span>
-      </div>
-    </div>
-    <?php if ($i == 1): ?>
-    </div>
-  <?php endif;
-    $i--; ?>
+    <tr>
+      <td><?= $classe->nomClasse . " promotion " . $classe->promo ?></td>
+      <td><?= $classe->nbrEtu ? $classe->nbrEtu : 0 ?></td>
+      <td><?= $classe->slam ? $classe->slam : 0 ?></td>
+      <td><?= $classe->sisr ? $classe->sisr : 0 ?></td>
+      <td><?= $classe->nomProf ? $classe->nomProf : "Aucun professeur défini" ?></td>
+      <td><?= $classe->dateDebut ? $fmt->format(strtotime($classe->dateDebut)) : "Aucune date définie" ?> - <?= $classe->dateFin ? $fmt->format(strtotime($classe->dateFin)) : "Aucune date définie" ?></td>
+    </tr>
 <?php endforeach; ?>
+  </tbody>
+</table>
 
 <div class="modal" id="modalPP">
   <div class="modal-background"></div>
