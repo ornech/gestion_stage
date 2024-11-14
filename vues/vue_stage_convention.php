@@ -2,7 +2,7 @@
 require_once 'config/auth.php';
 ?>
 <?php
-if (isset($_GET["idStage"])){
+if (isset($_GET["idStage"])) {
 
   include_once 'model/Stage.php'; // Inclure le modèle Stage
   include_once 'model/Classe.php'; // Inclure le modèle Classe
@@ -11,7 +11,7 @@ if (isset($_GET["idStage"])){
   $stageModel = new Stage($conn); // Instancier le modèle
   $classeModel = new Classe($conn); // Instancier le modèle
   $profilModel = new Profil($conn); // Instancier le modèle
-  
+
   $stage = $stageModel->stage_by_id($_GET["idStage"]);
   $data = $stage[0];
 
@@ -54,41 +54,51 @@ if (isset($_GET["idStage"])){
     font-family: Arial, sans-serif;
     line-height: 1.6;
   }
+
   .section {
     padding: 20px;
   }
+
   h1 {
     font-size: 2em;
     font-weight: bold;
     margin-bottom: 0.5em;
   }
+
   h2 {
     font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 0.5em;
   }
+
   h3 {
     font-size: 1.3em;
     font-weight: bold;
     margin-bottom: 0.5em;
   }
+
   table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
   }
-  th, td {
+
+  th,
+  td {
     border: 1px solid #ddd;
     padding: 8px;
     vertical-align: top;
   }
+
   th {
     background-color: #f2f2f2;
     text-align: left;
   }
+
   p {
     margin-bottom: 10px;
   }
+
   .page-break {
     page-break-before: always;
   }
@@ -101,7 +111,9 @@ if (isset($_GET["idStage"])){
         <img src="../img/logo-lmp.png" width="150px">
       </td>
       <td>
-        <h1><center>CONVENTION de STAGE</center></h1>
+        <h1>
+          <center>CONVENTION de STAGE</center>
+        </h1>
       </td>
     </tr>
   </table>
@@ -109,8 +121,12 @@ if (isset($_GET["idStage"])){
   <table>
     <thead>
       <tr>
-        <th><h3>ENTRE</h3></th>
-        <th><h3>ET</h3></th>
+        <th>
+          <h3>ENTRE</h3>
+        </th>
+        <th>
+          <h3>ET</h3>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -180,8 +196,7 @@ if (isset($_GET["idStage"])){
 
   <p><strong>Article 3 (durée) :</strong></p>
   <p>Le stage est fixé aux dates suivantes :</p>
-  <p>du lundi 13 mai 2024 au vendredi 21 juin 2024 inclus.</p>
-
+  <p>du <?= $data->dateDebut; ?> au <?= $data->dateFin ?> inclus.</p>
   <p><strong>Article 4 (statut du stagiaire) :</strong></p>
   <p>Le stagiaire, pendant la durée de son séjour en entreprise, conserve son statut d’étudiant. Il est suivi par un directeur de stage, en accord formel avec le chef d’entreprise d’accueil.</p>
 
@@ -190,8 +205,8 @@ if (isset($_GET["idStage"])){
 
   <p><strong>Article 6 (accidents) :</strong></p>
   <p>Les étudiants bénéficient de la législation sur les accidents du travail, en application de l’article 410, 2e,1er paragraphes du code de la Sécurité Sociale.<br>
-  Toutefois il leur est conseillé de contracter eux-mêmes, ou par l’intermédiaire de leur représentant légal, une assurance garantissant leur responsabilité civile pour tout dommage qu’ils pourraient causer à autrui de leur propre fait.<br>
-  En cas d’accident survenant à l’étudiant stagiaire, soit au cours du travail, soit au cours du trajet, le Chef d’Entreprise s’engage à faire parvenir toutes les déclarations, le plus rapidement possible à Monsieur le Proviseur ; il utilise à cet effet, les imprimés spéciaux mis à sa disposition par le Lycée. Le chef d’entreprise contractera une assurance, garantissant sa propre responsabilité civile, chaque fois qu’elle sera engagée.</p>
+    Toutefois il leur est conseillé de contracter eux-mêmes, ou par l’intermédiaire de leur représentant légal, une assurance garantissant leur responsabilité civile pour tout dommage qu’ils pourraient causer à autrui de leur propre fait.<br>
+    En cas d’accident survenant à l’étudiant stagiaire, soit au cours du travail, soit au cours du trajet, le Chef d’Entreprise s’engage à faire parvenir toutes les déclarations, le plus rapidement possible à Monsieur le Proviseur ; il utilise à cet effet, les imprimés spéciaux mis à sa disposition par le Lycée. Le chef d’entreprise contractera une assurance, garantissant sa propre responsabilité civile, chaque fois qu’elle sera engagée.</p>
 
   <p><strong>Article 7 (rémunération) :</strong></p>
   <p>Le stage ne pourra être considéré comme une période d’activité salariée. Le stagiaire ne perçoit aucune rémunération et est exclu du bénéfice des avantages sociaux et salariés. En cas d’engagement ultérieur, la période du stage ne sera pas prise en compte au titre de l’ancienneté.</p>
@@ -227,9 +242,15 @@ if (isset($_GET["idStage"])){
 
   <table>
     <tr>
-      <td width="33%"><center>Le chef d’entreprise<p>(Cachet de l’entreprise)</center></td>
-      <td width="33%"><center>Le proviseur</center></td>
-      <td width="33%"><center>Le stagiaire ou son représentant légal</center></td>
+      <td width="33%">
+        <center>Le chef d’entreprise<p>(Cachet de l’entreprise)</center>
+      </td>
+      <td width="33%">
+        <center>Le proviseur</center>
+      </td>
+      <td width="33%">
+        <center>Le stagiaire ou son représentant légal</center>
+      </td>
     </tr>
     <tr>
       <td><br><br><br><br></td>
@@ -244,15 +265,26 @@ if (isset($_GET["idStage"])){
   window.addEventListener('DOMContentLoaded', function() {
     const element = document.querySelector('.section');
     const options = {
-      filename: 'convention-<?=isset($data) ? $data->classe ."-". $data->EtudiantNom ."-". $data->EtudiantPrenom : "stage" ?>.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+      filename: 'convention-<?= isset($data) ? $data->classe . "-" . $data->EtudiantNom . "-" . $data->EtudiantPrenom : "stage" ?>.pdf',
+      image: {
+        type: 'jpeg',
+        quality: 0.98
+      },
+      html2canvas: {
+        scale: 2
+      },
+      jsPDF: {
+        unit: 'pt',
+        format: 'a4',
+        orientation: 'portrait'
+      },
       margin: [40, 20, 40, 20], // Adjust bottom margin for page number
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      pagebreak: {
+        mode: ['avoid-all', 'css', 'legacy']
+      },
     };
 
-    html2pdf().from(element).set(options).toPdf().get('pdf').then(function (pdf) {
+    html2pdf().from(element).set(options).toPdf().get('pdf').then(function(pdf) {
       const totalPages = pdf.internal.getNumberOfPages();
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
@@ -261,7 +293,9 @@ if (isset($_GET["idStage"])){
 
       for (let i = 1; i <= totalPages; i++) {
         pdf.setPage(i);
-        pdf.text('Page ' + i + ' sur ' + totalPages, pageWidth / 2, pageHeight - 20, { align: 'center' });
+        pdf.text('Page ' + i + ' sur ' + totalPages, pageWidth / 2, pageHeight - 20, {
+          align: 'center'
+        });
       }
     }).save();
   });
