@@ -192,11 +192,20 @@ if (isset($_GET["idStage"])) {
   <p><strong>Article 2 (programme) :</strong></p>
   <p>Les stages sont destinés à donner à l’étudiant une représentation concrète du milieu professionnel des services informatiques et de l’emploi, tout en lui permettant d’acquérir et d’éprouver les compétences professionnelles prévues par le référentiel. Le programme du stage est établi par le chef d’entreprise. Le contenu de ce projet est soumis à l’approbation de l’équipe pédagogique, en fonction du programme général des études et de la spécialisation du stagiaire.</p>
   <p>Le sujet proposé est obligatoirement décrit sommairement ci-après :</p>
+  <table>
+    <TR>
+      <TD>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+      </TD>
+    </TR>
+  </TABLE>
   <p>En cas de besoin, il fait l’objet d’une annexe qui le décrit de façon détaillée.</p>
 
   <p><strong>Article 3 (durée) :</strong></p>
-  <p>Le stage est fixé aux dates suivantes :</p>
-  <p>du <?= $data->dateDebut; ?> au <?= $data->dateFin ?> inclus.</p>
+  <p>Le stage est fixé aux dates suivantes : du <b><?= $data->dateDebut; ?></b> au <b><?= $data->dateFin ?> </b>inclus.</p>
   <p><strong>Article 4 (statut du stagiaire) :</strong></p>
   <p>Le stagiaire, pendant la durée de son séjour en entreprise, conserve son statut d’étudiant. Il est suivi par un directeur de stage, en accord formel avec le chef d’entreprise d’accueil.</p>
 
