@@ -45,13 +45,16 @@ function checkIsComplete($profilToCheck)
   </thead>
   <tbody>
 
+  <?php 
+  ?>
+
     <?php foreach ($profils as $profil) :
       $profilStage = array_filter($stageModel->readFromEtudiantId($profil->id), function ($stages) use ($classe) {
         return $stages->classe == $classe;
       });
 
-      if (isset($profilStage[0])) {
-        $profilStage = $profilStage[0];
+      if (isset($profilStage[1])) {
+        $profilStage = $profilStage[1];
       } else {
         $profilStage = null;
       }
