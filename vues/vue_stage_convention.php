@@ -152,7 +152,7 @@ if (isset($_GET["idStage"])) {
           <strong>Fonction : </strong> <?= $data->employe_fonction ?><br><br>
           <strong>Nom et adresse de l’entreprise :</strong><br><?= $data->Entreprise_adresse ?><br><?= $data->Entreprise_codePostal ?> <?= $data->Entreprise_ville ?><br><br>
           <strong>Tuteur du stagiaire :</strong><br>
-          Nom : ...<br>Fonction : ...<br>Service : ...<br>Tél : ...<br>Mél : ...
+          Nom :<br>Fonction :<br>Service :<br>Tél :<br>Mél :
         </td>
       </tr>
     </tbody>
@@ -162,29 +162,24 @@ if (isset($_GET["idStage"])) {
 
   <table>
     <tr>
-      <td>Nom :</td>
-      <td><?= $data->EtudiantNom ?> <?= $data->EtudiantPrenom ?></td>
+      <td><b>Nom :</b> <?= $data->EtudiantNom ?> <?= $data->EtudiantPrenom ?></td>
     </tr>
     <tr>
-      <td>Section :</td>
-      <td><?= $data->classe ?></td>
+      <td><b>Section :</b> <?= $data->classe ?></td>
     </tr>
     <tr>
-      <td>Adresse :</td>
-      <td>……………………………………………….</td>
+      <td><b>Adresse postale : </b></td>
     </tr>
     <tr>
-      <td>Tél :</td>
-      <td>……………………………………………….</td>
+      <td><b>Téléphone : </b></td>
     </tr>
     <tr>
-      <td>Mél :</td>
-      <td><?= $data->EtudiantEmail ?></td>
+      <td><b>Mél : </b><?= $data->EtudiantEmail ?></td>
     </tr>
   </table>
 
   <div class="page-break"></div>
-  <h2>TITRE I : DISPOSITIONS GÉNÉRALES</h2>
+  <h2>TITRE I : Dispositions générales</h2>
 
   <p><strong>Article 1 (objet) :</strong></p>
   <p>La présente convention a pour objet la mise en œuvre, au bénéfice des étudiants du lycée, d’une action d’éducation concertée, organisée, conformément aux dispositions du décret n°2006-1093 du 29 août 2006, modifié par le décret n°2010-956 du 25 août 2010, pris en application de l’article 9 de la loi n°2006-396 du 31 mars 2006 pour l’égalité des chances. Si le stage se déroule à l’étranger, la convention pourra être adaptée pour tenir compte des contraintes imposées par la législation du pays d’accueil.</p>
@@ -224,21 +219,23 @@ if (isset($_GET["idStage"])) {
   <p>L’ensemble des frais occasionnés, hors mission spécifique confiée au stagiaire par l’entreprise pendant le déroulement de ce stage, reste à l’entière charge du stagiaire.</p>
 
   <p><strong>Article 9 (Attestation) :</strong></p>
-  <p>En fin de stage, une attestation est remise au stagiaire par le responsable de l’organisation d’accueil.<br>Elle précise les dates, la durée et le contenu du stage. En fin de stage une attestation de réalité des situations professionnelles rencontrées par le stagiaire doit être signée par le tuteur du stagiaire. Cette attestation est réalisée par le stagiaire en conformité avec son portefeuille de compétence.</p>
+  <p>En fin de stage, une attestation est remise au stagiaire par le responsable de l'organisation d'accueil. Elle précise les dates et durée effectives du stage ainsi que l'éventuelle gratification versée au stagiaire.</p>
+  <p>Cette attestation de stage constitue un document d'examen.
+    Le modèle, publié par la circulaire nationale d'organisation du BTS SIO, doit être impérativement utilisé. Ce modèle d'attestation est mis à disposition des étudiants par l'équipe pédagogique. </p>
 
   <p><strong>Article 10 (confidentialité) :</strong></p>
   <p>Les étudiants stagiaires sont tenus à une obligation de discrétion absolue. A cet égard l’étudiant s’engage à ne divulguer à qui que ce soit aucune information ou donnée à caractère confidentiel qu’il sera en mesure de connaître lors de son stage. L’étudiant doit respecter les biens matériels de l’entreprise en matière de logiciel, l’étudiant s’engage à ne commettre aucune infraction informatique :</p>
   <ul>
-    <li>Piratage de logiciel</li>
-    <li>Dégradation volontaire de données</li>
-    <li>Intrusion de virus</li>
+    <li> - Piratage de logiciel</li>
+    <li> - Dégradation volontaire de données</li>
+    <li> - Intrusion de virus</li>
   </ul>
-  <p>En cas de non respect de l’une des obligations citées ci-dessus, le chef d’entreprise se réserve le droit de mettre fin au stage de l’étudiant fautif après avoir informé le responsable pédagogique du lycée.</p>
+  <p>En cas de non respect de l’une des obligations citées ci-dessus, le chef d’entreprise se réserve le droit de mettre fin au stage de l’étudiant fautif après avoir prévenu le chef d’établissement. Dans le cas d’une faute grave (acte de malveillance dûment constaté) des poursuites pénales pourront être engagées.</p>
 
   <p><strong>Article 11 (visite) :</strong></p>
   <p>Une visite en entreprise sera réalisée par un enseignant durant la période de stage. Elle fera l’objet d’un entretien entre le tuteur de stage et l’enseignant concerné.</p>
 
-  <h2>TITRE II : PROLONGATION</h2>
+  <h2>TITRE II : Dispositions particulières</h2>
 
   <h3>Article 1 :</h3>
   <p>L’étudiant en stage ne peut prétendre à aucune rémunération.</p>
