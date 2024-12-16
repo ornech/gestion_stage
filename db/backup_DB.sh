@@ -44,6 +44,9 @@ Date: ${DATE}
 Fichier: ${BACKUP_FILE}
 Destinataire: ${MAIL_TO}
 
+Contenu:
+${RESULT}
+
 ${ERROR_MESSAGE}
 
 ${ERROR_CONTENT}"
