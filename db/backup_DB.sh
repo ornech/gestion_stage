@@ -18,6 +18,11 @@ BACKUP_FILE="/tmp/${DB_NAME}_backup_${DATE}.sql"
 # Fichier de log pour les erreurs SQL
 ERROR_LOG="/tmp/${DB_NAME}_backup_error.log"
 
+# Récupère les tables et nombres d'entrée, puis les mets en forme dans un tableau ascii
+RESULT=$(mysql -N -h "${DB_HOST}" -u "${DB_USER}" -p"${DB_PASS}" -e "SELECT TABLE_NAME, TABLE_ROWS FROM
+INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='${DB_NAME}';" | (echo -e "TABLE_NAME\tTABLE_ROWS" && cat) | column -t)
+
+
 # Réalisation du dump de la base de données
 echo "Sauvegarde de la base de données ${DB_NAME}..."
 mysqldump -h "${DB_HOST}" -u "${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" > "${BACKUP_FILE}" 2> "${ERROR_LOG}"
