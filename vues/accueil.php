@@ -87,32 +87,32 @@ if ($_SESSION['statut'] == "Etudiant") { ?>
   <div class="box">
     <p class="subtitle is-3">Fonctionnement</p>
 
-    <nav class="columns is-mobile is-vcentered">
-      <div class="column">
+    <nav class="columns is-mobile is-vcentered sequence-container">
+      <div class="column step">
         <div>
           <p class="heading">Trouver une entreprise</p>
           <p class="title">Étape 1</p>
           <p>Recherchez un entreprise ou consultez l'annuaire des entreprises.</p>
         </div>
       </div>
-      <div class="column">
+      <div class="arrow-container">
         <div>
           <i class='fas fa-chevron-right' style='font-size:48px'></i>
         </div>
       </div>
-      <div class="column">
+      <div class="column step">
         <div>
           <p class="heading">Ajoutez votre entreprise</p>
           <p class="title">Étape 2</p>
           <p>Récupérez le numéro de SIRET, puis importez cette entreprise.</p>
         </div>
       </div>
-      <div class="column">
+      <div class="arrow-container">
         <div>
           <i class='fas fa-chevron-right' style='font-size:48px'></i>
         </div>
       </div>
-      <div class="column">
+      <div class="column step">
         <div>
           <p class="heading">Ajouter un contact</p>
           <p class="title">Étape 3</p>
@@ -120,18 +120,16 @@ if ($_SESSION['statut'] == "Etudiant") { ?>
 
         </div>
       </div>
-      <div class="column">
+      <div class="arrow-container">
         <div>
           <i class='fas fa-chevron-right' style='font-size:48px'></i>
         </div>
       </div>
-      <div class="column">
+      <div class="column step">
         <div>
           <p class="heading">Ajouter votre stage</p>
           <p class="title">Étape 4</p>
-          <p>Créer votre stage et récupérez votre convention de stage automatiquement générée.
-          </p>
-
+          <p>Créer votre stage et récupérez votre convention de stage automatiquement générée.</p>
         </div>
       </div>
     </nav>

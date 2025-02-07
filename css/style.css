@@ -70,17 +70,9 @@ tbody tr:hover {
 }
 
 .step {
-    flex: 1;
-    margin: 0 10px;
-    background-color: #f0f0f0;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2em;
-    text-align: center;
-    height: 150px;
+
 }
 
 .arrow-container {
@@ -88,6 +80,8 @@ tbody tr:hover {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .arrow {
@@ -98,14 +92,20 @@ tbody tr:hover {
     border-left: 15px solid #000;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 540px) {
     .sequence-container {
         flex-direction: column;
     }
 
+    .step {
+      margin: 0 10px;
+      padding: 5%;
+      width: 100%;
+    }
+
     .arrow-container {
         transform: rotate(90deg);
-        margin: 20px 0;
+        margin: 0;
     }
 
     .arrow {
@@ -179,4 +179,30 @@ input:checked + .slider:before {
   margin-left: 1%;
   margin-right: 1%;
   margin-top: 1%;
+}
+
+.is-size-1 { font-size: clamp(1.75rem, 4.5vw, 2.5rem) !important; } /* Titre le plus grand */
+.is-size-2 { font-size: clamp(1.5rem, 4vw, 2rem) !important; }
+.is-size-3 { font-size: clamp(1.25rem, 3.5vw, 1.75rem) !important; }
+.is-size-4 { font-size: clamp(1rem, 3vw, 1.5rem) !important; }
+.is-size-5 { font-size: clamp(0.875rem, 2.5vw, 1.25rem) !important; }
+.is-size-6 { font-size: clamp(0.75rem, 2vw, 1rem) !important; }
+.is-size-7 { font-size: clamp(0.70rem, 1.5vw, 0.875rem) !important; } /* Texte le plus petit */
+
+.is-1 { font-size: clamp(1.75rem, 4.5vw, 2.5rem) !important; } /* Titre le plus grand */
+.is-2 { font-size: clamp(1.5rem, 4vw, 2rem) !important; }
+.is-3 { font-size: clamp(1.25rem, 3.5vw, 1.75rem) !important; }
+.is-4 { font-size: clamp(1rem, 3vw, 1.5rem) !important; }
+.is-5 { font-size: clamp(0.875rem, 2.5vw, 1.25rem) !important; }
+.is-6 { font-size: clamp(0.75rem, 2vw, 1rem) !important; }
+.is-7 { font-size: clamp(0.70rem, 1.5vw, 0.875rem) !important; } /* Texte le plus petit */
+
+.title { font-size: clamp(1.75rem, 4.5vw, 2.5rem) !important; } /* Titre le plus grand */
+
+:root {
+  --bulma-size-small: clamp(0.70rem, 1.5vw, 0.75rem);
+  --bulma-size-normal: clamp(0.75rem, 2vw, 1rem);
+  --bulma-size-medium: clamp(1rem, 2.5vw, 1.25rem);
+  --bulma-size-large: clamp(1.25rem, 3vw, 1.5rem);
+  --bulma-body-font-size: clamp(0.75em, 2vw, 1em);
 }

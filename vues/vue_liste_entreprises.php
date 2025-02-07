@@ -45,7 +45,6 @@ $stageModel = new Stage($conn);
           "Adresse" => "adresse",
           'Ville' => "ville",
           'naf' => "naf",
-          'Code postal' => "codePostal"
       ];
 
       // Fonction pour récupérer les valeurs uniques d'une colonne
@@ -77,12 +76,6 @@ $stageModel = new Stage($conn);
           return sprintf("#%02x%02x%02x", $r, $g, $b);
       }
 
-      // Générer les filtres personnalisés pour chaque colonne
-      $filters = [];
-      foreach ($entreprise_tableau as $column) {
-          $filters[$column] = uniqueValues($entreprises, $column);
-      }
-
       // Affichage des filtres et des options de tri
       $n = 0;
       foreach ($entreprise_tableau as $column => $value) {
@@ -92,6 +85,7 @@ $stageModel = new Stage($conn);
           $n++;
       }
       ?>
+      <td class="lineFilter codePostal" name="Code postal"></td>
       <td>Stage</td>
 
     </tr>
@@ -129,7 +123,7 @@ $stageModel = new Stage($conn);
       <td class="adresse"><?= $entreprise->adresse != null ? htmlspecialchars($entreprise->adresse) : "Non défini" ?></td>
       <td><?= $entreprise->ville != null ? htmlspecialchars($entreprise->ville) : "Non défini" ?></td>
       <td class="naf"><abbr title="(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?>">(<?= $entreprise->naf != null ? htmlspecialchars($entreprise->naf) : "Non défini" ?>) <?= $entreprise->naf_libelle != null ? htmlspecialchars($entreprise->naf_libelle) : "Non défini" ?></abbr></td>
-      <td><?= $entreprise->codePostal != null ? htmlspecialchars($entreprise->codePostal) : "Non défini"?></td>
+      <td class="codePostal"><?= $entreprise->codePostal != null ? htmlspecialchars($entreprise->codePostal) : "Non défini"?></td>
       <td>
         <?php
         // Instancier le modèle
@@ -171,9 +165,25 @@ $stageModel = new Stage($conn);
 <style>
 
   .naf{
-    max-width: 40vh;
-    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
+    text-wrap: nowrap;
+    max-width: clamp(100px, 20vw, 300px);
+  }
+
+  .lineFilter{
+    overflow: visible !important;
+  }
+
+  @media (max-width: 860px) {
+
+    .naf{
+      max-width: clamp(100px, 30vw);
+    }
+    .codePostal{
+      display: none;
+    }    
   }
 
 </style>
