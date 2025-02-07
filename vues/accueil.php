@@ -158,6 +158,13 @@ if ($_SESSION['statut'] == "Professeur") { ?>
 
   <div class="box">
     <p class="subtitle is-3">Stages à suivre</p>
+    <?php $filteredStages = array_filter($stages, function ($stage) {
+      return $stage->idProfesseur == $_SESSION['userID'] && $stage->dateFin >= date('Y-m-d');
+    });?>
+
+    <?php if (count($filteredStages) == 0) : ?>
+      <p class="is-size-5">Aucun stage à suivre pour le moment.</p>
+    <?php else: ?>
     <table class="table is-fullwidth">
       <thead>
         <tr>
@@ -171,8 +178,8 @@ if ($_SESSION['statut'] == "Professeur") { ?>
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($stages as $stage) {
-          if ($stage->idProfesseur == $_SESSION['userID']) {
+        <?php foreach ($filteredStages as $stage) {
+          if ($stage->idProfesseur == $_SESSION['userID'] && $stage->dateFin >= date('Y-m-d')) {
             echo "<tr>";
             echo "<td>" . $stage->EtudiantNom . " " . $stage->EtudiantPrenom . "</td>";
             echo "<td>" . $stage->classe . "</td>";
@@ -186,5 +193,6 @@ if ($_SESSION['statut'] == "Professeur") { ?>
         } ?>
       </tbody>
     </table>
+    <?php endif; ?>
   </div>
 <?php } ?>
