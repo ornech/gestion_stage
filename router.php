@@ -18,6 +18,9 @@ require_once 'config/db_connection.php';
 // Inclure les en-têtes HTML
 include 'vues/headers.php';
 
+include_once 'model/Operations.php'; // Inclure le modèle Operations
+$operationsModel = new Operations($conn); // Instancier le modèle
+
 // Affichez le contenu de la page en fonction du statut de l'utilisateur connecté
 if (!str_starts_with($page, "vue_popup") && $page != "login" && $page != "password_reset" && $page != "cgu") {
   if (isset($_SESSION['statut']) && $_SESSION['statut'] === 'Professeur') {
