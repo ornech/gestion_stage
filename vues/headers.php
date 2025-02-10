@@ -21,13 +21,28 @@ require_once 'config/auth.php';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Application gestion de stages</title>
+  <title>Gestage - Application gestion de stages</title>
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <!-- Bulma.io -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+  <link rel="icon" type="image/png" id="favicon" href="/img/favicon.png">
+  <script>
+    // Function to update favicon based on the theme
+    function updateFavicon() {
+      const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const favicon = document.getElementById('favicon');
+      favicon.href = isDarkMode ? '/img/favicon-black.png' : '/img/favicon.png';
+    }
+
+    // Initial check
+    updateFavicon();
+
+    // Listen for changes in the theme
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateFavicon);
+  </script>
 
   <link rel="stylesheet" href="../css/style.css">
 
