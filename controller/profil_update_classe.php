@@ -19,7 +19,7 @@ if(isset($_POST['id']) && isset($_POST['classe'])) {
     $promoSelected = assignPromoByClasse($classe);
 
     if($profil->update_promo($id, $promoSelected)) {
-        verifEtu($profil->read_profil($id), $conn);
+        verifUser($profil->read_profil($id), $conn);
         verifClasseCount($classe, $conn);
 
         $newValues = $profil->read_profil($id);
@@ -30,6 +30,6 @@ if(isset($_POST['id']) && isset($_POST['classe'])) {
     }
 } else {
     echo "Erreur lors de la récupération des données";
-}classe
+}
 
 ?>

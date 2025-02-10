@@ -11,6 +11,8 @@ class Classe
   private $dateDebut;
   private $dateFin;
 
+  private $nbrEtu;
+
   public function __construct($db)
   {
     $this->conn = $db;

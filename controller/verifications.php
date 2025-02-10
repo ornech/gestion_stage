@@ -7,7 +7,7 @@ if (session_status() != PHP_SESSION_ACTIVE) {
 require_once $_SERVER['DOCUMENT_ROOT'] . '/config/auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/model/Classe.php';
 
-function verifEtu($Profil, $conn){
+function verifUser($Profil, $conn){
   $table_name = "user";
   
   $needSetPromo = false;

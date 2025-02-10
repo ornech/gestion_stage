@@ -28,5 +28,5 @@ if(isset($_POST['submit'])) {
   echo "<BR>Erreur ... ";
   echo var_dump($resultats);
   exit();
-
+}
   ?>
