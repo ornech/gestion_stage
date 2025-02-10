@@ -4,7 +4,7 @@ require_once 'config/auth.php';
 <BR>
 <?php
 // Vérifier si les données sont disponibles
-  if($ContactFiche && ($ContactFiche->contact_valide == 0 && $_SESSION["statut"]=="Professeur")){
+  if(($ContactFiche->contact_valide == 1 ) || ($ContactFiche->contact_valide == 0 && $_SESSION["statut"]=="Professeur")){
 ?>
 <p class="title is-1">Contact</p>
 <p class="subtitle is-2"><?= $ContactFiche->nom ?> <?= $ContactFiche->prenom ?></p>
