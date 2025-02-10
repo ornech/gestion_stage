@@ -41,6 +41,7 @@ function checkIsComplete($profilToCheck)
       <th>Stages</th>
       <th>Début des stages</th>
       <th>Fin des stages</th>
+      <th>Conventions</th>
     </tr>
   </thead>
   <tbody>
@@ -59,7 +60,7 @@ function checkIsComplete($profilToCheck)
       $professeurs = $profilModel->list_by_professeur();
     ?>
 
-      <tr <?= isset($profilStage) ? 'class="is-selected is-light" onclick="window.location = \'router.php?page=stage_read&id=' . $profilStage->idStage . '\'" style="cursor: pointer;"' : '' ?>>
+      <tr <?= isset($profilStage) ? "class='is-selected is-light' onclick=\"window.location = 'router.php?page=stage_read&id={$profilStage->idStage}'\" style='cursor: pointer;'" : '' ?>>
         <th style="vertical-align: middle;">
 
           <?php
@@ -84,6 +85,13 @@ function checkIsComplete($profilToCheck)
 
         <td style="vertical-align: middle;"><?= isset($profilStage->dateDebut) ? $profilStage->dateDebut : "-" ?></td>
         <td style="vertical-align: middle;"><?= isset($profilStage->dateFin) ? $profilStage->dateFin : "-" ?></td>
+        <td>
+          <?php if(isset($profilStage->idStage)): ?>
+            <button onclick="event.stopPropagation(); window.location.href='router.php?page=stage_convention&idStage=<?= $profilStage->idStage ?>'" class="button is-link is-light">Obtenir</button>
+          <?php else: ?>
+            -
+          <?php endif; ?>
+        </td>
       </tr>
     <?php endforeach; ?>
   </tbody>
