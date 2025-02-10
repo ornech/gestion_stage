@@ -1,7 +1,8 @@
 <?php
 require_once 'config/auth.php';
-?>
-<?php
+setlocale(LC_TIME, 'fr_FR.UTF-8');
+$fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
+
 if (isset($_GET["idStage"])) {
 
   include_once 'model/Stage.php'; // Inclure le modèle Stage
@@ -171,7 +172,7 @@ if (isset($_GET["idStage"])) {
       <td><b>Adresse postale : </b></td>
     </tr>
     <tr>
-      <td><b>Téléphone : </b></td>
+      <td><b>Téléphone : </b><?= preg_replace('/(\d{2})(?=\d)/', '$1 ', $data->EtudiantTel) ?></td>
     </tr>
     <tr>
       <td><b>Mél : </b><?= $data->EtudiantEmail ?></td>
@@ -200,7 +201,7 @@ if (isset($_GET["idStage"])) {
   <p>En cas de besoin, il fait l’objet d’une annexe qui le décrit de façon détaillée.</p>
 
   <p><strong>Article 3 (durée) :</strong></p>
-  <p>Le stage est fixé aux dates suivantes : du <b><?= $data->dateDebut; ?></b> au <b><?= $data->dateFin ?> </b>inclus.</p>
+  <p>Le stage est fixé aux dates suivantes : du <b><?= $fmt->format(strtotime($data->dateDebut)); ?></b> au <b><?= $fmt->format(strtotime($data->dateFin)); ?> </b>inclus.</p>
   <p><strong>Article 4 (statut du stagiaire) :</strong></p>
   <p>Le stagiaire, pendant la durée de son séjour en entreprise, conserve son statut d’étudiant. Il est suivi par un directeur de stage, en accord formel avec le chef d’entreprise d’accueil.</p>
 
