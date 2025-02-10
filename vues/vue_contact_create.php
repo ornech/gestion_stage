@@ -13,23 +13,23 @@ require_once 'config/auth.php';
 
     
     <div class="field">
-      <label class="label" for="nom">Nom</label>
+      <label class="label" for="nom">Nom<span style="color: red;">*</span></label>
       <div class="control">
         <input type="text" class="input" id="nom" name="nom" placeholder="Dupont" required>
       </div>
     </div>
 
     <div class="field">
-    <label class="label" for="prenom">Prénom</label>
+    <label class="label" for="prenom">Prénom<span style="color: red;">*</span></label>
       <div class="control">
         <input type="text" class="input" id="prenom" name="prenom" placeholder="Alice" required>
       </div>
     </div>
 
     <div class="field">
-      <label class="label" for="email">Email</label>
+      <label class="label" for="email">Email<span style="color: red;">*</span></label>
       <div class="control">
-          <input type="email" class="input" id="email" name="email" placeholder="alicedupont@email.com">
+          <input type="email" class="input" id="email" name="email" placeholder="alicedupont@email.com" required>
       </div>
     </div>
 
