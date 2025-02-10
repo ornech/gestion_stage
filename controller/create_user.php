@@ -29,15 +29,25 @@ if(isset($_POST['nom'])) {
   $statut = $_POST['statut'];
   $dateEntree = $_POST['dateEntree'];
 
-  // Création d'une instance de l'objet Entreprise
+  // Création d'une instance de l'objet u
   $profil = new Profil($conn);
 
   // Appel de la méthode  de l'objet Profil
   if ($profil->create_user($nom,$prenom,$email,$telephone,$promo,$spe,$login,$password,$statut,$dateEntree)) {
-    $newValue = $profil->read_profil($conn->lastInsertId());
-    verifEtu($newValue, $conn);
-    verifClasseCount($newValue->classe, $conn);
 
+    // Récupération de l'étudiant nouvellement créée
+    $newValue = $profil->read_profil($conn->lastInsertId());
+
+    // Compléter les informations de l'étudiant nouvellement créée
+    verifUser($newValue, $conn);
+
+    // Actualisation des valeurs
+    $newValue = $profil->read_profil($newValue->id);
+
+    if($newValue->statut == "Etudiant"){
+      verifClasseCount($newValue->classe, $conn);
+    }
+    
     addLog($conn, 1, $_SESSION["userID"], 'profil', $newValue->id, null, $newValue);
     // Redirection vers la page de détails de l'entreprise après la mise à jour
     header("Location: ../router.php?page=gestion_etu");

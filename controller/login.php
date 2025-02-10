@@ -38,7 +38,7 @@ if(isset($_POST["login"]) && isset($_POST["password"])){
         $etudiants = $profil->list_by_etudiant();
     
         foreach($etudiants as $etudiant){
-          verifEtu($etudiant, $conn);
+          verifUser($etudiant, $conn);
 
           //Si $etudiant->dateFirstConn est passé depuis plus de 5 ans ou plus, si oui on l'anonymise
           if(isset($etudiant->dateFirstConn) && $etudiant->dateFirstConn != "" || $etudiant->dateFirstConn != null){

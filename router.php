@@ -148,32 +148,6 @@ function router($page, $conn)
     //   include 'vues/vue_entreprise_ajouter.php';
     //   break;
 
-    case 'activite_prof':
-      route_protect('Professeur');
-
-      include_once 'model/activite.php';
-      // Instancier le modèle Entreprise
-      $ActiviteModel = new Activite($conn);
-      $ActiviteEtudiant = $ActiviteModel->activite_prof();
-      include 'vues/vue_activite_prof.php';
-      break;
-
-    case 'activite_etu':
-      include_once 'model/activite.php';
-      $ActiviteModel = new Activite($conn);
-      $ActiviteEtudiant = $ActiviteModel->activite_etu();
-      include 'vues/vue_activite_etu.php';
-      break;
-
-    case 'activite_create':
-      include_once 'model/activite.php';
-      $type = isset($_GET['type']) ? $_GET['type'] : null;
-      $ID_Entreprise = isset($_GET['ID_Entreprise']) ? $_GET['ID_Entreprise'] : null;
-      $type = isset($_GET['Commentaire']) ? $_GET['Commentaire'] : null;
-      $IdEtudiant = isset($_GET['IdEtudiant']) ? $_GET['IdEtudiant'] : null;
-      include 'vues/vue_activite_create.php';
-      break;
-
     case 'profil':
       include_once 'model/Profil.php';
       include_once 'model/Stage.php';
