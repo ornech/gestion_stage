@@ -44,7 +44,7 @@ require_once 'config/auth.php';
     <label class="label" for="siret">Importez les données relatives à une entreprise à partir de son numéro de SIRET.</label>
     <div class="field">
       <div class="control">
-        <input type="text" class="input is-normal" id="siret" name="siret" placeholder="Renseignez le N° de SIRET (14 caractères)" required minlength="14" maxlength="14" size="14">
+        <input type="text" class="input is-normal" id="siret" name="siret" placeholder="Renseignez le N° de SIRET (14 caractères)" required minlength="14" size="14" oninput="this.value = this.value.replace(/\s+/g, '').slice(0, 14)">
       </div>
     </div>
 
