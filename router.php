@@ -118,7 +118,6 @@ function router($page, $conn)
       }
       // Inclure la vue pour afficher les détails de l'entreprise
       include 'vues/vue_fiche_entreprises.php';
-      // include 'vues/vue_contact_list.php';
       break;
 
     case 'modifier_entreprise':

@@ -30,6 +30,7 @@ if ($ficheEntreprise) {
 .fixed-button:hover .hover-text {
   display: inline-block; 
 }
+
 </style>
 
 <div class="containerr">
@@ -118,37 +119,55 @@ if ($ficheEntreprise) {
     </div>
   </div>
 
+  <?php if ($_SESSION["statut"] != "Professeur" && !isset($contacts)) :?>
+    <div class="notification is-warning is-light">
+      Si vous possédez une <strong>convention de stage</strong> avec cette entreprise, ajoutez le contact qui a signé votre convention<BR>
+      Vous serez ensuite autorisé à enregistrer votre stage depuis cette page.
+    </div>
+  <?php endif;?>
+
   <div class="column is-full">
-    <div class="box">
-      <?php include 'vues/vue_contact_list.php';?>
-      <p>
-        <a href='router.php?page=contact_create&idEntreprise=<?= $_GET["idEntreprise"] ?>'>
-          <button type='button' class='button'>Ajouter un contact</button>
-        </a>
-      </p>
+  <div class="box">
+    <div class="is-flex m-2" style="gap: 2%;">
+      <p class="title is-4 m-0">Contacts :</p>
+      <a href='router.php?page=contact_create&idEntreprise=<?= $_GET["idEntreprise"] ?>'>
+        <button type='button' class='button'>Ajouter un contact</button>
+      </a>
+    </div>
+      <?php if($contacts):?>  
+      <table class="table table-striped table-hover">
+        <tbody>
+          <?php foreach ($contacts as $contact): ?>
+            <tr>
+              <td><?= $contact->nom ? $contact->nom : "Non défini" ?> <?= $contact->prenom ? $contact->prenom : "Non défini" ?></td>
+              <td><?= $contact->telephone ? $contact->telephone : "Non défini" ?></td>
+              <td><?= $contact->email ? $contact->email : "Non défini" ?></td>
+              <!-- <td><?= $contact->fonction ? $contact->fonction : "Non défini" ?></td>-->
+              <td>
+                <a href="../router.php?page=Contact_fiche&idContact=<?= $contact->EmployeID ?>">voir</a></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif?>
     </div>
   </div>
 
-  <?php if ($_SESSION["statut"] != "Professeur") :
-    if (isset($contact)):?>
-      <a href='router.php?page=stage_create&idEntreprise=<?=$ficheEntreprise->EntrepriseID?>'>
-        <button type='button' class='button'>Ajouter un stage</button>
-      </a>
-    <?php else :?>
-
-      <div class="notification is-warning is-light">
-        Si vous possédez une <strong>convention de stage</strong> avec cette entreprise, ajoutez le contact qui a signé votre convention<BR>
-        Vous serez ensuite autorisé à enregistrer votre stage depuis cette page.
+  <?php if(isset($contacts[0])):?>
+  <div class="column is-full">
+    <div class="box is-full">
+      <div class="is-flex m-2" style="gap: 2%;">
+        <p class="title is-4 m-0">Stages :</p>
+        <?php if($_SESSION["statut"] != "Professeur"):?>
+          <a href='router.php?page=stage_create&idEntreprise=<?=$ficheEntreprise->EntrepriseID?>'>
+            <button type='button' class='button'>Ajouter un stage</button>
+          </a>
+        <?php endif;?>
       </div>
 
-    <?php endif;
-  endif;?>
+      <?php if (isset($stages[0])):?>
 
-
-  <div class="column is-full">
-    <?php if (isset($stages[0])):?>
-      <div class="box is-full">
-        <p class="title is-4">Stages</p>
+        <p>Les stages sont visibles par les étudiants et les professeurs.</p>
         <table class="table is-fullwidth tableFilter" id="maTable">
           <thead>
             <tr>
@@ -179,9 +198,12 @@ if ($ficheEntreprise) {
             <?php endforeach; ?>
           </tbody>
         </table>
-      </div>
-    <?php endif; ?>
+      <?php else: ?>
+        <p class="p-2">Aucun stage n'a été trouvé pour cette entreprise.</p>
+      <?php endif; ?>
+    </div>
   </div>
+  <?php endif; ?>
 </div>
 
 
