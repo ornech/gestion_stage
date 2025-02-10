@@ -22,7 +22,7 @@ class Stage {
     // id|idEntreprise|idMaitreDeStage|idEtudiant|titreStage|description|dateDebut|dateFin|
 
   public function list_by_entreprise($idEntreprise) {
-    $sql = "SELECT * FROM " . $this->vue_name . " WHERE idEntreprise = :idEntreprise";
+    $sql = "SELECT * FROM " . $this->vue_name . " WHERE idEntreprise = :idEntreprise ORDER BY dateDebut DESC";
     $stmt = $this->conn->prepare($sql);
     $stmt->bindParam(':idEntreprise', $idEntreprise);
     $stmt->execute();
@@ -30,7 +30,7 @@ class Stage {
   }
 
   public function count_by_entreprise($idEntreprise) {
-    $sql = "SELECT COUNT(*) AS nbr FROM " . $this->vue_name . " WHERE idEntreprise = :idEntreprise";
+    $sql = "SELECT COUNT(*) AS nbr FROM " . $this->vue_name . " WHERE idEntreprise = :idEntreprise ORDER BY dateDebut DESC";
     $stmt = $this->conn->prepare($sql);
     $stmt->bindParam(':idEntreprise', $idEntreprise);
     $stmt->execute();
@@ -38,7 +38,7 @@ class Stage {
   }
 
   public function stage_by_id($idStage) {
-    $sql = "SELECT * FROM " . $this->vue_name . " WHERE idStage = :idStage";
+    $sql = "SELECT * FROM " . $this->vue_name . " WHERE idStage = :idStage ORDER BY dateDebut DESC";
     $stmt = $this->conn->prepare($sql);
     $stmt->bindParam(':idStage', $idStage);
     $stmt->execute();
@@ -48,7 +48,7 @@ class Stage {
 
 
   public function list(){
-    $query = "SELECT * FROM " . $this->vue_name;
+    $query = "SELECT * FROM " . $this->vue_name . " ORDER BY dateDebut DESC";
     $stmt = $this->conn->prepare($query);
 
     try {
@@ -66,7 +66,7 @@ class Stage {
   }
 
   public function list_by_classe($classe){
-    $query = "SELECT * FROM " . $this->vue_name . " WHERE classe=:classe";
+    $query = "SELECT * FROM " . $this->vue_name . " WHERE classe=:classe ORDER BY dateDebut DESC";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(":classe", $classe);
 
@@ -190,7 +190,7 @@ class Stage {
   }
 
   public function readFromEntrepriseId($idEntreprise){
-    $query = "SELECT * FROM " . $this->vue_name . "WHERE idEntreprise =:idEntreprise";
+    $query = "SELECT * FROM " . $this->vue_name . "WHERE idEntreprise =:idEntreprise ORDER BY dateDebut DESC";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idEntreprise', $idEntreprise, PDO::PARAM_INT);
 
@@ -210,7 +210,7 @@ class Stage {
   }
 
   public function readFromEtudiantId($idEtudiant){
-    $query = "SELECT * FROM " . $this->vue_name . " WHERE idEtudiant =:idEtudiant";
+    $query = "SELECT * FROM " . $this->vue_name . " WHERE idEtudiant = :idEtudiant ORDER BY dateDebut DESC";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':idEtudiant', $idEtudiant, PDO::PARAM_INT);
 
