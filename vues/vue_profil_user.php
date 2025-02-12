@@ -78,13 +78,11 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
 
                   <tr><th>Spécialité</th><td><?= $Profil->spe ? $Profil->spe : '-' ?><!-- Spécialité -->
                   </td><td>
-                    <?php if ($_SESSION['statut'] == "Professeur") { ?>
                       <button id="openModal" for="modalSpe" class="button is-small">
                         <span class="icon">
                           <i class="fas fa-pencil-alt"></i>
                         </span>
                       </button>
-                    <?php } ?>
                   </td></tr>
                   <tr><th>Promotion</th><td><?= $Profil->promo ? $Profil->promo : '-' ?></td><td></td></tr><!-- Promotion -->
                   <tr><th>Professeur principal</th><td><?= $ppName ?></td><td></td></tr><!-- Professeur principal -->
@@ -163,50 +161,6 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
 
     <!-- Modals -->
     <?php if ($_SESSION['statut'] == "Professeur" && $Profil->statut != "Professeur") { ?>
-
-      <div class="modal" id="modalSpe">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Modification de spécialité</p>
-            <button class="delete cancel" id="closeModal" for="modalSpe" aria-label="close"></button>
-          </header>
-          <section class="modal-card-body">
-            <form id="speForm" method="post">
-              <div class="is-grouped">
-                Spécialité:
-                <input type="hidden" name="id" value="<?= $Profil->id ?>">
-                <div class="select is-small">
-                  <select name="spe">
-                    <option value="SLAM" <?= $Profil->spe == "SLAM" ? "selected" : "" ?>>SLAM</option>
-                    <option value="SISR" <?= $Profil->spe == "SISR" ? "selected" : "" ?>>SISR</option>
-                    <option value="" <?= empty($Profil->spe) ? "selected" : "" ?>>Pas de spécialité</option>
-                  </select>
-                </div>
-              </div>
-            </form>
-            <?php
-            if (isset($_POST["id"]) && isset($_POST["spe"])) {
-              $profilId = $_POST["id"];
-              $spe = $_POST["spe"];
-              $sql = "UPDATE $table_name SET spe = :spe WHERE id = :id";
-              $stmt = $conn->prepare($sql);
-              $stmt->bindParam(":id", $profilId);
-              $stmt->bindParam(":spe", $spe);
-              $stmt->execute();
-              echo "<script type='text/javascript'>window.location.href = window.location.href;</script>";
-              exit;
-            }
-            ?>
-          </section>
-          <footer class="modal-card-foot">
-            <div class="buttons">
-              <button class="button is-success" id="saveSpe">Enregistrer</button>
-              <button class="button" id="closeModal" for="modalSpe">Annuler</button>
-            </div>
-          </footer>
-        </div>
-      </div>
 
       <div class="modal" id="modalDelete">
         <div class="modal-background"></div>
@@ -363,10 +317,6 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
         document.getElementById('saveClasse').addEventListener('click', function() {
           document.getElementById('classeForm').submit();
         });
-
-        document.getElementById('saveSpe').addEventListener('click', function() {
-          document.getElementById('speForm').submit();
-        });
       </script>
 
     <?php }
@@ -427,6 +377,50 @@ if (($_GET["page"] == "view_profil" && $_SESSION['statut'] == "Professeur") || $
   </div>
 </div>
 
+<div class="modal" id="modalSpe">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Modification de spécialité</p>
+      <button class="delete cancel" id="closeModal" for="modalSpe" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form id="speForm" method="post">
+        <div class="is-grouped">
+          Spécialité:
+          <input type="hidden" name="id" value="<?= $Profil->id ?>">
+          <div class="select is-small">
+            <select name="spe">
+              <option value="SLAM" <?= $Profil->spe == "SLAM" ? "selected" : "" ?>>SLAM</option>
+              <option value="SISR" <?= $Profil->spe == "SISR" ? "selected" : "" ?>>SISR</option>
+              <option value="" <?= empty($Profil->spe) ? "selected" : "" ?>>Pas de spécialité</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <?php
+      if (isset($_POST["id"]) && isset($_POST["spe"])) {
+        $profilId = $_POST["id"];
+        $spe = $_POST["spe"];
+        $sql = "UPDATE $table_name SET spe = :spe WHERE id = :id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":id", $profilId);
+        $stmt->bindParam(":spe", $spe);
+        $stmt->execute();
+        echo "<script type='text/javascript'>window.location.href = window.location.href;</script>";
+        exit;
+      }
+      ?>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-success" id="saveSpe">Enregistrer</button>
+        <button class="button" id="closeModal" for="modalSpe">Annuler</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
 <script>
 document.getElementById('saveMail').addEventListener('click', function() {
   var emailInput = document.getElementById('mailForm').querySelector('input[name="mail"]');
@@ -452,5 +446,9 @@ document.getElementById('savePhone').addEventListener('click', function() {
     return;
   }
   document.getElementById('phoneForm').submit();
+});
+
+document.getElementById('saveSpe').addEventListener('click', function() {
+  document.getElementById('speForm').submit();
 });
 </script>
