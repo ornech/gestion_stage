@@ -11,18 +11,15 @@ if(!isset($page)){
 // Vérifie si l'utilisateur n'est pas connecté
 if (!isset($_SESSION['username']) && $page != 'login' && $page != "cgu") {
   // Redirige vers la page de connexion
-  header("Location: /router.php?page=login");
-  exit();
+  $page = 'login';
 }
 
 if(isset($_SESSION['CGU']) && $page != 'login'  && $page != 'cgu'){
-  header("Location: /router.php?page=login&cgu");
-  exit();
+  $page = 'cgu';
 }
 
 if(isset($_SESSION['password_reset']) && $page != 'login' && $page != 'cgu' && $page != 'password_reset'){
-  header("Location: /router.php?page=password_reset");
-  exit();
+  $page = 'password_reset';
 }
 
 // Limitez la durée de validité de la session
