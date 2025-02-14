@@ -73,6 +73,71 @@ if(isset($stages) && isset($journalModel)): ?>
           <?php endforeach; ?>
         </select>
       </div>
+
+      <div class="box mt-5">
+        <h3 class="title is-3">Journaux de bord</h3>
+        <?php foreach($journalModel->getRealisationsByStage($stage->idStage) as $semaine => $realisations): ?>
+          <h4 class="title is-4">Semaine <?= $semaine ?></h4>
+          <div class="columns is-multiline">
+            <?php foreach($realisations as $realisation): ?>
+              <div class="column is-<?= 12 / min(count($realisations), 3) ?>">
+                <div class="box">
+                  <h5 class="title is-5"><?= htmlspecialchars($realisation->titre) ?></h5>
+                  <p><?= nl2br(htmlspecialchars($realisation->description)) ?></p>
+                  <p><strong>Compétences:</strong> <?= htmlspecialchars($realisation->competences) ?></p>
+                  <form method="post" action="router.php?page=deleteRealisation" style="margin-top: 10px;">
+                    <input type="hidden" name="idRealisation" value="<?= $realisation->id ?>">
+                    <button type="submit" class="button is-danger is-small" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réalisation ?')">Supprimer</button>
+                  </form>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        <?php endforeach; ?>
+      </div>
+
+      <div class="box is-hidden">
+        <h3 class="title is-3">Ajouter une réalisation</h3>
+        <form method="post" action="router.php?page=addRealisation">
+          <div class="field">
+            <label class="label">Titre</label>
+            <div class="control">
+              <input class="input" type="text" name="titre" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Description</label>
+            <div class="control">
+              <textarea class="textarea" name="description" required></textarea>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Compétences</label>
+            <div class="control">
+              <?php for($i = 1; $i <= 10; $i++): ?>
+                <label class="checkbox">
+                  <input type="checkbox" name="competences[]" value="Compétence <?= $i ?>"> Compétence <?= $i ?>
+                </label>
+              <?php endfor; ?>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Semaine</label>
+            <div class="control">
+              <input class="input" type="number" name="semaine" min="1" required>
+            </div>
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <button type="submit" class="button is-link">Ajouter</button>
+            </div>
+            <div class="control">
+              <button type="reset" class="button is-light">Annuler</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
   </div>
   <?php else: ?>
     <div class="notification is-danger">

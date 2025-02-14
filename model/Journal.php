@@ -2,7 +2,6 @@
 class Journal {
   private $conn;
   private $table_name = "journaux";
-  private $vue_name = "vue_journaux";
 
   private $id;
   private $idEtu;
@@ -55,6 +54,20 @@ private $description;
         header("Location: ../router.php?page=erreur&message=$message");
         return false;
     }
+  }
+
+  public function getRealisationsByStage($idStage){
+    $query = "SELECT * FROM ". $this->table_name . " WHERE idStageEtu=:idStageEtu";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':idStageEtu', $idStage, PDO::PARAM_INT);
+    $stmt->execute();
+    $realisations = $stmt->fetchAll(PDO::FETCH_OBJ);
+    
+    $result = [];
+    foreach($realisations as $realisation){
+      $result[$realisation->semaine][] = $realisation;
+    }
+    return $result;
   }
 
 }
