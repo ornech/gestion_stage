@@ -19,6 +19,13 @@ private $description;
   public function createRealisation($idEtu, $idStageEtu, $competences, $titre, $description){
     $query = "INSERT INTO ". $this->table_name . " (idEtu, idStageEtu, competences, titre, description) VALUES (:idEtu, :idStageEtu, :competences, :titre, :description)";
     $stmt = $this->conn->prepare($query);
+
+    $this->idEtu = htmlspecialchars($idEtu);
+    $this->idStageEtu = htmlspecialchars($idStageEtu);
+    $this->competences = htmlspecialchars($competences);
+    $this->titre = htmlspecialchars($titre);
+    $this->description = htmlspecialchars($description);
+
     $stmt->bindParam(':idEtu', $idEtu, PDO::PARAM_INT);
     $stmt->bindParam(':idStageEtu', $idStageEtu, PDO::PARAM_INT);
     $stmt->bindParam(':competences', $competences, PDO::PARAM_STR);
@@ -41,6 +48,7 @@ private $description;
   public function deleteRealisation($id){
     $query = "DELETE FROM ". $this->table_name . " WHERE id=:id";
     $stmt = $this->conn->prepare($query);
+    $this->id = htmlspecialchars($id);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     
     try{
@@ -56,16 +64,24 @@ private $description;
     }
   }
 
-  public function getRealisationsByStage($idStage){
+  public function getRealisationsPerSemaineByStage($idStage, $nbSemaine){
     $query = "SELECT * FROM ". $this->table_name . " WHERE idStageEtu=:idStageEtu";
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':idStageEtu', $idStage, PDO::PARAM_INT);
+
+    $this->idStageEtu = htmlspecialchars($idStage);
+    $stmt->bindParam(':idStageEtu', $this->idStageEtu, PDO::PARAM_INT);
     $stmt->execute();
     $realisations = $stmt->fetchAll(PDO::FETCH_OBJ);
     
     $result = [];
+    // On entre le nombre de semaines dans le tableau
+    for ($i = 1; $i <= $nbSemaine; $i++) {
+        $result[$i] = [];
+    }
+
+    // On remplit le tableau avec les réalisations
     foreach($realisations as $realisation){
-      $result[$realisation->semaine][] = $realisation;
+        $result[$realisation->semaine][] = $realisation;
     }
     return $result;
   }
