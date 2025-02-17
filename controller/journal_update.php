@@ -1,7 +1,8 @@
 <?php
-// Démarrer la session en premier
+// Inclure le fichier qui définit la classe Entreprise
 require_once '../model/Journal.php';
 
+// Démarrer la session en premier
 session_start();
 
 require_once '../config/auth.php';
@@ -9,22 +10,35 @@ require_once '../config/db_connection.php';
 include_once "../controller/controller_log.php";
 
 
-if(isset($_POST["idEtu"]) && isset($_POST["idStage"]) && isset($_POST["idRealisation"])){
+if(isset($_POST["idEtudiant"]) && isset($_POST["idStage"]) && isset($_POST["idRealisation"]) && isset($_POST["semaine"]) && isset($_POST["titre"]) && isset($_POST["description"])){
+  $journal = new Journal($conn);
 
-  $idEtu = $_POST["idEtu"];
+  $idEtu = $_POST["idEtudiant"];
   $idStage = $_POST["idStage"];
   $idRealisation = $_POST["idRealisation"];
+  $semaine = (int)$_POST["semaine"];
+  $titre = $_POST["titre"];
+  $description = $_POST["description"];
+  $competences = isset($_POST["competences"]) ? $_POST["competences"] : [];
+  $competencesResult = 0;
+
+  if(isset($_POST["competences"])){
+    foreach($competences as $competence){
+      $competencesResult += $competence;
+    }
+  }
+
+  $oldValue = $journal->getRealisationsById($idRealisation)[0];
 
   if(($_SESSION["statut"] == "Etudiant" && $idEtu == $_SESSION["userID"]) || ($_SESSION["statut"] == "Professeur")){
-    $journal = new Journal($conn);
 
-    $oldValue = $journal->getRealisationsById($newJournalId)[0];
+    if($journal->updateRealisation($idRealisation, $semaine,  $competencesResult, $titre, $description)){
+      $newValues = $journal->getRealisationsById($idRealisation)[0];
 
-    if($journal->deleteRealisation($idRealisation)){
-     
-      addLog($conn, 21, $_SESSION["userID"], "journal", $idRealisation, $oldValue, null);
+      addLog($conn, 22, $_SESSION["userID"], "journal", $idRealisation, $oldValue, $newValues);
 
       // Redirection vers la page de détails de l'entreprise après la mise à jour
+
       if($_SESSION["statut"] == "Etudiant"){
         header("Location: ../router.php?page=journal&idStage=".$idStage);
         exit();

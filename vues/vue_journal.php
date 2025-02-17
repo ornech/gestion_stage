@@ -56,7 +56,7 @@ function getCompetance($resultCompetence, $competences){
   if(empty($result)){
     echo "Aucune compétence";
   }else{
-    echo "<ul>";
+    echo "<ul id='competences'>";
     foreach($result as $competence){
       echo "<li>$competence</li>";
     }
@@ -181,17 +181,22 @@ if(isset($stages) && isset($journalModel)): ?>
                 </div>
               <?php else: ?>
                 <?php foreach($realisations as $realisation): ?>
-                  <div class="column is-<?= 12 / min(count($realisations), 2) ?> realisation">
+                  <div class="column is-<?= 12 / min(count($realisations), 2) ?> realisation" data-semaine="<?= $semaine ?>">
                     <div class="box">
-                      <h4 class="is-4"><?= htmlspecialchars($realisation->titre) ?></h5>
-                      <p><?= nl2br(htmlspecialchars($realisation->description)) ?></p>
+                      <h4 class="is-4" id="title"><?= htmlspecialchars($realisation->titre) ?></h5>
+                      <p id="description"><?= nl2br(htmlspecialchars($realisation->description)) ?></p>
                       <p><strong>Compétences:</strong> <?= getCompetance(htmlspecialchars($realisation->competences), $competences) ?></p>
-                      <form method="post" action="../controller/journal_delete.php" style="margin-top: 10px;">
-                        <input type="hidden" name="idRealisation" value="<?= $realisation->id ?>">
-                        <input type="hidden" name="idStage" value="<?= $stage->idStage ?>">
-                        <input type="hidden" name="idEtu" value="<?= $Profil->id ?>">
-                        <button type="submit" class="button is-danger is-small" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réalisation ?')">Supprimer</button>
-                      </form>
+                      
+                      <div style="display: flex; gap:10px; align-items: center; margin-top: 10px;">
+                      <button class="button is-link is-small">Modifier</button>
+                        <form method="post" action="../controller/journal_delete.php" style="display: inline-block;">
+                          <input type="hidden" name="idRealisation" value="<?= $realisation->id ?>">
+                          <input type="hidden" name="idStage" value="<?= $stage->idStage ?>">
+                          <input type="hidden" name="idEtu" value="<?= $Profil->id ?>">
+                          <button type="submit" class="button is-danger is-small" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réalisation ?')">Supprimer</button>
+                        </form>
+                      </div>
+
                     </div>
                   </div>
                 <?php endforeach; ?>
@@ -227,6 +232,7 @@ if(isset($stages) && isset($journalModel)): ?>
         });
       </script>
 
+      <!-- MODAL CREATION -->
       <div id="modal-add-realisation" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card" style="overflow: visible;">
@@ -283,11 +289,116 @@ if(isset($stages) && isset($journalModel)): ?>
             </section>
             <footer class="modal-card-foot">
               <button type="submit" class="button is-link">Ajouter</button>
-              <button class="button is-light ml-5">Annuler</button>
+              <button type="button" class="button is-light ml-5">Annuler</button>
             </footer>
           </form>
         </div>
       </div>
+
+      <!-- MODAL MODIFICATION -->
+      <div id="modal-edit-realisation" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card" style="overflow: visible;">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Modifier une réalisation</p>
+            <button class="delete" aria-label="close"></button>
+          </header>
+          <form method="post" action="../controller/journal_update.php">
+            <input type="hidden" name="idRealisation" id="edit-idRealisation">
+            <input type="hidden" name="idStage" value="<?= $stage->idStage ?>">
+            <input type="hidden" name="idEtudiant" value="<?= $Profil->id ?>">
+            <section class="modal-card-body" style="overflow: visible;">
+              <div class="field">
+                <label class="label">Semaine :</label>
+                <div class="control">
+                  <div class="select">
+                    <select name="semaine" id="edit-semaine" required>
+                      <?php for($i = 1; $i <= $nbSemaine; $i++): ?>
+                      <option value="<?= $i ?>">Semaine <?= $i ?></option>
+                      <?php endfor; ?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="field mt-3">
+                  <label class="label">Titre</label>
+                  <div class="control">
+                    <input class="input" type="text" name="titre" id="edit-titre" required>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Description</label>
+                  <div class="control">
+                    <textarea class="textarea" name="description" id="edit-description" required></textarea>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Compétences</label>
+                  <div class="control">
+                    <?php foreach($competences as $id => $competence): ?>
+                      <div class="is-inline-block">
+                        <label class="checkbox mt-1">
+                          <input type="checkbox" name="competences[]" value="<?= $id ?>" class="edit-competence"> <?= htmlspecialchars($competence) ?>
+                          <span class="icon has-tooltip-arrow has-tooltipl-multiline" data-tooltip="<?= $competencesDescription[$id] ?>">
+                            <i class="fas fa-info-circle"></i>
+                          </span>
+                        </label>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <footer class="modal-card-foot">
+              <button type="submit" class="button is-link">Modifier</button>
+              <button type="button" class="button is-light ml-5">Annuler</button>
+            </footer>
+          </form>
+        </div>
+      </div>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const editModal = document.getElementById('modal-edit-realisation');
+          const editButtons = document.querySelectorAll('.button.is-link.is-small');
+          const closeModalButton = editModal.querySelector('.delete');
+          const cancelButton = editModal.querySelector('.button.is-light');
+
+          editButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+              const realisation = event.target.closest('.realisation');
+              const id = realisation.querySelector('input[name="idRealisation"]').value;
+              const titre = realisation.querySelector('#title').innerText;
+              const description = realisation.querySelector('#description').innerText;
+              const competences = Array.from(realisation.querySelectorAll('#competences li')).map(li => li.textContent.trim());
+
+              document.getElementById('edit-idRealisation').value = id;
+              document.getElementById('edit-titre').value = titre;
+              document.getElementById('edit-description').value = description;
+              document.getElementById('edit-semaine').value = realisation.dataset.semaine;
+              console.log(realisation.dataset)
+
+              document.querySelectorAll('.edit-competence').forEach(checkbox => {
+                console.log(checkbox.nextSibling.nodeValue.trim())
+                checkbox.checked = competences.includes(checkbox.nextSibling.nodeValue.trim());
+                console.log(competences)
+              });
+
+              editModal.classList.add('is-active');
+            });
+          });
+
+          closeModalButton.addEventListener('click', () => {
+            editModal.classList.remove('is-active');
+          });
+
+          cancelButton.addEventListener('click', () => {
+            editModal.classList.remove('is-active');
+          });
+        });
+      </script>
 
       <script>
         document.addEventListener('DOMContentLoaded', () => {
