@@ -127,9 +127,9 @@ if(isset($stages) && isset($journalModel)): ?>
       //Déterminé la semaine la plus proche de la date d'aujourd'hui en se basant sur la date de début et de fin du stage
       $selectedSemaine = 0;
 
-      for($i = 1; $i <= $nbSemaine; $i++){
+      for($i = 1; $i < ($nbSemaine +1); $i++){
         $dateDebut = date('Y-m-d', strtotime($stage->dateDebut . " + " . ($i - 1) * 7 . " days"));
-        $dateFin = date('Y-m-d', strtotime($stage->dateDebut . " + " . $i * 7 . " days"));
+        $dateFin = date('Y-m-d', strtotime($stage->dateDebut . " + " . $i * 7 . " days -1 day"));
 
         if($dateDebut <= $date && $date <= $dateFin){
           $selectedSemaine = $i;
@@ -227,61 +227,63 @@ if(isset($stages) && isset($journalModel)): ?>
 
       <div id="modal-add-realisation" class="modal">
         <div class="modal-background"></div>
-        <div class="modal-card">
+        <div class="modal-card" style="overflow: visible;">
           <header class="modal-card-head">
             <p class="modal-card-title">Ajouter une réalisation</p>
             <button class="delete" aria-label="close"></button>
           </header>
-          <section class="modal-card-body">
-            <form method="post" action="router.php?page=addRealisation">
+          <form method="post" action="../controller/journal_create.php">
+            <input type="hidden" name="idStage" value="<?= $stage->idStage ?>">
+            <input type="hidden" name="idEtudiant" value="<?= $Profil->id ?>">
+            <section class="modal-card-body" style="overflow: visible;">
               <div class="field">
                 <label class="label">Semaine :</label>
                 <div class="control">
                   <div class="select">
-                  <select name="semaine" required>
-                    <?php for($i = 1; $i <= $nbSemaine; $i++): ?>
-                    <option value="<?= $i ?>">Semaine <?= $i ?></option>
-                    <?php endfor; ?>
-                  </select>
+                    <select name="semaine" required>
+                      <?php for($i = 1; $i <= $nbSemaine; $i++): ?>
+                      <option value="<?= $i ?>" <?= $i == $selectedSemaine ? "selected":""?>>Semaine <?= $i ?></option>
+                      <?php endfor; ?>
+                    </select>
                   </div>
                 </div>
 
-              <div class="field mt-3">
-                <label class="label">Titre</label>
-                <div class="control">
-                  <input class="input" type="text" name="titre" required>
+                <div class="field mt-3">
+                  <label class="label">Titre</label>
+                  <div class="control">
+                    <input class="input" type="text" name="titre" required>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Description</label>
+                  <div class="control">
+                    <textarea class="textarea" name="description" required></textarea>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Compétences</label>
+                  <div class="control">
+                    <?php foreach($competences as $id => $competence): ?>
+                      <div class="is-inline-block">
+                        <label class="checkbox mt-1">
+                          <input type="checkbox" name="competences[]" value="<?= $id ?>"> <?= htmlspecialchars($competence) ?>
+                          <span class="icon has-tooltip-arrow has-tooltipl-multiline" data-tooltip="<?= $competencesDescription[$id] ?>">
+                            <i class="fas fa-info-circle"></i>
+                          </span>
+                        </label>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
                 </div>
               </div>
-
-              <div class="field">
-                <label class="label">Description</label>
-                <div class="control">
-                  <textarea class="textarea" name="description" required></textarea>
-                </div>
-              </div>
-
-              <div class="field">
-                <label class="label">Compétences</label>
-                <div class="control">
-                  <?php foreach($competences as $id => $competence): ?>
-                    <div class="is-inline-block">
-                      <label class="checkbox mt-1">
-                        <input type="checkbox" name="competences[]" value="<?= $id ?>"> <?= htmlspecialchars($competence) ?>
-                        <span class="icon has-tooltip-arrow has-tooltipl-multiline" data-tooltip="<?= $competencesDescription[$id] ?>">
-                          <i class="fas fa-info-circle"></i>
-                        </span>
-                      </label>
-                    </div>
-                  <?php endforeach; ?>
-                </div>
-              </div>
-
-            </form>
-          </section>
-          <footer class="modal-card-foot">
-            <button type="submit" class="button is-link">Ajouter</button>
-            <button class="button is-light ml-5">Annuler</button>
-          </footer>
+            </section>
+            <footer class="modal-card-foot">
+              <button type="submit" class="button is-link">Ajouter</button>
+              <button class="button is-light ml-5">Annuler</button>
+            </footer>
+          </form>
         </div>
       </div>
 

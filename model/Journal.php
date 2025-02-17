@@ -16,18 +16,20 @@ private $description;
   }
 
   //Création d'une réalisation
-  public function createRealisation($idEtu, $idStageEtu, $competences, $titre, $description){
-    $query = "INSERT INTO ". $this->table_name . " (idEtu, idStageEtu, competences, titre, description) VALUES (:idEtu, :idStageEtu, :competences, :titre, :description)";
+  public function createRealisation($idEtu, $idStageEtu, $semaine, $competences, $titre, $description){
+    $query = "INSERT INTO ". $this->table_name . " (idEtu, idStageEtu, semaine, competences, titre, description) VALUES (:idEtu, :idStageEtu, :semaine, :competences, :titre, :description)";
     $stmt = $this->conn->prepare($query);
 
     $this->idEtu = htmlspecialchars($idEtu);
     $this->idStageEtu = htmlspecialchars($idStageEtu);
+    $this->semaine = htmlspecialchars($semaine);
     $this->competences = htmlspecialchars($competences);
     $this->titre = htmlspecialchars($titre);
     $this->description = htmlspecialchars($description);
 
     $stmt->bindParam(':idEtu', $idEtu, PDO::PARAM_INT);
     $stmt->bindParam(':idStageEtu', $idStageEtu, PDO::PARAM_INT);
+    $stmt->bindParam(':semaine', $semaine, PDO::PARAM_INT);
     $stmt->bindParam(':competences', $competences, PDO::PARAM_STR);
     $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
     $stmt->bindParam(':description', $description, PDO::PARAM_STR);
@@ -84,6 +86,16 @@ private $description;
         $result[$realisation->semaine][] = $realisation;
     }
     return $result;
+  }
+
+  public function getRealisationsById($id){
+    $query = "SELECT * FROM ". $this->table_name . " WHERE id=:id";
+    $stmt = $this->conn->prepare($query);
+
+    $this->id = htmlspecialchars($id);
+    $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
 }

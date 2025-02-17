@@ -42,7 +42,7 @@ function checkIsComplete($profilToCheck)
   <thead>
     <tr>
       <th>Noms étudiants</th>
-      <th>Entreprise</th>
+      <th>Entreprises</th>
       <th>Dates</th>
       <th>Conventions</th>
       <th>Journal</th>
@@ -64,8 +64,8 @@ function checkIsComplete($profilToCheck)
       $professeurs = $profilModel->list_by_professeur();
     ?>
 
-      <tr <?= isset($profilStage) ? "class='is-selected is-light' onclick=\"window.location = 'router.php?page=stage_read&id={$profilStage->idStage}'\" style='cursor: pointer;'" : '' ?>>
-        <th style="vertical-align: middle;">
+      <tr>
+        <th style="vertical-align: middle;" <?= isset($profilStage) ? "class='is-selected is-light' onclick=\"window.location = 'router.php?page=stage_read&id={$profilStage->idStage}'\" style='cursor: pointer;'" : '' ?>>
 
           <?php
           if (!isset($profilStage)) : ?>
