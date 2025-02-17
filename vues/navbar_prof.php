@@ -14,6 +14,7 @@ if(isset($operationsModel)){
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
     </a>
   </div>
 

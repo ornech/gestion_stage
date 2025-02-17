@@ -1,5 +1,9 @@
 <?php
 require_once 'config/auth.php';
+
+setlocale(LC_TIME, 'fr_FR.UTF-8');
+$fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
+
 ?>
 
 <?php
@@ -38,10 +42,10 @@ function checkIsComplete($profilToCheck)
   <thead>
     <tr>
       <th>Noms étudiants</th>
-      <th>Stages</th>
-      <th>Début des stages</th>
-      <th>Fin des stages</th>
+      <th>Entreprises</th>
+      <th>Dates</th>
       <th>Conventions</th>
+      <th>Journal</th>
     </tr>
   </thead>
   <tbody>
@@ -60,8 +64,8 @@ function checkIsComplete($profilToCheck)
       $professeurs = $profilModel->list_by_professeur();
     ?>
 
-      <tr <?= isset($profilStage) ? "class='is-selected is-light' onclick=\"window.location = 'router.php?page=stage_read&id={$profilStage->idStage}'\" style='cursor: pointer;'" : '' ?>>
-        <th style="vertical-align: middle;">
+      <tr <?= isset($profilStage) ? "class='is-selected is-light'" : "" ?>>
+        <th style="vertical-align: middle;" <?= isset($profilStage) ? "onclick=\"window.location = 'router.php?page=stage_read&id={$profilStage->idStage}'\" style='cursor: pointer;'" : '' ?>>
 
           <?php
           if (!isset($profilStage)) : ?>
@@ -74,20 +78,32 @@ function checkIsComplete($profilToCheck)
           <?php echo "$profil->nom  $profil->prenom"; ?>
 
         </th>
-
-        <td style="vertical-align: middle;">
+        <td style="vertical-align: middle;" <?= (isset($profilStage->idStage) && isset($profilStage->Entreprise)) ? "onclick='event.stopPropagation(); window.location = \"router.php?page=fiche_entreprise&idEntreprise={$profilStage->idEntreprise}\"'" : "" ?>>
           <?php if (isset($profilStage->idStage)) : ?>
-           <b><?= isset($profilStage->Entreprise) ? $profilStage->Entreprise : "-" ?></b>
+           <b style="text-decoration: underline;"><?= isset($profilStage->Entreprise) ? $profilStage->Entreprise : "-" ?></b>
           <?php else : ?>
             -
           <?php endif; ?>
         </td>
 
-        <td style="vertical-align: middle;"><?= isset($profilStage->dateDebut) ? $profilStage->dateDebut : "-" ?></td>
-        <td style="vertical-align: middle;"><?= isset($profilStage->dateFin) ? $profilStage->dateFin : "-" ?></td>
+        <td style="vertical-align: middle;">
+          <?php if(isset($profilStage->dateDebut) && isset($profilStage->dateFin)): ?>
+            <?= $fmt->format(strtotime($profilStage->dateDebut)) ?> au <?= $fmt->format(strtotime($profilStage->dateFin)) ?>
+          <?php else: ?>
+            -
+          <?php endif; ?>
+        </td>
         <td>
           <?php if(isset($profilStage->idStage)): ?>
-            <button onclick="event.stopPropagation(); window.location.href='router.php?page=stage_convention&idStage=<?= $profilStage->idStage ?>'" class="button is-link is-light">Obtenir</button>
+            <button onclick="event.stopPropagation(); window.location.href='router.php?page=stage_convention&idStage=<?= $profilStage->idStage ?>'" class="button is-link is-light is-small">Obtenir</button>
+          <?php else: ?>
+            -
+          <?php endif; ?>
+        </td>
+
+        <td>
+          <?php if(isset($profilStage->idStage)): ?>
+            <button onclick="event.stopPropagation(); window.location.href='router.php?page=journal&idStage=<?= $profilStage->idStage ?>&idEtu=<?= $profilStage->idEtudiant ?>'" class="button is-link is-light is-small">Voir</button>
           <?php else: ?>
             -
           <?php endif; ?>
