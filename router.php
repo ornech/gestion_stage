@@ -315,7 +315,7 @@ function router($page, $conn)
       $idEtudiant = isset($_GET['idEtudiant']) ? $_GET['idEtudiant'] : null;
       $stageModel = new Stage($conn);
       $profilModel = new Profil($conn);
-      $Profil = $profilModel->list_by_professeur($idEtudiant);
+      $Profil = $profilModel->list_by_professeur();
       $stage = $stageModel->stage_by_id($idStage);
       include 'vues/vue_stage_user.php';
       break;
@@ -573,6 +573,47 @@ function router($page, $conn)
       $profs = $profilModel->list_by_professeur();
 
       include 'vues/vue_classes_gestion.php';
+      break;
+    
+    case 'journal':
+      include_once 'model/Journal.php';
+      include_once 'model/Profil.php';
+      include_once 'model/Stage.php';
+
+      $journalModel = new Journal($conn);
+      $profilModel = new Profil($conn);
+      $stageModel = new Stage($conn);
+
+      $id = isset($_SESSION['userID']) ? $_SESSION['userID'] : null;
+
+      if ($id == null) {
+        header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès à la vue.");
+        exit();
+      }
+      
+      if($_SESSION['statut'] === 'Professeur' && isset($_GET['idEtu'])){
+        $Profil = $profilModel->read_profil($_GET['idEtu']);
+        if($Profil->statut != 'Etudiant'){
+          header("Location: router.php?page=erreur&title=Erreur d'accès&message=Aucun étudiant trouvé.");
+        }
+        $stages = $stageModel->readFromEtudiantId($Profil->id);
+      }else{
+        $Profil = $profilModel->read_my_profil();
+        $stages = $stageModel->readFromEtudiantId($Profil->id);
+      }
+
+      if($Profil == null){
+        header("Location: router.php?page=erreur&title=Erreur d'accès&message=Aucun étudiant trouvé.");
+      }
+
+      if(isset($_GET["idStage"])){
+        $idStage = $_GET["idStage"];
+        $stage = $stageModel->stage_by_id($idStage) == null ? null : $stageModel->stage_by_id($idStage)[0];
+        if($stage == null) unset($stage);
+        elseif($stage->idEtudiant != $Profil->id)unset($stage);
+      }
+
+      include 'vues/vue_journal.php';
       break;
 
     case 'erreur':

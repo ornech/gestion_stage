@@ -67,7 +67,6 @@ if(isset($log)):
             <!-- AFFICHACHE SUPPLEMENTAIRE POUR LES PROFILS -->
             <?php elseif ($log->entite_type == "stage" && $log->idLogType != 18):?>
             <?php
-              var_dump($log);
               include_once 'model/Stage.php';
               $stageModel = new Stage($conn);
               $stage = isset($stageModel->stage_by_id($log->entite_id)[0]) ? $stageModel->stage_by_id($log->entite_id)[0] : null;
