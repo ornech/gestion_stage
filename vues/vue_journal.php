@@ -186,8 +186,10 @@ if(isset($stages) && isset($journalModel)): ?>
                       <h4 class="is-4"><?= htmlspecialchars($realisation->titre) ?></h5>
                       <p><?= nl2br(htmlspecialchars($realisation->description)) ?></p>
                       <p><strong>Compétences:</strong> <?= getCompetance(htmlspecialchars($realisation->competences), $competences) ?></p>
-                      <form method="post" action="router.php?page=deleteRealisation" style="margin-top: 10px;">
+                      <form method="post" action="../controller/journal_delete.php" style="margin-top: 10px;">
                         <input type="hidden" name="idRealisation" value="<?= $realisation->id ?>">
+                        <input type="hidden" name="idStage" value="<?= $stage->idStage ?>">
+                        <input type="hidden" name="idEtu" value="<?= $Profil->id ?>">
                         <button type="submit" class="button is-danger is-small" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réalisation ?')">Supprimer</button>
                       </form>
                     </div>
