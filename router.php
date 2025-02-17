@@ -591,7 +591,7 @@ function router($page, $conn)
         exit();
       }
       
-      if($_SESSION['statut'] === 'Professeur' && $_GET['idEtu'] != null){
+      if($_SESSION['statut'] === 'Professeur' && isset($_GET['idEtu'])){
         $Profil = $profilModel->read_profil($_GET['idEtu']);
         if($Profil->statut != 'Etudiant'){
           header("Location: router.php?page=erreur&title=Erreur d'accès&message=Aucun étudiant trouvé.");
