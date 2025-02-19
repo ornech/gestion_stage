@@ -29,7 +29,13 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
         ?>
         <!-- --------------- DEBUT NOUVELLE VUE ----------------------  -->
         <p class="title is-1">Stage <?= $stage->classe ?></p>
-        <p class="subtitle is-3"><a href='../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>'><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></a></p>
+        <p class="subtitle is-3">
+          <?php if($_SESSION['statut'] == "Professeur") : ?>
+            <a href="../router.php?page=view_profil&id=<?= $stage->idEtudiant ?>"><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></a>
+          <?php else : ?>
+          <a href='../router.php?page=profil'><?= $stage->EtudiantNom ?> <?= $stage->EtudiantPrenom ?></a>
+          <?php endif; ?>
+        </p>
         <div style="display: flex; align-items: center;">
           <p class="card-text" style="margin-right: 10px;">Professeur assigné: </p>
           <?php if ($_SESSION['statut'] == "Professeur") : ?>
