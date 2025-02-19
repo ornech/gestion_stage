@@ -38,7 +38,7 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
         </p>
         <div style="display: flex; align-items: center;">
           <p class="card-text" style="margin-right: 10px;">Professeur assigné: </p>
-          <?php if ($_SESSION['statut'] == "Professeur") : ?>
+          <?php if ($_SESSION['statut'] == "Professeur"): ?>
             <form method="POST" action="">
               <input type="hidden" name="stageId" class="stageId" value="<?= isset($stage->idStage) ? $stage->idStage : "" ?>">
 
@@ -75,16 +75,11 @@ if ($_GET["page"] == "stage_read" || $_GET["page"] == "stage") {
               ?>
             </form>
           <?php else : ?>
-            <?php foreach ($professeurs as $professeur) {
-              if (isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id) {
-            ?>
+            <?php foreach ($professeurs as $professeur):
+              if (isset($stage->idProfesseur) && $stage->idProfesseur == $professeur->id):?>
                 <p> <?= "$professeur->nom $professeur->prenom" ?> </p>
-
-
-            <?php        }
-            }
-            ?>
-            <?= "$professeur->nom $professeur->prenom" ?>
+            <?php endif;
+            endforeach;?>
           <?php endif; ?>
         </div>
         <div class="fixed-grid">
