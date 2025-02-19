@@ -313,12 +313,27 @@ function router($page, $conn)
     case 'stage_read':
       include_once 'model/Stage.php';
       include_once 'model/Profil.php';
-      $idStage = isset($_GET['id']) ? $_GET['id'] : null;
-      $idEtudiant = isset($_GET['idEtudiant']) ? $_GET['idEtudiant'] : null;
+
       $stageModel = new Stage($conn);
       $profilModel = new Profil($conn);
-      $Profil = $profilModel->list_by_professeur();
+
+      $idStage = isset($_GET['id']) ? $_GET['id'] : null;
+
       $stage = $stageModel->stage_by_id($idStage);
+
+      if($_SESSION['statut'] == "Professeur" && isset($_GET['idEtudiant'])){
+        $idEtudiant = $_GET['idEtudiant'];
+      }else if($_SESSION['statut'] == "Etudiant"){
+        $idEtudiant = $_SESSION['userID'];
+
+        if($stage[0]->idEtudiant != $idEtudiant){
+          header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès à la fiche du stage, veuillez réessayer.");
+        }
+      }else{
+        header("Location: router.php?page=erreur&title=Erreur d'accès&message=Erreur lors de l'accès à la fiche du stage, veuillez réessayer.");
+      }
+
+      $Profil = $profilModel->list_by_professeur();
       include 'vues/vue_stage_user.php';
       break;
 
