@@ -3,7 +3,7 @@ session_start();
 require_once '../config/db_connection.php';
 include_once '../model/Login.php';
 
-if(isset($_POST["userId"]) && isset($_POST["new_password"]) && isset($_POST["confirm_password"])){ 
+if(isset($_POST["userId"]) && isset($_POST["new_password"]) && isset($_POST["confirm_password"]) && $_SESSION["userID"] == $_POST["userId"]){ 
   require_once '../controller/controller_log.php';
   
     $userId = $_POST['userId'];

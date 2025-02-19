@@ -16,6 +16,13 @@ if (isset($_GET["idStage"])) {
   $stage = $stageModel->stage_by_id($_GET["idStage"]);
   $data = $stage[0];
 
+  if($_SESSION['statut'] == "Etudiant" && $data->idEtudiant != $_SESSION["userID"]){
+    $message = "Vous n'avez pas le droit d'accéder à cette page.";
+    $titre = "Erreur lors de la récupération de la convention !";
+    header("Location: ../router.php?page=erreur&message=$message&titre=$titre");
+    exit();
+  }
+
   $classe = $classeModel->getProfPrincipalByClasseAndPromo($data->classe, $data->EtudiantPromo);
 
   $userPP = $profilModel->read_profil($classe->idProfPrincipal);

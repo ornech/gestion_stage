@@ -252,6 +252,7 @@ if ($ficheEntreprise) {
 </div>
 
 <!-- -----------------------------MODAL DE SUPPRESSION DE L'ENTREPRISE--------------------------------- -->
+ <?php if($_SESSION["statut"] == "Professeur"):?>
 <div class="modal" id="modalSupprimer">
   <div class="modal-background"></div>
   <div class="modal-card">
@@ -317,6 +318,8 @@ if ($ficheEntreprise) {
     </footer>
   </div>
 </div>
+
+<?php endif;?>
 
 
 <script>

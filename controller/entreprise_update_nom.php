@@ -10,7 +10,7 @@ session_start();
 require_once '../config/auth.php';
 require_once '../config/db_connection.php';
 
-if(isset($_POST["nomEntreprise"]) && isset($_POST["entrepriseID"])){
+if(isset($_POST["nomEntreprise"]) && isset($_POST["entrepriseID"]) && $_SESSION["statut"] == "Professeur"){
   include_once "../controller/controller_log.php";
 
   $entreprise = new Entreprise($conn);

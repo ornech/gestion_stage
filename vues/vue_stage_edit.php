@@ -112,7 +112,7 @@ require_once 'config/auth.php';
 
         <div class="field">
           <div class="control">
-            <button class="button is-primary" id="submitForm" disabled>Créer</button>
+            <button class="button is-primary" id="submitForm" disabled>Modifier</button>
           </div>
         </div>
 

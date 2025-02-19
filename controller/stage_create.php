@@ -17,7 +17,7 @@ if(isset($_POST['idEntreprise'])) {
   // Récupération des données du formulaire
   $idEntreprise = $_POST['idEntreprise'];
   $idMaitreDeStage = $_POST['idMaitreDeStage'];
-  $idEtudiant = $_POST['idEtudiant'];
+  $idEtudiant = $_SESSION['userID'];
   $classe = $_POST['classe'];
   $dateDebut = $_POST['dateDebut'];
   $duree = $_POST['duree'];

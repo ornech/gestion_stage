@@ -7,7 +7,7 @@ require_once '../config/db_connection.php';
 
 require_once '../model/Profil.php';
 
-if(isset($_POST['id']) && isset($_POST['classe'])) {
+if(isset($_POST['id']) && isset($_POST['classe']) && $_SESSION["statut"] == "Professeur") {
     include "../controller/controller_log.php";
     include "../controller/verifications.php";
     $profil = new Profil($conn);
@@ -29,7 +29,7 @@ if(isset($_POST['id']) && isset($_POST['classe'])) {
         echo "Erreur lors de la mise à jour de la classe";
     }
 } else {
-    echo "Erreur lors de la récupération des données";
+    header("Location: /router.php?page=erreur&titre=Erreur&message=Veuillez remplir tous les champs");
 }
 
 ?>

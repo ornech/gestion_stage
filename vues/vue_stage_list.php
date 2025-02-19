@@ -65,7 +65,7 @@ function checkIsComplete($profilToCheck)
     ?>
 
       <tr <?= isset($profilStage) ? "class='is-selected is-light'" : "" ?>>
-        <th style="vertical-align: middle;" <?= isset($profilStage) ? "onclick=\"window.location = 'router.php?page=stage_read&id={$profilStage->idStage}'\" style='cursor: pointer;'" : '' ?>>
+        <th <?= isset($profilStage) ? "onclick=\"window.location = 'router.php?page=stage_read&id={$profilStage->idStage}'\" style='vertical-align: middle; cursor: pointer;'" : "style='vertical-align: middle;'" ?>>
 
           <?php
           if (!isset($profilStage)) : ?>
@@ -78,7 +78,7 @@ function checkIsComplete($profilToCheck)
           <?php echo "$profil->nom  $profil->prenom"; ?>
 
         </th>
-        <td style="vertical-align: middle;" <?= (isset($profilStage->idStage) && isset($profilStage->Entreprise)) ? "onclick='event.stopPropagation(); window.location = \"router.php?page=fiche_entreprise&idEntreprise={$profilStage->idEntreprise}\"'" : "" ?>>
+        <td <?= (isset($profilStage->idStage) && isset($profilStage->Entreprise)) ? "onclick='event.stopPropagation(); window.location = \"router.php?page=fiche_entreprise&idEntreprise={$profilStage->idEntreprise}\"' style='cursor: pointer; vertical-align: middle;'" : "style='vertical-align: middle;'" ?>>
           <?php if (isset($profilStage->idStage)) : ?>
            <b style="text-decoration: underline;"><?= isset($profilStage->Entreprise) ? $profilStage->Entreprise : "-" ?></b>
           <?php else : ?>

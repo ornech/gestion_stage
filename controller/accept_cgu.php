@@ -5,6 +5,11 @@ require_once '../config/db_connection.php';
 include_once '../model/Login.php';
 
 if(isset($_POST["id"]) && isset($_POST["cgu_accepte"])){ 
+  if($_SESSION['id'] != $id){
+    header("Location: /router.php?page=login&erreur=Erreur lors de l'acceptation des CGU");
+    exit;
+  }
+  
   $id = $_POST['id'];
   var_dump($_POST);
 

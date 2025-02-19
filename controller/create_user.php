@@ -14,7 +14,7 @@ require_once '../controller/verifications.php';
 // ($nom,$prenom,$email,$telephone,$promo,$login,$password,$statut)
 var_dump($_POST);
 // Vérifie si le formulaire a été soumis
-if(isset($_POST['nom'])) {
+if(isset($_POST['nom']) && $_SESSION["statut"] == "Professeur") {
   require_once '../controller/controller_log.php';
 
   // Récupération des données du formulaire
@@ -60,8 +60,7 @@ if(isset($_POST['nom'])) {
 
 } else {
   // Rediriger vers une page d'erreur si le formulaire n'a pas été soumis
-  // header("Location: vue_erreur.php");
-  echo "<BR>Erreur ... ";
+  header("Location: vue_erreur.php?erreur=403");
   exit();
 }
 ?>
