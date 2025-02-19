@@ -12,7 +12,7 @@
 
 
   <title>Conditions Générales d'Utilisation</title>
-  <div class="container">
+  <div <?php if(!isset($isModal)):?> class="container" <?php endif; ?>>
     <h1 class="title has-text-centered">Conditions Générales d'Utilisation</h1>
 
     <section class="section">

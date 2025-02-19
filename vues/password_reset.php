@@ -5,10 +5,10 @@
   }
 ?>
 
-<div class="columns is-centered" style="height: 100vh; align-items: center;">
-  <div class="column is-one-third">
+<div class="columns is-centered is-mobile" style="height: 100vh; align-items: center;">
+  <div class="column is-full-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd box p-5">
 
-    <form class="box container" action="../controller/password_reset.php" method="post">
+    <form action="../controller/password_reset.php" method="post">
       <input type="hidden" name="userId" value="<?=$_SESSION['userID']?>">
       <fieldset>
 
