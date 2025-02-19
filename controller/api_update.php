@@ -27,7 +27,7 @@ $entrepriseData = array(
 );
 
 // Vérifie si le formulaire a été soumis
-if (isset($_POST['EntrepriseID'])) {
+if (isset($_POST['EntrepriseID']) && $_SESSION["statut"] == "Professeur") {
   require_once '../controller/controller_log.php';
   // Récupération des données du formulaire
   $EntrepriseID = $_POST['EntrepriseID'];

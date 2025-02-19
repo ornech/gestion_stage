@@ -10,7 +10,7 @@ require_once '../config/auth.php';
 require_once '../config/db_connection.php';
 
 // Vérifie si le formulaire a été soumis
-if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"]) && isset($_POST["idStage"])){
+if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"]) && isset($_POST["idStage"])) {
   require_once '../controller/controller_log.php';
 
   // Récupération des données du formulaire
@@ -23,6 +23,14 @@ if(isset($_POST['idEntreprise']) && isset($_POST["idMaitreDeStage"]) && isset($_
 
   // Création d'une instance de l'objet Stage
   $stage = new Stage($conn);
+
+  //Vérifier si c'est un professeur ou si le stage appartient à l'étudiant
+  if($_SESSION['statut'] != "Professeur" && $stage->stage_by_id($idStage)[0]->idEtudiant != $_SESSION['userID']){
+    $message = "Vous n'avez pas le droit de modifier ce stage.";
+    $titre = "Erreur lors que la modification du stage !";
+    header("Location: ../router.php?page=erreur&message=$message&titre=$titre");
+    exit();
+  }	
 
   $oldValues = $stage->stage_by_id($idStage)[0];
 

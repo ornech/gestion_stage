@@ -11,7 +11,7 @@ require_once '../model/Contact.php';
 require_once '../model/Entreprise.php';
 require_once '../model/Stage.php';
 
-if(isset($_POST["userId"])){
+if(isset($_POST["userId"]) && $_SESSION["statut"] == "Professeur"){
   if(anonymizeUser($_POST["userId"])){
     header("Location: /router.php?page=gestion_etu");
     exit;

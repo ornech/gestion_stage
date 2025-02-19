@@ -7,7 +7,7 @@ require_once '../config/db_connection.php';
 require_once '../model/Contact.php';
 require_once '../model/Entreprise.php';
 
-if(isset($_POST["idEntite"]) && isset($_POST["type"])){
+if(isset($_POST["idEntite"]) && isset($_POST["type"]) && $_SESSION["statut"] == "Professeur"){
   require_once '../controller/controller_log.php';
   $id = $_POST["idEntite"];
 

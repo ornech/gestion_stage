@@ -7,7 +7,7 @@ require_once '../config/db_connection.php';
 
 require_once '../model/Profil.php';
 
-if (isset($_POST['id']) && isset($_POST['telephone'])) {
+if (isset($_POST['id']) && isset($_POST['telephone']) && ($_SESSION["statut"] == "Etudiant" && $idEtu == $_SESSION["userID"]) || ($_SESSION["statut"] == "Professeur")) {
   include "../controller/controller_log.php";
   $profil = new Profil($conn);
 

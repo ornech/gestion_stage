@@ -6,7 +6,7 @@ require_once "../config/db_connection.php";
 require_once "../model/Classe.php";
 
 var_dump($_POST);
-if (isset($_POST["nomClasse"]) && isset($_POST["promo"]) && isset($_POST["dateDebut"]) && isset($_POST["dateFin"])) {
+if (isset($_POST["nomClasse"]) && isset($_POST["promo"]) && isset($_POST["dateDebut"]) && isset($_POST["dateFin"]) && $_SESSION["statut"] == "Professeur") {
   $classeModel = new Classe($conn);
   $classe = $_POST["nomClasse"];
   $promo = $_POST["promo"];

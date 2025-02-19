@@ -123,17 +123,18 @@ function router($page, $conn)
       include 'vues/vue_fiche_entreprises.php';
       break;
 
-    case 'modifier_entreprise':
-      include_once 'model/Entreprise.php';
-      // Instancier le modèle Entreprise
-      $entrepriseModel = new Entreprise($conn);
-      // Récupérer l'ID de l'entreprise depuis l'URL
-      $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
-      // Charger les détails de l'entreprise en fonction de l'ID
-      $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
-      // Inclure la vue pour modifier les détails de l'entreprise
-      include 'vues/vue_modif_entreprise.php';
-      break;
+    //Codé mais non utilisé
+    // case 'modifier_entreprise': 
+    //   include_once 'model/Entreprise.php';
+    //   // Instancier le modèle Entreprise
+    //   $entrepriseModel = new Entreprise($conn);
+    //   // Récupérer l'ID de l'entreprise depuis l'URL
+    //   $idEntreprise = isset($_GET['idEntreprise']) ? $_GET['idEntreprise'] : null;
+    //   // Charger les détails de l'entreprise en fonction de l'ID
+    //   $ficheEntreprise = $entrepriseModel->read_fiche($idEntreprise);
+    //   // Inclure la vue pour modifier les détails de l'entreprise
+    //   include 'vues/vue_modif_entreprise.php';
+    //   break;
 
     case 'create_entreprise':
       $nomEntreprise = isset($_GET['nomEntreprise']) ? $_GET['nomEntreprise'] : null;
@@ -191,31 +192,32 @@ function router($page, $conn)
       include 'vues/vue_profil_create_user.php';
       break;
 
-    case 'edit_profil':
-      route_protect('Professeur');
-      include_once 'model/Profil.php';
-      $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
-      $profilModel = new Profil($conn);
+    //Route et fonctionnalités codées mais non utilisées
+    // case 'edit_profil':
+    //   route_protect('Professeur');
+    //   include_once 'model/Profil.php';
+    //   $idProfil = isset($_GET['id']) ? $_GET['id'] : null;
+    //   $profilModel = new Profil($conn);
 
-      if ($idProfil == null) {
-        header("Location: router.php?page=erreur&title=Erreur&message=Une erreur est survenue lors de l'accès à la page.");
-      }
+    //   if ($idProfil == null) {
+    //     header("Location: router.php?page=erreur&title=Erreur&message=Une erreur est survenue lors de l'accès à la page.");
+    //   }
 
-      $Profil = $profilModel->read_profil($idProfil);
+    //   $Profil = $profilModel->read_profil($idProfil);
 
-      if ($Profil->statut == "Professeur" && $idProfil != $_SESSION["userID"]) {
-        header("Location: router.php?page=erreur&title=Erreur&message=Vous ne pouvez pas modifier un profil de type professeur.");
-      }
+    //   if ($Profil->statut == "Professeur" && $idProfil != $_SESSION["userID"]) {
+    //     header("Location: router.php?page=erreur&title=Erreur&message=Vous ne pouvez pas modifier un profil de type professeur.");
+    //   }
 
-      include 'vues/vue_profil_edit.php';
-      break;
+    //   include 'vues/vue_profil_edit.php';
+    //   break;
 
-    case 'edit_my_profil':
-      include_once 'model/Profil.php';
-      $profilModel = new Profil($conn);
-      $Profil = $profilModel->read_my_profil();
-      include 'vues/vue_profil_edit.php';
-      break;
+    // case 'edit_my_profil':
+    //   include_once 'model/Profil.php';
+    //   $profilModel = new Profil($conn);
+    //   $Profil = $profilModel->read_my_profil();
+    //   include 'vues/vue_profil_edit.php';
+    //   break;
 
     case 'gestion_etu':
       route_protect('Professeur');
@@ -340,7 +342,7 @@ function router($page, $conn)
       $stageModel = new Stage($conn);
       $Stage = isset($stageModel->stage_by_id($idStage)[0]) ? $stageModel->stage_by_id($idStage) : null;
 
-      if ($Stage == null) {
+      if ($Stage == null || (($_SESSION['statut'] == "Etudiant" && $Stage[0]->idEtudiant != $_SESSION['userID']))) {
         exit(header("Location: router.php?page=erreur&title=Erreur d'accès&message=Impossible de trouver le stage demandé, veuillez réessayer."));
       }
 
@@ -450,10 +452,11 @@ function router($page, $conn)
 
       break;
 
-    case 'stage_suivi_prof':
-      route_protect('Professeur');
-      include 'vues/vue_stage_suivi_create.php';
-      break;
+    //Codé mais non utilisé
+    // case 'stage_suivi_prof':
+    //   route_protect('Professeur');
+    //   include 'vues/vue_stage_suivi_create.php';
+    //   break;
 
     case 'vue_popup_select_etu':
       include_once 'model/Profil.php';
