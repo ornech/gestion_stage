@@ -633,6 +633,23 @@ function router($page, $conn)
 
       include 'vues/vue_journal.php';
       break;
+    
+    // Communication -> Entreprises
+    case 'comm_entreprise':
+      route_protect('Professeur');
+      include_once 'model/Entreprise.php'; // Inclure le modèle Entreprise
+      include_once 'model/Contact.php'; // Inclure le modèle Contact
+
+      $entrepriseModel = new Entreprise($conn); // Instancier le modèle
+      $entreprises = $entrepriseModel->read();
+
+      $contactModel = new Contact($conn); // Instancier le modèle
+      $contacts = $contactModel->list();
+
+      //var_dump($contacts); // Vérifier si des contacts sont bien récupérés
+
+      include 'vues/vue_communication_entreprise.php'; 
+      break;
 
     case 'erreur':
       $message = isset($_GET['messge']) ? $_GET['message'] : null;
@@ -643,6 +660,10 @@ function router($page, $conn)
       header("Location: router.php?page=erreur&title=Erreur 404&message=La page demandée n'existe pas.");
       break;
   }
+
+
+  // 
+
 }
 
 // Appeler la fonction de routage pour afficher la vue appropriée
