@@ -1,68 +1,114 @@
 <?php
 require_once 'config/auth.php';
-?></td>
-
-
 ?>
-<H1> Liste des contats</H1>
-<table class="table tableFilter">
+<p class="title is-2"> Liste des contacts</p>
+<h3>Emails sélectionnés :</h3>
+<textarea id="emailList" class="textarea" rows="5" readonly></textarea>
+
+<table class="table is-fullwidth is-hoverable">
     <thead>
         <tr>
-            <th>Contact</th>
-            <th>Email</th>
-            <th>Entreprise</th>
-            <th>Jury</th>
-
+            <th class="has-text-centered">Contact</th>
+            <th class="has-text-centered">Email</th>
+            <th class="has-text-centered">Entreprise</th>
+            <th class="has-text-centered">Jury</th>
         </tr>
     </thead>
+
     <?php foreach ($contacts as $contact) {
         if ($contact->email === "") continue;
     ?>
-        <TR>
+        <tr data-email="<?= htmlspecialchars($contact->email) ?>">
             <td><?= $contact->nom != null ? htmlspecialchars($contact->nom) : "-" ?> <?= $contact->prenom != null ? htmlspecialchars($contact->prenom) : "Non défini" ?></td>
             <td><?= $contact->email != null ? htmlspecialchars($contact->email) : "-"; ?></td>
-            <td><?= $contact->entreprise != null ? htmlspecialchars($contact->entreprise) : "-" ?></td>
-            <td> <input type="checkbox" name="<?= $contact->EmployeID ?>" id="myCheckbox" <?= $contact->jury == 0 ? 'value="0"' : 'value="1" checked' ?>></td>
             <td>
-                <form method="POST" action="controller/contact_jury.php">
-                    <input type="hidden" name="EmployeID" value="<?= $contact->EmployeID ?>">
-                    <input type="checkbox" name="jury" value="1" <?= $contact->jury == 1 ? 'checked' : '' ?>
-                        onchange="this.form.submit();">
-                </form>
+                <a href='/router.php?page=fiche_entreprise&idEntreprise=<?= $contact->EntrepriseID ?>'>
+                    <?= $contact->entreprise != null ? htmlspecialchars($contact->entreprise) : "-" ?>
+                </a>
             </td>
-
-        </TR>
-
+            <td><?= $contact->Entreprise_ville != null ? htmlspecialchars($contact->Entreprise_ville) : "-" ?></td>
+        </tr>
     <?php } ?>
 </table>
 
-// -- gestion_stage.contact_employe source
+<button class="button is-primary" onclick="openModal()">Valider</button>
 
-CREATE OR REPLACE
-ALGORITHM = UNDEFINED VIEW `gestion_stage`.`contact_employe` AS
-select
-`gestion_stage`.`employe`.`id` AS `EmployeID`,
-`gestion_stage`.`employe`.`nom` AS `nom`,
-`gestion_stage`.`employe`.`prenom` AS `prenom`,
-`gestion_stage`.`employe`.`email` AS `email`,
-`gestion_stage`.`employe`.`telephone` AS `telephone`,
-`gestion_stage`.`employe`.`fonction` AS `fonction`,
-`gestion_stage`.`employe`.`service` AS `service`,
-`gestion_stage`.`entreprise`.`id` AS `EntrepriseID`,
-`gestion_stage`.`entreprise`.`nomEntreprise` AS `entreprise`,
-`gestion_stage`.`entreprise`.`adresse` AS `Entreprise_adresse`,
-`gestion_stage`.`entreprise`.`codePostal` AS `Entreprise_codePostal`,
-`gestion_stage`.`entreprise`.`ville` AS `Entreprise_ville`,
-`gestion_stage`.`user`.`id` AS `UserID`,
-concat(`gestion_stage`.`user`.`nom`, ' ', `gestion_stage`.`user`.`prenom`) AS `Created_User`,
-`gestion_stage`.`employe`.`created_date` AS `Created_date`,
-`gestion_stage`.`employe`.`contact_valide` AS `contact_valide`,
-`gestion_stage`.`employe`.`jury` AS `jury`,
-`gestion_stage`.`employe`.`newsletter` AS `newsletter`,
+<!-- Modal Structure -->
+<div id="emailModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box">
+            <h2 class="title is-4">Emails sélectionnés</h2>
+            <textarea id="modalEmailList" class="textarea" rows="10" readonly></textarea>
+            <button class="button is-danger" onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+    <button class="modal-close is-large" onclick="closeModal()" aria-label="close"></button>
+</div>
 
-from
-((`gestion_stage`.`employe`
-join `gestion_stage`.`entreprise` on
-(`gestion_stage`.`employe`.`idEntreprise` = `gestion_stage`.`entreprise`.`id`))
-join `gestion_stage`.`user` on
-(`gestion_stage`.`employe`.`created_userid` = `gestion_stage`.`user`.`id`));
+<script>
+    // Fonction pour mettre à jour la liste des emails
+    function updateEmailList(email, add) {
+        const textarea = document.getElementById('emailList');
+        const currentEmails = textarea.value.split('\n').filter(e => e.trim() !== '');
+
+        if (add && !currentEmails.includes(email)) {
+            currentEmails.push(email);
+        } else if (!add) {
+            const index = currentEmails.indexOf(email);
+            if (index > -1) {
+                currentEmails.splice(index, 1);
+            }
+        }
+
+        textarea.value = currentEmails.join('\n');
+    }
+
+    // Ajouter un gestionnaire d'événements pour les clics sur les lignes
+    document.querySelectorAll('.table tbody tr').forEach(row => {
+        row.addEventListener('click', function() {
+            const email = this.getAttribute('data-email');
+            this.classList.toggle('is-selected');
+            updateEmailList(email, this.classList.contains('is-selected'));
+        });
+    });
+
+    // Fonction pour ouvrir le modal
+    function openModal() {
+        const modal = document.getElementById('emailModal');
+        const modalTextarea = document.getElementById('modalEmailList');
+        const emailList = document.getElementById('emailList').value;
+
+        modalTextarea.value = emailList;
+        modal.classList.add('is-active');
+    }
+
+    // Fonction pour fermer le modal
+    function closeModal() {
+        const modal = document.getElementById('emailModal');
+        modal.classList.remove('is-active');
+    }
+</script>
+
+<style>
+    /* Assurer que toutes les colonnes ont la même largeur */
+    .table th,
+    .table td {
+        width: 25%;
+        text-align: center;
+    }
+
+    /* Style pour les lignes sélectionnées */
+    .table tbody tr.is-selected {
+        background-color: #cce5ff;
+        /* Couleur de sélection pour le mode clair */
+    }
+
+    /* Mode sombre */
+    @media (prefers-color-scheme: dark) {
+        .table tbody tr.is-selected {
+            background-color: #4a4a4a;
+            /* Couleur de sélection pour le mode sombre */
+        }
+    }
+</style>
