@@ -12,6 +12,7 @@ class Contact {
     private $fonction;
     private $idEntreprise;
     private $Created_UserID;
+    private $jury;
 
     public function __construct($db){
         $this->conn = $db;
@@ -204,6 +205,29 @@ class Contact {
           header("Location: ../router.php?page=erreur&title=Anonymisation contact&message=$message");
           return false;
       }
+    }
+
+    public function contact_jury($idContact, $jury)
+    {
+        $query = "UPDATE " . $this->table_name . " SET jury= :jury WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':id', $idContact, PDO::PARAM_INT);
+        $stmt->bindParam(':jury', $jury, PDO::PARAM_INT);
+
+        try {
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                throw new Exception("Erreur lors de l'exécution de la requête.");
+            }
+        } catch (Exception $e) {
+            //echo "Erreur : " . $e->getMessage();
+            $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo());
+            header("Location: ../router.php?page=erreur&title=Update contact&message=$message");
+            return false;
+        }
     }
 
 }
