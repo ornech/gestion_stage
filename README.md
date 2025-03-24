@@ -29,7 +29,7 @@ Cette application permet:
 5) Ajouter un contact au sein d'une entreprise
 6) Supprimer et anonymyser un contact d'une entreprise
 7) Suivre et valider les actions réalisés par les étudiants (demande d'ajout d'entreprise ou d'un contact) depuis un journal de log.
-8) Créer un stage pour un étudiants
+8) Créer un stage pour un étudiant
 9) Changer un étudiant de promotion
 10) Changer la spécialité d'un étudiant
 11) Attribuer un tuteur a un étudiant
@@ -38,5 +38,5 @@ Cette application permet:
 # Autres points
 * Respect des réglementation et spécifications RGPD, notamment l'anonymisation des contacts entreprise après 5 ans.
 * Protection des routes
-* Chiffrage des mots de passe
+* Chiffrement des mots de passe
 * Gestion des erreurs, notamment des erreurs SQL
