@@ -49,9 +49,9 @@ require_once 'config/auth.php';
       <p>L’attestation de stage constitue le document d’examen attestant de la durée de stage réalisée. La délivrance du diplôme y est conditionnée.</p>
     </div>
 
-    <p class="title is-2">Documents à rédiger – Épreuve E4</p>
+    <p class="title is-2">Documents à rédiger – Épreuve E5</p>
     <div class="content">
-      <p>L’épreuve E4 « Support et mise à disposition de services informatiques » a pour objectif la validation du bloc de compétences n°1 du BTS SIO.</p>
+      <p>L’épreuve E5 « Support et mise à disposition de services informatiques » a pour objectif la validation du bloc de compétences n°1 du BTS SIO.</p>
       <p>Elle prend appui sur 2 documents à produire par le candidat :</p>
       <ul>
         <li>Tableau de synthèse des compétences du bloc → modèle à télécharger sur Moodle</li>
@@ -65,12 +65,12 @@ require_once 'config/auth.php';
 
     <p class="title is-2">Après la période de stage de 1ère année</p>
     <div class="content">
-      <p>À la suite du stage de 1ère année, une journée d’entraînement à l’épreuve E4 est organisée. La présence à cette journée est obligatoire. Elle a lieu durant la deuxième quinzaine du mois de juin. Son objectif est d’évaluer les documents préparés ainsi que la présentation orale.</p>
+      <p>À la suite du stage de 1ère année, une journée d’entraînement à l’épreuve E5 est organisée. La présence à cette journée est obligatoire. Elle a lieu durant la période d'après le stage au mois de juin. Son objectif est d’évaluer les documents préparés ainsi que la présentation orale. Ainsi il n'est pas possible de s'engager pour un travail saisonnier par exemple avnt d'avoir effectué cette soutenance orale.</p>
       <p>Préparation et attendus :</p>
       <ul>
         <li>Chaque étudiant dispose d’un temps individuel avec un membre de l’équipe enseignante, organisé comme suit :</li>
         <ul>
-          <li>Présentation de 5 à 10 minutes par l’étudiant – à préparer dans l’esprit de l’épreuve E4</li>
+          <li>Présentation de 5 à 10 minutes par l’étudiant – à préparer dans l’esprit de l’épreuve E5</li>
           <li>Échanges sous forme de questions/réponses</li>
           <li>Conseils et remédiation concernant les documents présentés</li>
         </ul>
