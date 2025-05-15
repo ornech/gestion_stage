@@ -1,6 +1,6 @@
 # Présentation 
 Cette application permet: 
- * de consulter l'annuaire des entreprises ayant embauchées nos étudiants.
+ * de consulter l'annuaire des entreprises ayant proposé des stages avec nos étudiants.
  * de rechercher une entreprise afin de proposer sa candidature 
  * de suivre les stages et de récupérer sa convention de stage pré-remplie
 
@@ -14,12 +14,12 @@ Cette application permet:
 # Fonctionnalités 
 ## Pour les Etudiants
 1) Consulter l'annuaire
-2) Importer une entreprise a partir de son N° de Siret depuis les bases de donnée opendata.gouv.fr
+2) Importer une entreprise à partir de son N° de Siret depuis les bases de données opendata.gouv.fr
 3) Ajouter manuellement une entreprise
-4) Ajouter un contrat a une entreprise
+4) Ajouter un contrat à une entreprise
 5) Modifier les contacts qu'il a ajouté
-6) Préconfigurer les données a insérer dans sa convention de stage
-7) Télécharger sa convention de stage pré-remplie au format pdf afin de l'imprimer ou la transmettre par mail a son entreprise.
+6) Préconfigurer les données à insérer dans sa convention de stage
+7) Télécharger sa convention de stage pré-remplie au format `pdf` afin de l'imprimer ou la transmettre par mail à son entreprise.
 
 ## Pour les enseignants 
 1) Administrer les comptes utilisateurs (désactivation de compte, réinitialisation de mot de passe)
@@ -32,11 +32,11 @@ Cette application permet:
 8) Créer un stage pour un étudiant
 9) Changer un étudiant de promotion
 10) Changer la spécialité d'un étudiant
-11) Attribuer un tuteur a un étudiant
+11) Attribuer un tuteur à un étudiant
 12) Suivre des étudiants au cours de leur stage
 
 # Autres points
-* Respect des réglementation et spécifications RGPD, notamment l'anonymisation des contacts entreprise après 5 ans.
+* Respect des réglementations et spécifications RGPD, notamment l'anonymisation des contacts entreprise après 5 ans.
 * Protection des routes
 * Chiffrement des mots de passe
 * Gestion des erreurs, notamment des erreurs SQL
