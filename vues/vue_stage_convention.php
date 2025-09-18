@@ -16,7 +16,7 @@ if (isset($_GET["idStage"])) {
   $stage = $stageModel->stage_by_id($_GET["idStage"]);
   $data = $stage[0];
 
-  if($_SESSION['statut'] == "Etudiant" && $data->idEtudiant != $_SESSION["userID"]){
+  if ($_SESSION['statut'] == "Etudiant" && $data->idEtudiant != $_SESSION["userID"]) {
     $message = "Vous n'avez pas le droit d'accéder à cette page.";
     $titre = "Erreur lors de la récupération de la convention !";
     header("Location: ../router.php?page=erreur&message=$message&titre=$titre");
@@ -149,18 +149,18 @@ if (isset($_GET["idStage"])) {
       <tr>
         <td>
           <strong>Représenté par :</strong><br>
-          M. ABABSA<br>Proviseur<br><br>
+          Sylvie KOCIK<br>Proviseure<br><br>
           <strong>Adresse de l’établissement :</strong><br>
           3, Rue Raymonde Maous<br>BP 229<br>17304 ROCHEFORT CEDEX<br>Tél: 05 46 99 23 20<br>Mél: ce.0170022G@ac-poitiers.fr><br>
           <br><strong>Professeur responsable :</strong><br>
           Nom : <?= $profPrincipal; ?><br>Mél : <?= $userPP->email; ?>
         </td>
         <td>
-          <strong>Représenté par :</strong> <?= $data->employe_nom ?> <?= $data->employe_prenom ?><br><br>
+          <strong>Représenté par :</strong><br><br>
           <strong>Fonction : </strong> <?= $data->employe_fonction ?><br><br>
           <strong>Nom et adresse de l’entreprise :</strong><br><?= $data->Entreprise_adresse ?><br><?= $data->Entreprise_codePostal ?> <?= $data->Entreprise_ville ?><br><br>
           <strong>Tuteur du stagiaire :</strong><br>
-          Nom :<br>Fonction :<br>Service :<br>Tél :<br>Mél :
+          Nom : <?= $data->employe_nom ?> <?= $data->employe_prenom ?><br>Fonction :<br>Service :<br>Tél :<br>Mél :
         </td>
       </tr>
     </tbody>
