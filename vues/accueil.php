@@ -63,13 +63,13 @@ $SIO2 = $stageDatesModel->getStageByClasseAndPromo("SIO2", getPromoByClasse("SIO
   <p class="subtitle is-3">Dates de stages</p>
 
   <span class="is-size-5">
-    <?php if ($SIO1 != false) : ?>
+    <?php if ($SIO1->dateDebut != null && $SIO1->dateFin != null) : ?>
       <b>SIO 1</b> : Du <?= $fmt->format(strtotime($SIO1->dateDebut)) . " au " . $fmt->format(strtotime($SIO1->dateFin)) ?><br>
     <?php else : ?>
       <b>SIO 1</b> : Les dates seront bientôt transmises<br>
     <?php endif; ?>
 
-    <?php if ($SIO2 != false) : ?>
+    <?php if ($SIO2->dateDebut != null && $SIO2->dateFin != null) : ?>
       <b>SIO 2</b> : Du
       <?= $fmt->format(strtotime($SIO2->dateDebut)) . " au " . $fmt->format(strtotime($SIO2->dateFin)) ?><br>
     <?php else : ?>
@@ -158,39 +158,39 @@ if ($_SESSION['statut'] == "Professeur") { ?>
     <p class="subtitle is-3">Stages à suivre</p>
     <?php $filteredStages = array_filter($stages, function ($stage) {
       return $stage->idProfesseur == $_SESSION['userID'] && $stage->dateFin >= date('Y-m-d');
-    });?>
+    }); ?>
 
     <?php if (count($filteredStages) == 0) : ?>
       <p class="is-size-5">Aucun stage à suivre pour le moment.</p>
     <?php else: ?>
-    <table class="table is-fullwidth">
-      <thead>
-        <tr>
-          <th>Étudiant</th>
-          <th>Classe</th>
-          <th>Spécialité</th>
-          <th>Entreprise</th>
-          <th>Adresse</th>
-          <th>Contact</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($filteredStages as $stage) {
-          if ($stage->idProfesseur == $_SESSION['userID'] && $stage->dateFin >= date('Y-m-d')) {
-            echo "<tr>";
-            echo "<td>" . $stage->EtudiantNom . " " . $stage->EtudiantPrenom . "</td>";
-            echo "<td>" . $stage->classe . "</td>";
-            echo "<td>" . $stage->EtudiantSpe . "</td>";
-            echo "<td>" . $stage->Entreprise . "</td>";
-            echo "<td>" . $stage->Entreprise_adresse . " " . $stage->Entreprise_codePostal . " " . $stage->Entreprise_ville . "</td>";
-            echo "<td><a href='/router.php?page=Contact_fiche&idContact=" . $stage->employe_id . "'>" . $stage->employe_nom . " " . $stage->employe_prenom . "</a></td>";
-            echo "<td><a class='button is-info' href='/router.php?page=stage_read&id=" . $stage->idStage . "'>Fiche</a></td>";
-            echo "</tr>";
-          }
-        } ?>
-      </tbody>
-    </table>
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Étudiant</th>
+            <th>Classe</th>
+            <th>Spécialité</th>
+            <th>Entreprise</th>
+            <th>Adresse</th>
+            <th>Contact</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($filteredStages as $stage) {
+            if ($stage->idProfesseur == $_SESSION['userID'] && $stage->dateFin >= date('Y-m-d')) {
+              echo "<tr>";
+              echo "<td>" . $stage->EtudiantNom . " " . $stage->EtudiantPrenom . "</td>";
+              echo "<td>" . $stage->classe . "</td>";
+              echo "<td>" . $stage->EtudiantSpe . "</td>";
+              echo "<td>" . $stage->Entreprise . "</td>";
+              echo "<td>" . $stage->Entreprise_adresse . " " . $stage->Entreprise_codePostal . " " . $stage->Entreprise_ville . "</td>";
+              echo "<td><a href='/router.php?page=Contact_fiche&idContact=" . $stage->employe_id . "'>" . $stage->employe_nom . " " . $stage->employe_prenom . "</a></td>";
+              echo "<td><a class='button is-info' href='/router.php?page=stage_read&id=" . $stage->idStage . "'>Fiche</a></td>";
+              echo "</tr>";
+            }
+          } ?>
+        </tbody>
+      </table>
     <?php endif; ?>
   </div>
 <?php } ?>
