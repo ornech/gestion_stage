@@ -143,93 +143,106 @@ class Entreprise {
   }
 
   // entreprise_create_siret
-  // Créer une nouvelle entreprise
-  public function entreprise_create_siret($siret, $isPopup){
-    // Vérifie si le SIRET est défini et non vide
-    if (isset($siret) && !empty($siret)) {
-      // Met à jour l'URL avec le nouveau SIRET
-      $url = "https://api.insee.fr/entreprises/sirene/V3.11/siret/" . $siret;
-    } else {
-      die('Erreur : le SIRET n\'est pas défini ou est vide.');
+  public function entreprise_create_siret($siret, $isPopup)
+  {
+    // 1) Validation minimale du SIRET (14 chiffres)
+    $siret = preg_replace('/\D+/', '', (string)$siret);
+    if ($siret === '' || strlen($siret) !== 14) {
+      die("Erreur : SIRET invalide (attendu 14 chiffres).");
     }
 
-    // Clé d'API
-    $api_key = '01702018-fa7f-34df-8354-a841f68f821b';
+    // 2) Endpoint INSEE Sirene (celui que tu as validé en curl)
+    $url = "https://api.insee.fr/api-sirene/3.11/siret/" . $siret;
 
-    // Configuration de la requête cURL
+    // 3) Clé d'intégration (à sortir en config hors dépôt)
+    $api_key = 'ff3a45fd-9f10-4651-ba45-fd9f105651ff';
+
+    // 4) Appel API (exécuter AVANT curl_getinfo)
     $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-      'Accept: application/json',
-      'Authorization: Bearer ' . $api_key
-    ));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt_array($ch, [
+      CURLOPT_HTTPHEADER => [
+        'Accept: application/json',
+        'X-INSEE-Api-Key-Integration: ' . $api_key,
+      ],
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_CONNECTTIMEOUT => 5,
+      CURLOPT_TIMEOUT => 10,
+    ]);
 
-    // Exécution de la requête
     $response = curl_exec($ch);
 
-    // Vérification des erreurs cURL
     if ($response === false) {
-      die('Erreur lors de la récupération des données de l\'API: ' . curl_error($ch));
+      $err = curl_error($ch);
+      $eno = curl_errno($ch);
+      curl_close($ch);
+      die("Erreur cURL: errno=$eno error=$err");
     }
 
-    // Fermeture de la session cURL
+    $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $ct   = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
     curl_close($ch);
 
-    // Décode la réponse JSON en tableau PHP
+    if ($http !== 200 || stripos((string)$ct, 'application/json') === false) {
+      die("Erreur API INSEE: HTTP=$http CT=$ct BODY=" . substr($response, 0, 200));
+    }
+
+    // 5) JSON decode
     $entrepriseData = json_decode($response, true);
-
-    // Vérifie si le décodage a réussi
-    if ($entrepriseData === null && json_last_error() !== JSON_ERROR_NONE) {
-      die('Erreur lors du décodage de la réponse JSON: ' . json_last_error_msg());
+    if (!is_array($entrepriseData)) {
+      die('Erreur lors du décodage JSON: ' . json_last_error_msg());
     }
 
-    // Debugging
-    // echo "<hr>";
-    // var_dump($response);
-    // var_dump($entrepriseData);
-
-    // Vérifie le statut de la réponse
-    if (isset($entrepriseData["header"]["statut"]) && $entrepriseData["header"]["statut"] == 200) {
-      // Continuer avec le reste du traitement
-      echo 'Réponse API valide. Continuer le traitement...';
-    } else {
-      die('Erreur : ["header"]["statut"] != 200 ou non défini.');
+    if (!isset($entrepriseData["header"]["statut"]) || (int)$entrepriseData["header"]["statut"] !== 200) {
+      die('Erreur : réponse INSEE inattendue (header.statut != 200). BODY=' . substr($response, 0, 200));
     }
 
-    // Prépare les données pour l'insertion
-    $addr = $entrepriseData['etablissement']['adresseEtablissement']['numeroVoieEtablissement'] . " "
-    . $entrepriseData['etablissement']['adresseEtablissement']['typeVoieEtablissement'] . " "
-    . $entrepriseData['etablissement']['adresseEtablissement']['libelleVoieEtablissement'];
+    // 6) Préparation des champs 
+    $etab = $entrepriseData['etablissement'] ?? [];
+    $ul   = $etab['uniteLegale'] ?? [];
+    $ae   = $etab['adresseEtablissement'] ?? [];
 
-    $this->nomEntreprise = htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['denominationUniteLegale'] ?? '-'));
-    $this->adresse = htmlspecialchars(strip_tags($addr ?? '-'));
-    $this->ville = htmlspecialchars(strip_tags($entrepriseData['etablissement']['adresseEtablissement']['libelleCommuneEtablissement'] ?? '-'));
-    $this->codePostal = htmlspecialchars(strip_tags($entrepriseData['etablissement']['adresseEtablissement']['codePostalEtablissement'] ?? '-'));
-    $this->siret = htmlspecialchars(strip_tags($siret ?? '-'));
-    $this->naf = htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['activitePrincipaleUniteLegale'] ?? '-'));
-    $this->type = htmlspecialchars(strip_tags($entrepriseData['etablissement']['uniteLegale']['categorieJuridiqueUniteLegale'] ?? '-'));
-    $this->effectif = htmlspecialchars(strip_tags($entrepriseData['etablissement']['trancheEffectifsEtablissement'] ?? '-'));
-    $this->Created_UserID = htmlspecialchars(strip_tags($_SESSION['userID']));
+    $addr = trim(implode(' ', array_filter([
+      $ae['numeroVoieEtablissement'] ?? null,
+      $ae['indiceRepetitionEtablissement'] ?? null,
+      $ae['typeVoieEtablissement'] ?? null,
+      $ae['libelleVoieEtablissement'] ?? null,
+    ], fn($v) => $v !== null && $v !== '')));
 
-    // Prépare la requête SQL
+    // Attention: htmlspecialchars/strip_tags sur données “métier” peut dégrader des libellés (apostrophes, etc.).
+    $this->nomEntreprise = htmlspecialchars(strip_tags($ul['denominationUniteLegale'] ?? '-'));
+    $this->adresse       = htmlspecialchars(strip_tags($addr !== '' ? $addr : ($ae['complementAdresseEtablissement'] ?? '-')));
+    $this->ville         = htmlspecialchars(strip_tags($ae['libelleCommuneEtablissement'] ?? '-'));
+    $this->codePostal    = htmlspecialchars(strip_tags($ae['codePostalEtablissement'] ?? '-'));
+    $this->siret         = htmlspecialchars(strip_tags($siret));
+    $this->naf           = htmlspecialchars(strip_tags($ul['activitePrincipaleUniteLegale'] ?? ($etab['activitePrincipaleEtablissement'] ?? '-')));
+    $this->type          = htmlspecialchars(strip_tags($ul['categorieJuridiqueUniteLegale'] ?? '-'));
+    $this->effectif      = htmlspecialchars(strip_tags($etab['trancheEffectifsEtablissement'] ?? '-'));
+
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+      session_start();
+    }
+    $this->Created_UserID = htmlspecialchars(strip_tags($_SESSION['userID'] ?? ''));
+
+    if ($this->Created_UserID === '') {
+      die("Erreur : utilisateur non authentifié (session userID absent).");
+    }
+
+    // 7) INSERT
     $query = "INSERT INTO " . $this->table_name . " SET
-    nomEntreprise = :nomEntreprise,
-    adresse = :adresse,
-    ville = :ville,
-    codePostal = :codePostal,
-    siret = :siret,
-    naf = :naf,
-    effectif = :effectif,
-    type = :type,
-    Created_Date = NOW(),
-    Created_UserID = :Created_UserID,
-    entreprise_valide=1";
+        nomEntreprise = :nomEntreprise,
+        adresse = :adresse,
+        ville = :ville,
+        codePostal = :codePostal,
+        siret = :siret,
+        naf = :naf,
+        effectif = :effectif,
+        type = :type,
+        Created_Date = NOW(),
+        Created_UserID = :Created_UserID,
+        entreprise_valide = 1";
 
     $stmt = $this->conn->prepare($query);
 
-    // Lie les paramètres
     $stmt->bindParam(":nomEntreprise", $this->nomEntreprise);
     $stmt->bindParam(":adresse", $this->adresse);
     $stmt->bindParam(":ville", $this->ville);
@@ -240,30 +253,31 @@ class Entreprise {
     $stmt->bindParam(":effectif", $this->effectif);
     $stmt->bindParam(":Created_UserID", $this->Created_UserID);
 
-    // Exécution de la requête et gestion des erreurs
     try {
       if ($stmt->execute()) {
-        //Obtenir les données que l'on vient de créer dans la table
         return true;
-      } else {
-        $errorInfo = $stmt->errorInfo();
-        $message = "Erreur SQL : " . $errorInfo[2];
-        header("Location: ../router.php?page=erreur&message=" . urlencode($message));
-        return false;
       }
+
+      $errorInfo = $stmt->errorInfo();
+      $message = "Erreur SQL : " . ($errorInfo[2] ?? 'inconnue');
+      header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+      return false;
     } catch (Exception $e) {
       $errorInfo = $stmt->errorInfo();
-      if ($errorInfo[0] == 45001) {
-        if($isPopup == true){
+
+      $sqlState = $errorInfo[0] ?? null;
+
+      if ($sqlState === '45001') {
+        if ($isPopup == true) {
           return true;
-        }else{
-          $result = $this->read_fiche_siret($siret);
-          header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $result->EntrepriseID);
         }
-      } else {
-        $message = "Erreur SQL : " . $e->getMessage();
-        header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+        $result = $this->read_fiche_siret($siret);
+        header("Location: ../router.php?page=fiche_entreprise&idEntreprise=" . $result->EntrepriseID);
+        return false;
       }
+
+      $message = "Erreur SQL : " . $e->getMessage();
+      header("Location: ../router.php?page=erreur&message=" . urlencode($message));
       return false;
     }
   }
@@ -340,7 +354,7 @@ class Entreprise {
     return false;
   }
 
-  public function update_api($id, $siret){
+  /* public function update_api($id, $siret){
 
     $query = "SELECT * FROM ". $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
     $stmt = $this->conn->prepare($query);
@@ -480,7 +494,155 @@ class Entreprise {
 
     // Fermer la session cURL
     curl_close($ch);
+  } */
+  public function update_api($id, $siret)
+  {
+    // 1) Charger l'entreprise (source locale)
+    $query = "SELECT * FROM " . $this->vue_name . " WHERE EntrepriseID = :idEntreprise";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':idEntreprise', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $data_entreprise = $stmt->fetch(PDO::FETCH_OBJ);
+
+    if (!$data_entreprise) {
+      die("Erreur : EntrepriseID introuvable.");
+    }
+
+    // 2) Choisir le SIRET (14 chiffres)
+    $picked = $data_entreprise->siret ?? $siret ?? '';
+    $picked = preg_replace('/\D+/', '', (string)$picked);
+
+    if ($picked === '' || strlen($picked) !== 14) {
+      die("Ajouter d'abord un N° de SIRET valide (14 chiffres).");
+    }
+
+    // 3) Appel INSEE Sirene (même schéma que la fonction qui marche)
+    $url = "https://api.insee.fr/api-sirene/3.11/siret/" . $picked;
+
+    // Clé d'intégration (à sortir en config hors dépôt)
+    $api_key = 'ff3a45fd-9f10-4651-ba45-fd9f105651ff';
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+      CURLOPT_HTTPHEADER => [
+        'Accept: application/json',
+        'X-INSEE-Api-Key-Integration: ' . $api_key,
+      ],
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_CONNECTTIMEOUT => 5,
+      CURLOPT_TIMEOUT => 10,
+    ]);
+
+    $response = curl_exec($ch);
+
+    if ($response === false) {
+      $err = curl_error($ch);
+      $eno = curl_errno($ch);
+      curl_close($ch);
+      die("Erreur cURL: errno=$eno error=$err");
+    }
+
+    $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $ct   = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+    curl_close($ch);
+
+    if ($http !== 200 || stripos((string)$ct, 'application/json') === false) {
+      die("Erreur API INSEE: HTTP=$http CT=$ct BODY=" . substr($response, 0, 200));
+    }
+
+    $entrepriseData = json_decode($response, true);
+    if (!is_array($entrepriseData)) {
+      die('Erreur lors du décodage JSON: ' . json_last_error_msg());
+    }
+    if (!isset($entrepriseData["header"]["statut"]) || (int)$entrepriseData["header"]["statut"] !== 200) {
+      die('Erreur : réponse INSEE inattendue (header.statut != 200). BODY=' . substr($response, 0, 200));
+    }
+
+    // 4) Extraction robuste des champs (structure /siret/{siret})
+    $etab = $entrepriseData['etablissement'] ?? [];
+    $ul   = $etab['uniteLegale'] ?? [];
+    $ae   = $etab['adresseEtablissement'] ?? [];
+
+    $addr = trim(implode(' ', array_filter([
+      $ae['numeroVoieEtablissement'] ?? null,
+      $ae['indiceRepetitionEtablissement'] ?? null,
+      $ae['typeVoieEtablissement'] ?? null,
+      $ae['libelleVoieEtablissement'] ?? null,
+    ], fn($v) => $v !== null && $v !== '')));
+
+    $this->nomEntreprise = htmlspecialchars(strip_tags($ul['denominationUniteLegale'] ?? '-'));
+    $this->adresse       = htmlspecialchars(strip_tags($addr !== '' ? $addr : ($ae['complementAdresseEtablissement'] ?? '-')));
+    $this->ville         = htmlspecialchars(strip_tags($ae['libelleCommuneEtablissement'] ?? '-'));
+    $this->codePostal    = htmlspecialchars(strip_tags($ae['codePostalEtablissement'] ?? '-'));
+    $this->siret         = htmlspecialchars(strip_tags($etab['siret'] ?? $picked));
+    $this->naf           = htmlspecialchars(strip_tags($ul['activitePrincipaleUniteLegale'] ?? ($etab['activitePrincipaleEtablissement'] ?? '-')));
+    $this->type          = htmlspecialchars(strip_tags($ul['categorieJuridiqueUniteLegale'] ?? '-'));
+    $this->effectif      = htmlspecialchars(strip_tags($etab['trancheEffectifsEtablissement'] ?? '-'));
+
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+      session_start();
+    }
+    $this->Created_UserID = htmlspecialchars(strip_tags($_SESSION['userID'] ?? ''));
+    if ($this->Created_UserID === '') {
+      die("Erreur : utilisateur non authentifié (session userID absent).");
+    }
+
+    // 5) UPDATE (attention: ta clause WHERE utilisait id, alors que tu passes EntrepriseID)
+    // Je garde ton intention : ici on met à jour par EntrepriseID.
+    /* $query = "UPDATE " . $this->table_name . " SET
+        nomEntreprise = :nomEntreprise,
+        adresse = :adresse,
+        ville = :ville,
+        codePostal = :codePostal,
+        siret = :siret,
+        naf = :naf,
+        effectif = :effectif,
+        type = :type,
+        Created_UserID = :Created_UserID
+        WHERE EntrepriseID = :id"; */
+    $query = "UPDATE " . $this->table_name . " SET
+    nomEntreprise = :nomEntreprise,
+    adresse = :adresse,
+    ville = :ville,
+    codePostal = :codePostal,
+    siret = :siret,
+    naf = :naf,
+    effectif = :effectif,
+    type = :type,
+    Created_UserID = :Created_UserID
+    WHERE id = :id";
+
+
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->bindParam(":nomEntreprise", $this->nomEntreprise);
+    $stmt->bindParam(":adresse", $this->adresse);
+    $stmt->bindParam(":ville", $this->ville);
+    $stmt->bindParam(":codePostal", $this->codePostal);
+    $stmt->bindParam(":siret", $this->siret);
+    $stmt->bindParam(":naf", $this->naf);
+    $stmt->bindParam(":type", $this->type);
+    $stmt->bindParam(":effectif", $this->effectif);
+    $stmt->bindParam(":Created_UserID", $this->Created_UserID);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+    try {
+      if ($stmt->execute()) {
+        return true;
+      }
+
+      $q = $stmt->queryString;
+      $message = "Erreur SQL : " . implode(", ", $stmt->errorInfo()) . " | Requête : " . $q;
+      header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+      return false;
+    } catch (Exception $e) {
+      $q = $stmt->queryString;
+      $message = "Erreur SQL: " . $e->getMessage() . " | Requête : " . $q;
+      header("Location: ../router.php?page=erreur&message=" . urlencode($message));
+      return false;
+    }
   }
+
 
   public function valider_entreprise($id){
     $query = "UPDATE " . $this->table_name . " SET entreprise_valide = 1 WHERE id = :id";

@@ -4,6 +4,9 @@ require_once 'config/auth.php';
 <p class="title is-2"> Liste des contacts</p>
 <h3>Emails sélectionnés :</h3>
 <textarea id="emailList" class="textarea" rows="5" readonly></textarea>
+<?php
+var_dump($contacts);
+?>
 
 <table class="table is-fullwidth is-hoverable">
     <thead>
@@ -11,7 +14,8 @@ require_once 'config/auth.php';
             <th class="has-text-centered">Contact</th>
             <th class="has-text-centered">Email</th>
             <th class="has-text-centered">Entreprise</th>
-            <th class="has-text-centered">Jury</th>
+            <th class="has-text-centered">CP</th>
+            <th class="has-text-centered">Ville</th>
         </tr>
     </thead>
 
@@ -26,6 +30,7 @@ require_once 'config/auth.php';
                     <?= $contact->entreprise != null ? htmlspecialchars($contact->entreprise) : "-" ?>
                 </a>
             </td>
+            <td><?= $contact->Entreprise_ville != null ? htmlspecialchars($contact->Entreprise_codePostal) : "-" ?></td>
             <td><?= $contact->Entreprise_ville != null ? htmlspecialchars($contact->Entreprise_ville) : "-" ?></td>
         </tr>
     <?php } ?>
